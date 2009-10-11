@@ -1,0 +1,4 @@
+*.aux
+*.log
+# No binary files in here
+*.pdf
