@@ -19,14 +19,26 @@ Vor jedem Commit wird die Eclipse-Standardformatierung angewendet. Zudem werden 
 \section{Papier-Prototypen}
 Die eingescannten Prototypen befinden sich aus Platzgründen in separaten Dateien im selben Verzeichnis wie dieses Dokument.
 
-\subsection{Prototyp 1} Pro Aufgabe (Ausleihe, Rückgabe, Verwaltung, Reservation) steht hier ein Button zur Verfügung. Aber: Weiss man schon im Voraus, ob man ein Buch ausleihen oder reservieren will? Muss man es nicht zuerst suchen? Was bedeutet ''Verwaltung'' bzw. was wird verwaltet? Durch die geöffneten Fenster kann das Interface schnell unübersichtlich werden.
+\subsection{Prototyp 1 - 09.10.2009} Pro Aufgabe (Ausleihe, Rückgabe, Verwaltung, Reservation) steht hier ein Button zur Verfügung. Aber: Weiss man schon im Voraus, ob man ein Buch ausleihen oder reservieren will? Muss man es nicht zuerst suchen? Was bedeutet ''Verwaltung'' bzw. was wird verwaltet? Durch die geöffneten Fenster kann das Interface schnell unübersichtlich werden.
 
-\subsection{Prototyp 2} Mit dem minimalistischen GUI konnten die Muss-Kriterien nicht erfüllt werden. Die Undo-History auf der rechten Seite lässt sich nur schwer realisieren. Da die Aktionen voneinander abhängig sein können, würde der Aufwand für die Implementation zu komplex. Das Menü links deckt zudem nicht alle Muss-Kriterien ab.
+\subsection{Prototyp 2 - 11.10.2009} Mit dem minimalistischen GUI konnten die Muss-Kriterien nicht erfüllt werden. Die Undo-History auf der rechten Seite lässt sich nur schwer realisieren. Da die Aktionen voneinander abhängig sein können, würde der Aufwand für die Implementation zu komplex. Das Menü links deckt zudem nicht alle Muss-Kriterien ab.
 
-\subsection{Prototyp 3} Hier stellt sich beim Testen heraus, dass der Text auf dem Button ''Ausleihen'' irreführend ist, da er mit dem Verb ''ausleihen'' verwechselt wird. Der Knopf sollte alle ausgeliehenen Bücher anzeigen und dient nicht dazu, ein neues Buch auszuleihen. Ein weiterer Punkt sind die farbigen Bestätigungen, welche als lästig empfunden werden. Verbesserungsvorschlag: Eingelesene Bücher werden beim einscannen automatisch ausgeliehen / zurückgegeben und man kann den Vorgang in der Liste rückgängig machen. Statt dem Bestätigungs-Knopf soll ein ''zurück-zum-Hauptfenster''-Knopf angezeigt werden. Als letzter Mangel sei das ''R'' erwähnt, bei welchem nicht gleich klar ist, dass es für ''Reserviert'' stehen sollte. 
+\subsection{Prototyp 3 - 11.10.2009} Hier stellt sich beim Testen heraus, dass der Text auf dem Button ''Ausleihen'' irreführend ist, da er mit dem Verb ''ausleihen'' verwechselt wird. Der Knopf sollte alle ausgeliehenen Bücher anzeigen und dient nicht dazu, ein neues Buch auszuleihen. Ein weiterer Punkt sind die farbigen Bestätigungen, welche als lästig empfunden werden. Verbesserungsvorschlag: Eingelesene Bücher werden beim einscannen automatisch ausgeliehen / zurückgegeben und man kann den Vorgang in der Liste rückgängig machen. Statt dem Bestätigungs-Knopf soll ein ''zurück-zum-Hauptfenster''-Knopf angezeigt werden. Als letzter Mangel sei das ''R'' erwähnt, bei welchem nicht gleich klar ist, dass es für ''Reserviert'' stehen sollte. 
 
 Und noch etwas: Der Laserscanner funktioniert wie ein normales Eingabegerät. Wird ein Code mit dieser Methode eingelesen, sollte dieser nicht an das Ende des Suchtextes angehängt werden. Ist man im Ausleihemodus, sollte der Suchtext unverändert bleiben, wenn man einen Buchcode einscannt.
 
+\subsection{Prototyp 4 - 14.10.2009} Auf das Feedback eines Projektbetreuers hin, dass der Status des Systemes nicht gut sichtbar ist, wurde in der rechten unteren Ecke ein Informationsfeld hinzugefügt, welches den zur Zeit aktiven Benutzer anzeigt. Das Kuchendiagramm auf dem Hauptbildschirm, welches über den Zustand der Bibliothek informiert wurde entfernt, da nicht interessant im täglichen Gebrauch. Neu ist zudem die Menüleiste, welche den Lernprozess unterstützen soll.
+
+Ein weiterer Nebenprototyp wurde verworfen. Es wurde versucht, im unteren Teil des Userinterfaces eine Detailanzeige einzufügen, so dass das Fenster zu einem Quadrat wurde. Dies hätte jedoch die Übersichtlichkeit der Benutzeroberfläche beeinträchtigt und zudem sind moderne Bildschirme eher breit als hoch.
+
+\subsection{Prototyp 5 - 15.20.2009} Der gestrige Prototyp wurde heute von einer echten Bibliothekarin der HSR getestet. Das Feedback ist in diesen neuen Prototypen eingeflossen. Verschiedene Beschriftungen wurden entfernt oder aus Verständlichkeitsgründen geändert. Es stellt sich heraus, dass die ''Zurück''-Buttons nicht verständlich sind. Als Gegenmassnahme wurden auf der rechten Seite Tabs eingeführt, welche über das aktuell ausgewählte Buch oder den letzten Benutzer Details anzeigen und es ermöglichen, wieder ins Hauptmenü zurückzukehren.
+
+Interessant war ebenfalls, dass das produktive System der HSR-Bibliothek die Bücher beim Einscannen ohne weiteres Nachfragen zurückbucht. Das Vorgehen ist deshalb gefahrlos, da die Bibliothekarin das Buch ja in den Händen hält, es sich somit in der Bibliothek befindet. Der Klickaufwand wird so enorm minimiert. Es wird versucht, diesen Ablauf in das Miniprojekt einzubauen, wenn eine Bücher-ID gescannt oder getippt wird. Für Demonstrationszwecke wird es trotzdem nötig sein, dass man nach einem Buchtitel suchen kann und diesen ausleihen oder reservieren kann.
 
 \end{document}
+
+
+
+
+
 
