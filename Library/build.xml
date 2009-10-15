@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project default="release" name="Library" basedir=".">
+	
+	<property name="version" value="0.1" />
+
+	<!-- One entry for each directory -->
+	<property name="src.dir" location="src" />
+	<property name="app.dir" value="${src.dir}/application" />
+	<property name="domain.dir" value="${src.dir}/domain" />
+	<property name="lib.dir" value="lib" />
+	<property name="test.dir" location="${src.dir}/test" />
+	<property name="test.build.dir" location="${src.dir}/test.bin" />
+	<property name="build.dir" location="bin" />
+	<property name="release.dir" value="release" />
+
+	
+	<property name="filename" value="Library" />
+	<property name="file.app" value="${filename}.jar" />
+	<property name="main.class" value="application.LibraryApp" />
+	<property name="test.suite" value="test.LibTest" />
+	
+	<path id="project.classpath">
+		<pathelement location="${build.dir}" />
+		<pathelement location="${test.build.dir}" />
+		<fileset dir="${lib.dir}">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+
+
+	<!-- Build targets -->
+
+	<target name="clean" description="clean up">
+		<delete dir="${build.dir}" />
+		<delete dir="${test.build.dir}" />
+		<delete dir="${release.dir}" />
+	</target>
+
+	<target name="compile" depends="clean">
+		<mkdir dir="${build.dir}" />
+		<javac srcdir="${src.dir}" destdir="${build.dir}" optimize="true" debug="true">
+			<classpath refid="project.classpath" />
+		</javac>
+		<copy todir="${build.dir}">
+			<fileset dir="${src.dir}">
+				<exclude name="**/*.java" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="compile-tests" depends="clean">
+		<mkdir dir="${test.build.dir}" />
+		<mkdir dir="${test.dir}" />
+		<javac srcdir="${test.dir}" destdir="${test.build.dir}" optimize="true" debug="true">
+			<classpath refid="project.classpath" />
+		</javac>
+		<copy todir="${build.dir}">
+			<fileset dir="${src.dir}">
+				<exclude name="**/*.java" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="test" depends="compile, compile-tests" description="tests">
+		<junit haltonfailure="true" showoutput="true" printsummary="on">
+			<classpath refid="project.classpath" />
+			<formatter type="brief" usefile="false" />
+			<test name="${test.suite}" />
+		</junit>
+	</target>
+
+	<target name="jar" depends="compile" description="create the JAR file">
+	  <mkdir dir="${release.dir}" />
+		<jar destfile="${release.dir}/${file.app}" basedir="${build.dir}">
+			<manifest>
+				<attribute name="Main-Class" value="${main.class}" />
+			</manifest>
+<!--			<zipfileset excludes="META-INF/*.SF" src="lib/sqlitejdbc-v053.jar"/>
+			<zipfileset excludes="META-INF/*.SF" src="lib/swingx-0.9.5.jar"/>
+			<zipfileset excludes="META-INF/*.SF" src="lib/log4j-1.2.15.jar"/>
+-->	  	</jar>
+	</target>
+
+	<target name="release" depends="test, jar" description="pack in a ZIP file">
+		<zip file="${release.dir}/${filename}_${version}.zip" level="9">
+			<zipfileset dir=".">
+				<exclude name="**/.*" />
+				<include name="${release.dir}/${file.app}" />
+				<include name="lib/**" />
+				<include name="src/**" />
+				<include name="data/**" />
+				<include name="test/**" />
+				<include name="docs/**" />
+				<include name="build.xml" />
+			</zipfileset>
+		</zip>
+	</target>
+</project>
