@@ -1,5 +1,8 @@
 package presentation.view;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+
 import javax.swing.JFrame;
 
 /**
@@ -9,18 +12,24 @@ import javax.swing.JFrame;
 public class MainWindow extends JFrame {
 
 	private static final long serialVersionUID = 1L;
+	private TabsPanel tabs;
 
 	public MainWindow() {
 		initGUI();
 	}
 
 	private void initGUI() {
-		this.setTitle("Recherche - BücherBox");
-		this.setPreferredSize(new java.awt.Dimension(800, 400));
+		setTitle("Recherche - BücherBox");
+		setPreferredSize(new java.awt.Dimension(800, 400));
+		setMinimumSize(new Dimension(300, 320));
+		setSize(750, 450);
 
 		setJMenuBar(new BookMenuBar());
 
-		this.setSize(400, 300);
+		add(new ActiveUserPanel());
+
+		tabs = new TabsPanel();
+		add(tabs, BorderLayout.CENTER);
 	}
 
 }

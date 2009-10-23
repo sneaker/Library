@@ -16,7 +16,6 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import presentation.view.MainWindow;
-
 import domain.Book;
 import domain.Customer;
 import domain.IllegalLoanOperationException;
@@ -34,6 +33,7 @@ public class LibraryApp {
 			public void run() {
 				MainWindow frame = new MainWindow();
 			    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			    frame.setLocationRelativeTo(null);
 			    frame.pack();
 			    frame.setVisible(true);
 			}
