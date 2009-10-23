@@ -7,6 +7,8 @@ import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import presentation.model.MainWindowModel;
+
 public class TabsPanel extends JTabbedPane {
 
 	public static int SEARCH = 0;
@@ -14,6 +16,7 @@ public class TabsPanel extends JTabbedPane {
 	public static int USER = 2;
 	private static final long serialVersionUID = 1L;
 	private JPanel[] tabPanel;
+	private final MainWindowModel model;
 	private String[][] tabInformation = {
 			{ "Recherche", "img/search.png",
 					"Suchen nach Benutzern oder Büchern" },
@@ -21,22 +24,15 @@ public class TabsPanel extends JTabbedPane {
 			{ "Benutzer", "img/user.png",
 					"Personalien und Ausleihen eines Benutzers anzeigen" } };
 
-	public TabsPanel() {
+	public TabsPanel(MainWindowModel model) {
+		this.model = model;
 		initGUI();
 		initChangeListener();
 	}
 
-	private void initChangeListener() {
-		addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent e) {
-				// TODO: Change "active Tab" in WindowModel 
-			}
-		});
-	}
-
 	private void initGUI() {
 		tabPanel = new JPanel[tabInformation.length];
-		
+
 		for (int i = 0; i < tabInformation.length; i++) {
 			this.addTab(null, null, tabPanel[i], tabInformation[i][2]);
 			ImageIcon image = new ImageIcon(tabInformation[i][1]);
@@ -46,14 +42,34 @@ public class TabsPanel extends JTabbedPane {
 			paneTitle.setHorizontalTextPosition(JLabel.CENTER);
 			this.setTabComponentAt(i, paneTitle);
 		}
-		
+
 		this.setTabPlacement(JTabbedPane.LEFT);
 	}
 
+	private void initChangeListener() {
+		final JTabbedPane t = this;
+		addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				model.setActiveTab(t.getSelectedIndex());
+			}
+		});
+	}
+
+	/**
+	 * Dient dem ActionListener der JMenuBar oder einem anderen Controller, den
+	 * Tab zu wechseln.
+	 * 
+	 * @param newTabIndex
+	 *            TabsPanel.SEARCH, TabsPanel.BOOK oder TabsPanel.USER
+	 */
 	public void switchTo(int newTabIndex) {
 		if (newTabIndex >= getTabCount())
 			return;
 		setSelectedIndex(newTabIndex);
+	}
+
+	public JPanel getBookPanel() {
+		return tabPanel[1];
 	}
 
 }

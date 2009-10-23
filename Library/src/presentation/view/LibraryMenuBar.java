@@ -1,8 +1,6 @@
 package presentation.view;
 
 import java.awt.event.ActionEvent;
-import java.util.Observable;
-import java.util.Observer;
 
 import javax.swing.AbstractAction;
 import javax.swing.AbstractButton;
@@ -19,32 +17,33 @@ import javax.swing.KeyStroke;
  * Überwacht den Status der aktiven Menü-Tabs, um die Menübar entsprechend
  * anzupassen.
  */
-public class BookMenuBar extends JMenuBar implements Observer {
+public class LibraryMenuBar extends JMenuBar {
 
 	private static final long serialVersionUID = 1L;
 	private JMenuItem reservedMenuItem;
 	private JMenuItem ausgelieheneMenuItem;
 	private JMenuItem damagedBooksMenuItem;
 	private JMenuItem allBooksMenuItem;
-	private JRadioButtonMenuItem benutzerDetailsItem;
-	private JRadioButtonMenuItem buchdetailsMenuItem;
-	private JRadioButtonMenuItem rechercheMenuItem;
+	private JRadioButtonMenuItem searchMenuItem;
+	private JRadioButtonMenuItem bookMenuItem;
+	private JRadioButtonMenuItem userMenuItem;
 	private AbstractAction exitAction;
 	private JMenuItem exitMenuItem;
 	private JMenu viewMenu;
 	private JMenu searchMenu;
-	private JMenu helpMenu;
 	private JMenu bookMenu;
+	private JMenu userMenu;
+	private JMenu helpMenu;
 	private JMenuItem lendBokMenuItem;
 	private JMenuItem editBookMenuItem;
-	private JMenu userMenu;
 	private JMenuItem editUserMenuItem;
 	private JMenuItem resetMenuItem;
 	private JSeparator separator;
 	private JMenuItem createUserMenuItem;
 	private AbstractButton aboutMenuItem;
+	private ButtonGroup viewGroup;
 
-	public BookMenuBar() {
+	public LibraryMenuBar() {
 		initFileMenu();
 		initViewMenu();
 		
@@ -80,26 +79,26 @@ public class BookMenuBar extends JMenuBar implements Observer {
 		viewMenu.setText("Ansicht");
 		viewMenu.setMnemonic(java.awt.event.KeyEvent.VK_A);
 		{
-			ButtonGroup viewGroup = new ButtonGroup();
+			viewGroup = new ButtonGroup();
 
-			rechercheMenuItem = new JRadioButtonMenuItem();
-			rechercheMenuItem.setText("Recherche");
-			rechercheMenuItem.setAccelerator(KeyStroke.getKeyStroke("F5"));
-			rechercheMenuItem.setSelected(true);
-			viewGroup.add(rechercheMenuItem);
-			viewMenu.add(rechercheMenuItem);
+			searchMenuItem = new JRadioButtonMenuItem();
+			searchMenuItem.setText("Recherche");
+			searchMenuItem.setAccelerator(KeyStroke.getKeyStroke("F5"));
+			searchMenuItem.setSelected(true);
+			viewGroup.add(searchMenuItem);
+			viewMenu.add(searchMenuItem);
 
-			buchdetailsMenuItem = new JRadioButtonMenuItem();
-			buchdetailsMenuItem.setText("Buchdetails");
-			buchdetailsMenuItem.setAccelerator(KeyStroke.getKeyStroke("F6"));
-			viewGroup.add(buchdetailsMenuItem);
-			viewMenu.add(buchdetailsMenuItem);
+			bookMenuItem = new JRadioButtonMenuItem();
+			bookMenuItem.setText("Buchdetails");
+			bookMenuItem.setAccelerator(KeyStroke.getKeyStroke("F6"));
+			viewGroup.add(bookMenuItem);
+			viewMenu.add(bookMenuItem);
 
-			benutzerDetailsItem = new JRadioButtonMenuItem();
-			benutzerDetailsItem.setText("Benutzerdetails");
-			benutzerDetailsItem.setAccelerator(KeyStroke.getKeyStroke("F7"));
-			viewGroup.add(benutzerDetailsItem);
-			viewMenu.add(benutzerDetailsItem);
+			userMenuItem = new JRadioButtonMenuItem();
+			userMenuItem.setText("Benutzerdetails");
+			userMenuItem.setAccelerator(KeyStroke.getKeyStroke("F7"));
+			viewGroup.add(userMenuItem);
+			viewMenu.add(userMenuItem);
 		}
 	}
 
@@ -196,13 +195,14 @@ public class BookMenuBar extends JMenuBar implements Observer {
 		return reservedMenuItem;
 	}
 
-	public void update(Observable o, Object arg) {
-		// TODO Auto-generated method stub
-
-		// Subscribe beim MainWindowModel
-		// Hole aktiven Tab und zeige entsprechendes Menü (toggleMenu())
-		// Ändere die Radio-Buttons der Ansicht, wenn Tab wechselt
-
+	public void setActiveViewIndex(int activeTab) {
+		searchMenu.setVisible(activeTab == 0);
+		bookMenu.setVisible(activeTab == 1);
+		userMenu.setVisible(activeTab == 2);
+		
+		searchMenuItem.setSelected(activeTab == 0);
+		bookMenuItem.setSelected(activeTab == 1);
+		userMenuItem.setSelected(activeTab == 2);
 	}
 
 }
