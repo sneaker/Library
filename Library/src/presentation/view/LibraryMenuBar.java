@@ -112,12 +112,18 @@ public class LibraryMenuBar extends JMenuBar {
 	}
 
 	private ActionListener createChangeViewAction(final int newTab) {
-		return new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				model.setActiveTab(newTab);
-			}
-		};
+		return new ChangeViewActionListener(newTab);
 	}
+	
+	protected class ChangeViewActionListener implements ActionListener {
+		private int newTab;
+		public ChangeViewActionListener(int newTab) {
+			this.newTab = newTab;
+		}
+		public void actionPerformed(ActionEvent e) {
+			model.setActiveTab(newTab);
+		}
+	};
 
 	private void initSearchMenu() {
 		searchMenu = new JMenu();

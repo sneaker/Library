@@ -30,6 +30,9 @@ public class TabsPanel extends JTabbedPane {
 	private void initGUI() {
 		tabPanel = new JPanel[tabInformation.length];
 
+		// TODO: Add more
+		tabPanel[0] = new SearchPane();
+
 		for (int i = 0; i < tabInformation.length; i++) {
 			this.addTab(null, null, tabPanel[i], tabInformation[i][2]);
 			ImageIcon image = new ImageIcon(tabInformation[i][1]);
@@ -65,8 +68,8 @@ public class TabsPanel extends JTabbedPane {
 		setSelectedIndex(newTabIndex);
 	}
 
-	public JPanel getBookPanel() {
-		return tabPanel[1];
+	public SearchPane getSearchPanel() {
+		return (SearchPane) (tabPanel[model.SEARCH_TAB]);
 	}
 
 }

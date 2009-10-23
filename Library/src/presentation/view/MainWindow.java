@@ -38,16 +38,20 @@ public class MainWindow extends JFrame implements Observer {
 		add(new ActiveUserPanel());
 
 		tabs = new TabsPanel(model);
-		add(tabs, BorderLayout.CENTER);
+		add(getTabs(), BorderLayout.CENTER);
 	}
 
 	public void update(Observable o, Object arg) {
 		menubar.setActiveViewIndex(model.getActiveTabIndex());
-		tabs.setSelectedIndex(model.getActiveTabIndex());
+		getTabs().setSelectedIndex(model.getActiveTabIndex());
 		
-		//tabs.getBookPanel().showBook(model.getActiveBook());
+		getTabs().getSearchPanel().setSearchText("test");
 		// update set active user
-		// update status bar		
+		// update status bar
 	}
 
+	public TabsPanel getTabs() {
+		return tabs;
+	}
+	
 }
