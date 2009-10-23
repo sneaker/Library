@@ -18,7 +18,7 @@ public class MainWindow extends JFrame implements Observer {
 	private static final long serialVersionUID = 1L;
 	private TabsPanel tabs;
 	private MainWindowModel model;
-	private LibraryMenuBar menu;
+	private LibraryMenuBar menubar;
 
 	public MainWindow() {
 		setTitle("Recherche - BücherBox");
@@ -32,8 +32,8 @@ public class MainWindow extends JFrame implements Observer {
 	}
 
 	private void initGUI() {
-		menu = new LibraryMenuBar();
-		setJMenuBar(menu);
+		menubar = new LibraryMenuBar(model);
+		setJMenuBar(menubar);
 
 		add(new ActiveUserPanel());
 
@@ -42,7 +42,9 @@ public class MainWindow extends JFrame implements Observer {
 	}
 
 	public void update(Observable o, Object arg) {
-		menu.setActiveViewIndex(model.getActiveTabIndex());
+		menubar.setActiveViewIndex(model.getActiveTabIndex());
+		tabs.setSelectedIndex(model.getActiveTabIndex());
+		
 		//tabs.getBookPanel().showBook(model.getActiveBook());
 		// update set active user
 		// update status bar		

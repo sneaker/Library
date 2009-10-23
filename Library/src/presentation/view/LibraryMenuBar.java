@@ -1,6 +1,7 @@
 package presentation.view;
 
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.AbstractAction;
 import javax.swing.AbstractButton;
@@ -11,6 +12,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JSeparator;
 import javax.swing.KeyStroke;
+
+import presentation.model.MainWindowModel;
 
 /**
  * Repräsentiert und verwaltet die Menübar für die Bibliotheksapplikation.
@@ -42,8 +45,10 @@ public class LibraryMenuBar extends JMenuBar {
 	private JMenuItem createUserMenuItem;
 	private AbstractButton aboutMenuItem;
 	private ButtonGroup viewGroup;
+	private MainWindowModel model;
 
-	public LibraryMenuBar() {
+	public LibraryMenuBar(MainWindowModel model) {
+		this.model = model;
 		initFileMenu();
 		initViewMenu();
 
@@ -62,6 +67,7 @@ public class LibraryMenuBar extends JMenuBar {
 		{
 			resetMenuItem = new JMenuItem("Neu");
 			resetMenuItem.setAccelerator(KeyStroke.getKeyStroke("F4"));
+			resetMenuItem.addActionListener(createChangeViewAction(model.SEARCH_TAB));
 			fileMenu.add(resetMenuItem);
 
 			separator = new JSeparator();
@@ -85,21 +91,32 @@ public class LibraryMenuBar extends JMenuBar {
 			searchMenuItem.setText("Recherche");
 			searchMenuItem.setAccelerator(KeyStroke.getKeyStroke("F5"));
 			searchMenuItem.setSelected(true);
+			searchMenuItem.addActionListener(createChangeViewAction(model.SEARCH_TAB));
 			viewGroup.add(searchMenuItem);
 			viewMenu.add(searchMenuItem);
 
 			bookMenuItem = new JRadioButtonMenuItem();
 			bookMenuItem.setText("Buchdetails");
 			bookMenuItem.setAccelerator(KeyStroke.getKeyStroke("F6"));
+			bookMenuItem.addActionListener(createChangeViewAction(model.BOOK_TAB));
 			viewGroup.add(bookMenuItem);
 			viewMenu.add(bookMenuItem);
 
 			userMenuItem = new JRadioButtonMenuItem();
 			userMenuItem.setText("Benutzerdetails");
 			userMenuItem.setAccelerator(KeyStroke.getKeyStroke("F7"));
+			userMenuItem.addActionListener(createChangeViewAction(model.USER_TAB));
 			viewGroup.add(userMenuItem);
 			viewMenu.add(userMenuItem);
 		}
+	}
+
+	private ActionListener createChangeViewAction(final int newTab) {
+		return new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				model.setActiveTab(newTab);
+			}
+		};
 	}
 
 	private void initSearchMenu() {

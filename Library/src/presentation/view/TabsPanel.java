@@ -11,9 +11,6 @@ import presentation.model.MainWindowModel;
 
 public class TabsPanel extends JTabbedPane {
 
-	public static int SEARCH = 0;
-	public static int BOOK = 1;
-	public static int USER = 2;
 	private static final long serialVersionUID = 1L;
 	private JPanel[] tabPanel;
 	private final MainWindowModel model;

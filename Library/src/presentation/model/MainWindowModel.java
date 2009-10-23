@@ -2,7 +2,6 @@ package presentation.model;
 
 import java.util.Observable;
 
-import presentation.view.TabsPanel;
 import domain.Book;
 
 /**
@@ -11,8 +10,10 @@ import domain.Book;
  */
 public class MainWindowModel extends Observable {
 
-	// TODO: evtl Konstanten hierher verschieben wegen Aufwärtszugriff?
-	private int activeTab = TabsPanel.SEARCH;
+	public final int SEARCH_TAB = 0;
+	public final int BOOK_TAB = 1;
+	public final int USER_TAB = 2;
+	private int activeTab = SEARCH_TAB;
 	private Book activeBook;
 
 	public Book getActiveBook() {
