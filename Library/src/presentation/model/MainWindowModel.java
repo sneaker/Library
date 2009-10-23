@@ -2,25 +2,23 @@ package presentation.model;
 
 import java.util.Observable;
 
-import presentation.view.MainWindow;
 import presentation.view.TabsPanel;
 import domain.Book;
 
+/**
+ * Manages the current status of the main window with its active user, tab,
+ * menubar and status panel.
+ */
 public class MainWindowModel extends Observable {
-	public enum MenuTab {
-		RECHERCHE, BUCHINFO, BENUTZERINFO
-	}
 
-	private int activeTab = TabsPanel.SEARCH; // TODO: evtl daten hierher verschieben wegen aufwärtszugriff?
+	// TODO: evtl Konstanten hierher verschieben wegen Aufwärtszugriff?
+	private int activeTab = TabsPanel.SEARCH;
 	private Book activeBook;
-
-	public MainWindowModel() {
-	}
 
 	public Book getActiveBook() {
 		return activeBook;
 	}
-	
+
 	public void setActiveBook(Book book) {
 		this.activeBook = book;
 		setChanged();

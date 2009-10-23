@@ -46,11 +46,11 @@ public class LibraryMenuBar extends JMenuBar {
 	public LibraryMenuBar() {
 		initFileMenu();
 		initViewMenu();
-		
+
 		initSearchMenu();
 		initBookMenu();
 		initUserMenu();
-		
+
 		initHelpMenu();
 	}
 
@@ -195,11 +195,18 @@ public class LibraryMenuBar extends JMenuBar {
 		return reservedMenuItem;
 	}
 
+	/**
+	 * When switching to another menu tab, this changes the menu bar to display
+	 * the corresponding actions.
+	 * 
+	 * @param activeTab
+	 *            The new menu which should be made visible
+	 */
 	public void setActiveViewIndex(int activeTab) {
 		searchMenu.setVisible(activeTab == 0);
 		bookMenu.setVisible(activeTab == 1);
 		userMenu.setVisible(activeTab == 2);
-		
+
 		searchMenuItem.setSelected(activeTab == 0);
 		bookMenuItem.setSelected(activeTab == 1);
 		userMenuItem.setSelected(activeTab == 2);
