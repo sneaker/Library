@@ -20,12 +20,13 @@ public class MainWindow extends JFrame implements Observer {
 	private LibraryMenuBar menubar;
 
 	public MainWindow() {
-		setTitle("Recherche - BücherBox");
+		model = new MainWindowModel();
+		model.addObserver(this);
+
+		setTitle(model.getWindowTitle());
 		setPreferredSize(new java.awt.Dimension(800, 400));
 		setMinimumSize(new Dimension(460, 355));
 		setSize(750, 450);
-		model = new MainWindowModel();
-		model.addObserver(this);
 
 		initGUI();
 	}
@@ -42,6 +43,7 @@ public class MainWindow extends JFrame implements Observer {
 	public void update(Observable o, Object arg) {
 		menubar.setActiveViewIndex(model.getActiveTabIndex());
 		model.getTabs().setSelectedIndex(model.getActiveTabIndex());
+		setTitle(model.getWindowTitle());
 
 		// update set active user
 		// update status bar

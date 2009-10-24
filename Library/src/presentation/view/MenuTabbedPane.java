@@ -76,5 +76,11 @@ public class MenuTabbedPane extends JTabbedPane {
 	public SearchTabPanel getSearchPanel() {
 		return (SearchTabPanel) (tabPanel[model.SEARCH_TAB]);
 	}
+	
+	public String getActiveTabTitle() {
+		if (getSelectedIndex() > tabInformation.length)
+			return "";
+		return tabInformation[getSelectedIndex()][0];
+	}
 
 }

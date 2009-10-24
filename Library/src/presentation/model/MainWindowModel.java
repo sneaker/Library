@@ -3,7 +3,6 @@ package presentation.model;
 import java.util.Observable;
 
 import presentation.view.MenuTabbedPane;
-
 import domain.Book;
 
 /**
@@ -12,6 +11,7 @@ import domain.Book;
  */
 public class MainWindowModel extends Observable {
 
+	private static final String PROGRAM_NAME = " - BücherBox";
 	public final int SEARCH_TAB = 0;
 	public final int BOOK_TAB = 1;
 	public final int USER_TAB = 2;
@@ -49,6 +49,10 @@ public class MainWindowModel extends Observable {
 
 	public MenuTabbedPane getTabs() {
 		return tabs;
+	}
+
+	public String getWindowTitle() {
+		return tabs.getActiveTabTitle() + PROGRAM_NAME;
 	}
 
 	// Statusbar-Text
