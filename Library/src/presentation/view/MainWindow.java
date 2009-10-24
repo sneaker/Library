@@ -16,14 +16,13 @@ import presentation.model.MainWindowModel;
 public class MainWindow extends JFrame implements Observer {
 
 	private static final long serialVersionUID = 1L;
-	private TabsPanel tabs;
 	private MainWindowModel model;
 	private LibraryMenuBar menubar;
 
 	public MainWindow() {
 		setTitle("Recherche - BücherBox");
 		setPreferredSize(new java.awt.Dimension(800, 400));
-		setMinimumSize(new Dimension(300, 320));
+		setMinimumSize(new Dimension(460, 355));
 		setSize(750, 450);
 		model = new MainWindowModel();
 		model.addObserver(this);
@@ -35,23 +34,17 @@ public class MainWindow extends JFrame implements Observer {
 		menubar = new LibraryMenuBar(model);
 		setJMenuBar(menubar);
 
-		add(new ActiveUserPanel());
+		add(new ActiveUserPanel(), BorderLayout.NORTH);
 
-		tabs = new TabsPanel(model);
-		add(getTabs(), BorderLayout.CENTER);
+		add(model.getTabs(), BorderLayout.CENTER);
 	}
 
 	public void update(Observable o, Object arg) {
 		menubar.setActiveViewIndex(model.getActiveTabIndex());
-		getTabs().setSelectedIndex(model.getActiveTabIndex());
-		
-		getTabs().getSearchPanel().setSearchText("test");
+		model.getTabs().setSelectedIndex(model.getActiveTabIndex());
+
 		// update set active user
 		// update status bar
 	}
 
-	public TabsPanel getTabs() {
-		return tabs;
-	}
-	
 }

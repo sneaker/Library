@@ -2,6 +2,8 @@ package presentation.model;
 
 import java.util.Observable;
 
+import presentation.view.MenuTabbedPane;
+
 import domain.Book;
 
 /**
@@ -13,9 +15,14 @@ public class MainWindowModel extends Observable {
 	public final int SEARCH_TAB = 0;
 	public final int BOOK_TAB = 1;
 	public final int USER_TAB = 2;
+	private MenuTabbedPane tabs;
 	private int activeTab = SEARCH_TAB;
 	private Book activeBook;
 
+	public MainWindowModel() {
+		setTabs(new MenuTabbedPane(this));
+	}
+	
 	public Book getActiveBook() {
 		return activeBook;
 	}
@@ -34,6 +41,14 @@ public class MainWindowModel extends Observable {
 
 	public int getActiveTabIndex() {
 		return activeTab;
+	}
+
+	public void setTabs(MenuTabbedPane tabs) {
+		this.tabs = tabs;
+	}
+
+	public MenuTabbedPane getTabs() {
+		return tabs;
 	}
 
 	// Statusbar-Text

@@ -46,6 +46,7 @@ public class LibraryMenuBar extends JMenuBar {
 	private AbstractButton aboutMenuItem;
 	private ButtonGroup viewGroup;
 	private MainWindowModel model;
+	private SearchTabPanelModel searchPaneModel;
 
 	public LibraryMenuBar(MainWindowModel model) {
 		this.model = model;
@@ -67,7 +68,15 @@ public class LibraryMenuBar extends JMenuBar {
 		{
 			resetMenuItem = new JMenuItem("Neu");
 			resetMenuItem.setAccelerator(KeyStroke.getKeyStroke("F4"));
-			resetMenuItem.addActionListener(createChangeViewAction(model.SEARCH_TAB));
+			searchPaneModel = model.getTabs().getSearchPanel().getModel();
+			resetMenuItem.addActionListener(new ChangeViewActionListener(
+					model.SEARCH_TAB) {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					super.actionPerformed(e);
+					searchPaneModel.resetSearchText();
+				}
+			});
 			fileMenu.add(resetMenuItem);
 
 			separator = new JSeparator();
@@ -91,21 +100,24 @@ public class LibraryMenuBar extends JMenuBar {
 			searchMenuItem.setText("Recherche");
 			searchMenuItem.setAccelerator(KeyStroke.getKeyStroke("F5"));
 			searchMenuItem.setSelected(true);
-			searchMenuItem.addActionListener(createChangeViewAction(model.SEARCH_TAB));
+			searchMenuItem
+					.addActionListener(createChangeViewAction(model.SEARCH_TAB));
 			viewGroup.add(searchMenuItem);
 			viewMenu.add(searchMenuItem);
 
 			bookMenuItem = new JRadioButtonMenuItem();
 			bookMenuItem.setText("Buchdetails");
 			bookMenuItem.setAccelerator(KeyStroke.getKeyStroke("F6"));
-			bookMenuItem.addActionListener(createChangeViewAction(model.BOOK_TAB));
+			bookMenuItem
+					.addActionListener(createChangeViewAction(model.BOOK_TAB));
 			viewGroup.add(bookMenuItem);
 			viewMenu.add(bookMenuItem);
 
 			userMenuItem = new JRadioButtonMenuItem();
 			userMenuItem.setText("Benutzerdetails");
 			userMenuItem.setAccelerator(KeyStroke.getKeyStroke("F7"));
-			userMenuItem.addActionListener(createChangeViewAction(model.USER_TAB));
+			userMenuItem
+					.addActionListener(createChangeViewAction(model.USER_TAB));
 			viewGroup.add(userMenuItem);
 			viewMenu.add(userMenuItem);
 		}
@@ -114,12 +126,14 @@ public class LibraryMenuBar extends JMenuBar {
 	private ActionListener createChangeViewAction(final int newTab) {
 		return new ChangeViewActionListener(newTab);
 	}
-	
+
 	protected class ChangeViewActionListener implements ActionListener {
 		private int newTab;
+
 		public ChangeViewActionListener(int newTab) {
 			this.newTab = newTab;
 		}
+
 		public void actionPerformed(ActionEvent e) {
 			model.setActiveTab(newTab);
 		}
