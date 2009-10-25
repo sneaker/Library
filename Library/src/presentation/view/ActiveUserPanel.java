@@ -1,6 +1,7 @@
 package presentation.view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Image;
 import java.awt.Insets;
 
@@ -20,6 +21,7 @@ public class ActiveUserPanel extends JPanel {
 	public ActiveUserPanel() {
 		setLayout(new BorderLayout());
 		activeUserLabel = new JLabel(DEFAULT_ACTIVE_USER_TEXT);
+		activeUserLabel.setForeground(Color.red);
 		ImageIcon img = new ImageIcon(new ImageIcon(USER_IMAGE_PATH).getImage()
 				.getScaledInstance(USER_ICON_SIZE, USER_ICON_SIZE,
 						Image.SCALE_DEFAULT));
