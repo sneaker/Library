@@ -3,8 +3,6 @@ package presentation.view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
@@ -12,11 +10,12 @@ import java.awt.event.KeyEvent;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
+
+import presentation.model.SearchTabPanelModel;
 
 /**
  * Represents the whole contents of the "search"-Tab and handles Updates on its
@@ -33,10 +32,8 @@ import javax.swing.border.TitledBorder;
  */
 public class SearchTabPanel extends JPanel implements Observer {
 
-	private static final String SEARCH_FIELD_TITLE = "Suchmaske";
-	private static final String ACTION_NEW_QUERY_TEXT = "Neue Suchanfrage";
-	private static final String ACTION_PANEL_TITLE = "Aktionen";
 	private static final long serialVersionUID = 1L;
+	private static final String SEARCH_FIELD_TITLE = "Suchmaske";
 	private JPanel contentPanel;
 	private JPanel actionPanel;
 	private SearchTabPanelModel model;
@@ -57,16 +54,8 @@ public class SearchTabPanel extends JPanel implements Observer {
 	}
 
 	private void initActionPane() {
-		actionPanel = new JPanel();
-		actionPanel.setLayout(new BorderLayout());
-		actionPanel.setBorder(new TitledBorder(ACTION_PANEL_TITLE));
-		JButton button = new JButton(ACTION_NEW_QUERY_TEXT);
-		button.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				model.resetSearchText();
-			}
-		});
-		actionPanel.add(button, BorderLayout.NORTH);
+		actionPanel = new ActionPanel();
+		
 		add(actionPanel, BorderLayout.EAST);
 	}
 
