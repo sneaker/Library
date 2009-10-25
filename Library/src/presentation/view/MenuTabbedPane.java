@@ -33,7 +33,7 @@ public class MenuTabbedPane extends JTabbedPane {
 	private void initGUI() {
 		tabPanel = new JPanel[tabInformation.length];
 
-		tabPanel[0] = new SearchTabPanel();
+		tabPanel[0] = new SearchTabPanel(model);
 		// TODO: Replace with fully featured panes [Martin -> bis 27.10.2009]
 		tabPanel[1] = new JPanel();
 		tabPanel[2] = new JPanel();

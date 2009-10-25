@@ -11,10 +11,10 @@ import domain.Book;
  */
 public class MainWindowModel extends Observable {
 
-	private static final String PROGRAM_NAME = " - BücherBox";
-	public final int SEARCH_TAB = 0;
-	public final int BOOK_TAB = 1;
-	public final int USER_TAB = 2;
+	private final String PROGRAM_NAME = " - BücherBox";
+	public final static int SEARCH_TAB = 0;
+	public final static int BOOK_TAB = 1;
+	public final static int USER_TAB = 2;
 	private MenuTabbedPane tabs;
 	private int activeTab = SEARCH_TAB;
 	private Book activeBook;
@@ -42,7 +42,7 @@ public class MainWindowModel extends Observable {
 	public int getActiveTabIndex() {
 		return activeTab;
 	}
-
+	
 	public void setTabs(MenuTabbedPane tabs) {
 		this.tabs = tabs;
 	}

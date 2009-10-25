@@ -18,6 +18,8 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
+import presentation.model.MainWindowModel;
+
 /**
  * Represents the whole contents of the "search"-Tab and handles Updates on its
  * state. This is the default tab which is shown after startup or a reset. This
@@ -43,11 +45,13 @@ public class SearchTabPanel extends JPanel implements Observer {
 	private JTextField searchField;
 	private JPanel searchTab;
 	private JPanel resultPane;
+	private final MainWindowModel mainWindowModel;
 
 	/**
 	 * Create the search tab.
 	 */
-	public SearchTabPanel() {
+	public SearchTabPanel(MainWindowModel mainWindowModel) {
+		this.mainWindowModel = mainWindowModel;
 		setLayout(new BorderLayout());
 		model = new SearchTabPanelModel();
 		model.addObserver(this);
@@ -122,6 +126,7 @@ public class SearchTabPanel extends JPanel implements Observer {
 		resultPane = new JPanel();
 		resultPane.setLayout(new BorderLayout());
 		resultPane.setBorder(new TitledBorder("Suchergebnisse"));
+		resultPane.add(new ResultList(mainWindowModel));
 		contentPanel.add(resultPane, BorderLayout.CENTER);
 	}
 
