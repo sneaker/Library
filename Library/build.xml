@@ -42,7 +42,7 @@
 		<record name="log.txt" action="start"/>
 		<javac srcdir="${src.dir}" destdir="${build.dir}" optimize="true" debug="true">
 			<classpath refid="project.classpath" />
-			<compilerarg line="-Xlint"/>
+			<compilerarg line="-Xlint:-unchecked"/>
 		</javac>
 		<copy todir="${build.dir}">
 			<fileset dir="${src.dir}">
