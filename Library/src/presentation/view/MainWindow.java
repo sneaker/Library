@@ -1,11 +1,31 @@
 package presentation.view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.GridBagLayout;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JRootPane;
+import javax.swing.KeyStroke;
+import javax.swing.border.LineBorder;
+import javax.swing.border.TitledBorder;
 
 import presentation.model.MainWindowModel;
 
@@ -16,8 +36,9 @@ import presentation.model.MainWindowModel;
 public class MainWindow extends JFrame implements Observer {
 
 	private static final long serialVersionUID = 1L;
-	private MainWindowModel model;
+	public MainWindowModel model;
 	private LibraryMenuBar menubar;
+	public FindAsYouTypeGlassPane findAsYouTypeGlassPane;
 
 	public MainWindow() {
 		model = new MainWindowModel();
@@ -34,10 +55,25 @@ public class MainWindow extends JFrame implements Observer {
 	private void initGUI() {
 		menubar = new LibraryMenuBar(model);
 		setJMenuBar(menubar);
-
+		findAsYouTypeGlassPane = new FindAsYouTypeGlassPane(this);
 		add(new ActiveUserPanel(), BorderLayout.NORTH);
-
 		add(model.getTabs(), BorderLayout.CENTER);
+		addGlobalKeyListener();
+		setGlassPaneClosesOnEscape();
+	}
+
+	private void setGlassPaneClosesOnEscape() {
+		KeyStroke escapeKey = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0);
+		getRootPane().registerKeyboardAction(new ActionListener() {
+			public void actionPerformed(ActionEvent actionEvent) {
+				getGlassPane().setVisible(false);
+			}
+		}, escapeKey, JComponent.WHEN_IN_FOCUSED_WINDOW);
+	}
+
+	private void addGlobalKeyListener() {
+		Toolkit.getDefaultToolkit().getSystemEventQueue().push(
+				new GlobalKeyListenerEventQueue(this));
 	}
 
 	public void update(Observable o, Object arg) {
