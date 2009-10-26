@@ -6,6 +6,7 @@ import java.awt.Image;
 import java.awt.Insets;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -28,5 +29,8 @@ public class ActiveUserPanel extends JPanel {
 		activeUserLabel.setIcon(img);
 		activeUserLabel.setBorder(new EmptyBorder(PANEL_INSETS));
 		add(activeUserLabel, BorderLayout.WEST);
+		
+		JButton cancelButton = new JButton("Clear User activation");
+		add(cancelButton, BorderLayout.EAST);
 	}
 }
