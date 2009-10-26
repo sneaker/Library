@@ -15,6 +15,7 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
+import presentation.model.MainWindowModel;
 import presentation.model.SearchTabPanelModel;
 
 /**
@@ -43,10 +44,11 @@ public class SearchTabPanel extends JPanel implements Observer {
 
 	/**
 	 * Create the search tab.
+	 * @param mainmodel 
 	 */
-	public SearchTabPanel() {
+	public SearchTabPanel(MainWindowModel mainmodel) {
 		setLayout(new BorderLayout());
-		model = new SearchTabPanelModel();
+		model = new SearchTabPanelModel(mainmodel);
 		model.addObserver(this);
 
 		initContentPane();
@@ -54,7 +56,7 @@ public class SearchTabPanel extends JPanel implements Observer {
 	}
 
 	private void initActionPane() {
-		actionPanel = new ActionPanel();
+		actionPanel = new ActionPanel(model);
 		
 		add(actionPanel, BorderLayout.EAST);
 	}
