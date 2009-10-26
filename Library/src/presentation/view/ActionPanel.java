@@ -1,31 +1,34 @@
 package presentation.view;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import javax.swing.border.TitledBorder;
 
-public class ActionPanel extends JPanel {
+import presentation.model.ActionListModel;
+import presentation.model.LibraryModel;
+
+public class ActionPanel extends JPanel implements Observer {
 
 	private static final long serialVersionUID = 1L;
 	private static final String ACTION_PANEL_TITLE = "Aktionen";
 
-	public ActionPanel() {
+	public ActionPanel(LibraryModel basemodel) {
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		this.setBorder(new TitledBorder(ACTION_PANEL_TITLE));
-	
-		JScrollPane pane = new JScrollPane();
-		pane.setPreferredSize(new Dimension(100,100));
+
+		JList list = new JList();
+		list.setModel(new ActionListModel(basemodel));
+		JScrollPane pane = new JScrollPane(list);
 		
 		this.add(pane);
+	}
+
+	public void update(Observable o, Object arg) {
 		
 	}
 }
