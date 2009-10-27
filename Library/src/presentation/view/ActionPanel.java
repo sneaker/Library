@@ -9,7 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.TitledBorder;
 
-import presentation.model.ActionListModel;
+import presentation.model.ActionPanelModel;
 import presentation.model.LibraryModel;
 
 public class ActionPanel extends JPanel implements Observer {
@@ -22,7 +22,7 @@ public class ActionPanel extends JPanel implements Observer {
 		this.setBorder(new TitledBorder(ACTION_PANEL_TITLE));
 
 		JList list = new JList();
-		list.setModel(new ActionListModel(basemodel));
+		list.setModel(new ActionPanelModel(basemodel));
 		JScrollPane pane = new JScrollPane(list);
 		
 		this.add(pane);

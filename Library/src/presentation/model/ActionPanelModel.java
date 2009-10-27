@@ -8,13 +8,13 @@ import java.util.Observer;
 import javax.swing.ListModel;
 import javax.swing.event.ListDataListener;
 
-public class ActionListModel extends Observable implements ListModel, Observer {
+public class ActionPanelModel extends Observable implements ListModel, Observer {
 
 	// TODO: cell renderer
 	List<String> available_actions = new ArrayList<String>();
 	private MainWindowModel mainmodel;
 	
-	public ActionListModel(LibraryModel basemodel) {
+	public ActionPanelModel(LibraryModel basemodel) {
 		mainmodel = basemodel.getMainWindowModel();
 		if (basemodel instanceof SearchTabPanelModel) {
 			System.out.println(this);
