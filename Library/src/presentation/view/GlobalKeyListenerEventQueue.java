@@ -8,6 +8,11 @@ import javax.swing.JFrame;
 
 import util.LookBackKeyBuffer;
 
+/**
+ * Listen for entered keystrokes and react to book and user ids to automatically
+ * switch tabs and display information on the enterd id. Indended for
+ * demonstration purposes and for use with barcode scanners.
+ */
 public final class GlobalKeyListenerEventQueue extends EventQueue {
 	LookBackKeyBuffer lookBackForID = new LookBackKeyBuffer();
 	private MainWindow mainWindow;
@@ -36,29 +41,61 @@ public final class GlobalKeyListenerEventQueue extends EventQueue {
 				&& keyEvent.getSource() instanceof JFrame;
 	}
 
+	/**
+	 * How to cope with entered characters and ids. If glass panes are
+	 * disappearing on key type for no reason, here it's shown why.
+	 */
 	private void handleIdScaned() {
 		mainWindow.getGlassPane().setVisible(false);
+		handleTagPending();
+		handleLastIdCharacter();
+		handleBookId();
+		handleUserID();
+	}
+
+	/**
+	 * How to react to entered user ids. Probably the system should switch tabs
+	 * here and display corresponding data for the id entered.
+	 */
+	private void handleUserID() {
+		if (lookBackForID.isBookID()) {
+			mainWindow.model.getTabs().setSelectedIndex(1);
+		}
+	}
+
+	private void handleBookId() {
+		if (lookBackForID.isBookID()) {
+			mainWindow.model.getTabs().setSelectedIndex(1);
+		}
+	}
+
+	/**
+	 * Make the quick search window disappear after a few milliseconds the last
+	 * character of an id has been typed. This will look great with a barcode
+	 * scanner.
+	 */
+	private void handleLastIdCharacter() {
+		if (!lookBackForID.wasLastIdCharacter())
+			return;
+		new Thread(new Runnable() {
+			public void run() {
+				try {
+					Thread.sleep(600);
+				} catch (InterruptedException e) {
+				} finally {
+					mainWindow.getGlassPane().setVisible(false);
+				}
+			}
+		}).start();
+	}
+
+	private void handleTagPending() {
 		if (lookBackForID.idTagPending()) {
 			mainWindow.findAsYouTypeGlassPane.setText(lookBackForID
 					.getRecentId());
 			mainWindow.setGlassPane(mainWindow.findAsYouTypeGlassPane
 					.getGlassPane());
 			mainWindow.getGlassPane().setVisible(true);
-		}
-		if (lookBackForID.wasLastIdCharacter()) {
-			new Thread (new Runnable() {
-				public void run() {
-					try {
-						Thread.sleep(600);
-					} catch (InterruptedException e) {
-					} finally {
-						mainWindow.getGlassPane().setVisible(false);
-					}
-				}
-			}).start();
-		}
-		if (lookBackForID.isBookID()) {
-			mainWindow.model.getTabs().setSelectedIndex(1);
 		}
 	}
 }
