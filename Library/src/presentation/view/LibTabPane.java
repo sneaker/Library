@@ -12,7 +12,7 @@ import presentation.model.MainWindowModel;
 /**
  * Represents the tabbed pane on which the (three) main panes are placed.
  */
-public class MenuTabbedPane extends JTabbedPane {
+public class LibTabPane extends JTabbedPane {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel[] tabPanel;
@@ -24,7 +24,7 @@ public class MenuTabbedPane extends JTabbedPane {
 			{ "Benutzer", "img/user.png",
 					"Personalien und Ausleihen eines Benutzers anzeigen" } };
 
-	public MenuTabbedPane(MainWindowModel model) {
+	public LibTabPane(MainWindowModel model) {
 		this.model = model;
 		initGUI();
 		initChangeListener();
@@ -33,10 +33,10 @@ public class MenuTabbedPane extends JTabbedPane {
 	private void initGUI() {
 		tabPanel = new JPanel[tabInformation.length];
 
-		tabPanel[0] = new SearchTabPanel(model);
+		tabPanel[0] = new TabSearchPanel(model);
 		// TODO: Replace with fully featured panes [Martin -> bis 27.10.2009]
-		tabPanel[1] = new BookDetailPanel(model);
-		tabPanel[2] = new UserDetailPanel(model);
+		tabPanel[1] = new TabBookPanel(model);
+		tabPanel[2] = new TabUserPanel(model);
 
 		for (int i = 0; i < tabInformation.length; i++) {
 			this.addTab(null, null, tabPanel[i], tabInformation[i][2]);
@@ -73,8 +73,8 @@ public class MenuTabbedPane extends JTabbedPane {
 		setSelectedIndex(newTabIndex);
 	}
 
-	public SearchTabPanel getSearchPanel() {
-		return (SearchTabPanel) (tabPanel[model.SEARCH_TAB]);
+	public TabSearchPanel getSearchPanel() {
+		return (TabSearchPanel) (tabPanel[model.SEARCH_TAB]);
 	}
 	
 	public String getActiveTabTitle() {

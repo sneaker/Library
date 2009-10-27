@@ -31,7 +31,7 @@ import presentation.model.SearchTabPanelModel;
  * There is a dependency on the main window model because a click on a result
  * must show the details of a certain book.
  */
-public class SearchTabPanel extends JPanel implements Observer {
+public class TabSearchPanel extends JPanel implements Observer {
 
 	private static final long serialVersionUID = 1L;
 	private static final String SEARCH_FIELD_TITLE = "Suchmaske";
@@ -46,7 +46,7 @@ public class SearchTabPanel extends JPanel implements Observer {
 	 * Create the search tab.
 	 * @param mainmodel 
 	 */
-	public SearchTabPanel(MainWindowModel mainmodel) {
+	public TabSearchPanel(MainWindowModel mainmodel) {
 		setLayout(new BorderLayout());
 		model = new SearchTabPanelModel(mainmodel);
 		model.addObserver(this);

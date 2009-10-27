@@ -9,13 +9,13 @@ import javax.swing.JPanel;
 import presentation.model.MainWindowModel;
 import presentation.model.UserDetailPanelModel;
 
-public class UserDetailPanel extends JPanel implements Observer {
+public class TabUserPanel extends JPanel implements Observer {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel actionpanel;
 	private UserDetailPanelModel model;
 	
-	public UserDetailPanel(MainWindowModel model2) {
+	public TabUserPanel(MainWindowModel model2) {
 		setLayout(new BorderLayout());
 		model = new UserDetailPanelModel(model2);
 		model.addObserver(this);
