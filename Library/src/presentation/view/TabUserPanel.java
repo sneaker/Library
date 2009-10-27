@@ -1,32 +1,17 @@
 package presentation.view;
 
-import java.awt.BorderLayout;
 import java.util.Observable;
-import java.util.Observer;
 
-import javax.swing.JPanel;
+import presentation.model.ActionPanelModel;
 
-import presentation.model.MainWindowModel;
-import presentation.model.UserDetailPanelModel;
-
-public class TabUserPanel extends JPanel implements Observer {
+public class TabUserPanel extends TabAbstractPanel {
 
 	private static final long serialVersionUID = 1L;
-	private JPanel actionpanel;
-	private UserDetailPanelModel model;
 	
-	public TabUserPanel(MainWindowModel model2) {
-		setLayout(new BorderLayout());
-		model = new UserDetailPanelModel(model2);
-		model.addObserver(this);
+	public TabUserPanel(ActionPanelModel action_panel_model) {
+		super(action_panel_model);
 
 		initContentPane();
-		initActionPane();
-	}
-
-	private void initActionPane() {
-		actionpanel = new ActionPanel(model);
-		add(actionpanel, BorderLayout.EAST);
 	}
 
 	private void initContentPane() {

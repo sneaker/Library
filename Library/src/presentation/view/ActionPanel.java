@@ -10,19 +10,18 @@ import javax.swing.JScrollPane;
 import javax.swing.border.TitledBorder;
 
 import presentation.model.ActionPanelModel;
-import presentation.model.LibraryModel;
 
 public class ActionPanel extends JPanel implements Observer {
 
 	private static final long serialVersionUID = 1L;
 	private static final String ACTION_PANEL_TITLE = "Aktionen";
 
-	public ActionPanel(LibraryModel basemodel) {
+	public ActionPanel(ActionPanelModel action_panel_model) {
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		this.setBorder(new TitledBorder(ACTION_PANEL_TITLE));
 
 		JList list = new JList();
-		list.setModel(new ActionPanelModel(basemodel));
+		list.setModel(action_panel_model);
 		JScrollPane pane = new JScrollPane(list);
 		
 		this.add(pane);

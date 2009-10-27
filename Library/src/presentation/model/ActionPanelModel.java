@@ -12,21 +12,9 @@ public class ActionPanelModel extends Observable implements ListModel, Observer 
 
 	// TODO: cell renderer
 	List<String> available_actions = new ArrayList<String>();
-	private MainWindowModel mainmodel;
 	
-	public ActionPanelModel(LibraryModel basemodel) {
-		mainmodel = basemodel.getMainWindowModel();
-		if (basemodel instanceof SearchTabPanelModel) {
-			System.out.println(this);
-			mainmodel.addObserver(this);
-			available_actions.add("Search Action 1");
-		}
-		if (basemodel instanceof UserDetailPanelModel) {
-			available_actions.add("User Action 1");
-		}
-		if (basemodel instanceof BookDetailPanelModel) {
-			available_actions.add("Book Action 1");
-		}
+	public ActionPanelModel() {
+		
 	}
 	
 	public void addListDataListener(ListDataListener l) {

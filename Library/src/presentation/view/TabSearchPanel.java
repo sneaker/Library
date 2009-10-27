@@ -8,14 +8,13 @@ import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.Observable;
-import java.util.Observer;
 
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
-import presentation.model.MainWindowModel;
+import presentation.model.ActionPanelModel;
 import presentation.model.SearchTabPanelModel;
 
 /**
@@ -31,12 +30,11 @@ import presentation.model.SearchTabPanelModel;
  * There is a dependency on the main window model because a click on a result
  * must show the details of a certain book.
  */
-public class TabSearchPanel extends JPanel implements Observer {
+public class TabSearchPanel extends TabAbstractPanel {
 
 	private static final long serialVersionUID = 1L;
 	private static final String SEARCH_FIELD_TITLE = "Suchmaske";
 	private JPanel contentPanel;
-	private JPanel actionPanel;
 	private SearchTabPanelModel model;
 	private JTextField searchField;
 	private JPanel searchTab;
@@ -46,19 +44,11 @@ public class TabSearchPanel extends JPanel implements Observer {
 	 * Create the search tab.
 	 * @param mainmodel 
 	 */
-	public TabSearchPanel(MainWindowModel mainmodel) {
-		setLayout(new BorderLayout());
-		model = new SearchTabPanelModel(mainmodel);
+	public TabSearchPanel(ActionPanelModel action_panel_model) {
+		super(action_panel_model);
+		model = new SearchTabPanelModel();
 		model.addObserver(this);
-
 		initContentPane();
-		initActionPane();
-	}
-
-	private void initActionPane() {
-		actionPanel = new ActionPanel(model);
-		
-		add(actionPanel, BorderLayout.EAST);
 	}
 
 	private void initContentPane() {

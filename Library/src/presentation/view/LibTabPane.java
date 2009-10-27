@@ -7,6 +7,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import presentation.model.ActionPanelModel;
 import presentation.model.MainWindowModel;
 
 /**
@@ -32,11 +33,12 @@ public class LibTabPane extends JTabbedPane {
 
 	private void initGUI() {
 		tabPanel = new JPanel[tabInformation.length];
+		ActionPanelModel action_panel_model = new ActionPanelModel();
 
-		tabPanel[0] = new TabSearchPanel(model);
+		tabPanel[0] = new TabSearchPanel(action_panel_model);
 		// TODO: Replace with fully featured panes [Martin -> bis 27.10.2009]
-		tabPanel[1] = new TabBookPanel(model);
-		tabPanel[2] = new TabUserPanel(model);
+		tabPanel[1] = new TabBookPanel(action_panel_model);
+		tabPanel[2] = new TabUserPanel(action_panel_model);
 
 		for (int i = 0; i < tabInformation.length; i++) {
 			this.addTab(null, null, tabPanel[i], tabInformation[i][2]);
