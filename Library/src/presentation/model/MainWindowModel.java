@@ -2,7 +2,7 @@ package presentation.model;
 
 import java.util.Observable;
 
-import presentation.view.MenuTabbedPane;
+import presentation.view.LibTabPane;
 import domain.Book;
 
 /**
@@ -11,16 +11,16 @@ import domain.Book;
  */
 public class MainWindowModel extends Observable {
 
-	private final String PROGRAM_NAME = " - BücherBox";
+	private static final String PROGRAM_NAME = " - BücherBox";
 	public final static int SEARCH_TAB = 0;
 	public final static int BOOK_TAB = 1;
 	public final static int USER_TAB = 2;
-	private MenuTabbedPane tabs;
+	private LibTabPane tabs;
 	private int activeTab = SEARCH_TAB;
 	private Book activeBook;
 
 	public MainWindowModel() {
-		setTabs(new MenuTabbedPane(this));
+		setTabs(new LibTabPane(this));
 	}
 	
 	public Book getActiveBook() {
@@ -42,12 +42,12 @@ public class MainWindowModel extends Observable {
 	public int getActiveTabIndex() {
 		return activeTab;
 	}
-	
-	public void setTabs(MenuTabbedPane tabs) {
+
+	public void setTabs(LibTabPane tabs) {
 		this.tabs = tabs;
 	}
 
-	public MenuTabbedPane getTabs() {
+	public LibTabPane getTabs() {
 		return tabs;
 	}
 

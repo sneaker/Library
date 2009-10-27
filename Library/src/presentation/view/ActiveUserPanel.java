@@ -1,10 +1,12 @@
 package presentation.view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Image;
 import java.awt.Insets;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -20,11 +22,15 @@ public class ActiveUserPanel extends JPanel {
 	public ActiveUserPanel() {
 		setLayout(new BorderLayout());
 		activeUserLabel = new JLabel(DEFAULT_ACTIVE_USER_TEXT);
+		activeUserLabel.setForeground(Color.red);
 		ImageIcon img = new ImageIcon(new ImageIcon(USER_IMAGE_PATH).getImage()
 				.getScaledInstance(USER_ICON_SIZE, USER_ICON_SIZE,
 						Image.SCALE_DEFAULT));
 		activeUserLabel.setIcon(img);
 		activeUserLabel.setBorder(new EmptyBorder(PANEL_INSETS));
 		add(activeUserLabel, BorderLayout.WEST);
+		
+		JButton cancelButton = new JButton("Clear User activation");
+		add(cancelButton, BorderLayout.EAST);
 	}
 }

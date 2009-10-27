@@ -14,6 +14,7 @@ import javax.swing.JSeparator;
 import javax.swing.KeyStroke;
 
 import presentation.model.MainWindowModel;
+import presentation.model.SearchTabPanelModel;
 
 /**
  * Repräsentiert und verwaltet die Menübar für die Bibliotheksapplikation.

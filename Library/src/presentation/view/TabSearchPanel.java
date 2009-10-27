@@ -3,22 +3,21 @@ package presentation.view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.Observable;
-import java.util.Observer;
 
-import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
-import presentation.model.MainWindowModel;
+import domain.Book;
+
+import presentation.model.ActionPanelModel;
+import presentation.model.SearchTabPanelModel;
 
 /**
  * Represents the whole contents of the "search"-Tab and handles Updates on its
@@ -33,45 +32,27 @@ import presentation.model.MainWindowModel;
  * There is a dependency on the main window model because a click on a result
  * must show the details of a certain book.
  */
-public class SearchTabPanel extends JPanel implements Observer {
+public class TabSearchPanel extends TabAbstractPanel {
 
-	private static final String SEARCH_FIELD_TITLE = "Suchmaske";
-	private static final String ACTION_NEW_QUERY_TEXT = "Neue Suchanfrage";
-	private static final String ACTION_PANEL_TITLE = "Aktionen";
 	private static final long serialVersionUID = 1L;
+	private static final String SEARCH_FIELD_TITLE = "Suchmaske";
 	private JPanel contentPanel;
-	private JPanel actionPanel;
 	private SearchTabPanelModel model;
 	private JTextField searchField;
 	private JPanel searchTab;
 	private JPanel resultPane;
-	private final MainWindowModel mainWindowModel;
+	private final LibTabPaneModel tabPane;
 
 	/**
 	 * Create the search tab.
+	 * @param mainmodel 
 	 */
-	public SearchTabPanel(MainWindowModel mainWindowModel) {
-		this.mainWindowModel = mainWindowModel;
-		setLayout(new BorderLayout());
+	public TabSearchPanel(ActionPanelModel action_panel_model, LibTabPaneModel tabPane) {
+		super(action_panel_model);
+		this.tabPane = tabPane;
 		model = new SearchTabPanelModel();
 		model.addObserver(this);
-
 		initContentPane();
-		initActionPane();
-	}
-
-	private void initActionPane() {
-		actionPanel = new JPanel();
-		actionPanel.setLayout(new BorderLayout());
-		actionPanel.setBorder(new TitledBorder(ACTION_PANEL_TITLE));
-		JButton button = new JButton(ACTION_NEW_QUERY_TEXT);
-		button.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				model.resetSearchText();
-			}
-		});
-		actionPanel.add(button, BorderLayout.NORTH);
-		add(actionPanel, BorderLayout.EAST);
 	}
 
 	private void initContentPane() {
@@ -126,7 +107,7 @@ public class SearchTabPanel extends JPanel implements Observer {
 		resultPane = new JPanel();
 		resultPane.setLayout(new BorderLayout());
 		resultPane.setBorder(new TitledBorder("Suchergebnisse"));
-		resultPane.add(new ResultList(mainWindowModel));
+		resultPane.add(new ResultList(tabPane));
 		contentPanel.add(resultPane, BorderLayout.CENTER);
 	}
 
@@ -157,6 +138,11 @@ public class SearchTabPanel extends JPanel implements Observer {
 			searchField.setText((String) arg);
 			return;
 		}
+	}
+
+	public void setActiveBook(Book activeBook) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
