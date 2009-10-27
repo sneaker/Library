@@ -53,6 +53,10 @@ public class LookBackKeyBuffer {
 	public boolean idTagPending() {
 		return isMatching(getBookOrUserRegex() + "[0-9]{0," + ID_LENGTH + "}$");
 	}
+	
+	public boolean wasLastIdCharacter() {
+		return isMatching(getBookOrUserRegex() + "[0-9]{" + ID_LENGTH + "}$");
+	}
 
 	public String getRecentId() {
 		Pattern pattern = Pattern.compile(getBookOrUserRegex() + "[0-9]{0,"

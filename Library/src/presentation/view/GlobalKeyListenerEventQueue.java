@@ -37,11 +37,25 @@ public final class GlobalKeyListenerEventQueue extends EventQueue {
 	}
 
 	private void handleIdScaned() {
+		mainWindow.getGlassPane().setVisible(false);
 		if (lookBackForID.idTagPending()) {
-			mainWindow.findAsYouTypeGlassPane.setText(lookBackForID.getRecentId());
-			mainWindow.setGlassPane(mainWindow.findAsYouTypeGlassPane.getGlassPane());
+			mainWindow.findAsYouTypeGlassPane.setText(lookBackForID
+					.getRecentId());
+			mainWindow.setGlassPane(mainWindow.findAsYouTypeGlassPane
+					.getGlassPane());
 			mainWindow.getGlassPane().setVisible(true);
-			mainWindow.repaint();			
+		}
+		if (lookBackForID.wasLastIdCharacter()) {
+			new Thread (new Runnable() {
+				public void run() {
+					try {
+						Thread.sleep(600);
+					} catch (InterruptedException e) {
+					} finally {
+						mainWindow.getGlassPane().setVisible(false);
+					}
+				}
+			}).start();
 		}
 		if (lookBackForID.isBookID()) {
 			mainWindow.model.getTabs().setSelectedIndex(1);
