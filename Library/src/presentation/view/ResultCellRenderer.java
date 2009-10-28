@@ -12,11 +12,15 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.ListCellRenderer;
 
+import util.TextUtils;
+
 import domain.Book;
 
 public class ResultCellRenderer implements ListCellRenderer {
 
+	private static final int TEXT_WIDTH_DIFFERENCE = 100;
 	private static final Color SHINY_BLUE = new Color(0xADD8E6);
+	private static final String TITLE_FORMAT = "<html><p style='font-size:14pt; padding-left: 1.25cm; text-indent: -1cm;'>";
 	private int preferredWidth;
 
 	public Component getListCellRendererComponent(JList list, Object value,
@@ -56,23 +60,12 @@ public class ResultCellRenderer implements ListCellRenderer {
 	}
 
 	private String getFormattedTitle(Book selectedBook) {
-		return "<html><p style='font-size:14pt; padding-left: 1.25cm; text-indent: -1cm;'><b>"
-				+ getShortName(selectedBook.getTitle().getName())
-				+ "</b><br />Autor: "
-				+ selectedBook.getTitle().getAuthor()
-				+ "<br />Verlag: "
-				+ selectedBook.getTitle().getPublisher();
-	}
-
-	private String getShortName(String name) {
-		JLabel l = new JLabel("<html><p style='font-size:14pt;'><b>" + name);
-		double size = preferredWidth / l.getPreferredSize().getWidth();
-		String points = "...";
-		if (size > 1) {
-			size = 1;
-			points = "";
-		}
-		return name.substring(0, (int) Math.floor(name.length()*size)) + points;
+		return TITLE_FORMAT
+				+ "<b>"
+				+ TextUtils.cutText(selectedBook.getTitle().getName(),
+						preferredWidth, TITLE_FORMAT + "<b>")
+				+ "</b><br />Autor: " + selectedBook.getTitle().getAuthor()
+				+ "<br />Verlag: " + selectedBook.getTitle().getPublisher();
 	}
 
 	private String getFormattedActions(Book selectedBook) {
@@ -85,6 +78,6 @@ public class ResultCellRenderer implements ListCellRenderer {
 	}
 
 	public void setPreferredWidth(int width) {
-		this.preferredWidth = Math.max(100, width - 50);
+		this.preferredWidth = Math.max(100, width - TEXT_WIDTH_DIFFERENCE);
 	}
 }

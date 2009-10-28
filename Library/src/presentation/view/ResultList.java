@@ -1,6 +1,7 @@
 package presentation.view;
 
 import java.awt.BorderLayout;
+import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -24,6 +25,7 @@ public class ResultList extends JList {
 	private JList resultList;
 	private final LibTabPaneModel tabModel;
 	private final Library library;
+	private ResultCellRenderer cellRenderer;
 
 	public ResultList(LibTabPaneModel tabModel, Library library) {
 		this.tabModel = tabModel;
@@ -35,10 +37,9 @@ public class ResultList extends JList {
 	private void initResultList() {
 		resultList = new JList();
 		resultList.setModel(new SearchResultListModel(library));
-		ResultCellRenderer cellRenderer = new ResultCellRenderer();
+		cellRenderer = new ResultCellRenderer();
 		resultList.setCellRenderer(cellRenderer);
 		// TODO: Bestimmen, wie breit die Titel maximal werden sollen [Martin]
-		cellRenderer.setPreferredWidth(360);
 		resultList.setDoubleBuffered(false);
 		resultList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
@@ -64,6 +65,15 @@ public class ResultList extends JList {
 		resultList.setVisibleRowCount(3);
 
 		add(resultScroller);
+	}
+
+	/**
+	 * Dynamically adapt title length to size of list by telling the cell
+	 * renderer its size.
+	 */
+	public void paint(Graphics g) {
+		cellRenderer.setPreferredWidth(this.getWidth());
+		super.paint(g);
 	}
 
 }

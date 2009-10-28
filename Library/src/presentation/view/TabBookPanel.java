@@ -1,27 +1,29 @@
 package presentation.view;
 
 import java.awt.BorderLayout;
+import java.awt.Graphics;
 import java.util.Observable;
 
 import javax.swing.JLabel;
 
 import presentation.model.ActionPanelModel;
 import presentation.model.TabBookPanelModel;
+import util.TextUtils;
 
 public class TabBookPanel extends TabAbstractPanel {
 
+	private static final String TITLE_FORMAT = "<html><p style='font-size:14pt; padding-left: 1.25cm; text-indent: -1cm;'>";
+	private static final String NO_BOOK_ACTIVE_TEXT = "Kein Buch ausgewählt, bitte unter Recherche ein Buch suchen und auswählen, um seine Details hier anzuzeigen.";
 	private static final long serialVersionUID = 1L;
 	private TabBookPanelModel model;
+	private JLabel detailPanel;
 
 	public TabBookPanel(ActionPanelModel action_panel_model) {
 		super(action_panel_model);
 		setLayout(new BorderLayout());
+		detailPanel = new JLabel(NO_BOOK_ACTIVE_TEXT);
 		model = new TabBookPanelModel();
 		model.addObserver(this);
-		initContentPane();
-	}
-
-	private void initContentPane() {
 	}
 
 	public TabBookPanelModel getModel() {
@@ -29,37 +31,32 @@ public class TabBookPanel extends TabAbstractPanel {
 	}
 
 	public void update(Observable o, Object arg) {
-		add(makeBookDetailPanel(), BorderLayout.NORTH);
+		detailPanel.setText(getBookDetailPanelText());
+		add(detailPanel, BorderLayout.NORTH);
 	}
 
-	private JLabel makeBookDetailPanel() {
+	private String getBookDetailPanelText() {
 		if (model.getActiveBook() == null)
-			return new JLabel(
-					"Aktives Buch ist nicht verfügbar, wähle ein anderes Buch.");
-		return new JLabel(
-				"<html><p style='font-size:14pt; padding-left: 1.25cm; text-indent: -1cm;'><b>"
-						+ getShortName(model.getActiveBook().getTitle()
-								.getName()) + "</b><br />Autor: "
-						+ model.getActiveBook().getTitle().getAuthor()
-						+ "<br />Verlag: "
-						+ model.getActiveBook().getTitle().getPublisher()
-						+ "</p>");
-	}
-
-	private String getShortName(String name) {
-		final String longTitle = formatTitle(name);
-		double size = this.getWidth()
-				/ new JLabel(longTitle).getPreferredSize().getWidth();
-		String dots = "...";
-		if (size > 1) {
-			size = 1;
-			dots = "";
-		}
-		return name.substring(0, (int) Math.max(0, Math.floor(name.length() * size))) + dots;
+			return NO_BOOK_ACTIVE_TEXT;
+		return TITLE_FORMAT
+				+ "<b>"
+				+ formatTitle(TextUtils.cutText(model.getActiveBook().getTitle().getName(),
+						getWidth(), TITLE_FORMAT + "<b>")) + "</b><br />Autor: "
+				+ model.getActiveBook().getTitle().getAuthor()
+				+ "<br />Verlag: "
+				+ model.getActiveBook().getTitle().getPublisher() + "</p>";
 	}
 
 	private String formatTitle(String title) {
-		return "<html><p style='font-size:14pt; padding-left: 1.25cm; text-indent: -1cm;'><b>"
-				+ title + "</b>";
+		return TITLE_FORMAT + "<b>" + title + "</b>";
+	}
+
+	/**
+	 * Dynamically adapt title length to size of list by telling the cell
+	 * renderer its size.
+	 */
+	public void paint(Graphics g) {
+		detailPanel.setText(getBookDetailPanelText());
+		super.paint(g);
 	}
 }

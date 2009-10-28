@@ -135,11 +135,11 @@ public class TabSearchPanel extends TabAbstractPanel {
 	 * If focus requested, set it to the search field.
 	 */
 	@Override
-    public void requestFocus() {
-        super.requestFocus();
-        searchField.requestFocus();
-    }
-	
+	public void requestFocus() {
+		super.requestFocus();
+		searchField.requestFocus();
+	}
+
 	/**
 	 * TODO: "You ask why? Well, let’s see what happens when I use the standard
 	 * Java implementations of Observer and Observable: I end up checking the
