@@ -6,6 +6,8 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -46,6 +48,13 @@ public class MainWindow extends JFrame implements Observer {
 		findAsYouTypeGlassPane = new FindAsYouTypeGlassPane(this);
 		add(new ActiveUserPanel(), BorderLayout.NORTH);
 		add(model.getTabs(), BorderLayout.CENTER);
+
+		addWindowListener(new WindowAdapter() {
+			public void windowOpened(WindowEvent e) {
+				model.getTabs().getSearchPanel().requestFocus();
+			}
+		});
+
 		addGlobalKeyListener();
 		setGlassPaneClosesOnEscape();
 	}
