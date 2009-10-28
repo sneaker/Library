@@ -2,7 +2,7 @@ package presentation.model;
 
 import java.util.Observable;
 
-public class UserDetailPanelModel extends Observable implements LibraryModel {
+public class UserDetailPanelModel extends Observable {
 
 	public MainWindowModel model;
 	
