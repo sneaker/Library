@@ -13,6 +13,7 @@ public class ActionPanelModel extends Observable implements ListModel, Observer 
 	// TODO: cell renderer
 	List<String> available_actions = new ArrayList<String>();
 	
+	//TODO: Needs application as argument to do the actions
 	public ActionPanelModel() {
 		
 	}

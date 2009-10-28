@@ -4,7 +4,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.BoxLayout;
-import javax.swing.JList;
+import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.TitledBorder;
@@ -20,7 +20,10 @@ public class ActionPanel extends JPanel implements Observer {
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		this.setBorder(new TitledBorder(ACTION_PANEL_TITLE));
 
-		JScrollPane pane = new JScrollPane();
+		JPanel buttonpanel = new JPanel();
+		JButton search = new JButton("Neue Suche");
+		buttonpanel.add(search);
+		JScrollPane pane = new JScrollPane(buttonpanel);
 		
 		this.add(pane);
 	}
