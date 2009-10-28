@@ -37,7 +37,7 @@ public class ResultList extends JList {
 	private void initResultList() {
 		resultList = new JList();
 		resultList.setModel(new SearchResultListModel(library));
-		cellRenderer = new ResultCellRenderer();
+		cellRenderer = new ResultCellRenderer(library);
 		resultList.setCellRenderer(cellRenderer);
 		// TODO: Bestimmen, wie breit die Titel maximal werden sollen [Martin]
 		resultList.setDoubleBuffered(false);

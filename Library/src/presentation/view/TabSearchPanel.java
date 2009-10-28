@@ -137,6 +137,7 @@ public class TabSearchPanel extends TabAbstractPanel {
 	public void requestFocus() {
 		super.requestFocus();
 		searchField.requestFocus();
+		searchField.setCaretPosition(0);
 	}
 
 	/**
