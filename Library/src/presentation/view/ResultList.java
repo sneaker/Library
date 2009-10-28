@@ -9,6 +9,7 @@ import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 
+import presentation.model.LibTabPaneModel;
 import presentation.model.MainWindowModel;
 import presentation.model.SearchResultListModel;
 import domain.Book;

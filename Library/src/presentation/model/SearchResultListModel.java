@@ -15,7 +15,7 @@ public class SearchResultListModel implements ListModel {
 	public SearchResultListModel(Library library) {
 		list = new ArrayList<Book>();
 		// TODO: Display Results instead of fakes [Martin]
-		for (int i = 0; i < 10; i++)
+		for (int i = 0; i < library.getAvailableBooks().size(); i++)
 			list.add(library.getAvailableBooks().get(i));
 	}
 	

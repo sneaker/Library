@@ -14,6 +14,7 @@ import domain.Book;
 import domain.Library;
 
 import presentation.model.ActionPanelModel;
+import presentation.model.LibTabPaneModel;
 import presentation.model.MainWindowModel;
 
 /**
@@ -47,8 +48,8 @@ public class LibTabPane extends JTabbedPane implements Observer {
 		ActionPanelModel action_panel_model = new ActionPanelModel(library, tabModel);
 
 		tabPanel[0] = new TabSearchPanel(tabModel, library, action_panel_model);
-		tabPanel[1] = new TabBookPanel(action_panel_model);
-		tabPanel[2] = new TabUserPanel(action_panel_model);
+		tabPanel[1] = new TabBookPanel(tabModel, library, action_panel_model);
+		tabPanel[2] = new TabUserPanel(tabModel, library, action_panel_model);
 
 		for (int i = 0; i < tabInformation.length; i++) {
 			this.addTab(null, null, tabPanel[i], tabInformation[i][2]);
