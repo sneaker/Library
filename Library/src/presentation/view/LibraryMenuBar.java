@@ -71,7 +71,7 @@ public class LibraryMenuBar extends JMenuBar {
 			resetMenuItem.setAccelerator(KeyStroke.getKeyStroke("F4"));
 			searchPaneModel = model.getTabs().getSearchPanel().getModel();
 			resetMenuItem.addActionListener(new ChangeViewActionListener(
-					model.SEARCH_TAB) {
+					MainWindowModel.SEARCH_TAB) {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					super.actionPerformed(e);
@@ -102,7 +102,7 @@ public class LibraryMenuBar extends JMenuBar {
 			searchMenuItem.setAccelerator(KeyStroke.getKeyStroke("F5"));
 			searchMenuItem.setSelected(true);
 			searchMenuItem
-					.addActionListener(createChangeViewAction(model.SEARCH_TAB));
+					.addActionListener(createChangeViewAction(MainWindowModel.SEARCH_TAB));
 			viewGroup.add(searchMenuItem);
 			viewMenu.add(searchMenuItem);
 
@@ -110,7 +110,7 @@ public class LibraryMenuBar extends JMenuBar {
 			bookMenuItem.setText("Buchdetails");
 			bookMenuItem.setAccelerator(KeyStroke.getKeyStroke("F6"));
 			bookMenuItem
-					.addActionListener(createChangeViewAction(model.BOOK_TAB));
+					.addActionListener(createChangeViewAction(MainWindowModel.BOOK_TAB));
 			viewGroup.add(bookMenuItem);
 			viewMenu.add(bookMenuItem);
 
@@ -118,7 +118,7 @@ public class LibraryMenuBar extends JMenuBar {
 			userMenuItem.setText("Benutzerdetails");
 			userMenuItem.setAccelerator(KeyStroke.getKeyStroke("F7"));
 			userMenuItem
-					.addActionListener(createChangeViewAction(model.USER_TAB));
+					.addActionListener(createChangeViewAction(MainWindowModel.USER_TAB));
 			viewGroup.add(userMenuItem);
 			viewMenu.add(userMenuItem);
 		}
