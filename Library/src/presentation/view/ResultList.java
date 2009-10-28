@@ -9,7 +9,10 @@ import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 
+import presentation.model.MainWindowModel;
+import presentation.model.SearchResultListModel;
 import domain.Book;
+import domain.Library;
 
 /**
  * Displays search results for books and users combined with specific actions
@@ -20,17 +23,22 @@ public class ResultList extends JList {
 	private static final long serialVersionUID = 1L;
 	private JList resultList;
 	private final LibTabPaneModel tabModel;
+	private final Library library;
 
-	public ResultList(LibTabPaneModel tabModel) {
+	public ResultList(LibTabPaneModel tabModel, Library library) {
 		this.tabModel = tabModel;
+		this.library = library;
 		setLayout(new BorderLayout());
 		initResultList();
 	}
 
 	private void initResultList() {
 		resultList = new JList();
-		resultList.setModel(new SearchResultListModel());
-		resultList.setCellRenderer(new MyCellRenderer());
+		resultList.setModel(new SearchResultListModel(library));
+		ResultCellRenderer cellRenderer = new ResultCellRenderer();
+		// TODO: Machen, dass die Titel nicht so lang werden... [Martin]
+		resultList.setCellRenderer(cellRenderer);
+		cellRenderer.setPreferredWidth(this.getWidth());
 		resultList.setDoubleBuffered(false);
 		resultList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
@@ -48,9 +56,7 @@ public class ResultList extends JList {
 								resultList.locationToIndex(new Point(e.getX(),
 										e.getY())));
 				tabModel.setActiveBook(selectedBook);
-				// TODO: Move constant to LibTabPane [Martin]
-				tabModel
-						.setActiveTab(presentation.model.MainWindowModel.BOOK_TAB);
+				tabModel.setActiveTab(MainWindowModel.BOOK_TAB);
 			}
 		});
 

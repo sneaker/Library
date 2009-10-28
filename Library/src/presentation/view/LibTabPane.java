@@ -10,6 +10,9 @@ import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import domain.Book;
+import domain.Library;
+
 import presentation.model.ActionPanelModel;
 import presentation.model.MainWindowModel;
 
@@ -28,10 +31,13 @@ public class LibTabPane extends JTabbedPane implements Observer {
 			{ "Benutzer", "img/user.png",
 					"Personalien und Ausleihen eines Benutzers anzeigen" } };
 	private LibTabPaneModel tabModel;
+	private final Library library;
 
-	public LibTabPane(MainWindowModel model) {
+	public LibTabPane(MainWindowModel model, Library library) {
 		this.model = model;
+		this.library = library;
 		tabModel = new LibTabPaneModel();
+		tabModel.addObserver(this);
 		initGUI();
 		initChangeListener();
 	}
@@ -40,7 +46,7 @@ public class LibTabPane extends JTabbedPane implements Observer {
 		tabPanel = new JPanel[tabInformation.length];
 		ActionPanelModel action_panel_model = new ActionPanelModel();
 
-		tabPanel[0] = new TabSearchPanel(action_panel_model, tabModel);
+		tabPanel[0] = new TabSearchPanel(action_panel_model, tabModel, library);
 		tabPanel[1] = new TabBookPanel(action_panel_model);
 		tabPanel[2] = new TabUserPanel(action_panel_model);
 
@@ -80,11 +86,11 @@ public class LibTabPane extends JTabbedPane implements Observer {
 	}
 
 	public TabSearchPanel getSearchPanel() {
-		return (TabSearchPanel) (tabPanel[model.SEARCH_TAB]);
+		return (TabSearchPanel) (tabPanel[MainWindowModel.SEARCH_TAB]);
 	}
 
 	public TabBookPanel getBookPanel() {
-		return (TabBookPanel) (tabPanel[model.BOOK_TAB]);
+		return (TabBookPanel) (tabPanel[MainWindowModel.BOOK_TAB]);
 	}
 	
 	public String getActiveTabTitle() {
@@ -94,8 +100,12 @@ public class LibTabPane extends JTabbedPane implements Observer {
 	}
 
 	public void update(Observable o, Object arg) {
+		if (arg instanceof Book) {
+			Book newBook = (Book)arg;
+			model.setActiveBook(newBook);
+			getBookPanel().getModel().setActiveBook(newBook);
+		}
 		switchTo(tabModel.getActiveTab());
-		getBookPanel().getModel().setActiveBook(model.getActiveBook());
 	}
 
 }

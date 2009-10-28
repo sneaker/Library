@@ -1,4 +1,4 @@
-package presentation.view;
+package presentation.model;
 
 import java.util.ArrayList;
 
@@ -6,19 +6,17 @@ import javax.swing.ListModel;
 import javax.swing.event.ListDataListener;
 
 import domain.Book;
-import domain.Title;
+import domain.Library;
 
 public class SearchResultListModel implements ListModel {
 
 	ArrayList<Book> list;
 	
-	public SearchResultListModel() {
+	public SearchResultListModel(Library library) {
 		list = new ArrayList<Book>();
-		list.add(new Book(new Title("Java 2 - Introduction")));
-		list.add(new Book(new Title("Design Patterns")));
-		list.add(new Book(new Title("Software Architecture")));
-		list.add(new Book(new Title("Item 5")));
-		list.add(new Book(new Title("Item 6")));
+		// TODO: Display Results instead of fakes [Martin]
+		for (int i = 0; i < 10; i++)
+			list.add(library.getAvailableBooks().get(i));
 	}
 	
 	public void addListDataListener(ListDataListener l) {

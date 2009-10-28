@@ -22,6 +22,10 @@ public class LibTabPaneModel extends Observable {
 	public void setActiveBook(Book newBook) {
 		this.activeBook = newBook;
 		setChanged();
-		notify();
+		notifyObservers(newBook);
+	}
+
+	public Book getActiveBook() {
+		return activeBook;
 	}
 }

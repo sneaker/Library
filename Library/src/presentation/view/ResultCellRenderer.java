@@ -14,7 +14,9 @@ import javax.swing.ListCellRenderer;
 
 import domain.Book;
 
-public class MyCellRenderer implements ListCellRenderer {
+public class ResultCellRenderer implements ListCellRenderer {
+	
+	private int preferredWidth;
 
 	public Component getListCellRendererComponent(JList list, Object value,
 			int cellIndex, boolean isSelected, boolean cellHasFocus) {
@@ -30,8 +32,13 @@ public class MyCellRenderer implements ListCellRenderer {
 
 		JPanel c = new JPanel();
 		c.setLayout(new BorderLayout());
-		JLabel l = new JLabel("<html>" + "<b>" + selectedBook.getTitle()
-				+ "</b></html>");
+		JLabel l = new JLabel(
+				"<html><p style='font-size:14pt; padding-left: 1.25cm; text-indent: -1cm;'><b>"
+						+ selectedBook.getTitle().getName()
+						+ "</b><br />Autor: "
+						+ selectedBook.getTitle().getAuthor()
+						+ "<br />Verlag: "
+						+ selectedBook.getTitle().getPublisher());
 		l.setIcon(new ImageIcon("img" + File.separatorChar + "book.png"));
 		l.setFont(new Font(null, Font.PLAIN, 14));
 		c.add(l, BorderLayout.WEST);
@@ -60,5 +67,9 @@ public class MyCellRenderer implements ListCellRenderer {
 		// }
 		actions += "</p>";
 		return actions;
+	}
+	
+	public void setPreferredWidth(int width) {
+		this.preferredWidth = width;
 	}
 }

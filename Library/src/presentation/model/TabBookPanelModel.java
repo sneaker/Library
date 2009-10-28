@@ -1,10 +1,10 @@
-package presentation.view;
+package presentation.model;
 
 import java.util.Observable;
 
 import domain.Book;
 
-public class TabBookPanelModel extends Observable{
+public class TabBookPanelModel extends Observable {
 
 	private Book activeBook;
 

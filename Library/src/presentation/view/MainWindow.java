@@ -13,6 +13,8 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.KeyStroke;
 
+import domain.Library;
+
 import presentation.model.MainWindowModel;
 
 /**
@@ -26,8 +28,8 @@ public class MainWindow extends JFrame implements Observer {
 	private LibraryMenuBar menubar;
 	public FindAsYouTypeGlassPane findAsYouTypeGlassPane;
 
-	public MainWindow() {
-		model = new MainWindowModel();
+	public MainWindow(Library library) {
+		model = new MainWindowModel(library);
 		model.addObserver(this);
 
 		setTitle(model.getWindowTitle());
