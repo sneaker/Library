@@ -48,15 +48,17 @@ public class MainWindow extends JFrame implements Observer {
 		findAsYouTypeGlassPane = new FindAsYouTypeGlassPane(this);
 		add(new ActiveUserPanel(), BorderLayout.NORTH);
 		add(model.getTabs(), BorderLayout.CENTER);
+		requestFocusOnSearchField();
+		addGlobalKeyListener();
+		setGlassPaneClosesOnEscape();
+	}
 
+	private void requestFocusOnSearchField() {
 		addWindowListener(new WindowAdapter() {
 			public void windowOpened(WindowEvent e) {
 				model.getTabs().getSearchPanel().requestFocus();
 			}
 		});
-
-		addGlobalKeyListener();
-		setGlassPaneClosesOnEscape();
 	}
 
 	private void setGlassPaneClosesOnEscape() {
