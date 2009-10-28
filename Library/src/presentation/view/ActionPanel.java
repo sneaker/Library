@@ -20,9 +20,7 @@ public class ActionPanel extends JPanel implements Observer {
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		this.setBorder(new TitledBorder(ACTION_PANEL_TITLE));
 
-		JList list = new JList();
-		list.setModel(action_panel_model);
-		JScrollPane pane = new JScrollPane(list);
+		JScrollPane pane = new JScrollPane();
 		
 		this.add(pane);
 	}
