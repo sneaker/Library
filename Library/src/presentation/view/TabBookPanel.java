@@ -5,6 +5,8 @@ import java.awt.Graphics;
 import java.util.Observable;
 
 import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.border.TitledBorder;
 
 import presentation.model.ActionPanelModel;
 import presentation.model.TabBookPanelModel;
@@ -17,13 +19,24 @@ public class TabBookPanel extends TabAbstractPanel {
 	private static final long serialVersionUID = 1L;
 	private TabBookPanelModel model;
 	private JLabel detailPanel;
+	private JPanel contentPanel;
 
 	public TabBookPanel(ActionPanelModel action_panel_model) {
 		super(action_panel_model);
-		setLayout(new BorderLayout());
-		detailPanel = new JLabel(NO_BOOK_ACTIVE_TEXT);
 		model = new TabBookPanelModel();
 		model.addObserver(this);
+		initContentPanel();
+	}
+
+	private void initContentPanel() {
+		contentPanel = new JPanel();
+		contentPanel.setBorder(new TitledBorder("Katalogdaten"));
+		contentPanel.setLayout(new BorderLayout());
+
+		detailPanel = new JLabel(NO_BOOK_ACTIVE_TEXT);
+		contentPanel.add(detailPanel, BorderLayout.WEST);
+
+		add(contentPanel, BorderLayout.CENTER);
 	}
 
 	public TabBookPanelModel getModel() {
@@ -32,7 +45,7 @@ public class TabBookPanel extends TabAbstractPanel {
 
 	public void update(Observable o, Object arg) {
 		detailPanel.setText(getBookDetailPanelText());
-		add(detailPanel, BorderLayout.NORTH);
+		//add(detailPanel, BorderLayout.NORTH);
 	}
 
 	private String getBookDetailPanelText() {

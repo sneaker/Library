@@ -39,8 +39,8 @@ public class ResultCellRenderer implements ListCellRenderer {
 			index = list.getSelectedIndex();
 		}
 
-		// TODO: Unterscheiden zwischen Book / Usern [Martin]
-		Book selectedBook = ((Book) list.getModel().getElementAt(index));
+		// TODO: We need a different cell renderer for displaying customers [Martin]
+		Book selectedBook = (Book) list.getModel().getElementAt(index);
 
 		RenderPanel c = new RenderPanel(selectedBook, isSelected);
 		c.setLayout(new BorderLayout());
@@ -91,7 +91,7 @@ public class ResultCellRenderer implements ListCellRenderer {
 			if (active.getCondition().equals(Book.Condition.WASTE))
 				image = "img/exclamation16x16.png";
 			g.drawImage(new ImageIcon(image).getImage(), 43, 38, null);
-			
+
 			if (!isSelected)
 				return;
 			if (library.isBookLent(active)) {
