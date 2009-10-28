@@ -13,11 +13,12 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
-
-import domain.Library;
+import javax.swing.event.CaretEvent;
+import javax.swing.event.CaretListener;
 
 import presentation.model.ActionPanelModel;
 import presentation.model.SearchTabPanelModel;
+import domain.Library;
 
 /**
  * Represents the whole contents of the "search"-Tab and handles Updates on its
@@ -86,6 +87,13 @@ public class TabSearchPanel extends TabAbstractPanel {
 	 * Set up the default text displaying behaviour of the search field.
 	 */
 	private void setSearchFieldDefaultTextListeners() {
+		searchField.addCaretListener(new CaretListener() {
+			public void caretUpdate(CaretEvent e) {
+				if (model.isDefaultSearchText()
+						&& searchField.getCaretPosition() != 0)
+					searchField.setCaretPosition(0);
+			}
+		});
 		searchField.addFocusListener(new FocusListener() {
 			public void focusLost(FocusEvent e) {
 				if (searchField.getText().length() == 0)
@@ -94,8 +102,6 @@ public class TabSearchPanel extends TabAbstractPanel {
 
 			public void focusGained(FocusEvent e) {
 				model.setSearchText(searchField.getText(), false);
-				if (model.isDefaultSearchText())
-					searchField.setCaretPosition(0);
 			}
 		});
 		searchField.addKeyListener(new KeyAdapter() {
