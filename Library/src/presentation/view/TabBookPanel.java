@@ -15,7 +15,6 @@ public class TabBookPanel extends TabAbstractPanel {
 
 	public TabBookPanel(ActionPanelModel action_panel_model) {
 		super(action_panel_model);
-		setLayout(new BorderLayout());
 		model = new TabBookPanelModel();
 		model.addObserver(this);
 		initContentPane();
