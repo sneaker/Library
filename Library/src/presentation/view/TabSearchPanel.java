@@ -50,8 +50,7 @@ public class TabSearchPanel extends TabAbstractPanel {
 	 * 
 	 * @param mainmodel
 	 */
-	public TabSearchPanel(ActionPanelModel action_panel_model,
-			LibTabPaneModel tabPane, Library library) {
+	public TabSearchPanel(LibTabPaneModel tabPane, Library library, ActionPanelModel action_panel_model){
 		super(action_panel_model);
 		this.tabPane = tabPane;
 		this.library = library;

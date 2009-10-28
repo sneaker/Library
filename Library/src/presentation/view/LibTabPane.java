@@ -44,9 +44,9 @@ public class LibTabPane extends JTabbedPane implements Observer {
 
 	private void initGUI() {
 		tabPanel = new JPanel[tabInformation.length];
-		ActionPanelModel action_panel_model = new ActionPanelModel();
+		ActionPanelModel action_panel_model = new ActionPanelModel(library, tabModel);
 
-		tabPanel[0] = new TabSearchPanel(action_panel_model, tabModel, library);
+		tabPanel[0] = new TabSearchPanel(tabModel, library, action_panel_model);
 		tabPanel[1] = new TabBookPanel(action_panel_model);
 		tabPanel[2] = new TabUserPanel(action_panel_model);
 
