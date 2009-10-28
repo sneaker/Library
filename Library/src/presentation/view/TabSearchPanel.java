@@ -14,6 +14,8 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
+import domain.Library;
+
 import presentation.model.ActionPanelModel;
 import presentation.model.SearchTabPanelModel;
 
@@ -39,13 +41,19 @@ public class TabSearchPanel extends TabAbstractPanel {
 	private JTextField searchField;
 	private JPanel searchTab;
 	private JPanel resultPane;
+	private final LibTabPaneModel tabPane;
+	private final Library library;
 
 	/**
 	 * Create the search tab.
-	 * @param mainmodel 
+	 * 
+	 * @param mainmodel
 	 */
-	public TabSearchPanel(ActionPanelModel action_panel_model) {
+	public TabSearchPanel(ActionPanelModel action_panel_model,
+			LibTabPaneModel tabPane, Library library) {
 		super(action_panel_model);
+		this.tabPane = tabPane;
+		this.library = library;
 		model = new SearchTabPanelModel();
 		model.addObserver(this);
 		initContentPane();
@@ -103,6 +111,7 @@ public class TabSearchPanel extends TabAbstractPanel {
 		resultPane = new JPanel();
 		resultPane.setLayout(new BorderLayout());
 		resultPane.setBorder(new TitledBorder("Suchergebnisse"));
+		resultPane.add(new ResultList(tabPane, library));
 		contentPanel.add(resultPane, BorderLayout.CENTER);
 	}
 
@@ -134,5 +143,4 @@ public class TabSearchPanel extends TabAbstractPanel {
 			return;
 		}
 	}
-
 }

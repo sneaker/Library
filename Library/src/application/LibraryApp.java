@@ -25,13 +25,13 @@ import domain.Title;
 
 public class LibraryApp {
 	public static void main(String[] args) throws Exception {
-		Library library = new Library();
+		final Library library = new Library();
 		initLibrary(library);
 		
 		SwingUtilities.invokeLater(new Runnable() {
 
 			public void run() {
-				MainWindow frame = new MainWindow();
+				MainWindow frame = new MainWindow(library);
 			    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			    frame.setLocationRelativeTo(null);
 			    frame.pack();

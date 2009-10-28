@@ -4,6 +4,7 @@ import java.util.Observable;
 
 import presentation.view.LibTabPane;
 import domain.Book;
+import domain.Library;
 
 /**
  * Manages the current status of the main window with its active user, tab,
@@ -12,15 +13,15 @@ import domain.Book;
 public class MainWindowModel extends Observable {
 
 	private static final String PROGRAM_NAME = " - BücherBox";
-	public final int SEARCH_TAB = 0;
-	public final int BOOK_TAB = 1;
-	public final int USER_TAB = 2;
+	public final static int SEARCH_TAB = 0;
+	public final static int BOOK_TAB = 1;
+	public final static int USER_TAB = 2;
 	private LibTabPane tabs;
 	private int activeTab = SEARCH_TAB;
 	private Book activeBook;
 
-	public MainWindowModel() {
-		setTabs(new LibTabPane(this));
+	public MainWindowModel(Library library) {
+		setTabs(new LibTabPane(this, library));
 	}
 	
 	public Book getActiveBook() {
