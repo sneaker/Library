@@ -8,7 +8,6 @@ import java.util.Observer;
 import javax.swing.ListModel;
 import javax.swing.event.ListDataListener;
 
-import presentation.view.LibTabPaneModel;
 
 import domain.Library;
 
@@ -16,12 +15,12 @@ public class ActionPanelModel extends Observable implements ListModel, Observer 
 
 	// TODO: cell renderer
 	List<String> available_actions = new ArrayList<String>();
-	private Library library;
+	//private Library library;
 	private LibTabPaneModel tabPane;
 	
 	//TODO: Needs application as argument to do the actions
 	public ActionPanelModel(Library library, LibTabPaneModel tabPane) {
-		this.library = library;
+		//this.library = library;
 		this.tabPane = tabPane;
 	}
 	
@@ -50,5 +49,28 @@ public class ActionPanelModel extends Observable implements ListModel, Observer 
 		tabPane.setActiveTab(MainWindowModel.SEARCH_TAB);
 		setChanged();
 		notifyObservers();
+	}
+
+	public void createNewUser() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void markDefekt() {
+		// TODO Auto-generated method stub
+	}
+
+	public void lendBook() {
+		// TODO Auto-generated method stub
+	}
+
+	public void createUser() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void editUserSettings() {
+		// TODO Auto-generated method stub
+		
 	}
 }

@@ -8,6 +8,7 @@ import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -17,6 +18,7 @@ import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 
 import presentation.model.ActionPanelModel;
+import presentation.model.LibTabPaneModel;
 import presentation.model.SearchTabPanelModel;
 import domain.Library;
 
@@ -33,7 +35,7 @@ import domain.Library;
  * There is a dependency on the main window model because a click on a result
  * must show the details of a certain book.
  */
-public class TabSearchPanel extends TabAbstractPanel {
+public class TabSearchPanel extends JPanel implements Observer {
 
 	private static final long serialVersionUID = 1L;
 	private static final String SEARCH_FIELD_TITLE = "Suchmaske";
@@ -51,12 +53,13 @@ public class TabSearchPanel extends TabAbstractPanel {
 	 * @param mainmodel
 	 */
 	public TabSearchPanel(LibTabPaneModel tabPane, Library library, ActionPanelModel action_panel_model){
-		super(action_panel_model);
+		setLayout(new BorderLayout());
 		this.tabPane = tabPane;
 		this.library = library;
 		model = new SearchTabPanelModel();
 		model.addObserver(this);
 		initContentPane();
+		add(new ActionSearchPanel(action_panel_model), BorderLayout.EAST);
 	}
 
 	private void initContentPane() {

@@ -1,4 +1,4 @@
-package presentation.view;
+package presentation.model;
 
 import java.util.Observable;
 
