@@ -45,7 +45,6 @@ public class TabBookPanel extends TabAbstractPanel {
 
 	public void update(Observable o, Object arg) {
 		detailPanel.setText(getBookDetailPanelText());
-		//add(detailPanel, BorderLayout.NORTH);
 	}
 
 	private String getBookDetailPanelText() {

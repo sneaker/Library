@@ -39,7 +39,6 @@ public class ResultList extends JList {
 		resultList.setModel(new SearchResultListModel(library));
 		cellRenderer = new ResultCellRenderer(library);
 		resultList.setCellRenderer(cellRenderer);
-		// TODO: Bestimmen, wie breit die Titel maximal werden sollen [Martin]
 		resultList.setDoubleBuffered(false);
 		resultList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
@@ -52,19 +51,18 @@ public class ResultList extends JList {
 
 		resultList.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-				Book selectedBook = (Book) resultList.getModel()
-						.getElementAt(
-								resultList.locationToIndex(new Point(e.getX(),
-										e.getY())));
+				int clickedIndex = resultList.locationToIndex(new Point(e
+						.getX(), e.getY()));
+				if (clickedIndex < 0)
+					return;
+				Book selectedBook = (Book) resultList.getModel().getElementAt(
+						clickedIndex);
 				tabModel.setActiveBook(selectedBook);
 				tabModel.setActiveTab(MainWindowModel.BOOK_TAB);
 			}
 		});
 
-		JScrollPane resultScroller = new JScrollPane(resultList);
-		resultList.setVisibleRowCount(3);
-
-		add(resultScroller);
+		add(new JScrollPane(resultList));
 	}
 
 	/**
@@ -72,8 +70,8 @@ public class ResultList extends JList {
 	 * renderer its size.
 	 */
 	public void paint(Graphics g) {
+		// TODO: Wert anders ermittlen, damit horizontal scrollbar? [Martin]
 		cellRenderer.setPreferredWidth(this.getWidth());
 		super.paint(g);
 	}
-
 }
