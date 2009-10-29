@@ -43,8 +43,8 @@ public class Book implements Searchable {
 
 	public AttributeList searchDetail() {
 		AttributeList list = new AttributeList();
-		list.add(new Attribute("Autor", title.getAuthor()));
-		list.add(new Attribute("Verlag", title.getPublisher()));
+		list.add(new Attribute("Autor", (title.getAuthor() == null ? "kein Autor eingetragen" : title.getAuthor())));
+		list.add(new Attribute("Verlag", (title.getPublisher() == null ? "kein Verlag eingetragen" : title.getPublisher())));
 		return list;
 	}
 }
