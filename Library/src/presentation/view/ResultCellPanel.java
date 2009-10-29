@@ -109,7 +109,6 @@ class ResultCellBookPanel extends ResultCellPanel {
 		if (!isSelected)
 			return;
 		if (library.isBookLent(active)) {
-			System.out.println("jfldsf");
 			g.drawImage(new ImageIcon(IMG_AGENDA32X32).getImage(),
 					getWidth() - 60, getHeight() - 37, null);
 			g.drawImage(new ImageIcon(IMG_RETURN32X32).getImage(),
