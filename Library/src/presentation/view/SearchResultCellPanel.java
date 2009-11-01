@@ -21,7 +21,7 @@ import domain.Searchable;
  * Holds the graphical elements of an item in the ResultList so changes to the
  * appearance of the result list are preferrably made here.
  */
-abstract class ResultCellPanel extends JPanel {
+abstract class SearchResultCellPanel extends JPanel {
 	private static final Color SHINY_BLUE = new Color(0xADD8E6);
 	private static final String TITLE_FORMAT = "<html><p style='font-size:14pt; padding-left: 1.25cm; text-indent: -1cm;'>";
 	private static final long serialVersionUID = -8035455214107649755L;
@@ -31,7 +31,7 @@ abstract class ResultCellPanel extends JPanel {
 	private final int preferredWidth;
 	protected final Library library;
 
-	public ResultCellPanel(Searchable active, boolean isSelected,
+	public SearchResultCellPanel(Searchable active, boolean isSelected,
 			int preferredWidth, Library library) {
 		this.preferredWidth = preferredWidth;
 		this.library = library;
@@ -86,7 +86,7 @@ abstract class ResultCellPanel extends JPanel {
 /**
  * Visually representing a result showing a book.
  */
-class ResultCellBookPanel extends ResultCellPanel {
+class ResultCellBookPanel extends SearchResultCellPanel {
 	private static final String IMG_ADD32X32 = "img/add32x32.png";
 	private static final String IMG_RETURN32X32 = "img/return32x32.png";
 	private static final String IMG_AGENDA32X32 = "img/agenda32x32.png";
@@ -140,7 +140,7 @@ class ResultCellBookPanel extends ResultCellPanel {
 /**
  * Visually representing a result showing a user.
  */
-class ResultCellUserPanel extends ResultCellPanel {
+class ResultCellUserPanel extends SearchResultCellPanel {
 	private static final String IMG_SYMBOL = "img/user.png";
 	private static final long serialVersionUID = -8375612543994217556L;
 	private final Customer active;

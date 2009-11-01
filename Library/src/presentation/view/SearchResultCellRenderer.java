@@ -10,14 +10,14 @@ import domain.Book;
 import domain.Customer;
 import domain.Library;
 
-public class ResultCellRenderer implements ListCellRenderer {
+public class SearchResultCellRenderer implements ListCellRenderer {
 
 	private static final int TEXT_WIDTH_DIFFERENCE = 100;
 
 	private int preferredWidth = 250;
 	private Library library;
 
-	public ResultCellRenderer(Library library) {
+	public SearchResultCellRenderer(Library library) {
 		this.library = library;
 	}
 

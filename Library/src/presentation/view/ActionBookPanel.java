@@ -12,6 +12,7 @@ import javax.swing.JScrollPane;
 import javax.swing.border.TitledBorder;
 
 import presentation.model.ActionPanelModel;
+import presentation.model.ModelController;
 
 public class ActionBookPanel extends JPanel implements Observer {
 
@@ -22,12 +23,14 @@ public class ActionBookPanel extends JPanel implements Observer {
 	private JScrollPane pane;
 	private JButton lend;
 	private JButton defekt;
+	private ModelController controller;
 	
-	public ActionBookPanel(ActionPanelModel action_panel_model) {
+	public ActionBookPanel(ModelController controller) {
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		setBorder(new TitledBorder(ACTION_PANEL_TITLE));
 		
-		model = action_panel_model;
+		this.controller = controller;
+		model = controller.action_model;
 		model.addObserver(this);
 		
 		button_panel = new JPanel();

@@ -2,7 +2,7 @@ package presentation.model;
 
 import java.util.Observable;
 
-import presentation.view.LibTabPane;
+import presentation.view.LibraryTabbedPane;
 import domain.Book;
 import domain.Library;
 
@@ -13,47 +13,19 @@ import domain.Library;
 public class MainWindowModel extends Observable {
 
 	private static final String PROGRAM_NAME = " - BücherBox";
-	public final static int SEARCH_TAB = 0;
-	public final static int BOOK_TAB = 1;
-	public final static int USER_TAB = 2;
-	private LibTabPane tabs;
-	private int activeTab = SEARCH_TAB;
-	private Book activeBook;
+	private ModelController controller;
 
-	public MainWindowModel(Library library) {
-		setTabs(new LibTabPane(this, library));
-	}
-	
-	public Book getActiveBook() {
-		return activeBook;
+	public MainWindowModel(ModelController controller) {
+		this.controller = controller;
 	}
 
-	public void setActiveBook(Book book) {
-		this.activeBook = book;
+	public void fireDataChange() {
 		setChanged();
 		notifyObservers();
-	}
-
-	public void setActiveTab(int newTabIndex) {
-		this.activeTab = newTabIndex;
-		setChanged();
-		notifyObservers();
-	}
-
-	public int getActiveTabIndex() {
-		return activeTab;
-	}
-
-	public void setTabs(LibTabPane tabs) {
-		this.tabs = tabs;
-	}
-
-	public LibTabPane getTabs() {
-		return tabs;
 	}
 
 	public String getWindowTitle() {
-		return tabs.getActiveTabTitle() + PROGRAM_NAME;
+		return controller.tabbed_model.getTabbedTitle() + PROGRAM_NAME;
 	}
 
 	// Statusbar-Text

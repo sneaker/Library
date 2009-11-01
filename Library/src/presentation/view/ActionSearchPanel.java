@@ -12,6 +12,7 @@ import javax.swing.JScrollPane;
 import javax.swing.border.TitledBorder;
 
 import presentation.model.ActionPanelModel;
+import presentation.model.ModelController;
 
 public class ActionSearchPanel extends JPanel implements Observer {
 
@@ -22,11 +23,13 @@ public class ActionSearchPanel extends JPanel implements Observer {
 	private JScrollPane pane;
 	private JButton search;
 	private JButton newuser;
+	private ModelController controller;
 
-	public ActionSearchPanel(ActionPanelModel actionPanelModel) {
+	public ActionSearchPanel(ModelController controller) {
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		setBorder(new TitledBorder(ACTION_PANEL_TITLE));
-		model = actionPanelModel;
+		this.controller = controller;
+		model = controller.action_model;
 		model.addObserver(this);
 		
 		button_panel.setLayout(new BoxLayout(button_panel, BoxLayout.PAGE_AXIS));

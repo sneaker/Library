@@ -9,11 +9,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
-import presentation.model.ActionPanelModel;
-import presentation.model.LibTabPaneModel;
+import presentation.model.ModelController;
 import presentation.model.TabBookPanelModel;
 import util.TextUtils;
-import domain.Library;
 
 public class TabBookPanel extends JPanel implements Observer {
 
@@ -23,15 +21,21 @@ public class TabBookPanel extends JPanel implements Observer {
 	private TabBookPanelModel model;
 	private JLabel detailPanel;
 	private JPanel contentPanel;
+	private ModelController controller;
+	private ActionBookPanel bookpanel;
 
-	public TabBookPanel(LibTabPaneModel tabModel, Library library,
-			ActionPanelModel action_panel_model) {
+	public TabBookPanel(ModelController controller) {
 		setLayout(new BorderLayout());
+		this.controller = controller;
 
-		model = new TabBookPanelModel();
+		model = controller.booktab_model;
 		model.addObserver(this);
+		
+		this.controller.booktab_model = model;
+		
 		initContentPanel();
-		add(new ActionBookPanel(action_panel_model), BorderLayout.EAST);
+		bookpanel = new ActionBookPanel(controller);
+		add(bookpanel, BorderLayout.EAST);
 	}
 
 	private void initContentPanel() {

@@ -18,45 +18,72 @@ import javax.swing.KeyStroke;
 import domain.Library;
 
 import presentation.model.MainWindowModel;
+import presentation.model.ModelController;
 
 /**
  * Represents the overall main window of the library application. Initializes
  * its properties and elements with their controllers.
  */
-public class MainWindow extends JFrame implements Observer {
+public class LibraryMainWindow extends JFrame implements Observer {
 
 	private static final long serialVersionUID = 1L;
-	public MainWindowModel model;
+	private MainWindowModel model;
 	private LibraryMenuBar menubar;
+	private ActiveUserPanel userpanel;
+	private FindAsYouTypeGlassPane glasspane;
+	private LibraryTabbedPane tabbedpane;
+	private ModelController controller;
 	public FindAsYouTypeGlassPane findAsYouTypeGlassPane;
 
-	public MainWindow(Library library) {
-		model = new MainWindowModel(library);
+	public LibraryMainWindow(Library library) {
+		controller = new ModelController(library);
+
+		model = controller.main_model;
 		model.addObserver(this);
 
+		controller.library = library;
+
 		setTitle(model.getWindowTitle());
-		setPreferredSize(new java.awt.Dimension(800, 400));
+		setPreferredSize(new Dimension(800, 400));
 		setMinimumSize(new Dimension(460, 355));
 		setSize(750, 450);
 
 		initGUI();
 	}
+	
+	public MainWindowModel getModel() {
+		return model;
+	}
 
 	private void initGUI() {
-		menubar = new LibraryMenuBar(model);
-		setJMenuBar(menubar);
+		initMenubar();
 		findAsYouTypeGlassPane = new FindAsYouTypeGlassPane(this);
-		add(new ActiveUserPanel(), BorderLayout.NORTH);
-		add(model.getTabs(), BorderLayout.CENTER);
+		initActiveUserPanel();
+		initTabbedPane();
 		requestFocusOnSearchField();
 		addGlobalKeyListener();
 		setGlassPaneClosesOnEscape();
 	}
 
+	private void initTabbedPane() {
+		tabbedpane = new LibraryTabbedPane(controller);
+		add(tabbedpane, BorderLayout.CENTER);
+	}
+
+	private void initActiveUserPanel() {
+		userpanel = new ActiveUserPanel(controller);
+		add(userpanel, BorderLayout.NORTH);
+	}
+
+	private void initMenubar() {
+		menubar = new LibraryMenuBar(controller);
+		setJMenuBar(menubar);
+	}
+
 	private void requestFocusOnSearchField() {
 		addWindowListener(new WindowAdapter() {
 			public void windowOpened(WindowEvent e) {
-				model.getTabs().getSearchPanel().requestFocus();
+				controller.searchtab_model.setRequestFocus();
 			}
 		});
 	}
@@ -72,13 +99,13 @@ public class MainWindow extends JFrame implements Observer {
 
 	private void addGlobalKeyListener() {
 		Toolkit.getDefaultToolkit().getSystemEventQueue().push(
-				new GlobalKeyListenerEventQueue(this));
+				new GlobalKeyListenerEventQueue(controller, this));
 	}
 
 	public void update(Observable o, Object arg) {
-		menubar.setActiveViewIndex(model.getActiveTabIndex());
-		model.getTabs().setSelectedIndex(model.getActiveTabIndex());
-		setTitle(model.getWindowTitle());
+		menubar.setActiveViewIndex(controller.tabbed_model.getActiveTab());
+		controller.tabbed_model.setActiveTab(controller.tabbed_model.getActiveTab());
+		setTitle(controller.tabbed_model.getTabbedTitle());
 
 		// update set active user
 		// update status bar

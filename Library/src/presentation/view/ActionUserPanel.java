@@ -12,6 +12,7 @@ import javax.swing.JScrollPane;
 import javax.swing.border.TitledBorder;
 
 import presentation.model.ActionPanelModel;
+import presentation.model.ModelController;
 
 public class ActionUserPanel extends JPanel implements Observer {
 
@@ -22,11 +23,14 @@ public class ActionUserPanel extends JPanel implements Observer {
 	private JScrollPane pane;
 	private JButton adduser;
 	private JButton edituser;
+	private JButton newsearch;
+	private ModelController controller;
 
-	public ActionUserPanel(ActionPanelModel actionPanelModel) {
+	public ActionUserPanel(ModelController controller) {
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		setBorder(new TitledBorder(ACTION_PANEL_TITLE));
-		model = actionPanelModel;
+		this.controller = controller;
+		model = controller.action_model;
 		model.addObserver(this);
 
 		button_panel = new JPanel();
@@ -40,6 +44,7 @@ public class ActionUserPanel extends JPanel implements Observer {
 	private void initActionButton() {
 		initEditButton();
 		initAddUserButton();
+		initNewSearchButton();
 	}
 
 	private void initAddUserButton() {
@@ -64,9 +69,20 @@ public class ActionUserPanel extends JPanel implements Observer {
 		});
 		button_panel.add(edituser);
 	}
-
-	public void update(Observable o, Object arg) {
-		// TODO Auto-generated method stub
+	
+	private void initNewSearchButton() {
+		newsearch = new JButton("Neue Suche");
+		newsearch.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent e) {
+				model.changetoSearch();
+			}
+		});
 	}
 
+	@Override
+	public void update(Observable o, Object arg) {
+		// TODO Auto-generated method stub
+		
+	}
 }

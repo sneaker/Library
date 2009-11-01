@@ -6,6 +6,9 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.JFrame;
 
+import presentation.model.LibraryTabbedPaneModel;
+import presentation.model.ModelController;
+
 import util.LookBackKeyBuffer;
 
 /**
@@ -15,10 +18,12 @@ import util.LookBackKeyBuffer;
  */
 public final class GlobalKeyListenerEventQueue extends EventQueue {
 	LookBackKeyBuffer lookBackForID = new LookBackKeyBuffer();
-	private MainWindow mainWindow;
+	private LibraryMainWindow mainWindow;
+	private ModelController controller;
 
-	public GlobalKeyListenerEventQueue(MainWindow mainWindow) {
-		this.mainWindow = mainWindow;
+	public GlobalKeyListenerEventQueue(ModelController controller, LibraryMainWindow mainwindow) {
+		this.mainWindow = mainwindow;
+		this.controller = controller;
 	}
 
 	protected void dispatchEvent(AWTEvent e) {
@@ -58,14 +63,14 @@ public final class GlobalKeyListenerEventQueue extends EventQueue {
 	 * here and display corresponding data for the id entered.
 	 */
 	private void handleUserID() {
-		if (lookBackForID.isBookID()) {
-			mainWindow.model.getTabs().setSelectedIndex(1);
+		if (lookBackForID.isUserID()) {
+			controller.tabbed_model.setActiveTab(LibraryTabbedPaneModel.USER_TAB);
 		}
 	}
 
 	private void handleBookId() {
 		if (lookBackForID.isBookID()) {
-			mainWindow.model.getTabs().setSelectedIndex(1);
+			controller.tabbed_model.setActiveTab(LibraryTabbedPaneModel.BOOK_TAB);
 		}
 	}
 

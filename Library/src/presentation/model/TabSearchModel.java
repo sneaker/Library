@@ -6,10 +6,15 @@ import java.util.Observable;
 /**
  * Tracks the content of the search mask and updates the its view when needed.
  */
-public class SearchTabPanelModel extends Observable {
+public class TabSearchModel extends Observable {
 
 	private static final String DEFAULT_SEARCH_STRING = "Benutzernamen, Buchtitel oder Autor eingeben";
 	private String searchFieldText = DEFAULT_SEARCH_STRING;
+	private ModelController controller;
+
+	public TabSearchModel(ModelController controller) {
+		this.controller = controller;
+	}
 
 	/**
 	 * Sets the text to be displayed on the search field to the default
@@ -46,5 +51,10 @@ public class SearchTabPanelModel extends Observable {
 		if (isDefaultSearchText())
 			return Color.GRAY;
 		return Color.BLACK;
+	}
+	
+	public void setRequestFocus(){
+		setChanged();
+		notifyObservers("requestFocus");
 	}
 }

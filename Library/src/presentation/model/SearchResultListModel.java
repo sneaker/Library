@@ -14,9 +14,13 @@ import domain.Title;
 
 public class SearchResultListModel implements ListModel {
 
-	ArrayList<Searchable> list;
+	private ArrayList<Searchable> list;
+	private ModelController controller;
+	private Library library;
 	
-	public SearchResultListModel(Library library) {
+	public SearchResultListModel(ModelController controller) {
+		this.controller = controller;
+		library = controller.library;
 		list = new ArrayList<Searchable>();
 		// TODO: Display Results instead of fakes [Martin]
 		for (int i = 0; i < 10; i++)

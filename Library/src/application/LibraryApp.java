@@ -15,7 +15,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import presentation.view.MainWindow;
+import presentation.view.LibraryMainWindow;
 import domain.Book;
 import domain.Customer;
 import domain.IllegalLoanOperationException;
@@ -31,7 +31,7 @@ public class LibraryApp {
 		SwingUtilities.invokeLater(new Runnable() {
 
 			public void run() {
-				MainWindow frame = new MainWindow(library);
+				LibraryMainWindow frame = new LibraryMainWindow(library);
 			    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			    frame.setLocationRelativeTo(null);
 			    frame.pack();

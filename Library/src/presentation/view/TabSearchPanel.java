@@ -17,9 +17,9 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 
-import presentation.model.ActionPanelModel;
-import presentation.model.LibTabPaneModel;
-import presentation.model.SearchTabPanelModel;
+import presentation.model.LibraryTabbedPaneModel;
+import presentation.model.ModelController;
+import presentation.model.TabSearchModel;
 import domain.Library;
 
 /**
@@ -40,26 +40,30 @@ public class TabSearchPanel extends JPanel implements Observer {
 	private static final long serialVersionUID = 1L;
 	private static final String SEARCH_FIELD_TITLE = "Suchmaske";
 	private JPanel contentPanel;
-	private SearchTabPanelModel model;
+	private TabSearchModel model;
 	private JTextField searchField;
 	private JPanel searchTab;
 	private JPanel resultPane;
-	private final LibTabPaneModel tabPane;
+	private final LibraryTabbedPaneModel tabPane;
 	private final Library library;
+	private ActionSearchPanel action_search_panel;
+	private ModelController controller;
 
 	/**
 	 * Create the search tab.
 	 * 
 	 * @param mainmodel
 	 */
-	public TabSearchPanel(LibTabPaneModel tabPane, Library library, ActionPanelModel action_panel_model){
+	public TabSearchPanel(ModelController controller){
 		setLayout(new BorderLayout());
-		this.tabPane = tabPane;
-		this.library = library;
-		model = new SearchTabPanelModel();
+		this.controller = controller;
+		this.tabPane = controller.tabbed_model;
+		this.library = controller.library;
+		model = controller.searchtab_model;
 		model.addObserver(this);
 		initContentPane();
-		add(new ActionSearchPanel(action_panel_model), BorderLayout.EAST);
+		action_search_panel = new ActionSearchPanel(controller);
+		add(action_search_panel, BorderLayout.EAST);
 	}
 
 	private void initContentPane() {
@@ -119,7 +123,7 @@ public class TabSearchPanel extends JPanel implements Observer {
 		resultPane = new JPanel();
 		resultPane.setLayout(new BorderLayout());
 		resultPane.setBorder(new TitledBorder("Suchergebnisse"));
-		resultPane.add(new ResultList(tabPane, library));
+		resultPane.add(new SearchResultList(controller));
 		contentPanel.add(resultPane, BorderLayout.CENTER);
 	}
 
@@ -129,14 +133,13 @@ public class TabSearchPanel extends JPanel implements Observer {
 	 * 
 	 * @return the model of this tab panel.
 	 */
-	public SearchTabPanelModel getModel() {
+	public TabSearchModel getModel() {
 		return model;
 	}
 
 	/**
 	 * If focus requested, set it to the search field.
 	 */
-	@Override
 	public void requestFocus() {
 		super.requestFocus();
 		searchField.requestFocus();
@@ -156,9 +159,12 @@ public class TabSearchPanel extends JPanel implements Observer {
 	 */
 	public void update(Observable o, Object arg) {
 		if (arg instanceof String) {
-			searchField.setForeground(model.getSearchFieldColor());
-			searchField.setText((String) arg);
-			return;
+			if (arg.equals("requestFocus"))
+				requestFocus();
+			else {
+				searchField.setForeground(model.getSearchFieldColor());
+				searchField.setText((String) arg);
+			}
 		}
 	}
 }

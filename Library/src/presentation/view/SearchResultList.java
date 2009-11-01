@@ -3,18 +3,15 @@ package presentation.view;
 import java.awt.BorderLayout;
 import java.awt.Graphics;
 import java.awt.Point;
-import java.awt.Rectangle;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JList;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
-import javax.swing.plaf.ListUI;
 
-import presentation.model.LibTabPaneModel;
-import presentation.model.MainWindowModel;
+import presentation.model.LibraryTabbedPaneModel;
+import presentation.model.ModelController;
 import presentation.model.SearchResultListModel;
 import domain.Book;
 import domain.Customer;
@@ -25,25 +22,27 @@ import domain.Loan;
  * Displays search results for books and users combined with specific actions
  * for each item.
  */
-public class ResultList extends JList {
+public class SearchResultList extends JList {
 
 	private static final long serialVersionUID = 1L;
 	private JList resultList;
-	private final LibTabPaneModel tabModel;
+	private final LibraryTabbedPaneModel tabModel;
 	private final Library library;
-	private ResultCellRenderer cellRenderer;
+	private SearchResultCellRenderer cellRenderer;
+	private ModelController controller;
 
-	public ResultList(LibTabPaneModel tabModel, Library library) {
-		this.tabModel = tabModel;
-		this.library = library;
+	public SearchResultList(ModelController controller) {
+		this.controller = controller;
+		this.tabModel = controller.tabbed_model;
+		this.library = controller.library;
 		setLayout(new BorderLayout());
 		initResultList();
 	}
 
 	private void initResultList() {
 		resultList = new JList();
-		resultList.setModel(new SearchResultListModel(library));
-		cellRenderer = new ResultCellRenderer(library);
+		resultList.setModel(controller.resultlist_model);
+		cellRenderer = new SearchResultCellRenderer(library);
 		resultList.setCellRenderer(cellRenderer);
 		resultList.setDoubleBuffered(false);
 		resultList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -67,15 +66,15 @@ public class ResultList extends JList {
 				// TODO: Refactoring, das ist eine Knacknuss... [Martin]
 				Object o = resultList.getModel().getElementAt(index);
 				if (o instanceof Book) {
-					Book selected = (Book)o;
+					Book selected = (Book) o;
 					handleBookClick(e, index, selected);
 					return;
 				}
 				
 				if(o instanceof Customer) {
-					Customer selected = (Customer)o;
+					Customer selected = (Customer) o;
 					tabModel.setActiveCustomer(selected);
-					tabModel.setActiveTab(MainWindowModel.USER_TAB);
+					tabModel.setActiveTab(LibraryTabbedPaneModel.USER_TAB);
 				}
 			}
 
@@ -101,7 +100,7 @@ public class ResultList extends JList {
 					return;
 				}
 				tabModel.setActiveBook(selected);
-				tabModel.setActiveTab(MainWindowModel.BOOK_TAB);
+				tabModel.setActiveTab(LibraryTabbedPaneModel.BOOK_TAB);
 			}
 			
 			private boolean isFirstIconHit(MouseEvent e, int index) {
