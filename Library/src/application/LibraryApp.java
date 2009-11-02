@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.GregorianCalendar;
 
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -13,6 +15,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import presentation.view.LibraryMainWindow;
 import domain.Book;
 import domain.Customer;
 import domain.IllegalLoanOperationException;
@@ -22,8 +25,20 @@ import domain.Title;
 
 public class LibraryApp {
 	public static void main(String[] args) throws Exception {
-		Library library = new Library();
+		final Library library = new Library();
 		initLibrary(library);
+		
+		SwingUtilities.invokeLater(new Runnable() {
+
+			public void run() {
+				LibraryMainWindow frame = new LibraryMainWindow(library);
+			    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			    frame.setLocationRelativeTo(null);
+			    frame.pack();
+			    frame.setVisible(true);
+			}
+			
+		});
 	}
 
 	private static void initLibrary(Library library)
