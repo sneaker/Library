@@ -22,6 +22,7 @@ public class ModelController {
 	public ModelController(Library library) {
 		this.library = library;
 		
+		activeuser_model = new ActiveUserPanelModel(this);
 		main_model = new MainWindowModel(this);
 		tabbed_model = new LibraryTabbedPaneModel(this);
 		searchtab_model = new TabSearchModel(this);

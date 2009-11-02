@@ -48,7 +48,6 @@ public class ActionUserPanel extends JPanel implements Observer {
 	}
 
 	private void initAddUserButton() {
-		// TODO: Zeilenumbruch ??
 		adduser = new JButton("Neuen Benutzer Erfassen");
 		adduser.addActionListener(new ActionListener() {
 

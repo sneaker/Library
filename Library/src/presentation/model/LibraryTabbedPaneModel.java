@@ -64,4 +64,9 @@ public class LibraryTabbedPaneModel extends Observable {
 	public String[][] getTabInformation() {
 		return tabInformation;
 	}
+
+	public void activeUser(Customer selected) {
+		System.out.println(selected.getName());
+		controller.activeuser_model.setNewActiveUser(selected);
+	}
 }
