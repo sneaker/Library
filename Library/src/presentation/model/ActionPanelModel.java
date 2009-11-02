@@ -40,14 +40,19 @@ public class ActionPanelModel extends Observable {
 	public void lendBook() {
 		Customer activeuser = controller.activeuser_model.getCustomer();
 		Book activebook = controller.booktab_model.getActiveBook();
-		if (activeuser == null) {
+		if ((activeuser != null) && (activebook != null)) 
+		{
+			controller.library.createAndAddLoan(activeuser, activebook);
+		} 
+		else if (activeuser == null)
+		{
 			//TODO: Show select user first
 			controller.tabbed_model.setActiveTab(LibraryTabbedPaneModel.SEARCH_TAB);
-		} else if (activebook == null){
-			//TODO: Show select book then
+		} 
+		else 
+		{
+			//TODO: Show select book, no book activated
 			controller.tabbed_model.setActiveTab(LibraryTabbedPaneModel.SEARCH_TAB);
-		} else {
-			controller.library.createAndAddLoan(activeuser, activebook);
 		}
 	}
 

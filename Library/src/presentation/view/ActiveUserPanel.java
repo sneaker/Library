@@ -60,11 +60,13 @@ public class ActiveUserPanel extends JPanel implements Observer {
 
 	public void update(Observable o, Object arg) {
 		Customer customer = model.getCustomer();
-		if (customer == null) {
-			disableUser();
-		}
-		else {
+		if (customer != null) 
+		{
 			enableUser(customer);
+		}
+		else 
+		{
+			disableUser();
 		}
 	}
 
