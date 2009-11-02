@@ -61,12 +61,23 @@ public class ActiveUserPanel extends JPanel implements Observer {
 	public void update(Observable o, Object arg) {
 		Customer customer = model.getCustomer();
 		if (customer == null) {
-			activeUserLabel.setText(DEFAULT_ACTIVE_USER_TEXT);
-			clearButton.setEnabled(false);
+			disableUser();
 		}
 		else {
-			activeUserLabel.setText("Aktivierter Benutzer: " + customer.getSurname() + " " + customer.getName());
-			clearButton.setEnabled(true);
+			enableUser(customer);
 		}
+	}
+
+	private void enableUser(Customer customer) {
+		activeUserLabel.setText("Aktivierter Benutzer: " + customer.getSurname() + " " + customer.getName());
+		activeUserLabel.setForeground(Color.green);
+		clearButton.setEnabled(true);
+	}
+
+	private void disableUser() {
+		activeUserLabel.setText(DEFAULT_ACTIVE_USER_TEXT);
+		activeUserLabel.setForeground(Color.red);
+		clearButton.setEnabled(false);
+		//TODO: Switch back to Recherche
 	}
 }
