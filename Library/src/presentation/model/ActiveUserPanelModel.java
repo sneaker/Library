@@ -7,20 +7,27 @@ import domain.Customer;
 public class ActiveUserPanelModel extends Observable {
 
 	private ModelController controller;
+	private Customer customer;
 	
 	public ActiveUserPanelModel(ModelController controller) {
 		this.controller = controller;
 	}
+	
+	public Customer getCustomer() {
+		return customer;
+	}
 
 	public void setNewActiveUser(Customer selected) {
+		customer = selected;
 		controller.main_model.fireDataChange();
 		setChanged();
-		notifyObservers(selected.getSurname() + " " + selected.getName());
+		notifyObservers();
 	}
 
 	public void clearUser() {
+		customer = null;
 		controller.main_model.fireDataChange();
 		setChanged();
-		notifyObservers("none");
+		notifyObservers();
 	}
 }

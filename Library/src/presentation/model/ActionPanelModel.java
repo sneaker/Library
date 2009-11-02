@@ -3,6 +3,8 @@ package presentation.model;
 import java.util.Observable;
 
 
+import domain.Book;
+import domain.Customer;
 import domain.Library;
 
 public class ActionPanelModel extends Observable {
@@ -36,7 +38,17 @@ public class ActionPanelModel extends Observable {
 	}
 
 	public void lendBook() {
-		// TODO Auto-generated method stub
+		Customer activeuser = controller.activeuser_model.getCustomer();
+		Book activebook = controller.booktab_model.getActiveBook();
+		if (activeuser == null) {
+			//TODO: Show select user first
+			controller.tabbed_model.setActiveTab(LibraryTabbedPaneModel.SEARCH_TAB);
+		} else if (activebook == null){
+			//TODO: Show select book then
+			controller.tabbed_model.setActiveTab(LibraryTabbedPaneModel.SEARCH_TAB);
+		} else {
+			controller.library.createAndAddLoan(activeuser, activebook);
+		}
 	}
 
 	public void createUser() {

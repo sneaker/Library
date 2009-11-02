@@ -26,7 +26,7 @@ public class ModelController {
 		main_model = new MainWindowModel(this);
 		tabbed_model = new LibraryTabbedPaneModel(this);
 		searchtab_model = new TabSearchModel(this);
-		booktab_model = new TabBookPanelModel();
+		booktab_model = new TabBookPanelModel(this);
 		usertab_model = new TabUserModel(this);
 		action_model = new ActionPanelModel(this);
 		resultlist_model = new SearchResultListModel(this);

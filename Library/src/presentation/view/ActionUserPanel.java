@@ -1,10 +1,12 @@
 package presentation.view;
 
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -56,6 +58,7 @@ public class ActionUserPanel extends JPanel implements Observer {
 			}
 		});
 		button_panel.add(adduser);
+		button_panel.add(Box.createRigidArea(new Dimension(0,5)));
 	}
 
 	private void initEditButton() {
@@ -67,6 +70,7 @@ public class ActionUserPanel extends JPanel implements Observer {
 			}
 		});
 		button_panel.add(edituser);
+		button_panel.add(Box.createRigidArea(new Dimension(0,5)));
 	}
 	
 	private void initNewSearchButton() {
@@ -77,6 +81,7 @@ public class ActionUserPanel extends JPanel implements Observer {
 				model.changetoSearch();
 			}
 		});
+		button_panel.add(Box.createRigidArea(new Dimension(0,5)));
 	}
 
 	@Override

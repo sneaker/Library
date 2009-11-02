@@ -38,7 +38,7 @@ public class LibraryTabbedPaneModel extends Observable {
 	}
 
 	public void setActiveBook(Book newBook) {
-		this.activeBook = newBook;
+		controller.booktab_model.setActiveBook(newBook);
 		setChanged();
 		notifyObservers(newBook);
 	}
@@ -66,7 +66,6 @@ public class LibraryTabbedPaneModel extends Observable {
 	}
 
 	public void activeUser(Customer selected) {
-		System.out.println(selected.getName());
 		controller.activeuser_model.setNewActiveUser(selected);
 	}
 }

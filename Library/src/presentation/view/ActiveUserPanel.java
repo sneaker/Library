@@ -14,6 +14,9 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.DefaultEditorKit.CutAction;
+
+import domain.Customer;
 
 import presentation.model.ActiveUserPanelModel;
 import presentation.model.ModelController;
@@ -55,17 +58,15 @@ public class ActiveUserPanel extends JPanel implements Observer {
 		add(clearButton, BorderLayout.EAST);
 	}
 
-	@Override
 	public void update(Observable o, Object arg) {
-		if (arg instanceof String) {
-			if (arg == "none") {
-				activeUserLabel.setText(DEFAULT_ACTIVE_USER_TEXT);
-				clearButton.setEnabled(false);
-			}
-			else {
-				activeUserLabel.setText("Aktivierter Benutzer: " + (String) arg);
-				clearButton.setEnabled(true);
-			}
+		Customer customer = model.getCustomer();
+		if (customer == null) {
+			activeUserLabel.setText(DEFAULT_ACTIVE_USER_TEXT);
+			clearButton.setEnabled(false);
+		}
+		else {
+			activeUserLabel.setText("Aktivierter Benutzer: " + customer.getSurname() + " " + customer.getName());
+			clearButton.setEnabled(true);
 		}
 	}
 }

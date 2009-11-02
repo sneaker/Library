@@ -12,7 +12,6 @@ import javax.swing.ListSelectionModel;
 
 import presentation.model.LibraryTabbedPaneModel;
 import presentation.model.ModelController;
-import presentation.model.SearchResultListModel;
 import domain.Book;
 import domain.Customer;
 import domain.Library;
