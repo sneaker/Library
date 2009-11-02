@@ -26,18 +26,16 @@ public class ActionUserPanel extends JPanel implements Observer {
 	private JButton adduser;
 	private JButton edituser;
 	private JButton newsearch;
-	private ModelController controller;
 
 	public ActionUserPanel(ModelController controller) {
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		setBorder(new TitledBorder(ACTION_PANEL_TITLE));
-		this.controller = controller;
+		
 		model = controller.action_model;
 		model.addObserver(this);
 
 		button_panel = new JPanel();
-		button_panel
-				.setLayout(new BoxLayout(button_panel, BoxLayout.PAGE_AXIS));
+		button_panel.setLayout(new BoxLayout(button_panel, BoxLayout.PAGE_AXIS));
 		initActionButton();
 		pane = new JScrollPane(button_panel);
 		add(pane);

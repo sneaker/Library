@@ -53,5 +53,4 @@ public class SearchResultListModel implements ListModel {
 
 	public void removeListDataListener(ListDataListener l) {
 	}
-
 }

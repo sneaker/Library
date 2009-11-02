@@ -72,10 +72,9 @@ public class SearchResultList extends JList {
 				
 				if(o instanceof Customer) {
 					Customer selected = (Customer) o;
-					tabModel.setActiveCustomer(selected);
+					tabModel.activateUser(selected);
 					tabModel.setActiveTab(LibraryTabbedPaneModel.USER_TAB);
 					//TODO: not the right place for this
-					tabModel.activeUser(selected);
 				}
 			}
 

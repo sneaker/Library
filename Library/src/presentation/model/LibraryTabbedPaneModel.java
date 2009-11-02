@@ -2,8 +2,6 @@ package presentation.model;
 
 import java.util.Observable;
 
-import presentation.view.LibraryTabbedPane;
-
 import domain.Book;
 import domain.Customer;
 
@@ -11,7 +9,6 @@ public class LibraryTabbedPaneModel extends Observable {
 
 	private int activeTab = 0;
 	private Book activeBook;
-	private Customer activeCustomer;
 	private ModelController controller;
 	public String[][] tabInformation = {
 			{ "Recherche", "img/search.png",
@@ -47,10 +44,6 @@ public class LibraryTabbedPaneModel extends Observable {
 		return activeBook;
 	}
 
-	public void setActiveCustomer(Customer newCustomer) {
-		this.activeCustomer = newCustomer;
-	}
-
 	public String getTabbedTitle() {
 		return getActiveTabTitle();
 	}
@@ -65,7 +58,7 @@ public class LibraryTabbedPaneModel extends Observable {
 		return tabInformation;
 	}
 
-	public void activeUser(Customer selected) {
+	public void activateUser(Customer selected) {
 		controller.activeuser_model.setNewActiveUser(selected);
 	}
 }

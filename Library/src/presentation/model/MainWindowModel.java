@@ -2,10 +2,6 @@ package presentation.model;
 
 import java.util.Observable;
 
-import presentation.view.LibraryTabbedPane;
-import domain.Book;
-import domain.Library;
-
 /**
  * Manages the current status of the main window with its active user, tab,
  * menubar and status panel.

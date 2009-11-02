@@ -25,12 +25,10 @@ public class ActionSearchPanel extends JPanel implements Observer {
 	private JScrollPane pane;
 	private JButton search;
 	private JButton newuser;
-	private ModelController controller;
 
 	public ActionSearchPanel(ModelController controller) {
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		setBorder(new TitledBorder(ACTION_PANEL_TITLE));
-		this.controller = controller;
 		model = controller.action_model;
 		model.addObserver(this);
 		

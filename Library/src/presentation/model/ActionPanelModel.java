@@ -2,10 +2,8 @@ package presentation.model;
 
 import java.util.Observable;
 
-
 import domain.Book;
 import domain.Customer;
-import domain.Library;
 
 public class ActionPanelModel extends Observable {
 

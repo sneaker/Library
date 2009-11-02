@@ -17,10 +17,8 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 
-import presentation.model.LibraryTabbedPaneModel;
 import presentation.model.ModelController;
 import presentation.model.TabSearchModel;
-import domain.Library;
 
 /**
  * Represents the whole contents of the "search"-Tab and handles Updates on its
@@ -44,8 +42,6 @@ public class TabSearchPanel extends JPanel implements Observer {
 	private JTextField searchField;
 	private JPanel searchTab;
 	private JPanel resultPane;
-	private final LibraryTabbedPaneModel tabPane;
-	private final Library library;
 	private ActionSearchPanel action_search_panel;
 	private ModelController controller;
 
@@ -57,8 +53,6 @@ public class TabSearchPanel extends JPanel implements Observer {
 	public TabSearchPanel(ModelController controller){
 		setLayout(new BorderLayout());
 		this.controller = controller;
-		this.tabPane = controller.tabbed_model;
-		this.library = controller.library;
 		model = controller.searchtab_model;
 		model.addObserver(this);
 		initContentPane();

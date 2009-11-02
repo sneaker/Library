@@ -14,7 +14,6 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.text.DefaultEditorKit.CutAction;
 
 import domain.Customer;
 
@@ -29,11 +28,9 @@ public class ActiveUserPanel extends JPanel implements Observer {
 	private static final long serialVersionUID = 1L;
 	private JLabel activeUserLabel;
 	private JButton clearButton;
-	private ModelController controller;
 	private ActiveUserPanelModel model;
 
 	public ActiveUserPanel(ModelController controller) {
-		this.controller = controller;
 		model = controller.activeuser_model;
 		model.addObserver(this);
 		setLayout(new BorderLayout());

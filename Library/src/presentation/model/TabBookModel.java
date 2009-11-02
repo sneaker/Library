@@ -4,12 +4,12 @@ import java.util.Observable;
 
 import domain.Book;
 
-public class TabBookPanelModel extends Observable {
+public class TabBookModel extends Observable {
 
 	private Book activeBook;
 	private ModelController controller;
 	
-	public TabBookPanelModel(ModelController controller) {
+	public TabBookModel(ModelController controller) {
 		this.controller = controller;
 	}
 
