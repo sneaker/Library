@@ -4,8 +4,6 @@ import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.util.Observable;
 
-import util.TextUtils;
-
 /**
  * Tracks the content of the search mask and updates the its view when needed.
  */
@@ -62,13 +60,10 @@ public class TabSearchModel extends Observable {
 		notifyObservers("requestFocus");
 	}
 
-	public void ForwardKeyEvent(KeyEvent e) {
-		System.out.println("key will be forwarded");
-		if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE)
-			controller.resultlist_model.delchar();
-		else if (e.getKeyCode() == KeyEvent.VK_SHIFT || e.getKeyCode() == KeyEvent.VK_ENTER)
-			; //TODO: Uh, ugly old C code, bäääh
-		else 
+	public void forwardKeyEvent(KeyEvent e) {
+		if (e.getKeyCode() >= KeyEvent.VK_A && e.getKeyCode() <= KeyEvent.VK_Z)
 			controller.resultlist_model.addchar(e.getKeyChar());
+		else if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE)
+			controller.resultlist_model.delchar();
 	}
 }

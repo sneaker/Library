@@ -82,7 +82,7 @@ public class TabSearchPanel extends JPanel implements Observer {
 		searchField.setBorder(new EmptyBorder(10, 10, 10, 10));
 		searchField.addKeyListener(new KeyAdapter() {
 			public void keyReleased(KeyEvent e) {
-				model.ForwardKeyEvent(e);
+				model.forwardKeyEvent(e);
 			}
 		});
 		
