@@ -5,6 +5,8 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.JList;
 import javax.swing.JScrollPane;
@@ -12,6 +14,7 @@ import javax.swing.ListSelectionModel;
 
 import presentation.model.LibraryTabbedPaneModel;
 import presentation.model.ModelController;
+import presentation.model.SearchResultListModel;
 import domain.Book;
 import domain.Customer;
 import domain.Library;
@@ -21,7 +24,7 @@ import domain.Loan;
  * Displays search results for books and users combined with specific actions
  * for each item.
  */
-public class SearchResultList extends JList {
+public class SearchResultList extends JList  implements Observer {
 
 	private static final long serialVersionUID = 1L;
 	private JList resultList;
@@ -29,19 +32,24 @@ public class SearchResultList extends JList {
 	private final Library library;
 	private SearchResultCellRenderer cellRenderer;
 	private ModelController controller;
+	private SearchResultListModel model;
 
 	public SearchResultList(ModelController controller) {
 		this.controller = controller;
-		this.tabModel = controller.tabbed_model;
-		this.library = controller.library;
+		tabModel = controller.tabbed_model;
+		library = controller.library;
+		model = controller.resultlist_model;
+		model.addObserver(this);
 		setLayout(new BorderLayout());
 		initResultList();
 	}
 
 	private void initResultList() {
 		resultList = new JList();
+		
 		resultList.setModel(controller.resultlist_model);
 		cellRenderer = new SearchResultCellRenderer(library);
+		
 		resultList.setCellRenderer(cellRenderer);
 		resultList.setDoubleBuffered(false);
 		resultList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -152,5 +160,11 @@ public class SearchResultList extends JList {
 		// TODO: Wert anders ermittlen, damit horizontal scrollbar? [Martin]
 		cellRenderer.setPreferredWidth(this.getWidth());
 		super.paint(g);
+	}
+
+	public void update(Observable o, Object arg) {
+		System.out.println("Searchresultlist has an update");
+		resultList.invalidate();
+		resultList.repaint();
 	}
 }

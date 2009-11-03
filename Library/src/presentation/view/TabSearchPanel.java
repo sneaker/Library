@@ -3,6 +3,8 @@ package presentation.view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
@@ -78,6 +80,12 @@ public class TabSearchPanel extends JPanel implements Observer {
 		searchField.setFont(new Font(null, Font.PLAIN, 18));
 		searchField.setForeground(Color.GRAY);
 		searchField.setBorder(new EmptyBorder(10, 10, 10, 10));
+		searchField.addKeyListener(new KeyAdapter() {
+			public void keyReleased(KeyEvent e) {
+				model.ForwardKeyEvent(e);
+			}
+		});
+		
 		setSearchFieldDefaultTextListeners();
 		searchTab.add(searchField);
 		contentPanel.add(searchTab, BorderLayout.NORTH);
