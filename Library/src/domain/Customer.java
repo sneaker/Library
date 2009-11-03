@@ -1,6 +1,9 @@
 package domain;
 
-public class Customer {
+import javax.management.Attribute;
+import javax.management.AttributeList;
+
+public class Customer implements Searchable {
 	
 	private String name, surname, street, city;
 	private int zip;
@@ -60,5 +63,15 @@ public class Customer {
 	public String toString() {
 		return name + " " + surname + " , " + street + " , " + zip + " " + city;
 	}
+	
+	public String searchTitle() {
+		return getName() + " " + getSurname();
+	}
 
+	public AttributeList searchDetail() {
+		AttributeList list = new AttributeList();
+		list.add(new Attribute("Adresse", (getStreet() == null ? "unbekannt" : getStreet())));
+		list.add(new Attribute("Ort", (getZip() == 0 ? "" : getZip()) + " " + (getCity() == null ? "unbekannt" : getCity())));
+		return list;
+	}
 }
