@@ -14,7 +14,7 @@ public class TabUserPanel extends JPanel implements Observer {
 	private static final long serialVersionUID = 1L;
 	private TabUserModel model;
 	private ModelController controller;
-	private ActiveUserPanel action_user_panel;
+	private ActionUserPanel action_user_panel;
 
 	public TabUserPanel(ModelController controller) {
 		setLayout(new BorderLayout());
@@ -29,7 +29,7 @@ public class TabUserPanel extends JPanel implements Observer {
 	}
 
 	private void initActionPanel() {
-		action_user_panel = new ActiveUserPanel(controller);
+		action_user_panel = new ActionUserPanel(controller);
 		add(action_user_panel, BorderLayout.EAST);
 	}
 
