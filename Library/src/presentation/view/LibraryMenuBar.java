@@ -2,6 +2,8 @@ package presentation.view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.AbstractAction;
 import javax.swing.AbstractButton;
@@ -21,7 +23,7 @@ import presentation.model.ModelController;
  * Überwacht den Status der aktiven Menü-Tabs, um die Menübar entsprechend
  * anzupassen.
  */
-public class LibraryMenuBar extends JMenuBar {
+public class LibraryMenuBar extends JMenuBar implements Observer {
 
 	private static final long serialVersionUID = 1L;
 	private JMenuItem reservedMenuItem;
@@ -58,6 +60,7 @@ public class LibraryMenuBar extends JMenuBar {
 		initUserMenu();
 
 		initHelpMenu();
+		controller.tabbed_model.addObserver(this);
 	}
 
 	private void initFileMenu() {
@@ -246,6 +249,10 @@ public class LibraryMenuBar extends JMenuBar {
 		searchMenuItem.setSelected(activeTab == 0);
 		bookMenuItem.setSelected(activeTab == 1);
 		userMenuItem.setSelected(activeTab == 2);
+	}
+
+	public void update(Observable o, Object arg) {
+		setActiveViewIndex(controller.tabbed_model.getActiveTab());
 	}
 
 }

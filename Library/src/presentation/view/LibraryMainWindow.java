@@ -101,7 +101,6 @@ public class LibraryMainWindow extends JFrame implements Observer {
 	}
 
 	public void update(Observable o, Object arg) {
-		menubar.setActiveViewIndex(controller.tabbed_model.getActiveTab());
 		controller.tabbed_model.setActiveTab(controller.tabbed_model
 				.getActiveTab());
 		setTitle(controller.tabbed_model.getTabbedTitle());
