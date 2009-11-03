@@ -6,6 +6,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.ListCellRenderer;
 
+import presentation.model.ModelController;
 import domain.Book;
 import domain.Customer;
 import domain.Library;
@@ -13,12 +14,13 @@ import domain.Library;
 public class SearchResultCellRenderer implements ListCellRenderer {
 
 	private static final int TEXT_WIDTH_DIFFERENCE = 100;
-
 	private int preferredWidth = 250;
 	private Library library;
+	private final ModelController controller;
 
-	public SearchResultCellRenderer(Library library) {
-		this.library = library;
+	public SearchResultCellRenderer(ModelController controller) {
+		this.controller = controller;
+		this.library = controller.library;
 	}
 
 	public Component getListCellRendererComponent(JList list, Object value,
@@ -38,7 +40,7 @@ public class SearchResultCellRenderer implements ListCellRenderer {
 		JPanel cell = new JPanel();
 		if (value instanceof Book)
 			cell = new ResultCellBookPanel((Book) value, isSelected,
-					preferredWidth, library);
+					preferredWidth, controller);
 		else if (value instanceof Customer)
 			cell = new ResultCellUserPanel((Customer) value, isSelected,
 					preferredWidth, library);

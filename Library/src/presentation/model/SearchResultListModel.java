@@ -18,14 +18,15 @@ public class SearchResultListModel extends Observable implements ListModel {
 
 	private ArrayList<ArrayList<Searchable>> history = new ArrayList<ArrayList<Searchable>>();
 	private ArrayList<Searchable> displayed_results;
-//	private ModelController controller;
+	// private ModelController controller;
 	private Library library;
 	private String searchstring = new String();
 
 	public SearchResultListModel(ModelController controller) {
-//		this.controller = controller;
+		// this.controller = controller;
 		library = controller.library;
 		displayed_results = new ArrayList<Searchable>();
+
 		// TODO: Display Results instead of fakes [Martin]
 		for (int i = 0; i < 10; i++)
 			displayed_results.add(library.getAvailableBooks().get(i));

@@ -11,6 +11,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import presentation.model.ModelController;
 import util.TextUtils;
 import domain.Book;
 import domain.Customer;
@@ -94,10 +95,12 @@ class ResultCellBookPanel extends SearchResultCellPanel {
 	private static final long serialVersionUID = -8375612543994217556L;
 	private final Book active;
 	private final boolean isSelected;
+	private final ModelController controller;
 
 	public ResultCellBookPanel(Searchable active, boolean isSelected,
-			int preferredWidth, Library library) {
-		super(active, isSelected, preferredWidth, library);
+			int preferredWidth, ModelController controller) {
+		super(active, isSelected, preferredWidth, controller.library);
+		this.controller = controller;
 		this.active = (Book) active;
 		this.isSelected = isSelected;
 	}
@@ -115,6 +118,8 @@ class ResultCellBookPanel extends SearchResultCellPanel {
 					getWidth() - 100, getHeight() - 37, null);
 			return;
 		}
+		if (controller.activeuser_model.getCustomer() == null)
+			return;
 		g.drawImage(new ImageIcon(IMG_ADD32X32).getImage(), getWidth() - 60,
 				getHeight() - 37, null);
 	}

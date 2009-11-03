@@ -15,10 +15,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import domain.Customer;
-
 import presentation.model.ActiveUserPanelModel;
 import presentation.model.ModelController;
+import domain.Customer;
 
 public class ActiveUserPanel extends JPanel implements Observer {
 	private static final String USER_IMAGE_PATH = "img/user.png";
@@ -27,12 +26,14 @@ public class ActiveUserPanel extends JPanel implements Observer {
 	private static final String DEFAULT_ACTIVE_USER_TEXT = "Kein aktiver Benutzer ausgewählt";
 	private static final long serialVersionUID = 1L;
 	private JLabel activeUserLabel;
+
 	private JButton clearButton;
 	private ActiveUserPanelModel model;
 
 	public ActiveUserPanel(ModelController controller) {
 		model = controller.activeuser_model;
 		model.addObserver(this);
+
 		setLayout(new BorderLayout());
 		activeUserLabel = new JLabel(DEFAULT_ACTIVE_USER_TEXT);
 		activeUserLabel.setForeground(Color.red);

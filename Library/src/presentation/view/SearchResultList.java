@@ -25,7 +25,6 @@ import domain.Loan;
  * for each item.
  */
 public class SearchResultList extends JList  implements Observer {
-
 	private static final long serialVersionUID = 1L;
 	private JList resultList;
 	private final LibraryTabbedPaneModel tabModel;
@@ -48,8 +47,8 @@ public class SearchResultList extends JList  implements Observer {
 		resultList = new JList();
 		
 		resultList.setModel(controller.resultlist_model);
-		cellRenderer = new SearchResultCellRenderer(library);
-		
+		cellRenderer = new SearchResultCellRenderer(controller);
+	
 		resultList.setCellRenderer(cellRenderer);
 		resultList.setDoubleBuffered(false);
 		resultList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -64,85 +63,7 @@ public class SearchResultList extends JList  implements Observer {
 			}
 		});
 
-		resultList.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				int index = eventToListIndex(e);
-				if (index < 0)
-					return;
-
-				// TODO: Refactoring, das ist eine Knacknuss... [Martin]
-				Object o = resultList.getModel().getElementAt(index);
-				if (o instanceof Book) {
-					Book selected = (Book) o;
-					handleBookClick(e, index, selected);
-					return;
-				}
-				
-				if(o instanceof Customer) {
-					Customer selected = (Customer) o;
-					tabModel.activateUser(selected);
-					tabModel.setActiveTab(LibraryTabbedPaneModel.USER_TAB);
-					//TODO: not the right place for this
-				}
-			}
-
-			private void handleBookClick(MouseEvent e, int index, Book selected) {
-				if (isFirstIconHit(e, index)) {
-					// System.out.println("Erste Buch-Aktion! (Buch zurückgeben)");
-					for (Loan l: library.getLoansPerTitle(selected.getTitle())) {
-						if (l.getBook().getInventoryNumber() == (selected.getInventoryNumber())) {
-							library.getLoans().remove(l);
-							library.getAvailableBooks().add(selected);
-							// TODO: library.getCustomerLoans(customer);
-							System.out.println("Buch " + selected.getInventoryNumber() + " zurückgegeben");
-							// TODO: Nur einen Clip repainten
-							repaint();
-						}
-					}
-					return;
-				} else if (isSecondIconHit(e, index)) {
-					if (library.isBookLent(selected)) {
-						System.out.println("Reservieren");
-					}
-					System.out.println("Zweite Buch-Aktion! (Buch ausleihen / reservieren)");
-					return;
-				}
-				tabModel.setActiveBook(selected);
-				tabModel.setActiveTab(LibraryTabbedPaneModel.BOOK_TAB);
-			}
-			
-			private boolean isFirstIconHit(MouseEvent e, int index) {
-				return e.getX() > getWidth() - 120
-				&& e.getX() < getWidth() - 88
-				&& e.getY() > 30 + getCellHeight() * index
-				&& e.getY() < 62 + getCellHeight() * index;
-			}
-
-			private boolean isSecondIconHit(MouseEvent e, int index) {
-				return e.getX() > getWidth() - 120 + 40
-						&& e.getX() < getWidth() - 88 + 40
-						&& e.getY() > 30 + getCellHeight() * index
-						&& e.getY() < 62 + getCellHeight() * index;
-			}
-
-			private int getCellHeight() {
-				// Hardcoded for laziness reasons. List returns effective
-				// height, not maximum height.
-				return 64;
-			}
-
-			/**
-			 * 
-			 private boolean isSecondIconHit(MouseEvent e) { return e.getX() >
-			 * getWidth() - 120 + 40 && e.getX() < getWidth() - 88 +40 &&
-			 * e.getY() > 98 && e.getY() < 130; }
-			 * 
-			 * private boolean isFirstIconHit(MouseEvent e) { return e.getX() >
-			 * getWidth() - 120 && e.getX() < getWidth() - 88 && e.getY() > 98
-			 * && e.getY() < 130; }
-			 * 
-			 */
-		});
+		resultList.addMouseListener(new ListItemMouseListener());
 
 		add(new JScrollPane(resultList));
 	}
@@ -152,12 +73,40 @@ public class SearchResultList extends JList  implements Observer {
 		return index;
 	}
 
+	public void lendBook(Book selected) {
+		if (controller.activeuser_model.getCustomer() == null) {
+			// TODO: Message to first set user
+			tabModel.setActiveBook(selected);
+			return;
+		}
+		library.createAndAddLoan(controller.activeuser_model.getCustomer(), selected);
+	}
+
+	private void reserveBook(Book selected) {
+		// TODO: Implement reservation of a book.
+	}
+
+	private void returnBook(Book selected) {
+		for (Loan l : library.getLoansPerTitle(selected.getTitle())) {
+			if (l.getBook().getInventoryNumber() != (selected
+					.getInventoryNumber()))
+				continue;
+			if (!l.returnBook())
+				return;
+			return;
+		}
+	}
+
+	private void repaintIcons(int repaintIndex) {
+		repaint(getWidth() - 118, 28 + getCellHeight() * repaintIndex, 74,
+				74);
+	}
+
 	/**
 	 * Dynamically adapt title length to size of list by telling the cell
 	 * renderer its size.
 	 */
 	public void paint(Graphics g) {
-		// TODO: Wert anders ermittlen, damit horizontal scrollbar? [Martin]
 		cellRenderer.setPreferredWidth(this.getWidth());
 		super.paint(g);
 	}
@@ -166,5 +115,92 @@ public class SearchResultList extends JList  implements Observer {
 		System.out.println("Searchresultlist has an update");
 		resultList.invalidate();
 		resultList.repaint();
+	}
+		
+	/**
+	 * Hardcoded for laziness reasons. List returns effective height, not
+	 * maximum height.
+	 * 
+	 * @return 64, the actual height of a list item.
+	 */
+	private int getCellHeight() {
+		return 64;
+	}
+
+	// //////////////////////////////////////////////////////////////////////////////////////
+	// //////////////////////////////////////////////////////////////////////////////////////
+	private final class ListItemMouseListener extends MouseAdapter {
+		public void mouseClicked(MouseEvent e) {
+			int index = eventToListIndex(e);
+			if (index < 0)
+				return;
+
+			Object o = resultList.getModel().getElementAt(index);
+			if (o instanceof Book) {
+				Book selected = (Book) o;
+				tabModel.setActiveBook(selected);
+				handleBookClick(e, index, selected);
+				return;
+			}
+
+			if (o instanceof Customer) {
+				Customer selected = (Customer) o;
+				// TODO: Coole Idee: Direkt-setActive-button für Benutzer
+				// auswählen
+				controller.activeuser_model.setNewActiveUser(selected);
+				tabModel.setActiveTab(controller.tabbed_model.USER_TAB);
+			}
+		}
+
+		/**
+		 * Determines where an item has been clicked and executes the
+		 * appropriate action. JList items cannot listen to events so the list
+		 * itself listens for events for its items.
+		 * 
+		 * @param e
+		 *            gives information about the mouse event including its
+		 *            coordinates to calculate the clicked item.
+		 * @param index
+		 *            of the list item.
+		 * @param selected
+		 *            the book or user which is affected by this click.
+		 */
+		private void handleBookClick(MouseEvent e, int index, Book selected) {
+			tabModel.setActiveBook(selected);
+			if (isFirstIconHit(e, index)) {
+				returnBook(selected);
+				repaintIcons(index);
+				return;
+			}
+			if (isSecondIconHit(e, index) && library.isBookLent(selected)) {
+				reserveBook(selected);
+				repaintIcons(index);
+				return;
+			}
+			if (isSecondIconHit(e, index)) {
+				lendBook(selected);
+				repaintIcons(index);
+				return;
+			}
+			showDetailsOf(selected);
+		}
+
+		private void showDetailsOf(Book selected) {
+			tabModel.setActiveBook(selected);
+			tabModel.setActiveTab(controller.tabbed_model.BOOK_TAB);
+		}
+
+		private boolean isFirstIconHit(MouseEvent e, int index) {
+			return e.getX() > getWidth() - 120 && e.getX() < getWidth() - 88
+					&& e.getY() > 30 + getCellHeight() * index
+					&& e.getY() < 62 + getCellHeight() * index;
+		}
+
+		private boolean isSecondIconHit(MouseEvent e, int index) {
+			return e.getX() > getWidth() - 120 + 40
+					&& e.getX() < getWidth() - 88 + 40
+					&& e.getY() > 30 + getCellHeight() * index
+					&& e.getY() < 62 + getCellHeight() * index;
+		}
 	}
 }

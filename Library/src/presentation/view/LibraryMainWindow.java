@@ -108,5 +108,4 @@ public class LibraryMainWindow extends JFrame implements Observer {
 		// update set active user
 		// update status bar
 	}
-
 }

@@ -20,14 +20,9 @@ public class MainWindowModel extends Observable {
 		return title + " " + PROGRAM_NAME;
 	}
 
-	// TODO: Use it... [Martin, bis 4.10.09]
 	public void setTitle(String title) {
 		this.title = title;
 		setChanged();
 		notifyObservers();
 	}
-	// Statusbar-Text
-	// aktive Ansicht / Tab / Modus
-	// aktiver User
-
 }
