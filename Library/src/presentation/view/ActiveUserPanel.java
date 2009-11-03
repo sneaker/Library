@@ -42,11 +42,11 @@ public class ActiveUserPanel extends JPanel implements Observer {
 		activeUserLabel.setIcon(img);
 		activeUserLabel.setBorder(new EmptyBorder(PANEL_INSETS));
 		add(activeUserLabel, BorderLayout.WEST);
-		
+
 		clearButton = new JButton("Benutzer Deaktivieren");
 		clearButton.setEnabled(false);
 		clearButton.addActionListener(new ActionListener() {
-			
+
 			public void actionPerformed(ActionEvent e) {
 				model.clearUser();
 				clearButton.setEnabled(false);
@@ -57,18 +57,16 @@ public class ActiveUserPanel extends JPanel implements Observer {
 
 	public void update(Observable o, Object arg) {
 		Customer customer = model.getCustomer();
-		if (customer != null) 
-		{
+		if (customer != null) {
 			enableUser(customer);
-		}
-		else 
-		{
+		} else {
 			disableUser();
 		}
 	}
 
 	private void enableUser(Customer customer) {
-		activeUserLabel.setText("Aktivierter Benutzer: " + customer.getSurname() + " " + customer.getName());
+		activeUserLabel.setText("Aktivierter Benutzer: "
+				+ customer.getSurname() + " " + customer.getName());
 		activeUserLabel.setForeground(Color.green);
 		clearButton.setEnabled(true);
 	}
@@ -77,6 +75,6 @@ public class ActiveUserPanel extends JPanel implements Observer {
 		activeUserLabel.setText(DEFAULT_ACTIVE_USER_TEXT);
 		activeUserLabel.setForeground(Color.red);
 		clearButton.setEnabled(false);
-		//TODO: Switch back to Recherche
+		// TODO: Switch back to Recherche
 	}
 }

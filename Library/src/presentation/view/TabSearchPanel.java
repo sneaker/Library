@@ -3,8 +3,6 @@ package presentation.view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
@@ -52,7 +50,7 @@ public class TabSearchPanel extends JPanel implements Observer {
 	 * 
 	 * @param mainmodel
 	 */
-	public TabSearchPanel(ModelController controller){
+	public TabSearchPanel(ModelController controller) {
 		setLayout(new BorderLayout());
 		this.controller = controller;
 		model = controller.searchtab_model;
@@ -85,7 +83,7 @@ public class TabSearchPanel extends JPanel implements Observer {
 				model.ForwardKeyEvent(e);
 			}
 		});
-		
+
 		setSearchFieldDefaultTextListeners();
 		searchTab.add(searchField);
 		contentPanel.add(searchTab, BorderLayout.NORTH);

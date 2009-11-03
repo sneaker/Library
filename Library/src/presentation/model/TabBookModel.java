@@ -7,10 +7,10 @@ import domain.Book;
 public class TabBookModel extends Observable {
 
 	private Book activeBook;
-	private ModelController controller;
-	
+//	private ModelController controller;
+
 	public TabBookModel(ModelController controller) {
-		this.controller = controller;
+//		this.controller = controller;
 	}
 
 	public void setActiveBook(Book activeBook) {

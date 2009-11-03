@@ -15,7 +15,6 @@ import javax.swing.KeyStroke;
 
 import presentation.model.LibraryTabbedPaneModel;
 import presentation.model.ModelController;
-import presentation.model.TabSearchModel;
 
 /**
  * Repräsentiert und verwaltet die Menübar für die Bibliotheksapplikation.
@@ -47,7 +46,6 @@ public class LibraryMenuBar extends JMenuBar {
 	private JMenuItem createUserMenuItem;
 	private AbstractButton aboutMenuItem;
 	private ButtonGroup viewGroup;
-	private TabSearchModel searchPaneModel;
 	private ModelController controller;
 
 	public LibraryMenuBar(ModelController controller) {
@@ -70,13 +68,12 @@ public class LibraryMenuBar extends JMenuBar {
 		{
 			resetMenuItem = new JMenuItem("Neu");
 			resetMenuItem.setAccelerator(KeyStroke.getKeyStroke("F4"));
-			searchPaneModel = controller.searchtab_model;
 			resetMenuItem.addActionListener(new ChangeViewActionListener(
 					LibraryTabbedPaneModel.SEARCH_TAB) {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					super.actionPerformed(e);
-					searchPaneModel.resetSearchText();
+					controller.searchtab_model.resetSearchText();
 				}
 			});
 			fileMenu.add(resetMenuItem);
@@ -129,7 +126,7 @@ public class LibraryMenuBar extends JMenuBar {
 		return new ChangeViewActionListener(newTab);
 	}
 
-	protected class ChangeViewActionListener implements ActionListener {
+	private class ChangeViewActionListener implements ActionListener {
 		private int newTab;
 
 		public ChangeViewActionListener(int newTab) {

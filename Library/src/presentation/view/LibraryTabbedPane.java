@@ -10,7 +10,6 @@ import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import presentation.model.ActionPanelModel;
 import presentation.model.LibraryTabbedPaneModel;
 import presentation.model.ModelController;
 import domain.Book;
@@ -38,8 +37,6 @@ public class LibraryTabbedPane extends JTabbedPane implements Observer {
 	private void initGUI() {
 		String[][] tabinformation = model.getTabInformation();
 		tabPanel = new JPanel[tabinformation.length];
-		ActionPanelModel action_panel_model = new ActionPanelModel(controller);
-		controller.action_model = action_panel_model;
 
 		tabPanel[0] = new TabSearchPanel(controller);
 		tabPanel[1] = new TabBookPanel(controller);
