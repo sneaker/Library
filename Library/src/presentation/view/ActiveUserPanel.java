@@ -15,6 +15,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import domain.Customer;
+
 import presentation.model.ActiveUserPanelModel;
 import presentation.model.ModelController;
 
@@ -26,11 +28,9 @@ public class ActiveUserPanel extends JPanel implements Observer {
 	private static final long serialVersionUID = 1L;
 	private JLabel activeUserLabel;
 	private JButton clearButton;
-	private ModelController controller;
 	private ActiveUserPanelModel model;
 
 	public ActiveUserPanel(ModelController controller) {
-		this.controller = controller;
 		model = controller.activeuser_model;
 		model.addObserver(this);
 		setLayout(new BorderLayout());
@@ -55,17 +55,28 @@ public class ActiveUserPanel extends JPanel implements Observer {
 		add(clearButton, BorderLayout.EAST);
 	}
 
-	@Override
 	public void update(Observable o, Object arg) {
-		if (arg instanceof String) {
-			if (arg == "none") {
-				activeUserLabel.setText(DEFAULT_ACTIVE_USER_TEXT);
-				clearButton.setEnabled(false);
-			}
-			else {
-				activeUserLabel.setText("Aktivierter Benutzer: " + (String) arg);
-				clearButton.setEnabled(true);
-			}
+		Customer customer = model.getCustomer();
+		if (customer != null) 
+		{
+			enableUser(customer);
 		}
+		else 
+		{
+			disableUser();
+		}
+	}
+
+	private void enableUser(Customer customer) {
+		activeUserLabel.setText("Aktivierter Benutzer: " + customer.getSurname() + " " + customer.getName());
+		activeUserLabel.setForeground(Color.green);
+		clearButton.setEnabled(true);
+	}
+
+	private void disableUser() {
+		activeUserLabel.setText(DEFAULT_ACTIVE_USER_TEXT);
+		activeUserLabel.setForeground(Color.red);
+		clearButton.setEnabled(false);
+		//TODO: Switch back to Recherche
 	}
 }

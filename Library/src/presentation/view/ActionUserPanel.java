@@ -1,10 +1,12 @@
 package presentation.view;
 
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -24,18 +26,16 @@ public class ActionUserPanel extends JPanel implements Observer {
 	private JButton adduser;
 	private JButton edituser;
 	private JButton newsearch;
-	private ModelController controller;
 
 	public ActionUserPanel(ModelController controller) {
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		setBorder(new TitledBorder(ACTION_PANEL_TITLE));
-		this.controller = controller;
+		
 		model = controller.action_model;
 		model.addObserver(this);
 
 		button_panel = new JPanel();
-		button_panel
-				.setLayout(new BoxLayout(button_panel, BoxLayout.PAGE_AXIS));
+		button_panel.setLayout(new BoxLayout(button_panel, BoxLayout.PAGE_AXIS));
 		initActionButton();
 		pane = new JScrollPane(button_panel);
 		add(pane);
@@ -56,6 +56,7 @@ public class ActionUserPanel extends JPanel implements Observer {
 			}
 		});
 		button_panel.add(adduser);
+		button_panel.add(Box.createRigidArea(new Dimension(0,5)));
 	}
 
 	private void initEditButton() {
@@ -67,6 +68,7 @@ public class ActionUserPanel extends JPanel implements Observer {
 			}
 		});
 		button_panel.add(edituser);
+		button_panel.add(Box.createRigidArea(new Dimension(0,5)));
 	}
 	
 	private void initNewSearchButton() {
@@ -77,6 +79,7 @@ public class ActionUserPanel extends JPanel implements Observer {
 				model.changetoSearch();
 			}
 		});
+		button_panel.add(Box.createRigidArea(new Dimension(0,5)));
 	}
 
 	@Override

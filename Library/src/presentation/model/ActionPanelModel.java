@@ -2,8 +2,8 @@ package presentation.model;
 
 import java.util.Observable;
 
-
-import domain.Library;
+import domain.Book;
+import domain.Customer;
 
 public class ActionPanelModel extends Observable {
 
@@ -36,7 +36,22 @@ public class ActionPanelModel extends Observable {
 	}
 
 	public void lendBook() {
-		// TODO Auto-generated method stub
+		Customer activeuser = controller.activeuser_model.getCustomer();
+		Book activebook = controller.booktab_model.getActiveBook();
+		if ((activeuser != null) && (activebook != null)) 
+		{
+			controller.library.createAndAddLoan(activeuser, activebook);
+		} 
+		else if (activeuser == null)
+		{
+			//TODO: Show select user first
+			controller.tabbed_model.setActiveTab(LibraryTabbedPaneModel.SEARCH_TAB);
+		} 
+		else 
+		{
+			//TODO: Show select book, no book activated
+			controller.tabbed_model.setActiveTab(LibraryTabbedPaneModel.SEARCH_TAB);
+		}
 	}
 
 	public void createUser() {

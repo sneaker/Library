@@ -10,7 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
 import presentation.model.ModelController;
-import presentation.model.TabBookPanelModel;
+import presentation.model.TabBookModel;
 import util.TextUtils;
 
 public class TabBookPanel extends JPanel implements Observer {
@@ -18,7 +18,7 @@ public class TabBookPanel extends JPanel implements Observer {
 	private static final String TITLE_FORMAT = "<html><p style='font-size:14pt; padding-left: 1.25cm; text-indent: -1cm;'>";
 	private static final String NO_BOOK_ACTIVE_TEXT = "Kein Buch ausgewählt, bitte unter Recherche ein Buch suchen und auswählen, um seine Details hier anzuzeigen.";
 	private static final long serialVersionUID = 1L;
-	private TabBookPanelModel model;
+	private TabBookModel model;
 	private JLabel detailPanel;
 	private JPanel contentPanel;
 	private ModelController controller;
@@ -49,7 +49,7 @@ public class TabBookPanel extends JPanel implements Observer {
 		add(contentPanel, BorderLayout.CENTER);
 	}
 
-	public TabBookPanelModel getModel() {
+	public TabBookModel getModel() {
 		return model;
 	}
 

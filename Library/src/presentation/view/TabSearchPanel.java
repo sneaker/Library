@@ -3,6 +3,8 @@ package presentation.view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
@@ -17,10 +19,8 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 
-import presentation.model.LibraryTabbedPaneModel;
 import presentation.model.ModelController;
 import presentation.model.TabSearchModel;
-import domain.Library;
 
 /**
  * Represents the whole contents of the "search"-Tab and handles Updates on its
@@ -44,8 +44,6 @@ public class TabSearchPanel extends JPanel implements Observer {
 	private JTextField searchField;
 	private JPanel searchTab;
 	private JPanel resultPane;
-	private final LibraryTabbedPaneModel tabPane;
-	private final Library library;
 	private ActionSearchPanel action_search_panel;
 	private ModelController controller;
 
@@ -57,8 +55,6 @@ public class TabSearchPanel extends JPanel implements Observer {
 	public TabSearchPanel(ModelController controller){
 		setLayout(new BorderLayout());
 		this.controller = controller;
-		this.tabPane = controller.tabbed_model;
-		this.library = controller.library;
 		model = controller.searchtab_model;
 		model.addObserver(this);
 		initContentPane();
@@ -84,6 +80,12 @@ public class TabSearchPanel extends JPanel implements Observer {
 		searchField.setFont(new Font(null, Font.PLAIN, 18));
 		searchField.setForeground(Color.GRAY);
 		searchField.setBorder(new EmptyBorder(10, 10, 10, 10));
+		searchField.addKeyListener(new KeyAdapter() {
+			public void keyReleased(KeyEvent e) {
+				model.ForwardKeyEvent(e);
+			}
+		});
+		
 		setSearchFieldDefaultTextListeners();
 		searchTab.add(searchField);
 		contentPanel.add(searchTab, BorderLayout.NORTH);
