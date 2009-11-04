@@ -97,11 +97,6 @@ public class SearchResultList extends JList  implements Observer {
 		}
 	}
 
-	private void repaintIcons(int repaintIndex) {
-		repaint(getWidth() - 118, 28 + getCellHeight() * repaintIndex, 74,
-				74);
-	}
-
 	/**
 	 * Dynamically adapt title length to size of list by telling the cell
 	 * renderer its size.
@@ -169,17 +164,17 @@ public class SearchResultList extends JList  implements Observer {
 			tabModel.setActiveBook(selected);
 			if (isFirstIconHit(e, index)) {
 				returnBook(selected);
-				repaintIcons(index);
+				repaint();
 				return;
 			}
 			if (isSecondIconHit(e, index) && library.isBookLent(selected)) {
 				reserveBook(selected);
-				repaintIcons(index);
+				repaint();
 				return;
 			}
 			if (isSecondIconHit(e, index)) {
 				lendBook(selected);
-				repaintIcons(index);
+				repaint();
 				return;
 			}
 			showDetailsOf(selected);
