@@ -82,21 +82,6 @@ public class SearchResultList extends JList  implements Observer {
 		library.createAndAddLoan(controller.activeuser_model.getCustomer(), selected);
 	}
 
-	private void reserveBook(Book selected) {
-		// TODO: Implement reservation of a book.
-	}
-
-	private void returnBook(Book selected) {
-		for (Loan l : library.getLoansPerTitle(selected.getTitle())) {
-			if (l.getBook().getInventoryNumber() != (selected
-					.getInventoryNumber()))
-				continue;
-			if (!l.returnBook())
-				return;
-			return;
-		}
-	}
-
 	/**
 	 * Dynamically adapt title length to size of list by telling the cell
 	 * renderer its size.
@@ -164,12 +149,12 @@ public class SearchResultList extends JList  implements Observer {
 		private void handleBookClick(MouseEvent e, int index, Book selected) {
 			controller.booktab_model.setActiveBook(selected);
 			if (isFirstIconHit(e, index)) {
-				returnBook(selected);
+				library.returnBook(selected);
 				repaint();
 				return;
 			}
 			if (isSecondIconHit(e, index) && library.isBookLent(selected)) {
-				reserveBook(selected);
+				library.reserveBook(selected);
 				repaint();
 				return;
 			}
