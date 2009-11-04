@@ -21,6 +21,7 @@ public class StatusPanel extends JPanel implements Observer {
 	
 	public StatusPanel(ModelController controller) {
 		model = controller.status_model;
+		model.addObserver(this);
 		setLayout(new BorderLayout());
 		setBorder(new StatusBorder());
 		label = new JLabel(model.getStatus());
