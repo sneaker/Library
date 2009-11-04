@@ -13,6 +13,7 @@ import java.util.Observer;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 
 import presentation.model.MainWindowModel;
@@ -55,12 +56,18 @@ public class LibraryMainWindow extends JFrame implements Observer {
 
 	private void initGUI() {
 		initMenubar();
+		initStatusPanel();
 		findAsYouTypeGlassPane = new FindAsYouTypeGlassPane(this);
 		initActiveUserPanel();
 		initTabbedPane();
 		requestFocusOnSearchField();
 		addGlobalKeyListener();
 		setGlassPaneClosesOnEscape();
+	}
+
+	private void initStatusPanel() {
+		StatusPanel statusPanel = new StatusPanel(controller);
+		add(statusPanel, BorderLayout.SOUTH);
 	}
 
 	private void initTabbedPane() {
