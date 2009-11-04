@@ -45,6 +45,21 @@ public class Library {
 		return b;
 	}
 
+	public void returnBook(Book selected) {
+		for (Loan l : getLoansPerTitle(selected.getTitle())) {
+			if (l.getBook().getInventoryNumber() != (selected
+					.getInventoryNumber()))
+				continue;
+			if (!l.returnBook())
+				return;
+			return;
+		}
+	}
+	
+	public void reserveBook(Book selected) {
+		// TODO: Implement reservation of a book.
+	}
+
 	public Title findByTitleName(String name) {
 		for (Title t : titles) {
 			if (t.getName().equals(name)) {
@@ -93,12 +108,12 @@ public class Library {
 		}
 		return lentBooks;
 	}
-	
-	public List<Book> getAvailableBooks(){
+
+	public List<Book> getAvailableBooks() {
 		return getBooks(false);
 	}
-	
-	public List<Book> getLentBooks(){
+
+	public List<Book> getLentBooks() {
 		return getBooks(true);
 	}
 
