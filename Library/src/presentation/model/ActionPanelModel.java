@@ -3,7 +3,6 @@ package presentation.model;
 import java.util.Observable;
 
 import domain.Book;
-import domain.Customer;
 
 public class ActionPanelModel extends Observable {
 
@@ -12,12 +11,6 @@ public class ActionPanelModel extends Observable {
 	// TODO: Needs application as argument to do the actions
 	public ActionPanelModel(ModelController controller) {
 		this.controller = controller;
-	}
-
-	public void update(Observable o, Object arg) {
-		// TODO: Does not update the list on the view
-		setChanged();
-		notifyObservers();
 	}
 
 	public void changetoSearch() {
@@ -32,23 +25,16 @@ public class ActionPanelModel extends Observable {
 	}
 
 	public void markDefekt() {
-		// TODO Auto-generated method stub
+		if (controller.booktab_model.getActiveBook() == null)
+			return;
+		controller.booktab_model.getActiveBook().setCondition(Book.Condition.WASTE);
+		controller.status_model.setTempStatus("Buch wurde ausgemustert: " + controller.booktab_model.getActiveBook());
 	}
 
 	public void lendBook() {
-		Customer activeuser = controller.activeuser_model.getCustomer();
-		Book activebook = controller.booktab_model.getActiveBook();
-		if ((activeuser != null) && (activebook != null)) {
-			controller.library.createAndAddLoan(activeuser, activebook);
-		} else if (activeuser == null) {
-			// TODO: Show select user first
-			controller.tabbed_model
-					.setActiveTab(LibraryTabbedPaneModel.SEARCH_TAB);
-		} else {
-			// TODO: Show select book, no book activated
-			controller.tabbed_model
-					.setActiveTab(LibraryTabbedPaneModel.SEARCH_TAB);
-		}
+		controller.booktab_model.lendActiveBook();
+		fireDataChanged();
+		controller.status_model.setTempStatus("Buch wurde ausgeliehen: " + controller.booktab_model.getActiveBook().getTitle().getName() + getCustomerName("für: "));
 	}
 
 	public void createUser() {
@@ -62,8 +48,16 @@ public class ActionPanelModel extends Observable {
 	}
 
 	public void returnBook() {
-		// TODO Auto-generated method stub
+		controller.library.returnBook(controller.booktab_model.getActiveBook());
+		fireDataChanged();
+		controller.status_model.setTempStatus("Zurück in der Bibliothek: " + controller.booktab_model.getActiveBook().getTitle().getName() + getCustomerName("von: "));
+	}
 
+	private String getCustomerName(String vor) {
+		if (controller.activeuser_model.getCustomer() == null)
+			return "";
+		else
+			return " (" + vor + controller.activeuser_model.getFullActiveCustomerName() + ")";
 	}
 
 	public void creaNewBook() {

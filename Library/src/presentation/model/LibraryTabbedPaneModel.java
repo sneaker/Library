@@ -56,4 +56,8 @@ public class LibraryTabbedPaneModel extends Observable {
 		return tabInformation;
 	}
 
+	public void setSearchTabActive() {
+		setActiveTab(SEARCH_TAB);
+	}
+
 }
