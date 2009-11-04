@@ -9,21 +9,23 @@ import java.util.Observable;
 public class MainWindowModel extends Observable {
 
 	private static final String PROGRAM_NAME = " - BücherBox";
-	private ModelController controller;
+//	private ModelController controller;
+	private String title = "Recherche - BücherBox";
 
 	public MainWindowModel(ModelController controller) {
-		this.controller = controller;
+//		this.controller = controller;
 	}
 
-	public void fireDataChange() {
+	public String getTitle() {
+		return title + " " + PROGRAM_NAME;
+	}
+
+	// TODO: Use it... [Martin, bis 4.10.09]
+	public void setTitle(String title) {
+		this.title = title;
 		setChanged();
 		notifyObservers();
 	}
-
-	public String getWindowTitle() {
-		return controller.tabbed_model.getTabbedTitle() + PROGRAM_NAME;
-	}
-
 	// Statusbar-Text
 	// aktive Ansicht / Tab / Modus
 	// aktiver User

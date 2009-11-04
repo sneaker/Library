@@ -41,7 +41,7 @@ public class LibraryMainWindow extends JFrame implements Observer {
 
 		controller.library = library;
 
-		setTitle(model.getWindowTitle());
+		setTitle(model.getTitle());
 		setPreferredSize(new Dimension(800, 400));
 		setMinimumSize(new Dimension(460, 355));
 		setSize(750, 450);
@@ -101,9 +101,9 @@ public class LibraryMainWindow extends JFrame implements Observer {
 	}
 
 	public void update(Observable o, Object arg) {
-		controller.tabbed_model.setActiveTab(controller.tabbed_model
-				.getActiveTab());
-		setTitle(controller.tabbed_model.getTabbedTitle());
+//		controller.tabbed_model.setActiveTab(controller.tabbed_model
+//				.getActiveTab());
+		setTitle(model.getTitle());
 
 		// update set active user
 		// update status bar

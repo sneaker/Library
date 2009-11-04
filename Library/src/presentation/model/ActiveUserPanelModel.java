@@ -6,11 +6,11 @@ import domain.Customer;
 
 public class ActiveUserPanelModel extends Observable {
 
-	private ModelController controller;
+//	private ModelController controller;
 	private Customer customer;
 	
 	public ActiveUserPanelModel(ModelController controller) {
-		this.controller = controller;
+//		this.controller = controller;
 	}
 	
 	public Customer getCustomer() {
@@ -19,14 +19,12 @@ public class ActiveUserPanelModel extends Observable {
 
 	public void setNewActiveUser(Customer selected) {
 		customer = selected;
-		controller.main_model.fireDataChange();
 		setChanged();
 		notifyObservers();
 	}
 
 	public void clearUser() {
 		customer = null;
-		controller.main_model.fireDataChange();
 		setChanged();
 		notifyObservers();
 	}

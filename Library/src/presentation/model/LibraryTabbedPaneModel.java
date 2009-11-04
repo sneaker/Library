@@ -30,6 +30,7 @@ public class LibraryTabbedPaneModel extends Observable {
 
 	public void setActiveTab(int newIndex) {
 		this.activeTab = newIndex;
+		controller.main_model.setTitle(getActiveTabTitle());
 		setChanged();
 		notifyObservers(newIndex);
 	}
@@ -42,10 +43,6 @@ public class LibraryTabbedPaneModel extends Observable {
 
 	public Book getActiveBook() {
 		return activeBook;
-	}
-
-	public String getTabbedTitle() {
-		return getActiveTabTitle();
 	}
 
 	public String getActiveTabTitle() {
