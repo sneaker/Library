@@ -23,10 +23,21 @@ public class StatusModel extends Observable {
 		notifyObservers();
 	}
 
+	/**
+	 * Use this to set a static 
+	 * @return
+	 */
 	public String getStatus() {
 		return (getTempStatus() == null ? status : getTempStatus() + "...");
 	}
 
+	/**
+	 * Use this to set a temporary status message that disappears after some
+	 * time.
+	 * 
+	 * @param tempStatus
+	 *            The status to be shown temporarily
+	 */
 	public void setTempStatus(String tempStatus) {
 		this.tempStatus = tempStatus;
 		fireDataChanged();
