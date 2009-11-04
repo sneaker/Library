@@ -13,7 +13,6 @@ import java.util.Observer;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 
 import presentation.model.MainWindowModel;
@@ -108,11 +107,6 @@ public class LibraryMainWindow extends JFrame implements Observer {
 	}
 
 	public void update(Observable o, Object arg) {
-//		controller.tabbed_model.setActiveTab(controller.tabbed_model
-//				.getActiveTab());
 		setTitle(model.getTitle());
-
-		// update set active user
-		// update status bar
 	}
 }
