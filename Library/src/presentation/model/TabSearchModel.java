@@ -12,6 +12,7 @@ public class TabSearchModel extends Observable {
 	private static final String DEFAULT_SEARCH_STRING = "Benutzernamen, Buchtitel oder Autor eingeben";
 	private String searchFieldText = DEFAULT_SEARCH_STRING;
 	private ModelController controller;
+	private boolean hasFocus;
 
 	public TabSearchModel(ModelController controller) {
 		this.controller = controller;
@@ -55,9 +56,9 @@ public class TabSearchModel extends Observable {
 	}
 
 	public void setRequestFocus() {
+		hasFocus = true;
 		setChanged();
-		// TODO:That is the worst hack on earth
-		notifyObservers("requestFocus");
+		notifyObservers();
 	}
 
 	public void forwardKeyEvent(KeyEvent e) {
@@ -69,5 +70,13 @@ public class TabSearchModel extends Observable {
 
 	public String getStatus() {
 		return "Benutzernamen, Buchtitel oder Autor suchen";
+	}
+
+	public boolean hasFocus() {
+		return hasFocus;
+	}
+	
+	public void resetFocus() {
+		hasFocus = false;
 	}
 }

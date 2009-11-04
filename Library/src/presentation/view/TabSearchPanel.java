@@ -158,13 +158,11 @@ public class TabSearchPanel extends JPanel implements Observer {
 	 *      java-5-generics/
 	 */
 	public void update(Observable o, Object arg) {
-		if (arg instanceof String) {
-			if (arg.equals("requestFocus"))
-				requestFocus();
-			else {
-				searchField.setForeground(model.getSearchFieldColor());
-				searchField.setText((String) arg);
-			}
+		if (model.hasFocus()) {
+			model.resetFocus();
+			requestFocus();
 		}
+		searchField.setForeground(model.getSearchFieldColor());
+		searchField.setText(model.getSearchText());
 	}
 }
