@@ -75,8 +75,8 @@ public class SearchResultList extends JList  implements Observer {
 
 	public void lendBook(Book selected) {
 		if (controller.activeuser_model.getCustomer() == null) {
-			// TODO: Message to first set user
-			tabModel.setActiveBook(selected);
+			controller.booktab_model.setActiveBook(selected);
+			controller.status_model.setTempStatus("Keine Ausleihe möglich: Bitte erst Benutzer auswählen");
 			return;
 		}
 		library.createAndAddLoan(controller.activeuser_model.getCustomer(), selected);
@@ -133,7 +133,7 @@ public class SearchResultList extends JList  implements Observer {
 			Object o = resultList.getModel().getElementAt(index);
 			if (o instanceof Book) {
 				Book selected = (Book) o;
-				tabModel.setActiveBook(selected);
+				controller.booktab_model.setActiveBook(selected);
 				handleBookClick(e, index, selected);
 				return;
 			}
@@ -143,6 +143,7 @@ public class SearchResultList extends JList  implements Observer {
 				// TODO: Coole Idee: Direkt-setActive-button für Benutzer
 				// auswählen
 				controller.activeuser_model.setNewActiveUser(selected);
+				controller.usertab_model.setActiveCustomer(selected);
 				tabModel.setActiveTab(controller.tabbed_model.USER_TAB);
 			}
 		}
@@ -161,7 +162,7 @@ public class SearchResultList extends JList  implements Observer {
 		 *            the book or user which is affected by this click.
 		 */
 		private void handleBookClick(MouseEvent e, int index, Book selected) {
-			tabModel.setActiveBook(selected);
+			controller.booktab_model.setActiveBook(selected);
 			if (isFirstIconHit(e, index)) {
 				returnBook(selected);
 				repaint();
@@ -177,11 +178,12 @@ public class SearchResultList extends JList  implements Observer {
 				repaint();
 				return;
 			}
+			controller.booktab_model.setActiveBook(selected);
 			showDetailsOf(selected);
 		}
 
 		private void showDetailsOf(Book selected) {
-			tabModel.setActiveBook(selected);
+			controller.booktab_model.setActiveBook(selected);
 			tabModel.setActiveTab(controller.tabbed_model.BOOK_TAB);
 		}
 

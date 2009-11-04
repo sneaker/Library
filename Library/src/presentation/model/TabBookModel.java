@@ -7,10 +7,8 @@ import domain.Book;
 public class TabBookModel extends Observable {
 
 	private Book activeBook;
-//	private ModelController controller;
 
 	public TabBookModel(ModelController controller) {
-//		this.controller = controller;
 	}
 
 	public void setActiveBook(Book activeBook) {
@@ -21,6 +19,13 @@ public class TabBookModel extends Observable {
 
 	public Book getActiveBook() {
 		return activeBook;
+	}
+
+	public String getStatus() {
+		if (getActiveBook() == null)
+			return "Buchdetails (kein Buch ausgewählt)";
+		return "Anzeigen der Buchdetails von \""
+				+ getActiveBook().getTitle().getName() + "\"";
 	}
 
 }

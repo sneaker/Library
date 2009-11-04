@@ -29,6 +29,8 @@ public class StatusPanel extends JPanel implements Observer {
 	}
 	
 	public void update(Observable o, Object arg) {
+		if (model.getTempStatus() != null)
+			new TempStatusResetter(model.getTempStatus()).start();
 		label.setText(model.getStatus());
 	}
 
@@ -47,6 +49,28 @@ public class StatusPanel extends JPanel implements Observer {
 			g.drawLine(x, y+2, x+width, y+2);
 			g.setColor(Color.WHITE);
 			g.drawLine(x, y+3, x+width, y+3);
+		}
+	}
+	
+	private final class TempStatusResetter extends Thread {
+		private final String newStatus;
+
+		private TempStatusResetter(String newStatus) {
+			this.newStatus = newStatus;
+		}
+
+		public void run() {
+			String before = newStatus;
+			String sbefore = model.getStatus();
+			try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+			}
+			if (!before.equals(model.getTempStatus()))
+				return;
+			if (model.getStatus() != sbefore)
+			model.setTempStatus(null);
+			model.fireDataChanged();
 		}
 	}
 }

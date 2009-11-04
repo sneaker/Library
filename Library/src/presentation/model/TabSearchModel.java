@@ -66,4 +66,8 @@ public class TabSearchModel extends Observable {
 		else if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE)
 			controller.resultlist_model.delchar();
 	}
+
+	public String getStatus() {
+		return "Benutzernamen, Buchtitel oder Autor suchen";
+	}
 }
