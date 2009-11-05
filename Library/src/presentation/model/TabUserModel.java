@@ -28,5 +28,4 @@ public class TabUserModel extends Observable {
 				+ getActiveCustomer().getSurname() + ", "
 				+ getActiveCustomer().getName() + "\"";
 	}
-
 }

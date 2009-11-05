@@ -76,6 +76,6 @@ public class ActiveUserPanel extends JPanel implements Observer {
 		activeUserLabel.setText(DEFAULT_ACTIVE_USER_TEXT);
 		activeUserLabel.setForeground(Color.red);
 		clearButton.setEnabled(false);
-		// TODO: Switch back to Recherche
+		model.switchtoSearch();
 	}
 }

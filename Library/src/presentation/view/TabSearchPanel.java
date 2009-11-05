@@ -80,10 +80,15 @@ public class TabSearchPanel extends JPanel implements Observer {
 		searchField.setBorder(new EmptyBorder(10, 10, 10, 10));
 		searchField.addKeyListener(new KeyAdapter() {
 			public void keyReleased(KeyEvent e) {
-				model.forwardKeyEvent(e);
+				if ((e.getKeyCode() >= KeyEvent.VK_A)
+						&& (e.getKeyCode() <= KeyEvent.VK_Z)
+						|| (e.getKeyCode() == KeyEvent.VK_SPACE))
+					model.forwardKeyEvent(e);
+				if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
+					model.fowardDeleteEvent(searchField.getText());
+				}
 			}
 		});
-
 		setSearchFieldDefaultTextListeners();
 		searchTab.add(searchField);
 		contentPanel.add(searchTab, BorderLayout.NORTH);

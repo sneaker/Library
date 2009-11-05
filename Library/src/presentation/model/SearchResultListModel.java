@@ -1,7 +1,6 @@
 package presentation.model;
 
 import java.util.ArrayList;
-import java.util.Observable;
 
 import javax.management.Attribute;
 import javax.swing.ListModel;
@@ -14,26 +13,24 @@ import domain.Loan;
 import domain.Searchable;
 import domain.Title;
 
-public class SearchResultListModel extends Observable implements ListModel {
+public class SearchResultListModel implements ListModel {
 
 	private ArrayList<ArrayList<Searchable>> history = new ArrayList<ArrayList<Searchable>>();
+	private ArrayList<ListDataListener> listeners = new ArrayList<ListDataListener>();
 	private ArrayList<Searchable> displayed_results;
-	// private ModelController controller;
 	private Library library;
 	private String searchstring = new String();
 
 	public SearchResultListModel(ModelController controller) {
-		// this.controller = controller;
 		library = controller.library;
 		displayed_results = new ArrayList<Searchable>();
-
-		// TODO: Display Results instead of fakes [Martin]
+		// TODO: [ABGABE] Display Results instead of fakes [Martin]
 		for (int i = 0; i < 10; i++)
 			displayed_results.add(library.getAvailableBooks().get(i));
-		/*
-		 * for (Searchable user : library.getCustomers()) {
-		 * displayed_results.add(user); }
-		 */
+		/*for (Searchable user : library.getCustomers()) {
+		*	displayed_results.add(user);
+		*}
+		*/
 		Customer test = new Customer("Hans", "Tester");
 		test.setAdress("Testdrive 3", 6667, "Oklahoma");
 		library.getLoans()
@@ -54,6 +51,7 @@ public class SearchResultListModel extends Observable implements ListModel {
 	}
 
 	public void addListDataListener(ListDataListener l) {
+		listeners.add(l);
 	}
 
 	public Searchable getElementAt(int index) {
@@ -65,6 +63,7 @@ public class SearchResultListModel extends Observable implements ListModel {
 	}
 
 	public void removeListDataListener(ListDataListener l) {
+		listeners.remove(l);
 	}
 
 	public void addchar(char c) {
@@ -72,7 +71,6 @@ public class SearchResultListModel extends Observable implements ListModel {
 		newsearch();
 	}
 
-	// TODO: remove Debugtext in here
 	private void newsearch() {
 		history.add(displayed_results);
 
@@ -83,7 +81,6 @@ public class SearchResultListModel extends Observable implements ListModel {
 				tmplist.add(item);
 			else {
 				for (Attribute att : item.searchDetail().asList()) {
-					System.out.println(att.getValue() + "----" + searchstring);
 					if (att.getValue().toString().toLowerCase().contains(
 							searchstring)) {
 						tmplist.add(item);
@@ -92,23 +89,26 @@ public class SearchResultListModel extends Observable implements ListModel {
 				}
 			}
 		}
-
 		displayed_results = tmplist;
-		setChanged();
-		notifyObservers();
-		System.out.println("newsearch finished with: " + searchstring
-				+ " and found " + displayed_results.size() + " entries");
+
+		for (ListDataListener listener : listeners) {
+			listener.contentsChanged(null);
+		}
 	}
 
-	public void delchar() {
-		if (searchstring.length() > 0) {
+	public void delchar(String newstring) {
+		if ((!newstring.isEmpty()) && newstring.equals(searchstring.substring(0,
+				searchstring.length() - 1))) {
 			searchstring = searchstring.substring(0, searchstring.length() - 1);
 			displayed_results = history.remove(history.size() - 1);
-			System.out
-					.println("delchar called, new string is: " + searchstring);
+		} else {			
+			searchstring = "";
+			while (!history.isEmpty())
+				displayed_results = history.remove(history.size() - 1);
 		}
-		setChanged();
-		notifyObservers();
-		System.out.println(displayed_results.size());
+
+		for (ListDataListener listener : listeners) {
+			listener.contentsChanged(null);
+		}
 	}
 }

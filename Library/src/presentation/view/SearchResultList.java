@@ -5,12 +5,12 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Observable;
-import java.util.Observer;
 
 import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
+import javax.swing.event.ListDataEvent;
+import javax.swing.event.ListDataListener;
 
 import presentation.model.LibraryTabbedPaneModel;
 import presentation.model.ModelController;
@@ -18,13 +18,13 @@ import presentation.model.SearchResultListModel;
 import domain.Book;
 import domain.Customer;
 import domain.Library;
-import domain.Loan;
 
 /**
  * Displays search results for books and users combined with specific actions
  * for each item.
  */
-public class SearchResultList extends JList  implements Observer {
+public class SearchResultList extends JList implements ListDataListener  {
+
 	private static final long serialVersionUID = 1L;
 	private JList resultList;
 	private final LibraryTabbedPaneModel tabModel;
@@ -38,7 +38,7 @@ public class SearchResultList extends JList  implements Observer {
 		tabModel = controller.tabbed_model;
 		library = controller.library;
 		model = controller.resultlist_model;
-		model.addObserver(this);
+		model.addListDataListener(this);
 		setLayout(new BorderLayout());
 		initResultList();
 	}
@@ -91,12 +91,18 @@ public class SearchResultList extends JList  implements Observer {
 		super.paint(g);
 	}
 
-	public void update(Observable o, Object arg) {
-		System.out.println("Searchresultlist has an update");
-		resultList.invalidate();
+	public void contentsChanged(ListDataEvent e) {
 		resultList.repaint();
 	}
-		
+
+	public void intervalAdded(ListDataEvent e) {
+		resultList.repaint();
+	}
+
+	public void intervalRemoved(ListDataEvent e) {
+		resultList.repaint();
+	}
+	
 	/**
 	 * Hardcoded for laziness reasons. List returns effective height, not
 	 * maximum height.
@@ -129,7 +135,7 @@ public class SearchResultList extends JList  implements Observer {
 				// auswählen
 				controller.activeuser_model.setNewActiveUser(selected);
 				controller.usertab_model.setActiveCustomer(selected);
-				tabModel.setActiveTab(controller.tabbed_model.USER_TAB);
+				tabModel.setActiveTab(LibraryTabbedPaneModel.USER_TAB);
 			}
 		}
 
@@ -169,7 +175,7 @@ public class SearchResultList extends JList  implements Observer {
 
 		private void showDetailsOf(Book selected) {
 			controller.booktab_model.setActiveBook(selected);
-			tabModel.setActiveTab(controller.tabbed_model.BOOK_TAB);
+			tabModel.setActiveTab(LibraryTabbedPaneModel.BOOK_TAB);
 		}
 
 		private boolean isFirstIconHit(MouseEvent e, int index) {
