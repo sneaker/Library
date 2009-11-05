@@ -43,7 +43,7 @@ public class LibraryMainWindow extends JFrame implements Observer {
 
 		setTitle(model.getTitle());
 		setPreferredSize(new Dimension(800, 400));
-		setMinimumSize(new Dimension(460, 355));
+		setMinimumSize(new Dimension(645, 390));
 		setSize(750, 450);
 
 		initGUI();
