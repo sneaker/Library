@@ -15,24 +15,25 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import domain.Customer;
-
 import presentation.model.ActiveUserPanelModel;
 import presentation.model.ModelController;
+import domain.Customer;
 
 public class ActiveUserPanel extends JPanel implements Observer {
-	private static final String USER_IMAGE_PATH = "img/user.png";
+	private static final String USER_IMAGE_PATH = "img/user32x32.png";
 	private static final int USER_ICON_SIZE = 32;
 	private static final Insets PANEL_INSETS = new Insets(3, 10, 3, 10);
 	private static final String DEFAULT_ACTIVE_USER_TEXT = "Kein aktiver Benutzer ausgewählt";
 	private static final long serialVersionUID = 1L;
 	private JLabel activeUserLabel;
+
 	private JButton clearButton;
 	private ActiveUserPanelModel model;
 
 	public ActiveUserPanel(ModelController controller) {
 		model = controller.activeuser_model;
 		model.addObserver(this);
+
 		setLayout(new BorderLayout());
 		activeUserLabel = new JLabel(DEFAULT_ACTIVE_USER_TEXT);
 		activeUserLabel.setForeground(Color.red);
@@ -42,11 +43,11 @@ public class ActiveUserPanel extends JPanel implements Observer {
 		activeUserLabel.setIcon(img);
 		activeUserLabel.setBorder(new EmptyBorder(PANEL_INSETS));
 		add(activeUserLabel, BorderLayout.WEST);
-		
+
 		clearButton = new JButton("Benutzer Deaktivieren");
 		clearButton.setEnabled(false);
 		clearButton.addActionListener(new ActionListener() {
-			
+
 			public void actionPerformed(ActionEvent e) {
 				model.clearUser();
 				clearButton.setEnabled(false);
@@ -57,18 +58,16 @@ public class ActiveUserPanel extends JPanel implements Observer {
 
 	public void update(Observable o, Object arg) {
 		Customer customer = model.getCustomer();
-		if (customer != null) 
-		{
+		if (customer != null) {
 			enableUser(customer);
-		}
-		else 
-		{
+		} else {
 			disableUser();
 		}
 	}
 
 	private void enableUser(Customer customer) {
-		activeUserLabel.setText("Aktivierter Benutzer: " + customer.getSurname() + " " + customer.getName());
+		activeUserLabel.setText("Aktivierter Benutzer: "
+				+ customer.getSurname() + " " + customer.getName());
 		activeUserLabel.setForeground(Color.green);
 		clearButton.setEnabled(true);
 	}

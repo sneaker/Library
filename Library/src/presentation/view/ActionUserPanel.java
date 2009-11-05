@@ -82,7 +82,6 @@ public class ActionUserPanel extends JPanel implements Observer {
 		button_panel.add(Box.createRigidArea(new Dimension(0,5)));
 	}
 
-	@Override
 	public void update(Observable o, Object arg) {
 		// TODO Auto-generated method stub
 		

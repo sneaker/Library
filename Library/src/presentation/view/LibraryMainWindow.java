@@ -15,10 +15,9 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.KeyStroke;
 
-import domain.Library;
-
 import presentation.model.MainWindowModel;
 import presentation.model.ModelController;
+import domain.Library;
 
 /**
  * Represents the overall main window of the library application. Initializes
@@ -42,26 +41,32 @@ public class LibraryMainWindow extends JFrame implements Observer {
 
 		controller.library = library;
 
-		setTitle(model.getWindowTitle());
+		setTitle(model.getTitle());
 		setPreferredSize(new Dimension(800, 400));
 		setMinimumSize(new Dimension(460, 355));
 		setSize(750, 450);
 
 		initGUI();
 	}
-	
+
 	public MainWindowModel getModel() {
 		return model;
 	}
 
 	private void initGUI() {
 		initMenubar();
+		initStatusPanel();
 		findAsYouTypeGlassPane = new FindAsYouTypeGlassPane(this);
 		initActiveUserPanel();
 		initTabbedPane();
 		requestFocusOnSearchField();
 		addGlobalKeyListener();
 		setGlassPaneClosesOnEscape();
+	}
+
+	private void initStatusPanel() {
+		StatusPanel statusPanel = new StatusPanel(controller);
+		add(statusPanel, BorderLayout.SOUTH);
 	}
 
 	private void initTabbedPane() {
@@ -102,12 +107,6 @@ public class LibraryMainWindow extends JFrame implements Observer {
 	}
 
 	public void update(Observable o, Object arg) {
-		menubar.setActiveViewIndex(controller.tabbed_model.getActiveTab());
-		controller.tabbed_model.setActiveTab(controller.tabbed_model.getActiveTab());
-		setTitle(controller.tabbed_model.getTabbedTitle());
-
-		// update set active user
-		// update status bar
+		setTitle(model.getTitle());
 	}
-
 }

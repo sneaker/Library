@@ -25,11 +25,12 @@ public class SearchResultListModel implements ListModel {
 		library = controller.library;
 		displayed_results = new ArrayList<Searchable>();
 		// TODO: [ABGABE] Display Results instead of fakes [Martin]
-		for (int i = 0; i < 80; i++)
+		for (int i = 0; i < 10; i++)
 			displayed_results.add(library.getAvailableBooks().get(i));
-		for (Searchable user : library.getCustomers()) {
-			displayed_results.add(user);
-		}
+		/*for (Searchable user : library.getCustomers()) {
+		*	displayed_results.add(user);
+		*}
+		*/
 		Customer test = new Customer("Hans", "Tester");
 		test.setAdress("Testdrive 3", 6667, "Oklahoma");
 		library.getLoans()
@@ -101,9 +102,9 @@ public class SearchResultListModel implements ListModel {
 			searchstring = searchstring.substring(0, searchstring.length() - 1);
 			displayed_results = history.remove(history.size() - 1);
 		} else {			
-				searchstring = "";
-				while (!history.isEmpty())
-					displayed_results = history.remove(history.size() - 1);
+			searchstring = "";
+			while (!history.isEmpty())
+				displayed_results = history.remove(history.size() - 1);
 		}
 
 		for (ListDataListener listener : listeners) {

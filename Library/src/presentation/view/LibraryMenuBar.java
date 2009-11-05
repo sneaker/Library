@@ -2,6 +2,8 @@ package presentation.view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.AbstractAction;
 import javax.swing.AbstractButton;
@@ -15,14 +17,13 @@ import javax.swing.KeyStroke;
 
 import presentation.model.LibraryTabbedPaneModel;
 import presentation.model.ModelController;
-import presentation.model.TabSearchModel;
 
 /**
  * Repräsentiert und verwaltet die Menübar für die Bibliotheksapplikation.
  * Überwacht den Status der aktiven Menü-Tabs, um die Menübar entsprechend
  * anzupassen.
  */
-public class LibraryMenuBar extends JMenuBar {
+public class LibraryMenuBar extends JMenuBar implements Observer {
 
 	private static final long serialVersionUID = 1L;
 	private JMenuItem reservedMenuItem;
@@ -47,7 +48,6 @@ public class LibraryMenuBar extends JMenuBar {
 	private JMenuItem createUserMenuItem;
 	private AbstractButton aboutMenuItem;
 	private ButtonGroup viewGroup;
-	private TabSearchModel searchPaneModel;
 	private ModelController controller;
 
 	public LibraryMenuBar(ModelController controller) {
@@ -60,6 +60,7 @@ public class LibraryMenuBar extends JMenuBar {
 		initUserMenu();
 
 		initHelpMenu();
+		controller.tabbed_model.addObserver(this);
 	}
 
 	private void initFileMenu() {
@@ -70,13 +71,15 @@ public class LibraryMenuBar extends JMenuBar {
 		{
 			resetMenuItem = new JMenuItem("Neu");
 			resetMenuItem.setAccelerator(KeyStroke.getKeyStroke("F4"));
-			searchPaneModel = controller.searchtab_model;
 			resetMenuItem.addActionListener(new ChangeViewActionListener(
 					LibraryTabbedPaneModel.SEARCH_TAB) {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					super.actionPerformed(e);
-					searchPaneModel.resetSearchText();
+					controller.searchtab_model.resetSearchText();
+					controller.tabbed_model.setActiveTab(LibraryTabbedPaneModel.SEARCH_TAB);
+					controller.booktab_model.setActiveBook(null);
+					controller.status_model.setTempStatus("Neustart");
 				}
 			});
 			fileMenu.add(resetMenuItem);
@@ -129,7 +132,7 @@ public class LibraryMenuBar extends JMenuBar {
 		return new ChangeViewActionListener(newTab);
 	}
 
-	protected class ChangeViewActionListener implements ActionListener {
+	private class ChangeViewActionListener implements ActionListener {
 		private int newTab;
 
 		public ChangeViewActionListener(int newTab) {
@@ -249,6 +252,10 @@ public class LibraryMenuBar extends JMenuBar {
 		searchMenuItem.setSelected(activeTab == 0);
 		bookMenuItem.setSelected(activeTab == 1);
 		userMenuItem.setSelected(activeTab == 2);
+	}
+
+	public void update(Observable o, Object arg) {
+		setActiveViewIndex(controller.tabbed_model.getActiveTab());
 	}
 
 }

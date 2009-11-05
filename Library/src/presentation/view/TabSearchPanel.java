@@ -50,7 +50,7 @@ public class TabSearchPanel extends JPanel implements Observer {
 	 * 
 	 * @param mainmodel
 	 */
-	public TabSearchPanel(ModelController controller){
+	public TabSearchPanel(ModelController controller) {
 		setLayout(new BorderLayout());
 		this.controller = controller;
 		model = controller.searchtab_model;
@@ -80,7 +80,9 @@ public class TabSearchPanel extends JPanel implements Observer {
 		searchField.setBorder(new EmptyBorder(10, 10, 10, 10));
 		searchField.addKeyListener(new KeyAdapter() {
 			public void keyReleased(KeyEvent e) {
-				if ((e.getKeyCode() >= KeyEvent.VK_A) && (e.getKeyCode() <= KeyEvent.VK_Z))
+				if ((e.getKeyCode() >= KeyEvent.VK_A)
+						&& (e.getKeyCode() <= KeyEvent.VK_Z)
+						|| (e.getKeyCode() == KeyEvent.VK_SPACE))
 					model.forwardKeyEvent(e);
 				if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
 					model.fowardDeleteEvent(searchField.getText());
@@ -149,26 +151,12 @@ public class TabSearchPanel extends JPanel implements Observer {
 		searchField.setCaretPosition(0);
 	}
 
-	/**
-	 * TODO: "You ask why? Well, let’s see what happens when I use the standard
-	 * Java implementations of Observer and Observable: I end up checking the
-	 * type of the Observable each time the update() method is called on the
-	 * observer — using instanceof. Unnecessary to say that this is considered a
-	 * code smell by some people."
-	 * 
-	 * @see http 
-	 *      ://gnoack.wordpress.com/2008/02/26/observer-pattern-revisited-using-
-	 *      java-5-generics/
-	 */
 	public void update(Observable o, Object arg) {
-		if (arg instanceof String) {
-			//TODO: the worst hack on earth continues...
-			if (arg.equals("requestFocus"))
-				requestFocus();
-			else {
-				searchField.setForeground(model.getSearchFieldColor());
-				searchField.setText((String) arg);
-			}
+		if (model.hasFocus()) {
+			model.resetFocus();
+			requestFocus();
 		}
+		searchField.setForeground(model.getSearchFieldColor());
+		searchField.setText(model.getSearchText());
 	}
 }

@@ -16,17 +16,21 @@ public class ActiveUserPanelModel extends Observable {
 	public Customer getCustomer() {
 		return customer;
 	}
+	
+	public String getFullActiveCustomerName() {
+		if (getCustomer() == null)
+			return "";
+		return getCustomer().getSurname() + ", " + getCustomer().getName();
+	}
 
 	public void setNewActiveUser(Customer selected) {
 		customer = selected;
-		controller.main_model.fireDataChange();
 		setChanged();
 		notifyObservers();
 	}
 
 	public void clearUser() {
 		customer = null;
-		controller.main_model.fireDataChange();
 		setChanged();
 		notifyObservers();
 	}
