@@ -28,7 +28,7 @@ public class ActionPanelModel extends Observable {
 		if (controller.booktab_model.getActiveBook() == null)
 			return;
 		controller.booktab_model.getActiveBook().setCondition(Book.Condition.WASTE);
-		controller.status_model.setTempStatus("Buch wurde ausgemustert: " + controller.booktab_model.getActiveBook());
+		controller.status_model.setTempStatus("Buch wurde ausgemustert: " + controller.booktab_model.getActiveBook().getTitle().getName());
 	}
 
 	public void lendBook() {

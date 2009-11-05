@@ -145,5 +145,6 @@ public class ActionBookPanel extends JPanel implements Observer {
 		lend.setVisible (controller.booktab_model.isActiveBookLendable());
 		ret.setVisible(controller.booktab_model.isActiveBookReturnable());
 		defekt.setVisible(controller.booktab_model.isActiveBookNoWaste());
+		search.requestFocus();
 	}
 }
