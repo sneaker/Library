@@ -11,17 +11,24 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.swing.AbstractListModel;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ListDataListener;
 import javax.swing.text.JTextComponent;
+
+import domain.Customer;
+import domain.Loan;
 
 import presentation.model.ModelController;
 import presentation.model.TabBookModel;
@@ -44,6 +51,7 @@ public class TabBookPanel extends JPanel implements Observer {
 	private JTextField authorText;
 	private JTextField publishText;
 	private JLabel filler;
+	private JLabel lastLoan;
 
 	public TabBookPanel(ModelController controller) {
 		setLayout(new BorderLayout());
@@ -63,6 +71,32 @@ public class TabBookPanel extends JPanel implements Observer {
 		contentPanel = new JPanel();
 		contentPanel.setLayout(new BorderLayout());
 
+		initDetailPanel();
+		initLoanPanel();
+
+		contentPanel.add(detailPanel, BorderLayout.CENTER);
+		contentPanel.add(loanPanel, BorderLayout.SOUTH);
+
+		add(contentPanel, BorderLayout.CENTER);
+	}
+
+	private void initLoanPanel() {
+		loanPanel = new JPanel();
+		loanPanel.setVisible(false);
+		loanPanel.setBorder(new TitledBorder("Ausleihdetails"));
+		loanPanel.setLayout(new GridBagLayout());
+		GridBagConstraints c = new GridBagConstraints();
+
+		lastLoan = new JLabel();
+		c.gridx = 0;
+		c.gridy = 0;
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		loanPanel.add(lastLoan, c);
+	}
+
+	private void initDetailPanel() {
 		GridBagConstraints c = new GridBagConstraints();
 		detailPanel = new JPanel();
 		detailPanel.setLayout(new GridBagLayout());
@@ -73,7 +107,8 @@ public class TabBookPanel extends JPanel implements Observer {
 		titleText.setBackground(this.getBackground());
 		titleText.setLineWrap(true);
 		titleText.setFont(new Font("SansSerif", Font.BOLD, 18));
-		titleText.addMouseListener(new ClipboardListener("Copy title", titleText));
+		titleText.addMouseListener(new ClipboardListener("Copy title",
+				titleText));
 		c.gridx = 0;
 		c.gridy = 0;
 		c.gridwidth = 2;
@@ -129,15 +164,6 @@ public class TabBookPanel extends JPanel implements Observer {
 		detailPanel.add(filler, c);
 
 		detailPanel.add(new JLabel());
-
-		loanPanel = new JPanel();
-		loanPanel.setBorder(new TitledBorder("Ausleihdetails"));
-		loanPanel.setVisible(false);
-
-		contentPanel.add(detailPanel, BorderLayout.CENTER);
-		contentPanel.add(loanPanel, BorderLayout.SOUTH);
-
-		add(contentPanel, BorderLayout.CENTER);
 	}
 
 	public TabBookModel getModel() {
@@ -155,6 +181,13 @@ public class TabBookPanel extends JPanel implements Observer {
 		if (!isBookActive)
 			return;
 
+		List<Loan> lastLoans = controller.library.getLoansPerTitle(controller.booktab_model.getActiveBook().getTitle());
+		String lastCustomer ="";
+		if (lastLoans.get(0) != null && lastLoans.get(0).getCustomer() != null) {
+			lastCustomer = lastLoans.get(0).getCustomer().getSurname() + ", " + lastLoans.get(0).getCustomer().getName();
+			
+		}
+		lastLoan.setText (lastLoans.get(0).getCustomer().getSurname().toString()) ;
 		titleText.setText(model.getActiveBook().getTitle().getName());
 		authorText.setText(model.getActiveBook().getTitle().getAuthor());
 		publishText.setText(model.getActiveBook().getTitle().getPublisher());
@@ -178,7 +211,8 @@ public class TabBookPanel extends JPanel implements Observer {
 					Clipboard clipboard;
 					clipboard = Toolkit.getDefaultToolkit()
 							.getSystemClipboard();
-					StringSelection newcontents = new StringSelection(what.getText());
+					StringSelection newcontents = new StringSelection(what
+							.getText());
 					clipboard.setContents(newcontents, controller.main_model);
 				}
 			});
