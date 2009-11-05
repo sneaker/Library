@@ -15,23 +15,19 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.swing.AbstractListModel;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
-import javax.swing.event.ListDataListener;
 import javax.swing.text.JTextComponent;
-
-import domain.Customer;
-import domain.Loan;
 
 import presentation.model.ModelController;
 import presentation.model.TabBookModel;
+import domain.Book;
+import domain.Loan;
 
 public class TabBookPanel extends JPanel implements Observer {
 
@@ -52,6 +48,8 @@ public class TabBookPanel extends JPanel implements Observer {
 	private JTextField publishText;
 	private JLabel filler;
 	private JLabel lastLoan;
+	private JLabel conditionLabel;
+	private DetailTextField conditionText;
 
 	public TabBookPanel(ModelController controller) {
 		setLayout(new BorderLayout());
@@ -84,16 +82,10 @@ public class TabBookPanel extends JPanel implements Observer {
 		loanPanel = new JPanel();
 		loanPanel.setVisible(false);
 		loanPanel.setBorder(new TitledBorder("Ausleihdetails"));
-		loanPanel.setLayout(new GridBagLayout());
-		GridBagConstraints c = new GridBagConstraints();
-
+		loanPanel.setLayout(new BorderLayout());
 		lastLoan = new JLabel();
-		c.gridx = 0;
-		c.gridy = 0;
-		c.gridwidth = 1;
-		c.gridheight = 1;
-		c.fill = GridBagConstraints.HORIZONTAL;
-		loanPanel.add(lastLoan, c);
+		lastLoan.setFont(new Font("SansSerif", Font.PLAIN, 16));
+		loanPanel.add(lastLoan);
 	}
 
 	private void initDetailPanel() {
@@ -130,6 +122,14 @@ public class TabBookPanel extends JPanel implements Observer {
 		publishText.setVisible(false);
 		publishText.setEditable(false);
 		publishText.setBorder(null);
+		conditionLabel = new JLabel("Zustand: ");
+		conditionLabel.setVisible(false);
+		conditionLabel.setFont(DETAIL_LABEL_FONT);
+		conditionText = new DetailTextField();
+		conditionText.setVisible(false);
+		conditionText.setEditable(false);
+		conditionText.setBorder(null);
+		
 		filler = new JLabel();
 		c.gridx = 0;
 		c.gridy = 1;
@@ -157,6 +157,18 @@ public class TabBookPanel extends JPanel implements Observer {
 		detailPanel.add(publishText, c);
 		c.gridx = 0;
 		c.gridy = 3;
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		c.weightx = 0;
+		detailPanel.add(conditionLabel, c);
+		c.gridx = 1;
+		c.gridy = 3;
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		c.weightx = 1.0;
+		detailPanel.add(conditionText, c);
+		c.gridx = 0;
+		c.gridy = 4;
 		c.gridwidth = 2;
 		c.gridheight = 1;
 		c.weightx = 1.0;
@@ -172,25 +184,43 @@ public class TabBookPanel extends JPanel implements Observer {
 
 	public void update(Observable o, Object arg) {
 		boolean isBookActive = model.getActiveBook() != null;
-		loanPanel.setVisible(isBookActive);
+		loanPanel.setVisible(isBookActive && model.getActiveBook().getCondition() != Book.Condition.WASTE);
 		titleText.setText(isBookActive ? NO_BOOK_ACTIVE_TEXT : "");
 		authorText.setVisible(isBookActive);
 		authorLabel.setVisible(isBookActive);
 		publishLabel.setVisible(isBookActive);
 		publishText.setVisible(isBookActive);
+		conditionText.setVisible(isBookActive);
+		conditionLabel.setVisible(isBookActive);
 		if (!isBookActive)
 			return;
 
-		List<Loan> lastLoans = controller.library.getLoansPerTitle(controller.booktab_model.getActiveBook().getTitle());
-		String lastCustomer ="";
-		if (lastLoans.get(0) != null && lastLoans.get(0).getCustomer() != null) {
-			lastCustomer = lastLoans.get(0).getCustomer().getSurname() + ", " + lastLoans.get(0).getCustomer().getName();
-			
-		}
-		lastLoan.setText (lastLoans.get(0).getCustomer().getSurname().toString()) ;
+		conditionText.setText(model.getActiveBook().getConditionString());
 		titleText.setText(model.getActiveBook().getTitle().getName());
 		authorText.setText(model.getActiveBook().getTitle().getAuthor());
 		publishText.setText(model.getActiveBook().getTitle().getPublisher());
+
+		List<Loan> loanList = controller.library.getLoansPerBook(model.getActiveBook());
+		Loan tmpLoan = controller.library.getRecentLoanOf(model.getActiveBook());
+
+		String lastCustomer = "<html><b>Ausleihezustand</b>: ";
+		if (tmpLoan == null || tmpLoan.getCustomer() == null) {
+			lastCustomer += "Verfügbar. Buch wurde noch nie ausgeliehen.<br />";
+		} else {
+			lastCustomer += (tmpLoan.isLent() ? "Ausgeliehen" : "Verfügbar") + "<br />";
+			lastCustomer += "<b>Letzter Ausleiher</b>: " + tmpLoan.getCustomer().getFullName() + "<br />";
+
+			if (!tmpLoan.isLent()) {
+				lastCustomer += "<b>Letzte Ausleihedauer</b>: " + tmpLoan.getDaysOfLoanDuration() + (tmpLoan.getDaysOfLoanDuration() == 1 ? " Tag" : " Tage") + "<br />";
+			} else {
+				lastCustomer += "<b>Ausleihedauer</b>: " + (tmpLoan.getDaysOfLoanDurationTillToday() == 0 ? "heute ausgeliehen" : tmpLoan.getDaysOfLoanDurationTillToday()) + "";
+				if (tmpLoan.getDaysOfLoanDurationTillToday() > 14)
+					lastCustomer += " (<font color=red>überfällig</font> seit " + (tmpLoan.getDaysOfLoanDurationTillToday() - 14 == 1 ? "heute" : (tmpLoan.getDaysOfLoanDurationTillToday() - 14) + " Tagen") +")";
+				lastCustomer += "<br />";
+			}
+			lastCustomer += "Bisher total " + loanList.size() + " Mal ausgeliehen<br />";
+		}
+		lastLoan.setText (lastCustomer);
 	}
 
 	private final class ClipboardListener extends MouseAdapter {
