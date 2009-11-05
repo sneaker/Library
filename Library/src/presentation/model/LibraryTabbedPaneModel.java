@@ -9,8 +9,8 @@ public class LibraryTabbedPaneModel extends Observable {
 	public String[][] tabInformation = {
 			{ "Recherche", "img/search.png",
 					"Suchen nach Benutzern oder Büchern" },
-			{ "Buch", "img/book.png", "Details eines Buches anzeigen" },
-			{ "Benutzer", "img/user.png",
+			{ "Buch", "img/book64x64.png", "Details eines Buches anzeigen" },
+			{ "Benutzer", "img/user64x64.png",
 					"Personalien und Ausleihen eines Benutzers anzeigen" } };
 	public final static int SEARCH_TAB = 0;
 	public final static int BOOK_TAB = 1;

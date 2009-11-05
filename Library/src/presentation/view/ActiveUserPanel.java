@@ -20,7 +20,7 @@ import presentation.model.ModelController;
 import domain.Customer;
 
 public class ActiveUserPanel extends JPanel implements Observer {
-	private static final String USER_IMAGE_PATH = "img/user.png";
+	private static final String USER_IMAGE_PATH = "img/user32x32.png";
 	private static final int USER_ICON_SIZE = 32;
 	private static final Insets PANEL_INSETS = new Insets(3, 10, 3, 10);
 	private static final String DEFAULT_ACTIVE_USER_TEXT = "Kein aktiver Benutzer ausgewählt";

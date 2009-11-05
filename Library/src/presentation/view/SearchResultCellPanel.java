@@ -91,7 +91,7 @@ class ResultCellBookPanel extends SearchResultCellPanel {
 	private static final String IMG_ADD32X32 = "img/add32x32.png";
 	private static final String IMG_RETURN32X32 = "img/return32x32.png";
 	private static final String IMG_AGENDA32X32 = "img/agenda32x32.png";
-	private static final String IMG_SYMBOL = "img/book.png";
+	private static final String IMG_SYMBOL = "img/book64x64.png";
 	private static final long serialVersionUID = -8375612543994217556L;
 	private final Book active;
 	private final boolean isSelected;
@@ -146,7 +146,7 @@ class ResultCellBookPanel extends SearchResultCellPanel {
  * Visually representing a result showing a user.
  */
 class ResultCellUserPanel extends SearchResultCellPanel {
-	private static final String IMG_SYMBOL = "img/user.png";
+	private static final String IMG_SYMBOL = "img/user64x64.png";
 	private static final long serialVersionUID = -8375612543994217556L;
 	private final Customer active;
 
