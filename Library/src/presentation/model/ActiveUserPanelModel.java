@@ -30,4 +30,8 @@ public class ActiveUserPanelModel extends Observable {
 		setChanged();
 		notifyObservers();
 	}
+
+	public void switchtoSearch() {
+		controller.tabbed_model.setActiveTab(LibraryTabbedPaneModel.SEARCH_TAB);
+	}
 }

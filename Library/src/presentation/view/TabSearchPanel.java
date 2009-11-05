@@ -3,8 +3,6 @@ package presentation.view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
@@ -82,10 +80,13 @@ public class TabSearchPanel extends JPanel implements Observer {
 		searchField.setBorder(new EmptyBorder(10, 10, 10, 10));
 		searchField.addKeyListener(new KeyAdapter() {
 			public void keyReleased(KeyEvent e) {
-				model.forwardKeyEvent(e);
+				if ((e.getKeyCode() >= KeyEvent.VK_A) && (e.getKeyCode() <= KeyEvent.VK_Z))
+					model.forwardKeyEvent(e);
+				if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
+					model.fowardDeleteEvent(searchField.getText());
+				}
 			}
 		});
-		
 		setSearchFieldDefaultTextListeners();
 		searchTab.add(searchField);
 		contentPanel.add(searchTab, BorderLayout.NORTH);
@@ -161,6 +162,7 @@ public class TabSearchPanel extends JPanel implements Observer {
 	 */
 	public void update(Observable o, Object arg) {
 		if (arg instanceof String) {
+			//TODO: the worst hack on earth continues...
 			if (arg.equals("requestFocus"))
 				requestFocus();
 			else {

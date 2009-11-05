@@ -60,10 +60,11 @@ public class TabSearchModel extends Observable {
 		notifyObservers("requestFocus");
 	}
 
+	public void fowardDeleteEvent(String text) {
+		controller.resultlist_model.delchar(text);
+	}
+
 	public void forwardKeyEvent(KeyEvent e) {
-		if (e.getKeyCode() >= KeyEvent.VK_A && e.getKeyCode() <= KeyEvent.VK_Z)
-			controller.resultlist_model.addchar(e.getKeyChar());
-		else if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE)
-			controller.resultlist_model.delchar();
+		controller.resultlist_model.addchar(e.getKeyChar());
 	}
 }

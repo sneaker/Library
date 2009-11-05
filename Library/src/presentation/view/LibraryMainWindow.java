@@ -30,7 +30,6 @@ public class LibraryMainWindow extends JFrame implements Observer {
 	private MainWindowModel model;
 	private LibraryMenuBar menubar;
 	private ActiveUserPanel userpanel;
-	private FindAsYouTypeGlassPane glasspane;
 	private LibraryTabbedPane tabbedpane;
 	private ModelController controller;
 	public FindAsYouTypeGlassPane findAsYouTypeGlassPane;

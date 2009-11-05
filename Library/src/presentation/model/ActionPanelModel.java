@@ -9,13 +9,11 @@ public class ActionPanelModel extends Observable {
 
 	private ModelController controller;
 	
-	//TODO: Needs application as argument to do the actions
 	public ActionPanelModel(ModelController controller) {
 		this.controller = controller;
 	}
 	
 	public void update(Observable o, Object arg) {
-		//TODO: Does not update the list on the view
 		setChanged();
 		notifyObservers();
 	}
@@ -42,25 +40,22 @@ public class ActionPanelModel extends Observable {
 		{
 			controller.library.createAndAddLoan(activeuser, activebook);
 		} 
+		//TODO: [Thomas] Inform the user about error via statusbar
 		else if (activeuser == null)
 		{
-			//TODO: Show select user first
 			controller.tabbed_model.setActiveTab(LibraryTabbedPaneModel.SEARCH_TAB);
 		} 
 		else 
 		{
-			//TODO: Show select book, no book activated
 			controller.tabbed_model.setActiveTab(LibraryTabbedPaneModel.SEARCH_TAB);
 		}
 	}
 
 	public void createUser() {
 		// TODO Auto-generated method stub
-		
 	}
 
 	public void editUserSettings() {
 		// TODO Auto-generated method stub
-		
 	}
 }
