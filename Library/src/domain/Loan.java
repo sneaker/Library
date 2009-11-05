@@ -86,4 +86,10 @@ public class Loan {
 					/ 1000 / 60 / 60 / 24;
 		return -1;
 	}
+
+	public int getDaysOfLoanDurationTillToday() {
+		GregorianCalendar today = new GregorianCalendar();
+		return (int) (today.getTimeInMillis() - pickupDate.getTimeInMillis())
+				/ 1000 / 60 / 60 / 24;
+	}
 }

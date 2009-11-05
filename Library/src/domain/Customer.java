@@ -30,6 +30,10 @@ public class Customer implements Searchable {
 	public String getSurname() {
 		return surname;
 	}
+	
+	public String getFullName() {
+		return getName() + ", " + getSurname();
+	}
 
 	public void setSurname(String surname) {
 		this.surname = surname;

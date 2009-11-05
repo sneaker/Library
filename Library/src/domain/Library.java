@@ -1,6 +1,8 @@
 package domain;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class Library {
@@ -55,7 +57,7 @@ public class Library {
 			return;
 		}
 	}
-	
+
 	public void reserveBook(Book selected) {
 		// TODO: Implement reservation of a book.
 	}
@@ -141,6 +143,44 @@ public class Library {
 
 	public List<Customer> getCustomers() {
 		return customers;
+	}
+
+	/**
+	 * Searches for loans of a specific book.
+	 * @param book
+	 *            the book for which loans are looked for
+	 * @return empty list if nothing found
+	 * @return list of all loans found for the given book, sorted by the most
+	 *         recent loans.
+	 */
+	public List<Loan> getLoansPerBook(Book book) {
+		ArrayList<Loan> result = new ArrayList<Loan>();
+		for (Loan l : getLoans()) {
+			if (l.getBook().equals(book))
+				result.add(l);
+		}
+		Collections.sort(new ArrayList<Loan>(), new Comparator<Loan>() {
+			public int compare(Loan a, Loan b) {
+				if (a.getPickupDate() == null || b.getPickupDate() == null)
+					return 0;
+				if (a.getReturnDate() == null && b.getReturnDate() == null) {
+					return a.getPickupDate().compareTo(b.getPickupDate());
+				}
+				if (a.getReturnDate() == null)
+					return 1;
+				if (b.getReturnDate() == null)
+					return -1;
+				return (a.getReturnDate().compareTo(b.getReturnDate()));
+			}
+		});
+		return result;
+	}
+	
+	public Loan getRecentLoanOf(Book book) {
+		List<Loan> l = getLoansPerBook(book);
+		if (l.size() == 0)
+			return null;
+		return getLoansPerBook(book).get(0);
 	}
 
 }

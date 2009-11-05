@@ -29,6 +29,18 @@ public class Book implements Searchable {
 		return condition;
 	}
 
+	public String getConditionString() {
+		if (condition == Condition.NEW)
+			return "Neuwertig";
+		if (condition == Condition.GOOD)
+			return "Intakt";
+		if (condition == Condition.DAMAGED)
+			return "Beschädigt";
+		if (condition == Condition.WASTE)
+			return "Ausgemustert";
+		return "";
+	}
+
 	public void setCondition(Condition condition) {
 		this.condition = condition;
 	}
@@ -36,15 +48,19 @@ public class Book implements Searchable {
 	public long getInventoryNumber() {
 		return inventoryNumber;
 	}
-	
+
 	public String searchTitle() {
 		return getTitle().getName();
 	}
 
 	public AttributeList searchDetail() {
 		AttributeList list = new AttributeList();
-		list.add(new Attribute("Autor", (title.getAuthor() == null ? "kein Autor eingetragen" : title.getAuthor())));
-		list.add(new Attribute("Verlag", (title.getPublisher() == null ? "kein Verlag eingetragen" : title.getPublisher())));
+		list.add(new Attribute("Autor",
+				(title.getAuthor() == null ? "kein Autor eingetragen" : title
+						.getAuthor())));
+		list.add(new Attribute("Verlag",
+				(title.getPublisher() == null ? "kein Verlag eingetragen"
+						: title.getPublisher())));
 		return list;
 	}
 }
