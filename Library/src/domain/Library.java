@@ -7,6 +7,7 @@ import java.util.List;
 
 public class Library {
 
+	private static final int MAX_LEND_DAYS = 14;
 	private List<Book> books;
 	private List<Customer> customers;
 	private List<Loan> loans;
@@ -181,6 +182,10 @@ public class Library {
 		if (l.size() == 0)
 			return null;
 		return getLoansPerBook(book).get(0);
+	}
+
+	public int getMaxLendDays() {
+		return MAX_LEND_DAYS;
 	}
 
 }
