@@ -32,7 +32,7 @@ public class Customer implements Searchable {
 	}
 	
 	public String getFullName() {
-		return getName() + ", " + getSurname();
+		return getSurname() + ", " + getName();
 	}
 
 	public void setSurname(String surname) {
