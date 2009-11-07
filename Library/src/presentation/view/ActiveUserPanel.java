@@ -9,7 +9,6 @@ import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -24,8 +23,11 @@ public class ActiveUserPanel extends JPanel implements Observer {
 	private static final String DEFAULT_ACTIVE_USER_TEXT = "Kein aktiver Benutzer ausgewählt";
 	private static final long serialVersionUID = 1L;
 	private JLabel activeUserLabel;
+	
+	private Color activeusercolor = new Color(34, 139, 34);
+	private Color disableusercolor = new Color(204, 0, 0);
 
-	private JButton clearButton;
+	private ActionButton clearButton;
 	private ActiveUserPanelModel model;
 
 	public ActiveUserPanel(ModelController controller) {
@@ -39,8 +41,8 @@ public class ActiveUserPanel extends JPanel implements Observer {
 		activeUserLabel.setBorder(new EmptyBorder(PANEL_INSETS));
 		add(activeUserLabel, BorderLayout.WEST);
 
-		clearButton = new JButton("Benutzer Deaktivieren");
-		clearButton.setEnabled(false);
+		//TODO: Icons einfügen
+		clearButton = new ActionButton("Benutzer Deaktivieren", "", "");
 		clearButton.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
@@ -49,6 +51,7 @@ public class ActiveUserPanel extends JPanel implements Observer {
 			}
 		});
 		add(clearButton, BorderLayout.EAST);
+		disableUser();
 	}
 
 	public void update(Observable o, Object arg) {
@@ -63,13 +66,13 @@ public class ActiveUserPanel extends JPanel implements Observer {
 	private void enableUser(Customer customer) {
 		activeUserLabel.setText("Aktivierter Benutzer: "
 				+ customer.getSurname() + " " + customer.getName());
-		activeUserLabel.setForeground(Color.green);
+		activeUserLabel.setForeground(activeusercolor);
 		clearButton.setEnabled(true);
 	}
 
 	private void disableUser() {
 		activeUserLabel.setText(DEFAULT_ACTIVE_USER_TEXT);
-		activeUserLabel.setForeground(Color.red);
+		activeUserLabel.setForeground(disableusercolor);
 		clearButton.setEnabled(false);
 		model.switchtoSearch();
 	}
