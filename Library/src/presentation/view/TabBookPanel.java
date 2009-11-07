@@ -14,17 +14,16 @@ public class TabBookPanel extends JPanel implements Observer {
 	private TabBookDetailJPanel detailPanel;
 	private JPanel contentPanel;
 	ModelController controller;
-	private ActionBookPanel bookpanel;
+	private ActionBookPanel actionPanel;
 	private TabBookLoanJPanel loanPanel;
 
 	public TabBookPanel(ModelController controller) {
-		setLayout(new BorderLayout());
 		this.controller = controller;
+		setLayout(new BorderLayout());
 		controller.booktab_model.addObserver(this);
 
 		initContentPanel();
-		bookpanel = new ActionBookPanel(controller);
-		add(bookpanel, BorderLayout.EAST);
+		initActionPanel();
 	}
 
 	private void initContentPanel() {
@@ -37,7 +36,12 @@ public class TabBookPanel extends JPanel implements Observer {
 		contentPanel.add(detailPanel, BorderLayout.CENTER);
 		contentPanel.add(loanPanel, BorderLayout.SOUTH);
 
-		add(contentPanel, BorderLayout.CENTER);
+		add(contentPanel, BorderLayout.CENTER);		
+	}
+
+	private void initActionPanel() {
+		actionPanel = new ActionBookPanel(controller);
+		add(actionPanel, BorderLayout.EAST);
 	}
 
 	public void update(Observable o, Object arg) {

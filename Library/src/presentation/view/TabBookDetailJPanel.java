@@ -60,10 +60,12 @@ public class TabBookDetailJPanel extends JPanel implements Observer {
 		titleText = new JTextArea();
 		titleText.setText(NO_BOOK_ACTIVE_TEXT);
 		titleText.setEditable(false);
-		titleText.setBackground(this.getBackground());
+		titleText.setBorder(null);
+//		titleText.setBackground(this.getBackground());
+//		titleText.setBackground(Toolkit.getBackground());
 		titleText.setLineWrap(true);
 		titleText.setFont(TITLE_FONT);
-		titleText.addMouseListener(new CopyPasteTextFieldListener("Copy title",
+		titleText.addMouseListener(new CopyPasteTextFieldListener("Titel kopieren",
 				titleText, controller));
 		
 		c.anchor = GridBagConstraints.FIRST_LINE_START;
