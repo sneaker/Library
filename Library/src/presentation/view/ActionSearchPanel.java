@@ -21,7 +21,7 @@ public class ActionSearchPanel extends AbstractActionPanel {
 	
 	private void initSearchButton() {
 		//TODO: insert images
-		buttons.put("newsearch", new ActionButton("Neue Recherche", "", ""));
+		buttons.put("newsearch", new ActionButton("Neue Recherche", "img/search32x32h.png", "img/search32x32.png"));
 		buttons.get("newsearch").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				model.changetoSearch();
