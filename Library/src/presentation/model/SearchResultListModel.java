@@ -27,10 +27,10 @@ public class SearchResultListModel implements ListModel {
 		// TODO: [ABGABE] Display Results instead of fakes [Martin]
 		for (int i = 0; i < 10; i++)
 			displayed_results.add(library.getAvailableBooks().get(i));
-		/*for (Searchable user : library.getCustomers()) {
-		*	displayed_results.add(user);
-		*}
-		*/
+		/*
+		 * for (Searchable user : library.getCustomers()) {
+		 * displayed_results.add(user);}
+		 */
 		Customer test = new Customer("Hans", "Tester");
 		test.setAdress("Testdrive 3", 6667, "Oklahoma");
 		library.getLoans()
@@ -97,18 +97,52 @@ public class SearchResultListModel implements ListModel {
 	}
 
 	public void delchar(String newstring) {
-		if ((!newstring.isEmpty()) && newstring.equals(searchstring.substring(0,
-				searchstring.length() - 1))) {
+		if ((!newstring.isEmpty())
+				&& newstring.equals(searchstring.substring(0, searchstring
+						.length() - 1))) {
 			searchstring = searchstring.substring(0, searchstring.length() - 1);
 			displayed_results = history.remove(history.size() - 1);
-		} else {			
-			searchstring = "";
-			while (!history.isEmpty())
-				displayed_results = history.remove(history.size() - 1);
+		} else {
+			resetSearch();
 		}
 
 		for (ListDataListener listener : listeners) {
 			listener.contentsChanged(null);
 		}
+	}
+
+	private void resetSearch() {
+		searchstring = "";
+		// TODO: not empty, but just 1 element
+		while (!history.isEmpty())
+			displayed_results = history.remove(history.size() - 1);
+	}
+
+	public void showavailableBooks() {
+		resetSearch();
+		ArrayList<Searchable> tmplist = new ArrayList<Searchable>();
+
+		for (Searchable item : displayed_results) {
+			if (item instanceof Customer) {
+				System.out.println("out");
+				continue;
+			}
+			Book book = (Book) item;
+
+			if (book.getCondition() == Book.Condition.GOOD
+					|| book.getCondition() == Book.Condition.NEW)
+				tmplist.add(item);
+		}
+
+		displayed_results = tmplist;
+
+		for (ListDataListener listener : listeners) {
+			listener.contentsChanged(null);
+		}
+	}
+
+	public void showDefektBook() {
+		resetSearch();
+
 	}
 }

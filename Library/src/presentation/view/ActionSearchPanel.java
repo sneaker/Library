@@ -17,10 +17,20 @@ public class ActionSearchPanel extends AbstractActionPanel {
 	protected void initActionButtons() {
 		initSearchButton();
 		initNewUserButton();
+		initShowAvailableBooks();
 	}
 	
-	private void initSearchButton() {
+	private void initShowAvailableBooks() {
 		//TODO: insert images
+		buttons.put("available", new ActionButton("Alle verfügbaren Bücher anzeigen", "", ""));
+		buttons.get("available").addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				model.showavailableBooks();
+			}
+		});
+	}
+
+	private void initSearchButton() {
 		buttons.put("newsearch", new ActionButton("Neue Recherche", "img/search32x32h.png", "img/search32x32.png"));
 		buttons.get("newsearch").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -42,5 +52,4 @@ public class ActionSearchPanel extends AbstractActionPanel {
 	public void update(Observable o, Object arg) {
 		// TODO On update make the buttons enabled
 	}
-
 }

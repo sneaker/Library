@@ -88,4 +88,8 @@ public class ActionPanelModel extends Observable {
 		setChanged();
 		notifyObservers();
 	}
+
+	public void showavailableBooks() {
+		controller.searchtab_model.showavailableBooks();
+	}
 }

@@ -80,4 +80,8 @@ public class TabSearchModel extends Observable {
 	public void resetFocus() {
 		hasFocus = false;
 	}
+
+	public void showavailableBooks() {
+		controller.resultlist_model.showavailableBooks();
+	}
 }
