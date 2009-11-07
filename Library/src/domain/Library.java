@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Library {
 
-	private static final int MAX_LEND_DAYS = 14;
+	private static final int LENDING_LIMIT = 3;
 	private List<Book> books;
 	private List<Customer> customers;
 	private List<Loan> loans;
@@ -185,7 +185,20 @@ public class Library {
 	}
 
 	public int getMaxLendDays() {
-		return MAX_LEND_DAYS;
+		return Loan.MAX_LEND_DAYS;
+	}
+
+	public boolean getCustomerStatus(Customer c) {
+		return getCustomerLoans(c).size() >= LENDING_LIMIT;
+	}
+
+	public ArrayList<Loan> getCustomerMahnungen(Customer c) {
+		ArrayList<Loan> result = new ArrayList<Loan>();
+		for (Loan l : getCustomerLoans(c)){
+			if (l.isOverdue())
+				result.add(l);
+		}
+		return result;
 	}
 
 }
