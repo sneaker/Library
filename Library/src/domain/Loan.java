@@ -6,6 +6,7 @@ import java.util.GregorianCalendar;
 
 public class Loan {
 
+	public static final int MAX_LEND_DAYS = 14;
 	private Book book;
 	private Customer customer;
 	private GregorianCalendar pickupDate, returnDate;
@@ -91,5 +92,13 @@ public class Loan {
 		GregorianCalendar today = new GregorianCalendar();
 		return (int) (today.getTimeInMillis() - pickupDate.getTimeInMillis())
 				/ 1000 / 60 / 60 / 24;
+	}
+
+	public boolean isOverdue() {
+		if (returnDate != null)
+			return false;
+		if ((new GregorianCalendar()).get(GregorianCalendar.DAY_OF_YEAR) - pickupDate.get(GregorianCalendar.DAY_OF_YEAR) > MAX_LEND_DAYS)
+			return true;
+		return false;
 	}
 }
