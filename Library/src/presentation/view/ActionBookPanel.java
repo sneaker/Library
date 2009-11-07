@@ -1,82 +1,20 @@
 package presentation.view;
 
-import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Observable;
-import java.util.Observer;
 
-import javax.swing.GroupLayout;
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.border.TitledBorder;
-
-import presentation.model.ActionPanelModel;
 import presentation.model.ModelController;
 
-public class ActionBookPanel extends JPanel implements Observer {
+public class ActionBookPanel extends AbstractActionPanel {
 
-	private static final int ACTION_HEIGHT = 40;
-	private static final int ACTION_WIDTH = 180;
 	private static final long serialVersionUID = 1L;
-	private static final String ACTION_PANEL_TITLE = "Aktionen";
-	private ActionPanelModel model;
-	private JPanel button_panel;
-	private JScrollPane pane;
-	private JButton lend;
-	private JButton defekt;
-	private final ModelController controller;
-	private JButton ret;
-	private JButton create;
-	private ActionButton edit;
-	private ActionButton search;
 
 	public ActionBookPanel(ModelController controller) {
-		this.controller = controller;
-		setLayout(new BorderLayout());
-		setBorder(new TitledBorder(ACTION_PANEL_TITLE));
-
-		model = controller.action_model;
-		model.addObserver(this);
-
-		button_panel = new JPanel();
-		putActionButtons();
-
-		pane = new JScrollPane(button_panel);
-		pane.setBorder(null);
-		add(pane);
+		super(controller);
 	}
 
-	private void putActionButtons() {
-		GroupLayout thisLayout = new GroupLayout((JComponent) button_panel);
-		button_panel.setLayout(thisLayout);
-		
-		initActionButtons();
-
-		Alignment leading = GroupLayout.Alignment.LEADING;
-		short max = Short.MAX_VALUE;
-		int ps = GroupLayout.PREFERRED_SIZE;
-	
-		thisLayout.setVerticalGroup(thisLayout.createSequentialGroup()
-				.addComponent(search, ps, ACTION_HEIGHT, ps) //
-				.addComponent(lend, ps, ACTION_HEIGHT, ps) //
-				.addComponent(ret, ps, ACTION_HEIGHT, ps) //
-				.addComponent(edit, ps, ACTION_HEIGHT, ps) //
-				.addComponent(defekt, ps, ACTION_HEIGHT, ps) //
-				.addComponent(create, ps, ACTION_HEIGHT, ps));
-		thisLayout.setHorizontalGroup(thisLayout.createParallelGroup()
-				.addComponent(search, leading, 0, ACTION_WIDTH, max) // 
-				.addComponent(lend, leading, 0, ACTION_WIDTH, max) // 
-				.addComponent(ret, leading, 0, ACTION_WIDTH, max) //
-				.addComponent(edit, leading, 0, ACTION_WIDTH, max) //
-				.addComponent(defekt, leading, 0, ACTION_WIDTH, max) //
-				.addComponent(create, leading, 0, ACTION_WIDTH, max));
-	}
-
-	private void initActionButtons() {
+	protected void initActionButtons() {
 		initLendButton();
 		initDefektButton();
 		initReturnButton();
@@ -86,8 +24,9 @@ public class ActionBookPanel extends JPanel implements Observer {
 	}
 
 	private void initDefektButton() {
-		defekt = new ActionButton("Als defekt markieren", "img/delete32x32h.png", "img/delete32x32.png");
-		defekt.addActionListener(new ActionListener() {
+		buttons.put("defekt", new ActionButton("Als defekt markieren",
+				"img/delete32x32h.png", "img/delete32x32.png"));
+		buttons.get("defekt").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				model.markDefekt();
 			}
@@ -95,28 +34,28 @@ public class ActionBookPanel extends JPanel implements Observer {
 	}
 
 	private void initReturnButton() {
-		ret = new ActionButton("Buch zurückgeben", "img/return32x32h.png", "img/return32x32.png");
-		ret.addActionListener(new ActionListener() {
+		buttons.put("return", new ActionButton("Buch zurück geben", "img/return32x32h.png", "img/return32x32.png"));
+		buttons.get("return").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				search.requestFocus();
+				buttons.get("search").requestFocus();
 				model.returnBook();
 			}
 		});
 	}
 
 	private void initLendButton() {
-		lend = new ActionButton("Buch ausleihen", "img/add32x32h.png", "img/add32x32.png");
-		lend.addActionListener(new ActionListener() {
+		buttons.put("lend",new ActionButton("Buch ausleihen", "img/add32x32h.png", "img/add32x32.png"));
+		buttons.get("lend").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				search.requestFocus();
+				buttons.get("lend").requestFocus();
 				model.lendBook();
 			}
 		});
 	}
 
 	private void initCreateButton() {
-		create = new ActionButton("Neues Buch erstellen", "img/new32x32h.png", "img/new32x32.png");
-		create.addActionListener(new ActionListener() {
+		buttons.put("create", new ActionButton("Neues Buch erstellen", "img/new32x32h.png", "img/new32x32.png"));
+		buttons.get("create").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				model.creaNewBook();
 			}
@@ -124,27 +63,27 @@ public class ActionBookPanel extends JPanel implements Observer {
 	}
 
 	private void initEditButton() {
-		edit = new ActionButton("Buchdetails editieren", "img/edit32x32h.png", "img/edit32x32.png");
-		edit.addActionListener(new ActionListener() {
+		buttons.put("edit", new ActionButton("Buchdetails editieren", "img/edit32x32h.png", "img/edit32x32.png"));
+		buttons.get("edit").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// TODO: Autogenerated Prototüp
 			}
 		});
 	}
-	
+
 	private void initSearchButton() {
-		search = new ActionButton("Neue Recherche", "img/search32x32h.png", "img/search32x32.png");
-		search.addActionListener(new ActionListener() {
+		buttons.put("search", new ActionButton("Neue Recherche", "img/search32x32h.png", "img/search32x32.png"));
+		buttons.get("search").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				controller.tabbed_model.setSearchTabActive();
 			}
 		});
 	}
-	
+
 	public void update(Observable o, Object arg) {
-		lend.setVisible (controller.booktab_model.isActiveBookLendable());
-		ret.setVisible(controller.booktab_model.isActiveBookReturnable());
-		defekt.setVisible(controller.booktab_model.isActiveBookNoWaste());
-		search.requestFocus();
+		buttons.get("lend").setVisible(controller.booktab_model.isActiveBookLendable());
+		buttons.get("return").setVisible(controller.booktab_model.isActiveBookReturnable());
+		buttons.get("defekt").setVisible(controller.booktab_model.isActiveBookNoWaste());
+		buttons.get("search").requestFocus();
 	}
 }

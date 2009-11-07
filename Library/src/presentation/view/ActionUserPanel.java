@@ -1,89 +1,58 @@
 package presentation.view;
 
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Observable;
-import java.util.Observer;
 
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.border.TitledBorder;
-
-import presentation.model.ActionPanelModel;
 import presentation.model.ModelController;
 
-public class ActionUserPanel extends JPanel implements Observer {
+public class ActionUserPanel extends AbstractActionPanel {
 
 	private static final long serialVersionUID = 1L;
-	private static final String ACTION_PANEL_TITLE = "Aktionen";
-	private ActionPanelModel model;
-	private JPanel button_panel;
-	private JScrollPane pane;
-	private JButton adduser;
-	private JButton edituser;
-	private JButton newsearch;
 
 	public ActionUserPanel(ModelController controller) {
-		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		setBorder(new TitledBorder(ACTION_PANEL_TITLE));
-		
-		model = controller.action_model;
-		model.addObserver(this);
-
-		button_panel = new JPanel();
-		button_panel.setLayout(new BoxLayout(button_panel, BoxLayout.PAGE_AXIS));
-		initActionButton();
-		pane = new JScrollPane(button_panel);
-		add(pane);
+		super(controller);
 	}
 
-	private void initActionButton() {
-		initEditButton();
+	protected void initActionButtons() {
 		initAddUserButton();
+		initEditButton();
 		initNewSearchButton();
 	}
 
 	private void initAddUserButton() {
-		adduser = new JButton("Neuen Benutzer Erfassen");
-		adduser.addActionListener(new ActionListener() {
-
+		// TODO: insert images
+		buttons.put("adduser", new ActionButton("Neuen Benutzer Erfassen", "",
+				""));
+		buttons.get("adduser").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				model.createUser();
 			}
 		});
-		button_panel.add(adduser);
-		button_panel.add(Box.createRigidArea(new Dimension(0,5)));
 	}
 
 	private void initEditButton() {
-		edituser = new JButton("Personalien Editieren");
-		edituser.addActionListener(new ActionListener() {
-
+		// TODO: insert images
+		buttons.put("edituser", new ActionButton("Personalien Editieren", "",
+				""));
+		buttons.get("edituser").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				model.editUserSettings();
 			}
 		});
-		button_panel.add(edituser);
-		button_panel.add(Box.createRigidArea(new Dimension(0,5)));
 	}
-	
+
 	private void initNewSearchButton() {
-		newsearch = new JButton("Neue Suche");
-		newsearch.addActionListener(new ActionListener() {
-			
+		// TODO: insert images
+		buttons.put("newsearch", new ActionButton("Neue Recherche", "", ""));
+		buttons.get("newsearch").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				model.changetoSearch();
 			}
 		});
-		button_panel.add(Box.createRigidArea(new Dimension(0,5)));
 	}
 
 	public void update(Observable o, Object arg) {
 		// TODO Auto-generated method stub
-		
 	}
 }
