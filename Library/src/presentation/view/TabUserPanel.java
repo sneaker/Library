@@ -5,7 +5,6 @@ import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.JPanel;
-import javax.swing.border.TitledBorder;
 
 import presentation.model.ModelController;
 
@@ -14,7 +13,9 @@ public class TabUserPanel extends JPanel implements Observer {
 	private static final long serialVersionUID = 1L;
 	ModelController controller;
 	private ActionUserPanel action_user_panel;
-	private TabUserDetailJPanel contentPanel;
+	private JPanel contentPanel;
+	private TabUserDetailJPanel detailPanel;
+	private TabUserLoanJPanel loanPanel;
 
 	public TabUserPanel(ModelController controller) {
 		this.controller = controller;
@@ -26,8 +27,14 @@ public class TabUserPanel extends JPanel implements Observer {
 	}
 
 	private void initContentPane() {
-		contentPanel = new TabUserDetailJPanel(controller);
-		contentPanel.setBorder(new TitledBorder("Benutzerinformationen"));
+		contentPanel = new JPanel();
+		contentPanel.setLayout(new BorderLayout());
+		detailPanel = new TabUserDetailJPanel(controller);
+		loanPanel = new TabUserLoanJPanel(controller);
+
+		contentPanel.add(detailPanel, BorderLayout.CENTER);
+		contentPanel.add(loanPanel, BorderLayout.SOUTH);
+
 		add(contentPanel, BorderLayout.CENTER);
 	}
 
@@ -37,6 +44,7 @@ public class TabUserPanel extends JPanel implements Observer {
 	}
 
 	public void update(Observable o, Object arg) {
-		contentPanel.update(null, null);
+		detailPanel.update(null, null);
+		loanPanel.update(null, null);
 	}
 }
