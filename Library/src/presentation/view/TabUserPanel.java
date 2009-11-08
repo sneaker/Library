@@ -1,6 +1,8 @@
 package presentation.view;
 
 import java.awt.BorderLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -28,12 +30,24 @@ public class TabUserPanel extends JPanel implements Observer {
 
 	private void initContentPane() {
 		contentPanel = new JPanel();
-		contentPanel.setLayout(new BorderLayout());
+		contentPanel.setLayout(new GridBagLayout());
 		detailPanel = new TabUserDetailJPanel(controller);
 		loanPanel = new TabUserLoanJPanel(controller);
 
-		contentPanel.add(detailPanel, BorderLayout.CENTER);
-		contentPanel.add(loanPanel, BorderLayout.SOUTH);
+		GridBagConstraints c = new GridBagConstraints();
+		c.anchor = GridBagConstraints.FIRST_LINE_START;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 0;
+		c.weightx = 1.0;
+		c.weighty = 0.0;
+		contentPanel.add(detailPanel, c);
+		c.fill = GridBagConstraints.BOTH;
+		c.gridx = 0;
+		c.gridy = 1;
+		c.weightx = 1.0;
+		c.weighty = 1;
+		contentPanel.add(loanPanel, c);
 
 		add(contentPanel, BorderLayout.CENTER);
 	}
