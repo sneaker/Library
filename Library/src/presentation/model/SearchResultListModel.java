@@ -7,6 +7,7 @@ import javax.management.Attribute;
 import javax.swing.ListModel;
 import javax.swing.event.ListDataListener;
 
+import domain.Book;
 import domain.Customer;
 import domain.IllegalLoanOperationException;
 import domain.Library;
@@ -41,6 +42,8 @@ public class SearchResultListModel implements ListModel {
 
 		for (int i = 0; i < 10; i++)
 			displayed_results.add(library.getAvailableBooks().get(i));
+
+		history.add(displayed_results);
 	}
 
 	public void addListDataListener(ListDataListener l) {
@@ -65,7 +68,6 @@ public class SearchResultListModel implements ListModel {
 	}
 
 	private void newsearch() {
-		history.add(displayed_results);
 
 		ArrayList<Searchable> tmplist = new ArrayList<Searchable>();
 
@@ -83,10 +85,9 @@ public class SearchResultListModel implements ListModel {
 			}
 		}
 		displayed_results = tmplist;
+		history.add(displayed_results);
 
-		for (ListDataListener listener : listeners) {
-			listener.contentsChanged(null);
-		}
+		update();
 	}
 
 	public void delchar(String newstring) {
@@ -96,13 +97,84 @@ public class SearchResultListModel implements ListModel {
 			searchstring = searchstring.substring(0, searchstring.length() - 1);
 			displayed_results = history.remove(history.size() - 1);
 		} else {
-			searchstring = "";
-			while (!history.isEmpty())
-				displayed_results = history.remove(history.size() - 1);
+			resetSearch();
 		}
 
+		update();
+	}
+
+	public void resetSearch() {
+		searchstring = "";
+		displayed_results = history.get(0);
+		history.clear();
+		history.add(displayed_results);
+
+		update();
+	}
+
+	private void update() {
 		for (ListDataListener listener : listeners) {
 			listener.contentsChanged(null);
 		}
+	}
+
+	public void showavailableBooks() {
+		resetSearch();
+		ArrayList<Searchable> tmplist = new ArrayList<Searchable>();
+
+		for (Searchable item : displayed_results) {
+			if (item instanceof Book) {
+				Book book = (Book) item;
+
+				if (book.getCondition() == Book.Condition.GOOD
+						|| book.getCondition() == Book.Condition.NEW)
+					tmplist.add(item);
+			}
+		}
+
+		displayed_results = tmplist;
+		history.add(displayed_results);
+
+		update();
+	}
+
+	public void showDefektBook() {
+		resetSearch();
+		ArrayList<Searchable> tmplist = new ArrayList<Searchable>();
+
+		for (Searchable item : displayed_results) {
+			if (item instanceof Book) {
+				Book book = (Book) item;
+				if (book.getCondition() == Book.Condition.DAMAGED)
+					tmplist.add(item);
+			}
+		}
+		displayed_results = tmplist;
+		history.add(displayed_results);
+		
+		update();
+	}
+	
+	public void showLentBooks() {
+		ArrayList<Searchable> tmplist = new ArrayList<Searchable>();
+		
+		for(Book book : library.getLentBooks()) {
+			tmplist.add(book);
+		}
+		displayed_results = tmplist;
+		history.add(displayed_results);
+		
+		update();
+	}
+
+	public void showUser() {
+		ArrayList<Searchable> tmplist = new ArrayList<Searchable>();
+		
+		for(Customer customer : library.getCustomers()) {
+			tmplist.add(customer);
+		}
+		displayed_results = tmplist;
+		history.add(displayed_results);
+		update();
 	}
 }

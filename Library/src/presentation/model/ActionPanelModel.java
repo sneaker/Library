@@ -81,11 +81,34 @@ public class ActionPanelModel extends Observable {
 
 	public void creaNewBook() {
 		// TODO Auto-generated method stub
-
 	}
 
 	public void fireDataChanged() {
 		setChanged();
 		notifyObservers();
+	}
+
+	public void showavailableBooks() {
+		controller.searchtab_model.showavailableBooks();
+	}
+
+	public void showDefektBooks() {
+		controller.searchtab_model.showDefektBooks();
+	}
+
+	public void showLentBooks() {
+		controller.searchtab_model.showLentBooks();
+	}
+
+	public void resetSearch() {
+		controller.searchtab_model.resetSearchText();
+	}
+
+	public void clearuser() {
+		controller.activeuser_model.clearUser();
+	}
+
+	public void showUser() {
+		controller.searchtab_model.showUser();
 	}
 }

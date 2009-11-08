@@ -1,7 +1,8 @@
 package presentation.view;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -34,24 +35,47 @@ public class ActiveUserPanel extends JPanel implements Observer {
 		model = controller.activeuser_model;
 		model.addObserver(this);
 
-		setLayout(new BorderLayout());
-		activeUserLabel = new JLabel(DEFAULT_ACTIVE_USER_TEXT);
-		activeUserLabel.setForeground(Color.red);
-		activeUserLabel.setIcon(new ImageIcon(USER_IMAGE_PATH));
-		activeUserLabel.setBorder(new EmptyBorder(PANEL_INSETS));
-		add(activeUserLabel, BorderLayout.WEST);
+		setLayout(new GridBagLayout());
+		initUserLabel();
+		
+		initDisableButton();
+		disableUser();
+	}
 
-		//TODO: Icons einfügen
-		clearButton = new ActionButton("Benutzer Deaktivieren", "", "");
+	private void initDisableButton() {
+		GridBagConstraints c = new GridBagConstraints();
+		//TODO: insert better icons
+		clearButton = new ActionButton("Benutzer deaktivieren", "img/delete32x32h.png", "img/delete32x32.png");
 		clearButton.addActionListener(new ActionListener() {
-
 			public void actionPerformed(ActionEvent e) {
 				model.clearUser();
 				clearButton.setEnabled(false);
 			}
 		});
-		add(clearButton, BorderLayout.EAST);
-		disableUser();
+		
+		c.gridx = 1;
+		c.gridy = 0;
+		c.weightx = 0.0;
+		c.anchor = GridBagConstraints.LINE_START;
+		c.fill = GridBagConstraints.BOTH;
+		
+		add(clearButton, c);
+	}
+
+	private void initUserLabel() {
+		GridBagConstraints c = new GridBagConstraints();
+		c.gridx = 0;
+		c.gridy = 0;
+		c.weightx = 1.0;
+		c.anchor = GridBagConstraints.LINE_START;
+		c.fill = GridBagConstraints.BOTH;
+		
+		activeUserLabel = new JLabel(DEFAULT_ACTIVE_USER_TEXT);
+		activeUserLabel.setForeground(Color.red);
+		activeUserLabel.setIcon(new ImageIcon(USER_IMAGE_PATH));
+		activeUserLabel.setBorder(new EmptyBorder(PANEL_INSETS));
+		
+		add(activeUserLabel, c);
 	}
 
 	public void update(Observable o, Object arg) {

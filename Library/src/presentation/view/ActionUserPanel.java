@@ -17,6 +17,7 @@ public class ActionUserPanel extends AbstractActionPanel {
 	protected void initActionButtons() {
 		initNewSearchButton();
 		initEditButton();
+		initClearUserButton();
 		initAddUserButton();
 	}
 
@@ -47,6 +48,16 @@ public class ActionUserPanel extends AbstractActionPanel {
 		buttons.get("adduser").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				model.createUser();
+			}
+		});
+	}
+
+	private void initClearUserButton() {
+		buttons.put("clearuser", new ActionButton("Benutzer deaktivieren", "",
+				""));
+		buttons.get("clearuser").addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				model.clearuser();
 			}
 		});
 	}
