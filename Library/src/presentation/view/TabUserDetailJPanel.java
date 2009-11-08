@@ -158,7 +158,7 @@ public class TabUserDetailJPanel extends JPanel implements Observer {
 	}
 
 	private String getLoanCountText(Customer c) {
-		int count = controller.library.getCustomerLoans(c).size();
+		int count = controller.library.getCustomerActiveLoans(c).size();
 		return (count == 0 ? "keine Ausleihen" : (count == 1 ? "eine Ausleihe"
 				: count + " Ausleihen"));
 	}
@@ -172,10 +172,8 @@ public class TabUserDetailJPanel extends JPanel implements Observer {
 
 	public void update(Observable o, Object arg) {
 		boolean isUserActive = (controller.activeuser_model.getCustomer() != null);
-		System.out.println("upppdate " + isUserActive);
 		titleText.setText((isUserActive ? controller.activeuser_model
 				.getCustomer().getFullName() : NO_USER_ACTIVE_TEXT));
-		System.out.println(titleText.getText());
 		setDetailsVisibility(isUserActive);
 
 		if (isUserActive)

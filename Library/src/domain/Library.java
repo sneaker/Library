@@ -195,7 +195,7 @@ public class Library {
 
 	public ArrayList<Loan> getCustomerMahnungen(Customer c) {
 		ArrayList<Loan> result = new ArrayList<Loan>();
-		for (Loan l : getCustomerLoans(c)){
+		for (Loan l : getCustomerActiveLoans(c)){
 			if (l.isOverdue())
 				result.add(l);
 		}
