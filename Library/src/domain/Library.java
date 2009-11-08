@@ -12,6 +12,7 @@ public class Library {
 	private List<Customer> customers;
 	private List<Loan> loans;
 	private List<Title> titles;
+	private List<Loan> result;
 
 	public Library() {
 		books = new ArrayList<Book>();
@@ -198,6 +199,14 @@ public class Library {
 			if (l.isOverdue())
 				result.add(l);
 		}
+		return result;
+	}
+
+	public List<Loan> getCustomerActiveLoans(Customer c) {
+		result = new ArrayList<Loan>();
+		for (Loan l: getCustomerLoans(c))
+			if (l.isLent())
+				result.add(l);
 		return result;
 	}
 
