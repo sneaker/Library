@@ -10,9 +10,10 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 public class ActionButton extends JButton {
-	private final Color SYSTEM_BACKGROUND = new Color(0xeeeeee);
-	private static final long serialVersionUID = 4216623296147904685L;
 
+	private static final long serialVersionUID = 1L;
+	private final Color SYSTEM_BACKGROUND = new Color(0xeeeeee);
+	
 	public ActionButton(String string, String imagePath, String rolloverImagepath) {
 		super(string);
 		setIcon(new ImageIcon(imagePath));
