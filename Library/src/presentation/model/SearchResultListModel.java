@@ -131,7 +131,12 @@ public class SearchResultListModel implements ListModel {
 	private void sort() {
 		java.util.Collections.sort(displayed_results, new Comparator<Searchable>() {
 			public int compare(Searchable o1, Searchable o2) {
-				return o1.searchTitle().compareTo(o2.searchTitle());
+				if (o1 instanceof Book && o2 instanceof Customer)
+					return 1;
+				if (o1 instanceof Customer && o2 instanceof Book)
+					return -1;
+				else
+					return o1.searchTitle().compareTo(o2.searchTitle());
 			}
 		});
 	}

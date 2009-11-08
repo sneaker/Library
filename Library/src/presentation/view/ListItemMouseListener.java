@@ -37,8 +37,7 @@ final class ListItemMouseListener extends MouseAdapter {
 			Customer selected = (Customer) o;
 			// TODO: Coole Idee: Direkt-setActive-button für Benutzer
 			// auswählen
-			controller.activeuser_model.setNewActiveUser(selected);
-			controller.usertab_model.setActiveCustomer(selected);
+			controller.activeuser_model.setActiveUser(selected);
 			controller.tabbed_model
 					.setActiveTab(LibraryTabbedPaneModel.USER_TAB);
 		}
