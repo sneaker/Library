@@ -25,8 +25,8 @@ public class ActiveUserPanel extends JPanel implements Observer {
 	private static final long serialVersionUID = 1L;
 	private JLabel activeUserLabel;
 	
-	private Color activeusercolor = new Color(34, 139, 34);
-	private Color disableusercolor = new Color(204, 0, 0);
+	public static final Color ACTIVE_USER_COLOR = new Color(34, 139, 34);
+	public static final Color DISABLED_USER_COLOR = new Color(204, 0, 0);
 
 	private ActionButton clearButton;
 	private ActiveUserPanelModel model;
@@ -90,13 +90,13 @@ public class ActiveUserPanel extends JPanel implements Observer {
 	private void enableUser(Customer customer) {
 		activeUserLabel.setText("Aktivierter Benutzer: "
 				+ customer.getSurname() + " " + customer.getName());
-		activeUserLabel.setForeground(activeusercolor);
+		activeUserLabel.setForeground(ACTIVE_USER_COLOR);
 		clearButton.setEnabled(true);
 	}
 
 	private void disableUser() {
 		activeUserLabel.setText(DEFAULT_ACTIVE_USER_TEXT);
-		activeUserLabel.setForeground(disableusercolor);
+		activeUserLabel.setForeground(DISABLED_USER_COLOR);
 		clearButton.setEnabled(false);
 		model.switchtoSearch();
 	}

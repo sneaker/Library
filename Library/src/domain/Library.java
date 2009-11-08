@@ -210,4 +210,7 @@ public class Library {
 		return result;
 	}
 
+	public boolean isCustomerLocked(Customer customer) {
+		return (getCustomerActiveLoans(customer).size() >= LENDING_LIMIT);
+	}
 }

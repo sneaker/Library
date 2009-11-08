@@ -66,7 +66,7 @@ public class ActionSearchPanel extends AbstractActionPanel {
 				"img/newcustomer32x32h.png", "img/newcustomer32x32.png"));
 		buttons.get("newuser").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				model.createNewUser();
+				model.createUser();
 			}
 		});
 	}
