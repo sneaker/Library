@@ -34,6 +34,6 @@ class DetailTextField extends JTextField {
 	}
 	
 	public void setRed(boolean really) {
-		setForeground((really ? ActiveUserPanel.DISABLED_USER_COLOR : Color.BLACK));
+		setForeground((really ? new Color(0xcc, 0, 0) : Color.BLACK));
 	}
 }
