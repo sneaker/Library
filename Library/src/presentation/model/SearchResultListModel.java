@@ -3,6 +3,7 @@ package presentation.model;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.GregorianCalendar;
 
 import javax.management.Attribute;
 import javax.swing.ListModel;
@@ -10,6 +11,7 @@ import javax.swing.event.ListDataListener;
 
 import domain.Book;
 import domain.Customer;
+import domain.IllegalLoanOperationException;
 import domain.Library;
 import domain.Searchable;
 
@@ -31,7 +33,20 @@ public class SearchResultListModel implements ListModel {
 		for (Searchable user : library.getCustomers()) {
 			displayed_results.add(user);
 		}
-		for (int i = 0; i < library.getAvailableBooks().size(); i++)
+
+		// TODO [Release] Remove test loan, but leave for Demonstration [Martin]
+		if (displayed_results.get(0) instanceof Customer) {
+			try {
+				controller.library.getCustomerActiveLoans(
+						((Customer) displayed_results.get(0))).get(0)
+						.setPickupDate(
+								new GregorianCalendar(2009,
+										GregorianCalendar.OCTOBER, 30));
+			} catch (IllegalLoanOperationException e) {
+			}
+		}
+
+		for (int i = 0; i < 10; i++)
 			displayed_results.add(library.getAvailableBooks().get(i));
 
 		sort();

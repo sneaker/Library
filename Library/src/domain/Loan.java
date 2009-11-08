@@ -4,7 +4,10 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
 
-public class Loan {
+import javax.management.Attribute;
+import javax.management.AttributeList;
+
+public class Loan implements Searchable {
 
 	public static final int MAX_LEND_DAYS = 14;
 	private Book book;
@@ -100,5 +103,31 @@ public class Loan {
 		if ((new GregorianCalendar()).get(GregorianCalendar.DAY_OF_YEAR) - pickupDate.get(GregorianCalendar.DAY_OF_YEAR) > MAX_LEND_DAYS)
 			return true;
 		return false;
+	}
+	
+	public int getOverdueDays() {
+		if (!isOverdue())
+			return -1;
+		return getDaysOfLoanDurationTillToday() - MAX_LEND_DAYS;
+	}
+
+	private int getDaysLeft() {
+		if (!isLent())
+			return -1;
+		return  MAX_LEND_DAYS - (new GregorianCalendar()).get(GregorianCalendar.DAY_OF_YEAR) + pickupDate.get(GregorianCalendar.DAY_OF_YEAR);
+	}
+
+	public AttributeList searchDetail() {
+		AttributeList result = new AttributeList();
+		int overdueDays = getOverdueDays();
+		int daysLeft = getDaysLeft();
+		String stringizedDate = getPickupDate().get(GregorianCalendar.DAY_OF_MONTH) + "." + getPickupDate().get(GregorianCalendar.MONTH) + " " + getPickupDate().get(GregorianCalendar.YEAR);
+		result.add(new Attribute("Ausleihdatum", stringizedDate + (isLent() ? ", vor " + getDaysOfLoanDurationTillToday() : ", für " + getDaysOfLoanDuration()) + " Tag(en)")  );
+		result.add(new Attribute("Status", (isOverdue() ? "überfällig seit " + overdueDays + (overdueDays == 1 ? " Tag" : " Tagen") : "Rückgabe in " + daysLeft + (daysLeft == 1 ? " Tag" : " Tagen"))));
+		return result;
+	}
+
+	public String searchTitle() {
+		return book.getTitle().getName();
 	}
 }

@@ -3,6 +3,7 @@
  */
 package presentation.view;
 
+import java.awt.Color;
 import java.awt.Font;
 
 import javax.swing.JTextField;
@@ -30,5 +31,9 @@ class DetailTextField extends JTextField {
 		super.setEditable(b);
 		setVisible(b);
 		setBorder((b ? new JTextField().getBorder() : null));
+	}
+	
+	public void setRed(boolean really) {
+		setForeground((really ? ActiveUserPanel.DISABLED_USER_COLOR : Color.BLACK));
 	}
 }

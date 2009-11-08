@@ -9,18 +9,16 @@ import javax.swing.ListCellRenderer;
 import presentation.model.ModelController;
 import domain.Book;
 import domain.Customer;
-import domain.Library;
+import domain.Loan;
 
 public class SearchResultCellRenderer implements ListCellRenderer {
 
 	private static final int TEXT_WIDTH_DIFFERENCE = 100;
 	private int preferredWidth = 250;
-	private Library library;
 	private final ModelController controller;
 
 	public SearchResultCellRenderer(ModelController controller) {
 		this.controller = controller;
-		this.library = controller.library;
 	}
 
 	public Component getListCellRendererComponent(JList list, Object value,
@@ -43,7 +41,10 @@ public class SearchResultCellRenderer implements ListCellRenderer {
 					preferredWidth, controller);
 		else if (value instanceof Customer)
 			cell = new ResultCellUserPanel((Customer) value, isSelected,
-					preferredWidth, library);
+					preferredWidth, controller);
+		else if (value instanceof Loan)
+			cell = new ResultCellBookPanel((Loan) value, isSelected,
+					preferredWidth + 120, controller);
 		return cell;
 	}
 

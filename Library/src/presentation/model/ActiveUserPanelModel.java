@@ -23,7 +23,7 @@ public class ActiveUserPanelModel extends Observable {
 		return getCustomer().getSurname() + ", " + getCustomer().getName();
 	}
 
-	public void setNewActiveUser(Customer selected) {
+	public void setActiveUser(Customer selected) {
 		customer = selected;
 		setChanged();
 		notifyObservers();
@@ -37,5 +37,9 @@ public class ActiveUserPanelModel extends Observable {
 
 	public void switchtoSearch() {
 		controller.tabbed_model.setActiveTab(LibraryTabbedPaneModel.SEARCH_TAB);
+	}
+
+	public boolean isCustomerActive() {
+		return customer != null;
 	}
 }

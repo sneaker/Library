@@ -16,6 +16,7 @@ import util.TextUtils;
 import domain.Book;
 import domain.Customer;
 import domain.Library;
+import domain.Loan;
 import domain.Searchable;
 
 /**
@@ -91,9 +92,9 @@ class ResultCellBookPanel extends SearchResultCellPanel {
 	private static final String IMG_ADD32X32 = "img/add32x32.png";
 	private static final String IMG_RETURN32X32 = "img/return32x32.png";
 	private static final String IMG_AGENDA32X32 = "img/agenda32x32.png";
-	private static final String IMG_SYMBOL = "img/book64x64.png";
+	protected static final String IMG_SYMBOL = "img/book64x64.png";
 	private static final long serialVersionUID = -8375612543994217556L;
-	private final Book active;
+	private Book active;
 	private final boolean isSelected;
 	private final ModelController controller;
 
@@ -101,7 +102,10 @@ class ResultCellBookPanel extends SearchResultCellPanel {
 			int preferredWidth, ModelController controller) {
 		super(active, isSelected, preferredWidth, controller.library);
 		this.controller = controller;
-		this.active = (Book) active;
+		if (active instanceof Book)
+			this.active = (Book) active;
+		if (active instanceof Loan)
+			this.active = ((Loan) active).getBook();
 		this.isSelected = isSelected;
 	}
 
@@ -151,8 +155,8 @@ class ResultCellUserPanel extends SearchResultCellPanel {
 	private final Customer active;
 
 	public ResultCellUserPanel(Customer active, boolean isSelected,
-			int preferredWidth, Library library) {
-		super(active, isSelected, preferredWidth, library);
+			int preferredWidth, ModelController controller) {
+		super(active, isSelected, preferredWidth, controller.library);
 		this.active = active;
 	}
 

@@ -14,6 +14,7 @@ import javax.swing.border.TitledBorder;
 
 import presentation.model.ModelController;
 import presentation.model.TabBookModel;
+import domain.Book;
 
 /**
  * Displays formatted details of a book (without loan details).
@@ -160,6 +161,7 @@ public class TabBookDetailJPanel extends JPanel implements Observer {
 	}
 
 	private void updateDetails() {
+		conditionText.setRed(bmodel.getActiveBook().getCondition().equals(Book.Condition.WASTE));
 		conditionText.setText(bmodel.getActiveBook().getConditionString());
 		titleText.setText(bmodel.getActiveBook().getTitle().getName());
 		authorText.setText(bmodel.getActiveBook().getTitle().getAuthor());
