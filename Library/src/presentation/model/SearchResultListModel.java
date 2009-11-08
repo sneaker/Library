@@ -29,6 +29,7 @@ public class SearchResultListModel implements ListModel {
 		}
 
 		// TODO [Release] Remove test loan, but leave for Demonstration [Martin]
+		// Betrifft Benutzer Jenni Heinrich
 		if (displayed_results.get(0) instanceof Customer) {
 			try {
 				controller.library.getCustomerActiveLoans(
@@ -36,6 +37,11 @@ public class SearchResultListModel implements ListModel {
 						.setPickupDate(
 								new GregorianCalendar(2009,
 										GregorianCalendar.OCTOBER, 30));
+				controller.library.getCustomerActiveLoans(
+						((Customer) displayed_results.get(0))).get(1)
+						.setPickupDate(
+								new GregorianCalendar(2009,
+										GregorianCalendar.OCTOBER, 10));
 			} catch (IllegalLoanOperationException e) {
 			}
 		}
