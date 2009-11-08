@@ -26,12 +26,19 @@ public class SearchResultListModel implements ListModel {
 		for (Searchable user : library.getCustomers()) {
 			displayed_results.add(user);
 		}
-		// TODO [Abgabe] Remove test loan [Martin]
-		if (displayed_results.get(0) instanceof Customer)
+
+		// TODO [Release] Remove test loan, but leave for Demonstration [Martin]
+		if (displayed_results.get(0) instanceof Customer) {
 			try {
-				controller.library.getCustomerActiveLoans(((Customer)displayed_results.get(0))).get(0).setPickupDate(new GregorianCalendar(2009, GregorianCalendar.OCTOBER, 30));
+				controller.library.getCustomerActiveLoans(
+						((Customer) displayed_results.get(0))).get(0)
+						.setPickupDate(
+								new GregorianCalendar(2009,
+										GregorianCalendar.OCTOBER, 30));
 			} catch (IllegalLoanOperationException e) {
 			}
+		}
+
 		for (int i = 0; i < 10; i++)
 			displayed_results.add(library.getAvailableBooks().get(i));
 	}
@@ -83,11 +90,12 @@ public class SearchResultListModel implements ListModel {
 	}
 
 	public void delchar(String newstring) {
-		if ((!newstring.isEmpty()) && newstring.equals(searchstring.substring(0,
-				searchstring.length() - 1))) {
+		if ((!newstring.isEmpty())
+				&& newstring.equals(searchstring.substring(0, searchstring
+						.length() - 1))) {
 			searchstring = searchstring.substring(0, searchstring.length() - 1);
 			displayed_results = history.remove(history.size() - 1);
-		} else {			
+		} else {
 			searchstring = "";
 			while (!history.isEmpty())
 				displayed_results = history.remove(history.size() - 1);

@@ -139,7 +139,7 @@ public class TabUserDetailJPanel extends JPanel implements Observer {
 	}
 
 	private void updateDetails() {
-		Customer c = controller.usertab_model.getActiveCustomer();
+		Customer c = controller.activeuser_model.getCustomer();
 		addressText.setText(c.getStreet());
 		placeText.setText(c.getZip() + " " + c.getCity());
 		statusText.setText(getCustomerStatus(c));
@@ -171,9 +171,11 @@ public class TabUserDetailJPanel extends JPanel implements Observer {
 	}
 
 	public void update(Observable o, Object arg) {
-		boolean isUserActive = (controller.usertab_model.getActiveCustomer() != null);
-		titleText.setText((isUserActive ? controller.usertab_model
-				.getActiveCustomer().getFullName() : NO_USER_ACTIVE_TEXT));
+		boolean isUserActive = (controller.activeuser_model.getCustomer() != null);
+		System.out.println("upppdate " + isUserActive);
+		titleText.setText((isUserActive ? controller.activeuser_model
+				.getCustomer().getFullName() : NO_USER_ACTIVE_TEXT));
+		System.out.println(titleText.getText());
 		setDetailsVisibility(isUserActive);
 
 		if (isUserActive)

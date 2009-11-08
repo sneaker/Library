@@ -48,7 +48,8 @@ public class TabBookModel extends Observable {
 	}
 
 	public boolean isActiveBookNoWaste() {
-		if (getActiveBook() != null && getActiveBook().getCondition() != Book.Condition.WASTE)
+		if (getActiveBook() != null
+				&& getActiveBook().getCondition() != Book.Condition.WASTE)
 			return true;
 		return false;
 	}
@@ -66,5 +67,13 @@ public class TabBookModel extends Observable {
 			controller.tabbed_model
 					.setActiveTab(LibraryTabbedPaneModel.SEARCH_TAB);
 		}
+	}
+
+	public boolean isBookActive() {
+		return activeBook != null;
+	}
+
+	public void clearBook() {
+		activeBook = null;
 	}
 }

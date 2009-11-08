@@ -45,6 +45,7 @@ public class TabUserLoanJPanel extends JPanel implements Observer {
 	}
 
 	public void update(Observable o, Object arg) {
+		setVisible (controller.activeuser_model.getCustomer() != null);
 		loanModel.removeAllElements();
 		for (Loan l : controller.library
 				.getCustomerActiveLoans(controller.activeuser_model

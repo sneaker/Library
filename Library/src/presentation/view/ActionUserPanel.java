@@ -15,26 +15,25 @@ public class ActionUserPanel extends AbstractActionPanel {
 	}
 
 	protected void initActionButtons() {
-		initAddUserButton();
-		initEditButton();
 		initNewSearchButton();
+		initEditButton();
+		initAddUserButton();
 	}
 
-	private void initAddUserButton() {
-		// TODO: insert images
-		buttons.put("adduser", new ActionButton("Neuen Benutzer Erfassen", "",
-				""));
-		buttons.get("adduser").addActionListener(new ActionListener() {
+	private void initNewSearchButton() {
+		buttons.put("search", new ActionButton("Benutzer suchen",
+				"img/search32x32h.png", "img/search32x32.png"));
+		buttons.get("search").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				model.createUser();
+				model.changetoSearch();
 			}
 		});
 	}
 
 	private void initEditButton() {
-		// TODO: insert images
-		buttons.put("edituser", new ActionButton("Personalien Editieren", "",
-				""));
+		buttons.put("edituser", new ActionButton("Personalien editieren",
+				"img/edit32x32h.png", "img/edit32x32.png"));
+		buttons.get("edituser").setVisible(false);
 		buttons.get("edituser").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				model.editUserSettings();
@@ -42,17 +41,19 @@ public class ActionUserPanel extends AbstractActionPanel {
 		});
 	}
 
-	private void initNewSearchButton() {
-		// TODO: insert images
-		buttons.put("newsearch", new ActionButton("Neue Recherche", "img/search32x32h.png", "img/search32x32.png"));
-		buttons.get("newsearch").addActionListener(new ActionListener() {
+	private void initAddUserButton() {
+		buttons.put("adduser", new ActionButton("Benutzer erfassen",
+				"img/newcustomer32x32h.png", "img/newcustomer32x32.png"));
+		buttons.get("adduser").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				model.changetoSearch();
+				model.createUser();
 			}
 		});
 	}
 
 	public void update(Observable o, Object arg) {
-		// TODO Auto-generated method stub
+		boolean active = controller.activeuser_model.isCustomerActive();
+		buttons.get("edituser").setVisible(active);
+		buttons.get("search").requestFocus();
 	}
 }

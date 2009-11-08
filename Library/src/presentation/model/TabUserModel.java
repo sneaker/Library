@@ -6,19 +6,14 @@ import domain.Customer;
 
 public class TabUserModel extends Observable {
 
-	private Customer activeCustomer;
+	private final ModelController controller;
 
-	public TabUserModel(ModelController model) {
+	public TabUserModel(ModelController controller) {
+		this.controller = controller;
 	}
-
-	public void setActiveCustomer(Customer activeCustomer) {
-		this.activeCustomer = activeCustomer;
-		setChanged();
-		notifyObservers();
-	}
-
-	public Customer getActiveCustomer() {
-		return activeCustomer;
+	
+	private Customer getActiveCustomer() {
+		return controller.activeuser_model.getCustomer();
 	}
 
 	public String getStatus() {

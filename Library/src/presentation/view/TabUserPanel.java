@@ -23,6 +23,7 @@ public class TabUserPanel extends JPanel implements Observer {
 		this.controller = controller;
 		setLayout(new BorderLayout());
 		controller.usertab_model.addObserver(this);
+		controller.activeuser_model.addObserver(this);
 
 		initContentPane();
 		initActionPanel();
@@ -33,14 +34,15 @@ public class TabUserPanel extends JPanel implements Observer {
 		contentPanel.setLayout(new GridBagLayout());
 		detailPanel = new TabUserDetailJPanel(controller);
 		loanPanel = new TabUserLoanJPanel(controller);
+		loanPanel.setVisible(false);
 
 		GridBagConstraints c = new GridBagConstraints();
 		c.anchor = GridBagConstraints.FIRST_LINE_START;
-		c.fill = GridBagConstraints.HORIZONTAL;
+		c.fill = GridBagConstraints.BOTH;
 		c.gridx = 0;
 		c.gridy = 0;
 		c.weightx = 1.0;
-		c.weighty = 0.0;
+		c.weighty = 0.0001;
 		contentPanel.add(detailPanel, c);
 		c.fill = GridBagConstraints.BOTH;
 		c.gridx = 0;
@@ -60,5 +62,6 @@ public class TabUserPanel extends JPanel implements Observer {
 	public void update(Observable o, Object arg) {
 		detailPanel.update(null, null);
 		loanPanel.update(null, null);
+		action_user_panel.update(null, null);
 	}
 }

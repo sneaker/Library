@@ -133,8 +133,7 @@ public class SearchResultList extends JList implements ListDataListener  {
 				Customer selected = (Customer) o;
 				// TODO: Coole Idee: Direkt-setActive-button für Benutzer
 				// auswählen
-				controller.activeuser_model.setNewActiveUser(selected);
-				controller.usertab_model.setActiveCustomer(selected);
+				controller.activeuser_model.setActiveUser(selected);
 				tabModel.setActiveTab(LibraryTabbedPaneModel.USER_TAB);
 			}
 		}

@@ -18,10 +18,10 @@ public class ActionSearchPanel extends AbstractActionPanel {
 		initSearchButton();
 		initNewUserButton();
 	}
-	
+
 	private void initSearchButton() {
-		//TODO: insert images
-		buttons.put("newsearch", new ActionButton("Neue Recherche", "img/search32x32h.png", "img/search32x32.png"));
+		buttons.put("newsearch", new ActionButton("Neue Recherche",
+				"img/search32x32h.png", "img/search32x32.png"));
 		buttons.get("newsearch").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				model.changetoSearch();
@@ -30,8 +30,8 @@ public class ActionSearchPanel extends AbstractActionPanel {
 	}
 
 	private void initNewUserButton() {
-		//TODO: insert images
-		buttons.put("newuser", new ActionButton("Neuer Benutzer Anlegen", "", ""));
+		buttons.put("newuser", new ActionButton("Neuen Benutzer anlegen",
+				"img/newcustomer32x32h.png", "img/newcustomer32x32.png"));
 		buttons.get("newuser").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				model.createNewUser();

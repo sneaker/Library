@@ -78,8 +78,8 @@ public class LibraryMenuBar extends JMenuBar implements Observer {
 					super.actionPerformed(e);
 					controller.searchtab_model.resetSearchText();
 					controller.tabbed_model.setActiveTab(LibraryTabbedPaneModel.SEARCH_TAB);
-					controller.booktab_model.setActiveBook(null);
-					controller.activeuser_model.setNewActiveUser(null);
+					controller.booktab_model.clearBook();
+					controller.activeuser_model.clearUser();
 					controller.status_model.setTempStatus("Neustart");
 				}
 			});
