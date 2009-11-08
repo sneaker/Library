@@ -123,6 +123,7 @@ public class TabBookDetailJPanel extends JPanel implements Observer {
 
 		publishText = new DetailTextField();
 		publishText.setEditable(false);
+		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 1;
 		c.gridy = 2;
 		c.weightx = 1.0;
@@ -144,6 +145,7 @@ public class TabBookDetailJPanel extends JPanel implements Observer {
 		conditionText = new DetailTextField();
 		conditionText.setEditable(false);
 		c.anchor = GridBagConstraints.FIRST_LINE_START;
+		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 1;
 		c.gridy = 3;
 		c.weightx = 1.0;
