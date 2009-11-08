@@ -22,12 +22,14 @@ public class SearchResultListModel implements ListModel {
 	private ArrayList<Searchable> displayed_results;
 	private Library library;
 	private String searchstring = new String();
+	private ModelController controller;
 	
 	private int index = 0;
 	private int height;
 	private int width;
 
 	public SearchResultListModel(ModelController controller) {
+		this.controller = controller;
 		library = controller.library;
 		displayed_results = new ArrayList<Searchable>();
 		for (Searchable user : library.getCustomers()) {
@@ -244,5 +246,19 @@ public class SearchResultListModel implements ListModel {
 	
 	public int getCellWidth() {
 		return width;
+	}
+	
+	public void selectSingleElement() {
+		System.out.println("called");
+		if (displayed_results.size() != 1)
+			return;
+		Searchable item = getElementAt(0);
+		if (item instanceof Book) {
+			controller.booktab_model.setActiveBook((Book) item);
+			controller.tabbed_model.setActiveTab(LibraryTabbedPaneModel.BOOK_TAB);
+		} else if (item instanceof Customer) {
+			controller.activeuser_model.setActiveUser((Customer) item);
+			controller.tabbed_model.setActiveTab(LibraryTabbedPaneModel.USER_TAB);
+		}
 	}
 }

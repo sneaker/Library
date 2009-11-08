@@ -87,6 +87,9 @@ public class TabSearchPanel extends JPanel implements Observer {
 				if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
 					model.fowardDeleteEvent(searchField.getText());
 				}
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					model.selectsingleElement();
+				}
 			}
 		});
 		setSearchFieldDefaultTextListeners();

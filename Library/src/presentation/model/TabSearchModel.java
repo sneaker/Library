@@ -4,6 +4,10 @@ import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.util.Observable;
 
+import domain.Book;
+import domain.Customer;
+import domain.Searchable;
+
 /**
  * Tracks the content of the search mask and updates the its view when needed.
  */
@@ -77,7 +81,7 @@ public class TabSearchModel extends Observable {
 	public boolean hasFocus() {
 		return hasFocus;
 	}
-	
+
 	public void resetFocus() {
 		hasFocus = false;
 	}
@@ -89,12 +93,16 @@ public class TabSearchModel extends Observable {
 	public void showDefektBooks() {
 		controller.resultlist_model.showDefektBook();
 	}
-	
+
 	public void showLentBooks() {
 		controller.resultlist_model.showLentBooks();
 	}
 
 	public void showUser() {
 		controller.resultlist_model.showUser();
+	}
+
+	public void selectsingleElement() {
+		controller.resultlist_model.selectSingleElement();
 	}
 }
