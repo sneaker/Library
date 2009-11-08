@@ -18,12 +18,13 @@ public class ActionUserPanel extends AbstractActionPanel {
 		initAddUserButton();
 		initEditButton();
 		initNewSearchButton();
+		initClearUserButton();
 	}
 
 	private void initAddUserButton() {
 		// TODO: insert images
-		buttons.put("adduser", new ActionButton("Neuen Benutzer Erfassen", "",
-				""));
+		buttons.put("adduser", new ActionButton("Neuen Benutzer Erfassen",
+				"", ""));
 		buttons.get("adduser").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				model.createUser();
@@ -32,9 +33,8 @@ public class ActionUserPanel extends AbstractActionPanel {
 	}
 
 	private void initEditButton() {
-		// TODO: insert images
-		buttons.put("edituser", new ActionButton("Personalien Editieren", "",
-				""));
+		buttons.put("edituser", new ActionButton("Personalien Editieren",
+				"img/edit32x32h.png", "img/edit32x32.png"));
 		buttons.get("edituser").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				model.editUserSettings();
@@ -44,10 +44,21 @@ public class ActionUserPanel extends AbstractActionPanel {
 
 	private void initNewSearchButton() {
 		// TODO: insert images
-		buttons.put("newsearch", new ActionButton("Neue Recherche", "img/search32x32h.png", "img/search32x32.png"));
+		buttons.put("newsearch", new ActionButton("Neue Recherche",
+				"img/search32x32h.png", "img/search32x32.png"));
 		buttons.get("newsearch").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				model.changetoSearch();
+			}
+		});
+	}
+
+	private void initClearUserButton() {
+		buttons.put("clearuser", new ActionButton("Benutzer deaktivieren", "",
+				""));
+		buttons.get("clearuser").addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				model.clearuser();
 			}
 		});
 	}

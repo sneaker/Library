@@ -23,6 +23,7 @@ public class TabSearchModel extends Observable {
 	 * "please-type-here" value.
 	 */
 	public void resetSearchText() {
+		controller.resultlist_model.resetSearch();
 		searchFieldText = DEFAULT_SEARCH_STRING;
 		setChanged();
 		notifyObservers(searchFieldText);
@@ -83,5 +84,17 @@ public class TabSearchModel extends Observable {
 
 	public void showavailableBooks() {
 		controller.resultlist_model.showavailableBooks();
+	}
+
+	public void showDefektBooks() {
+		controller.resultlist_model.showDefektBook();
+	}
+	
+	public void showLentBooks() {
+		controller.resultlist_model.showLentBooks();
+	}
+
+	public void showUser() {
+		controller.resultlist_model.showUser();
 	}
 }

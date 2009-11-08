@@ -30,7 +30,7 @@ public abstract class AbstractActionPanel extends JPanel implements Observer {
 	private static final String ACTION_PANEL_TITLE = "Aktionen";
 	
 	private static final int ACTION_HEIGHT = 40;
-	private static final int ACTION_WIDTH = 180;
+	private static final int ACTION_WIDTH = 260;
 
 	private GroupLayout layout;
 	private Alignment leading;

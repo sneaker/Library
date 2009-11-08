@@ -157,6 +157,7 @@ public class TabSearchPanel extends JPanel implements Observer {
 			requestFocus();
 		}
 		searchField.setForeground(model.getSearchFieldColor());
+		
 		searchField.setText(model.getSearchText());
 	}
 }
