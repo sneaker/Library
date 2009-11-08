@@ -91,40 +91,64 @@ public class Loan implements Searchable {
 		return -1;
 	}
 
-	public int getDaysOfLoanDurationTillToday() {
-		GregorianCalendar today = new GregorianCalendar();
-		return (int) (today.getTimeInMillis() - pickupDate.getTimeInMillis())
-				/ 1000 / 60 / 60 / 24;
+	public int getDaysSincePickup() {
+		if (isLent())
+			return (new GregorianCalendar()).get(GregorianCalendar.DAY_OF_YEAR)
+					- pickupDate.get(GregorianCalendar.DAY_OF_YEAR);
+		return returnDate.get(GregorianCalendar.DAY_OF_YEAR)
+				- pickupDate.get(GregorianCalendar.DAY_OF_YEAR);
 	}
 
 	public boolean isOverdue() {
 		if (returnDate != null)
 			return false;
-		if ((new GregorianCalendar()).get(GregorianCalendar.DAY_OF_YEAR) - pickupDate.get(GregorianCalendar.DAY_OF_YEAR) > MAX_LEND_DAYS)
+		if ((new GregorianCalendar()).get(GregorianCalendar.DAY_OF_YEAR)
+				- pickupDate.get(GregorianCalendar.DAY_OF_YEAR) > MAX_LEND_DAYS)
 			return true;
 		return false;
 	}
-	
-	public int getOverdueDays() {
-		if (!isOverdue())
-			return -1;
-		return getDaysOfLoanDurationTillToday() - MAX_LEND_DAYS;
+
+	/**
+	 * Delta days are the number of days away from the date when the book
+	 * had/has to be returned.
+	 * 
+	 * @return the days this loan is over its time limit if isOverdue().
+	 * @return the days left for bringing back this book if isOverdue() is
+	 *         false.
+	 */
+	public int getOverdueDeltaDays() {
+		return Math.abs(getDaysSincePickup() - MAX_LEND_DAYS);
 	}
 
-	private int getDaysLeft() {
-		if (!isLent())
-			return -1;
-		return  MAX_LEND_DAYS - (new GregorianCalendar()).get(GregorianCalendar.DAY_OF_YEAR) + pickupDate.get(GregorianCalendar.DAY_OF_YEAR);
+	private String redText(String text) {
+		return "<font color=red>" + text + "</font>";
 	}
 
 	public AttributeList searchDetail() {
 		AttributeList result = new AttributeList();
-		int overdueDays = getOverdueDays();
-		int daysLeft = getDaysLeft();
-		String stringizedDate = getPickupDate().get(GregorianCalendar.DAY_OF_MONTH) + "." + getPickupDate().get(GregorianCalendar.MONTH) + " " + getPickupDate().get(GregorianCalendar.YEAR);
-		result.add(new Attribute("Ausleihdatum", stringizedDate + (isLent() ? ", vor " + getDaysOfLoanDurationTillToday() : ", für " + getDaysOfLoanDuration()) + " Tag(en)")  );
-		result.add(new Attribute("Status", (isOverdue() ? "überfällig seit " + overdueDays + (overdueDays == 1 ? " Tag" : " Tagen") : "Rückgabe in " + daysLeft + (daysLeft == 1 ? " Tag" : " Tagen"))));
+		String date = getPickupDateText();
+		result.add(getLendSinceAttribute(date));
+		result.add(getStatusAttribute());
 		return result;
+	}
+
+	private String getPickupDateText() {
+		return getPickupDate().get(GregorianCalendar.DAY_OF_MONTH) + "."
+				+ getPickupDate().get(GregorianCalendar.MONTH) + " "
+				+ getPickupDate().get(GregorianCalendar.YEAR);
+	}
+
+	private Attribute getStatusAttribute() {
+		return new Attribute("Status", (isOverdue() ? redText("überfällig")
+				+ " seit " : "Rückgabe in ")
+				+ getOverdueDeltaDays()
+				+ (getOverdueDeltaDays() == 1 ? " Tag" : " Tagen"));
+	}
+
+	private Attribute getLendSinceAttribute(String date) {
+		return new Attribute("Ausleihdatum", date
+				+ (isLent() ? ", vor " + getDaysSincePickup() : ", für "
+						+ getDaysOfLoanDuration()) + " Tag(en)");
 	}
 
 	public String searchTitle() {

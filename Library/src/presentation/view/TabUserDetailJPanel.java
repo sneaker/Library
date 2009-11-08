@@ -164,7 +164,6 @@ public class TabUserDetailJPanel extends JPanel implements Observer {
 	}
 	
 	private String getMahnungCountText(Customer c) {
-		// TODO: Funktioniert nicht? [Martin]
 		int count = controller.library.getCustomerMahnungen(c).size();
 		return (count == 0 ? "keine Mahnungen" : (count == 1 ? "eine Mahnung"
 				: count + " Mahnungen"));

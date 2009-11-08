@@ -22,16 +22,16 @@ public class TextUtils {
 	 */
 	public static String cutText(final String longText, int preferredWidth,
 			String format) {
+		String text = longText.replaceAll("\\<.*?>", "");
 		double size = Math.max(0, preferredWidth)
-				/ new JLabel(format + longText).getPreferredSize().getWidth();
+				/ new JLabel(format + text).getPreferredSize().getWidth();
 		String dots = "...";
 		if (size > 1) {
 			size = 1;
 			dots = "";
 		}
-		return longText.substring(0, (int) Math.max(0, Math.floor(longText
-				.length()
-				* size)))
+		return longText.substring(0, (int) Math.min(longText.length(), Math
+				.max(0, Math.floor(longText.length() * size))))
 				+ dots;
 	}
 }

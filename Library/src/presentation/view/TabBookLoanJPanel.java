@@ -95,13 +95,13 @@ public class TabBookLoanJPanel extends JPanel implements Observer {
 	}
 	
 	private String getAusleihedauerText(Loan tmpLoan) {
-		int loanDuration = tmpLoan.getDaysOfLoanDurationTillToday();
+		int loanDuration = tmpLoan.getDaysSincePickup();
 		return boldText("Ausleihedauer: ")
 		+ (loanDuration == 0 ? "heute ausgeliehen" : loanDuration) + "";
 	}
 
 	private String getOverdueText(Loan tmpLoan) {
-		int overdueDays = tmpLoan.getDaysOfLoanDurationTillToday()
+		int overdueDays = tmpLoan.getDaysSincePickup()
 				- controller.library.getMaxLendDays();
 		if (overdueDays <= 0)
 			return "";

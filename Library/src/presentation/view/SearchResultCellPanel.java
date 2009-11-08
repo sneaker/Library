@@ -75,7 +75,7 @@ abstract class SearchResultCellPanel extends JPanel {
 		for (Attribute att : selected.searchDetail().asList()) {
 			text += "<br />" + att.getName() + ": ";
 			text += TextUtils.cutText(att.getValue().toString(),
-					preferredWidth - 110, "");
+					preferredWidth - 100, "");
 		}
 		return text;
 	}
