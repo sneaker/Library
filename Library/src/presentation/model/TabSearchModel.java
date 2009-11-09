@@ -4,10 +4,6 @@ import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.util.Observable;
 
-import domain.Book;
-import domain.Customer;
-import domain.Searchable;
-
 /**
  * Tracks the content of the search mask and updates the its view when needed.
  */
