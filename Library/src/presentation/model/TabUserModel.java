@@ -7,6 +7,7 @@ import domain.Customer;
 public class TabUserModel extends Observable {
 
 	private final ModelController controller;
+	private boolean isLoanSelected;
 
 	public TabUserModel(ModelController controller) {
 		this.controller = controller;
@@ -22,5 +23,18 @@ public class TabUserModel extends Observable {
 		return "Anzeigen der Benutzerdetails von \""
 				+ getActiveCustomer().getSurname() + ", "
 				+ getActiveCustomer().getName() + "\"";
+	}
+
+	public void fireDataChanged() {
+		setChanged();
+		notifyObservers();
+	}
+
+	public boolean isLoanSelected() {
+		return isLoanSelected;
+	}
+
+	public void setLoanSelected(boolean b) {
+		isLoanSelected = b;
 	}
 }

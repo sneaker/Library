@@ -12,10 +12,12 @@ public class ActionUserPanel extends AbstractActionPanel {
 
 	public ActionUserPanel(ModelController controller) {
 		super(controller);
+		controller.booktab_model.addObserver(this);
 	}
 
 	protected void initActionButtons() {
 		initNewSearchButton();
+		initReturnButton();
 		initEditButton();
 		initClearUserButton();
 		initAddUserButton();
@@ -27,6 +29,18 @@ public class ActionUserPanel extends AbstractActionPanel {
 		buttons.get("search").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				model.changetoSearch();
+			}
+		});
+	}
+	
+	private void initReturnButton() {
+		buttons.put("return", new ActionButton("Buch zurückgeben",
+				"img/return32x32h.png", "img/return32x32.png"));
+		buttons.get("return").setVisible(false);
+		buttons.get("return").addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				controller.library.returnBook(controller.booktab_model.getActiveBook());
+				controller.usertab_model.fireDataChanged();
 			}
 		});
 	}
@@ -64,7 +78,7 @@ public class ActionUserPanel extends AbstractActionPanel {
 
 	public void update(Observable o, Object arg) {
 		boolean active = controller.activeuser_model.isCustomerActive();
+		buttons.get("return").setVisible(active && controller.usertab_model.isLoanSelected());
 		buttons.get("edituser").setVisible(active);
-		buttons.get("search").requestFocus();
 	}
 }

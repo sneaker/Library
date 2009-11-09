@@ -41,6 +41,7 @@ public class TabUserDetailJPanel extends JPanel implements Observer {
 		titleText = new JTextArea();
 		titleText.setText(NO_USER_ACTIVE_TEXT);
 		titleText.setBackground(this.getBackground());
+		titleText.setEditable(false);
 		titleText.setLineWrap(true);
 		titleText.setFont(TITLE_FONT);
 		titleText.addMouseListener(new CopyPasteTextFieldListener(

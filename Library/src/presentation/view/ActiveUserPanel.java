@@ -36,6 +36,7 @@ public class ActiveUserPanel extends JPanel implements Observer {
 		this.controller = controller;
 		model = controller.activeuser_model;
 		model.addObserver(this);
+		controller.usertab_model.addObserver(this);
 
 		setLayout(new GridBagLayout());
 		initUserLabel();
