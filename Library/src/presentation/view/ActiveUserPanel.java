@@ -47,9 +47,8 @@ public class ActiveUserPanel extends JPanel implements Observer {
 
 	private void initDisableButton() {
 		GridBagConstraints c = new GridBagConstraints();
-		// TODO: insert better icons
 		clearButton = new ActionButton("Benutzer deaktivieren",
-				"img/delete32x32h.png", "img/delete32x32.png");
+				"img/disablecustomer32x32h.png", "img/disablecustomer32x32.png");
 		clearButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				model.clearUser();

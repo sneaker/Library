@@ -42,7 +42,7 @@ public class LibraryMainWindow extends JFrame implements Observer {
 		controller.library = library;
 
 		setTitle(model.getTitle());
-		setPreferredSize(new Dimension(800, 400));
+		setPreferredSize(new Dimension(900, 500));
 		setMinimumSize(new Dimension(645, 390));
 		setSize(750, 450);
 

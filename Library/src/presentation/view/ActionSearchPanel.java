@@ -18,21 +18,20 @@ public class ActionSearchPanel extends AbstractActionPanel {
 		initSearchButton();
 		initNewUserButton();
 		initSpacer();
-		initShowUser();
+//		initShowUser();
 		initShowAvailableBooks();
 		initShowDefektBooks();
 		initShowLentBooks();
 	}
 	
 	private void initSpacer() {
-		buttons.put("none", new ActionButton("Spezialfragen", "", ""));
+		buttons.put("none", new ActionButton("Spezialabfragen", "", ""));
 		buttons.get("none").setEnabled(false);
 	}
 
 	private void initShowAvailableBooks() {
-		// TODO: insert images
 		buttons.put("available", new ActionButton(
-				"Alle verfügbaren Bücher anzeigen", "", ""));
+				"Verfügbare Bücher", "img/availablebooks32x32h.png", "img/availablebooks32x32.png"));
 		buttons.get("available").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				model.showavailableBooks();
@@ -41,9 +40,8 @@ public class ActionSearchPanel extends AbstractActionPanel {
 	}
 
 	private void initShowDefektBooks() {
-		// TODO: insert images
-		buttons.put("showdefekt", new ActionButton("Alle defekten Bücher", "",
-				""));
+		buttons.put("showdefekt", new ActionButton("Defekte Bücher", "img/wastebooks32x32h.png",
+				"img/wastebooks32x32.png"));
 		buttons.get("showdefekt").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				model.showDefektBooks();
@@ -62,7 +60,7 @@ public class ActionSearchPanel extends AbstractActionPanel {
 	}
 
 	private void initNewUserButton() {
-		buttons.put("newuser", new ActionButton("Neuen Benutzer anlegen",
+		buttons.put("newuser", new ActionButton("Benutzer erstellen",
 				"img/newcustomer32x32h.png", "img/newcustomer32x32.png"));
 		buttons.get("newuser").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -72,23 +70,11 @@ public class ActionSearchPanel extends AbstractActionPanel {
 	}
 
 	private void initShowLentBooks() {
-		// TODO: insert images
-		buttons.put("showlent", new ActionButton("Alle ausgeliehenen Bücher",
-				"", ""));
+		buttons.put("showlent", new ActionButton("Ausgeliehene Bücher",
+				"img/allloans32x32h.png", "img/allloans32x32.png"));
 		buttons.get("showlent").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				model.showLentBooks();
-			}
-		});
-	}
-
-	private void initShowUser() {
-		// TODO: create overlay image
-		buttons.put("showuser", new ActionButton("Nur Benutzer zeigen",
-				"img/user32x32.png", "img/user32x32.png"));
-		buttons.get("showuser").addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				model.showUser();
 			}
 		});
 	}

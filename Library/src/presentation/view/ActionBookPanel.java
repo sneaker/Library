@@ -34,7 +34,7 @@ public class ActionBookPanel extends AbstractActionPanel {
 	}
 
 	private void initReturnButton() {
-		buttons.put("return", new ActionButton("Buch zurück geben",
+		buttons.put("return", new ActionButton("Buch zurückgeben",
 				"img/return32x32h.png", "img/return32x32.png"));
 		buttons.get("return").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -57,7 +57,7 @@ public class ActionBookPanel extends AbstractActionPanel {
 	}
 
 	private void initCreateButton() {
-		buttons.put("create", new ActionButton("Neues Buch erstellen",
+		buttons.put("create", new ActionButton("Buch erstellen",
 				"img/new32x32h.png", "img/new32x32.png"));
 		buttons.get("create").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

@@ -18,6 +18,7 @@ public class ActionUserPanel extends AbstractActionPanel {
 	protected void initActionButtons() {
 		initNewSearchButton();
 		initReturnButton();
+		initShowBookButton();
 		initEditButton();
 		initClearUserButton();
 		initAddUserButton();
@@ -45,6 +46,17 @@ public class ActionUserPanel extends AbstractActionPanel {
 		});
 	}
 
+	private void initShowBookButton() {
+		buttons.put("showbook", new ActionButton("Buchdetails anzeigen",
+				"img/bookdetails32x32h.png", "img/bookdetails32x32.png"));
+		buttons.get("showbook").setVisible(false);
+		buttons.get("showbook").addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				controller.tabbed_model.setBookTabActive();
+			}
+		});
+	}
+	
 	private void initEditButton() {
 		buttons.put("edituser", new ActionButton("Personalien editieren",
 				"img/edit32x32h.png", "img/edit32x32.png"));
@@ -79,6 +91,7 @@ public class ActionUserPanel extends AbstractActionPanel {
 	public void update(Observable o, Object arg) {
 		boolean active = controller.activeuser_model.isCustomerActive();
 		buttons.get("return").setVisible(active && controller.usertab_model.isLoanSelected());
+		buttons.get("showbook").setVisible(active && controller.usertab_model.isLoanSelected());
 		buttons.get("edituser").setVisible(active);
 	}
 }
