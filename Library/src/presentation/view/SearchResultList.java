@@ -12,12 +12,8 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 
-import presentation.model.LibraryTabbedPaneModel;
 import presentation.model.ModelController;
 import presentation.model.SearchResultListModel;
-import domain.Book;
-import domain.Customer;
-import domain.Library;
 
 /**
  * Displays search results for books and users combined with specific actions
@@ -27,16 +23,12 @@ public class SearchResultList extends JList implements ListDataListener  {
 
 	private static final long serialVersionUID = 1L;
 	private JList resultList;
-	private final LibraryTabbedPaneModel tabModel;
-	private final Library library;
 	private SearchResultCellRenderer cellRenderer;
 	private ModelController controller;
-	private SearchResultListModel model;
+	SearchResultListModel model;
 
 	public SearchResultList(ModelController controller) {
 		this.controller = controller;
-		tabModel = controller.tabbed_model;
-		library = controller.library;
 		model = controller.resultlist_model;
 		model.addListDataListener(this);
 		setLayout(new BorderLayout());
@@ -56,6 +48,7 @@ public class SearchResultList extends JList implements ListDataListener  {
 		resultList.addMouseMotionListener(new MouseAdapter() {
 			public void mouseMoved(MouseEvent e) {
 				int index = eventToListIndex(e);
+				model.setIndex(index);
 				if (index < 0)
 					return;
 				resultList.setSelectedIndex(resultList
@@ -63,7 +56,7 @@ public class SearchResultList extends JList implements ListDataListener  {
 			}
 		});
 
-		resultList.addMouseListener(new ListItemMouseListener());
+		resultList.addMouseListener(new ListItemMouseListener(this, controller));
 
 		add(new JScrollPane(resultList));
 	}
@@ -73,15 +66,6 @@ public class SearchResultList extends JList implements ListDataListener  {
 		return index;
 	}
 
-	public void lendBook(Book selected) {
-		if (controller.activeuser_model.getCustomer() == null) {
-			controller.booktab_model.setActiveBook(selected);
-			controller.status_model.setTempStatus("Keine Ausleihe möglich: Bitte erst Benutzer auswählen");
-			return;
-		}
-		library.createAndAddLoan(controller.activeuser_model.getCustomer(), selected);
-	}
-
 	/**
 	 * Dynamically adapt title length to size of list by telling the cell
 	 * renderer its size.
@@ -89,6 +73,8 @@ public class SearchResultList extends JList implements ListDataListener  {
 	public void paint(Graphics g) {
 		cellRenderer.setPreferredWidth(this.getWidth());
 		super.paint(g);
+		model.setCellWidth(getWidth());
+		model.setCellHeight(64);
 	}
 
 	public void contentsChanged(ListDataEvent e) {
@@ -96,98 +82,9 @@ public class SearchResultList extends JList implements ListDataListener  {
 	}
 
 	public void intervalAdded(ListDataEvent e) {
-		resultList.repaint();
+		
 	}
 
 	public void intervalRemoved(ListDataEvent e) {
-		resultList.repaint();
-	}
-	
-	/**
-	 * Hardcoded for laziness reasons. List returns effective height, not
-	 * maximum height.
-	 * 
-	 * @return 64, the actual height of a list item.
-	 */
-	private int getCellHeight() {
-		return 64;
-	}
-
-	// //////////////////////////////////////////////////////////////////////////////////////
-	// //////////////////////////////////////////////////////////////////////////////////////
-	private final class ListItemMouseListener extends MouseAdapter {
-		public void mouseClicked(MouseEvent e) {
-			int index = eventToListIndex(e);
-			if (index < 0)
-				return;
-
-			Object o = resultList.getModel().getElementAt(index);
-			if (o instanceof Book) {
-				Book selected = (Book) o;
-				controller.booktab_model.setActiveBook(selected);
-				handleBookClick(e, index, selected);
-				return;
-			}
-
-			if (o instanceof Customer) {
-				Customer selected = (Customer) o;
-				// TODO: Coole Idee: Direkt-setActive-button für Benutzer
-				// auswählen
-				controller.activeuser_model.setActiveUser(selected);
-				tabModel.setActiveTab(LibraryTabbedPaneModel.USER_TAB);
-			}
-		}
-
-		/**
-		 * Determines where an item has been clicked and executes the
-		 * appropriate action. JList items cannot listen to events so the list
-		 * itself listens for events for its items.
-		 * 
-		 * @param e
-		 *            gives information about the mouse event including its
-		 *            coordinates to calculate the clicked item.
-		 * @param index
-		 *            of the list item.
-		 * @param selected
-		 *            the book or user which is affected by this click.
-		 */
-		private void handleBookClick(MouseEvent e, int index, Book selected) {
-			controller.booktab_model.setActiveBook(selected);
-			if (isFirstIconHit(e, index)) {
-				library.returnBook(selected);
-				repaint();
-				return;
-			}
-			if (isSecondIconHit(e, index) && library.isBookLent(selected)) {
-				library.reserveBook(selected);
-				repaint();
-				return;
-			}
-			if (isSecondIconHit(e, index)) {
-				lendBook(selected);
-				repaint();
-				return;
-			}
-			controller.booktab_model.setActiveBook(selected);
-			showDetailsOf(selected);
-		}
-
-		private void showDetailsOf(Book selected) {
-			controller.booktab_model.setActiveBook(selected);
-			tabModel.setActiveTab(LibraryTabbedPaneModel.BOOK_TAB);
-		}
-
-		private boolean isFirstIconHit(MouseEvent e, int index) {
-			return e.getX() > getWidth() - 120 && e.getX() < getWidth() - 88
-					&& e.getY() > 30 + getCellHeight() * index
-					&& e.getY() < 62 + getCellHeight() * index;
-		}
-
-		private boolean isSecondIconHit(MouseEvent e, int index) {
-			return e.getX() > getWidth() - 120 + 40
-					&& e.getX() < getWidth() - 88 + 40
-					&& e.getY() > 30 + getCellHeight() * index
-					&& e.getY() < 62 + getCellHeight() * index;
-		}
 	}
 }

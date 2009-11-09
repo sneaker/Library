@@ -42,6 +42,7 @@ public class LibraryMainWindow extends JFrame implements Observer {
 		controller.library = library;
 
 		setTitle(model.getTitle());
+		setIconImage(Toolkit.getDefaultToolkit().getImage("img/book16x16.png"));
 		setPreferredSize(new Dimension(900, 500));
 		setMinimumSize(new Dimension(645, 390));
 		setSize(750, 450);
