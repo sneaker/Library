@@ -224,7 +224,7 @@ public class SearchResultListModel implements ListModel {
 	}
 
 	public boolean isFirstIconHit(MouseEvent e) {
-		if (e.getX() < 110 || e.getX() > (110 + 32))
+		if (e.getX() < 70 || e.getX() > (70 + 32))
 			return false;
 		if ((e.getY() < 30 + getCellHeight() * index)
 				|| e.getY() > 62 + getCellHeight() * index)
@@ -233,7 +233,7 @@ public class SearchResultListModel implements ListModel {
 	}
 
 	public boolean isSecondIconHit(MouseEvent e) {
-		if (e.getX() < 70 || e.getX() > (70 + 32))
+		if (e.getX() < 110 || e.getX() > (110 + 32))
 			return false;
 		if ((e.getY() < 30 + getCellHeight() * index)
 				|| e.getY() > 62 + getCellHeight() * index)
