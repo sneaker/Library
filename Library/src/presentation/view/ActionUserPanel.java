@@ -79,8 +79,8 @@ public class ActionUserPanel extends AbstractActionPanel {
 	}
 
 	private void initClearUserButton() {
-		buttons.put("clearuser", new ActionButton("Benutzer deaktivieren", "",
-				""));
+		buttons.put("clearuser", new ActionButton("Benutzer deaktivieren", "img/disablecustomer32x32h.png",
+				"img/disablecustomer32x32.png"));
 		buttons.get("clearuser").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				model.clearuser();

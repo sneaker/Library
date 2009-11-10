@@ -20,7 +20,7 @@ public class TextUtils {
 	 *            determine its size
 	 * @return a text which should fit into a panel with the specified size
 	 */
-	public static String cutText(final String longText, int preferredWidth,
+	public static String cutText(String longText, int preferredWidth,
 			String format) {
 		String text = longText.replaceAll("\\<.*?>", "");
 		double size = Math.max(0, preferredWidth)

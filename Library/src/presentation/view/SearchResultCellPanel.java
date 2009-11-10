@@ -25,7 +25,7 @@ import domain.Searchable;
  */
 abstract class SearchResultCellPanel extends JPanel {
 	private static final Color SHINY_BLUE = new Color(0xADD8E6);
-	private static final String TITLE_FORMAT = "<html><p style='font-size:14pt; padding-left: 1.25cm; text-indent: -1cm;'>";
+	private static final String TITLE_FORMAT = "<html><p style='font-size:14pt; padding-left: 1.75cm; text-indent: -1cm;'>";
 	private static final long serialVersionUID = -8035455214107649755L;
 	protected static final String IMG_CHECK16X16 = "img/check16x16.png";
 	protected static final String IMG_EXCLAMATION16X16 = "img/exclamation16x16.png";
@@ -72,11 +72,14 @@ abstract class SearchResultCellPanel extends JPanel {
 		String text = TITLE_FORMAT
 				+ fat(TextUtils.cutText(selected.searchTitle(), preferredWidth,
 						TITLE_FORMAT + "<b>"));
+		text += "<p style='padding-left: 3cm;'>";
 		for (Attribute att : selected.searchDetail().asList()) {
-			text += "<br />" + att.getName() + ": ";
+			text += att.getName() + ": ";
 			text += TextUtils.cutText(att.getValue().toString(),
 					preferredWidth - 100, "");
+			text += "<br />";
 		}
+		text += "</p>";
 		return text;
 	}
 
@@ -117,14 +120,14 @@ class ResultCellBookPanel extends SearchResultCellPanel {
 			return;
 		if (library.isBookLent(active)) {
 			g.drawImage(new ImageIcon(IMG_AGENDA32X32).getImage(),
-					getWidth() - 60, getHeight() - 37, null);
+					getX() + 70, getHeight() - 37, null);
 			g.drawImage(new ImageIcon(IMG_RETURN32X32).getImage(),
-					getWidth() - 100, getHeight() - 37, null);
+					getX() + 110, getHeight() - 37, null);
 			return;
 		}
 		if (controller.activeuser_model.getCustomer() == null)
 			return;
-		g.drawImage(new ImageIcon(IMG_ADD32X32).getImage(), getWidth() - 60,
+		g.drawImage(new ImageIcon(IMG_ADD32X32).getImage(), getX() + 70,
 				getHeight() - 37, null);
 	}
 

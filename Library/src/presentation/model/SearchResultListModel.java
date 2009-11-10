@@ -23,7 +23,7 @@ public class SearchResultListModel implements ListModel {
 	private Library library;
 	private String searchstring = new String();
 	private ModelController controller;
-	
+
 	private int index = 0;
 	private int height;
 	private int width;
@@ -137,16 +137,17 @@ public class SearchResultListModel implements ListModel {
 	}
 
 	private void sort() {
-		java.util.Collections.sort(displayed_results, new Comparator<Searchable>() {
-			public int compare(Searchable o1, Searchable o2) {
-				if (o1 instanceof Book && o2 instanceof Customer)
-					return 1;
-				if (o1 instanceof Customer && o2 instanceof Book)
-					return -1;
-				else
-					return o1.searchTitle().compareTo(o2.searchTitle());
-			}
-		});
+		java.util.Collections.sort(displayed_results,
+				new Comparator<Searchable>() {
+					public int compare(Searchable o1, Searchable o2) {
+						if (o1 instanceof Book && o2 instanceof Customer)
+							return 1;
+						if (o1 instanceof Customer && o2 instanceof Book)
+							return -1;
+						else
+							return o1.searchTitle().compareTo(o2.searchTitle());
+					}
+				});
 	}
 
 	public void showavailableBooks() {
@@ -183,33 +184,33 @@ public class SearchResultListModel implements ListModel {
 		}
 		displayed_results = tmplist;
 		history.add(displayed_results);
-		
+
 		sort();
 		update();
 	}
-	
+
 	public void showLentBooks() {
 		ArrayList<Searchable> tmplist = new ArrayList<Searchable>();
-		
-		for(Book book : library.getLentBooks()) {
+
+		for (Book book : library.getLentBooks()) {
 			tmplist.add(book);
 		}
 		displayed_results = tmplist;
 		history.add(displayed_results);
-		
+
 		sort();
 		update();
 	}
 
 	public void showUser() {
 		ArrayList<Searchable> tmplist = new ArrayList<Searchable>();
-		
-		for(Customer customer : library.getCustomers()) {
+
+		for (Customer customer : library.getCustomers()) {
 			tmplist.add(customer);
 		}
 		displayed_results = tmplist;
 		history.add(displayed_results);
-		
+
 		sort();
 		update();
 	}
@@ -217,43 +218,45 @@ public class SearchResultListModel implements ListModel {
 	public void setIndex(int index) {
 		this.index = index;
 	}
-	
+
 	public int getIndex() {
 		return index;
 	}
-	
+
 	public boolean isFirstIconHit(MouseEvent e) {
-		System.out.println("here");
-		return e.getX() > getCellWidth() - 120
-				&& e.getX() < getCellWidth() - 88
-				&& e.getY() > 30 + getCellHeight() * index
-				&& e.getY() < 62 + getCellHeight() * index;
+		if (e.getX() < 110 || e.getX() > (110 + 32))
+			return false;
+		if ((e.getY() < 30 + getCellHeight() * index)
+				|| e.getY() > 62 + getCellHeight() * index)
+			return false;
+		return true;
 	}
 
 	public boolean isSecondIconHit(MouseEvent e) {
-		System.out.println("there");
-		return e.getX() > getCellWidth() - 120 + 40
-				&& e.getX() < getCellWidth() - 88 + 40
-				&& e.getY() > 30 + getCellHeight() * index
-				&& e.getY() < 62 + getCellHeight() * index;
+		if (e.getX() < 70 || e.getX() > (70 + 32))
+			return false;
+		if ((e.getY() < 30 + getCellHeight() * index)
+				|| e.getY() > 62 + getCellHeight() * index)
+			return false;
+		return true;
 	}
-	
+
 	public void setCellHeight(int height) {
 		this.height = height;
 	}
-	
+
 	public void setCellWidth(int width) {
 		this.width = width;
 	}
-	
+
 	public int getCellHeight() {
 		return height;
 	}
-	
+
 	public int getCellWidth() {
 		return width;
 	}
-	
+
 	public void selectSingleElement() {
 		System.out.println("called");
 		if (displayed_results.size() != 1)
@@ -261,10 +264,12 @@ public class SearchResultListModel implements ListModel {
 		Searchable item = getElementAt(0);
 		if (item instanceof Book) {
 			controller.booktab_model.setActiveBook((Book) item);
-			controller.tabbed_model.setActiveTab(LibraryTabbedPaneModel.BOOK_TAB);
+			controller.tabbed_model
+					.setActiveTab(LibraryTabbedPaneModel.BOOK_TAB);
 		} else if (item instanceof Customer) {
 			controller.activeuser_model.setActiveUser((Customer) item);
-			controller.tabbed_model.setActiveTab(LibraryTabbedPaneModel.USER_TAB);
+			controller.tabbed_model
+					.setActiveTab(LibraryTabbedPaneModel.USER_TAB);
 		}
 	}
 }
