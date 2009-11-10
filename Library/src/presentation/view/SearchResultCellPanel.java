@@ -154,13 +154,16 @@ class ResultCellBookPanel extends SearchResultCellPanel {
  */
 class ResultCellUserPanel extends SearchResultCellPanel {
 	private static final String IMG_SYMBOL = "img/user64x64.png";
+	private static final String IMG_ADD32X32 = "img/add32x32.png";
 	private static final long serialVersionUID = -8375612543994217556L;
 	private final Customer active;
+	private boolean isSelected;
 
 	public ResultCellUserPanel(Customer active, boolean isSelected,
 			int preferredWidth, ModelController controller) {
 		super(active, isSelected, preferredWidth, controller.library);
 		this.active = active;
+		this.isSelected = isSelected;
 	}
 
 	protected Image getStatusImage() {
@@ -175,5 +178,16 @@ class ResultCellUserPanel extends SearchResultCellPanel {
 	@Override
 	protected String getSymbolPath() {
 		return IMG_SYMBOL;
+	}
+	
+	@Override
+	public void paint(Graphics g) {
+		super.paint(g);
+
+		if (!isSelected)
+			return;
+		
+		g.drawImage(new ImageIcon(IMG_ADD32X32).getImage(),
+					getX() + 70, getHeight() - 37, null);
 	}
 }
