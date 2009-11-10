@@ -58,7 +58,6 @@ public class SearchResultListModel implements ListModel {
 			displayed_results.add(library.getAvailableBooks().get(i));
 
 		sort();
-		history.add(displayed_results);
 	}
 
 	public void addListDataListener(ListDataListener l) {
@@ -77,13 +76,20 @@ public class SearchResultListModel implements ListModel {
 		listeners.remove(l);
 	}
 
-	public void addchar(char c) {
-		searchstring += c;
-		newsearch();
+	public void simpleKeyAdd(String newstring) {
+		if (newstring.substring(0, newstring.length()-1).equals(searchstring)) {
+			searchstring = newstring;
+			newsearch();
+		}
+		else {
+			searchstring = newstring;
+			buildagain(searchstring);
+		}
 	}
 
 	private void newsearch() {
 
+		history.add(displayed_results);
 		ArrayList<Searchable> tmplist = new ArrayList<Searchable>();
 
 		for (Searchable item : displayed_results) {
@@ -100,34 +106,53 @@ public class SearchResultListModel implements ListModel {
 			}
 		}
 		displayed_results = tmplist;
-		history.add(displayed_results);
 
 		sort();
 		update();
 	}
 
 	public void delchar(String newstring) {
-		if ((!newstring.isEmpty())
-				&& newstring.equals(searchstring.substring(0, searchstring
-						.length() - 1))) {
-			searchstring = searchstring.substring(0, searchstring.length() - 1);
-			displayed_results = history.remove(history.size() - 1);
-		} else {
+		if (newstring.isEmpty()) {
 			resetSearch();
+		}
+		// the last char has been deleted
+		else if (newstring.equals(searchstring.substring(0, searchstring.length()-1))) 
+		{
+			goOneBack();
+		} 
+		else //anything else happend 
+		{
+			buildagain(newstring);
 		}
 
 		sort();
 		update();
 	}
 
-	public void resetSearch() {
+	private void buildagain(String newstring) {
+		resetSearch();
+		for (char c : newstring.toCharArray()) {
+			searchstring += c;
+			newsearch();
+		}
+	}
+
+	private void goOneBack() {
+		searchstring = searchstring.substring(0, searchstring.length() - 1);				
+		displayed_results = history.remove(history.size() - 1);
+	}
+	
+	public void resetAndDisplaySearch() {
+		resetSearch();
+		sort();
+		update();
+	}
+
+	private void resetSearch() {
 		searchstring = "";
 		displayed_results = history.get(0);
 		history.clear();
 		history.add(displayed_results);
-
-		sort();
-		update();
 	}
 
 	public void update() {

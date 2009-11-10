@@ -83,8 +83,9 @@ public class TabSearchPanel extends JPanel implements Observer {
 				if ((e.getKeyCode() >= KeyEvent.VK_A)
 						&& (e.getKeyCode() <= KeyEvent.VK_Z)
 						|| (e.getKeyCode() == KeyEvent.VK_SPACE))
-					model.forwardKeyEvent(e);
-				if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
+					model.forwardKeyEvent(searchField.getText());
+				if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE
+						|| e.getKeyCode() == KeyEvent.VK_DELETE) {
 					model.fowardDeleteEvent(searchField.getText());
 				}
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -160,7 +161,7 @@ public class TabSearchPanel extends JPanel implements Observer {
 			requestFocus();
 		}
 		searchField.setForeground(model.getSearchFieldColor());
-		
+
 		searchField.setText(model.getSearchText());
 	}
 }
