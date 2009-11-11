@@ -81,6 +81,7 @@
 			<fileset dir=".">
 				<include name="data/**" />
 				<include name="img/**" />
+				<include name="lib/**" />
 			</fileset>
 	  	</jar>
 	</target>
