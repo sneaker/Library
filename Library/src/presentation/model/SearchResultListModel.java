@@ -149,6 +149,8 @@ public class SearchResultListModel implements ListModel {
 	}
 
 	private void resetSearch() {
+		if (history.size() == 0)
+			return;
 		searchstring = "";
 		displayed_results = history.get(0);
 		history.clear();
