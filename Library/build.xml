@@ -78,6 +78,7 @@
 			<manifest>
 				<attribute name="Main-Class" value="${main.class}" />
 			</manifest>
+			<zipfileset excludes="META-INF/*.SF" src="lib/swingx-0.9.5.jar"/>
 			<fileset dir=".">
 				<include name="data/**" />
 				<include name="img/**" />
