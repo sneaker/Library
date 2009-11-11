@@ -1,7 +1,6 @@
 package presentation.model;
 
 import java.awt.Color;
-import java.awt.event.KeyEvent;
 import java.util.Observable;
 
 /**
@@ -23,7 +22,7 @@ public class TabSearchModel extends Observable {
 	 * "please-type-here" value.
 	 */
 	public void resetSearchText() {
-		controller.resultlist_model.resetSearch();
+		controller.resultlist_model.resetAndDisplaySearch();
 		searchFieldText = DEFAULT_SEARCH_STRING;
 		setChanged();
 		notifyObservers(searchFieldText);
@@ -66,8 +65,8 @@ public class TabSearchModel extends Observable {
 		controller.resultlist_model.delchar(text);
 	}
 
-	public void forwardKeyEvent(KeyEvent e) {
-		controller.resultlist_model.addchar(e.getKeyChar());
+	public void forwardKeyEvent(String string) {
+		controller.resultlist_model.simpleKeyAdd(string);
 	}
 
 	public String getStatus() {

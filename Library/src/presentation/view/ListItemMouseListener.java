@@ -28,15 +28,21 @@ final class ListItemMouseListener extends MouseAdapter {
 		Object o = controller.resultlist_model.getElementAt(index);
 		if (o instanceof Book) {
 			Book selected = (Book) o;
-			controller.booktab_model.setActiveBook(selected);
 			handleBookClick(e, index, selected);
 			return;
 		}
 
 		if (o instanceof Customer) {
 			Customer selected = (Customer) o;
-			// TODO: Coole Idee: Direkt-setActive-button für Benutzer
-			// auswählen
+			handleUserClick(e, index, selected);
+			return;
+		}
+	}
+
+	private void handleUserClick(MouseEvent e, int index, Customer selected) {
+		if (controller.resultlist_model.isFirstIconHit(e)) {
+			controller.activeuser_model.setActiveUser(selected);
+		} else {
 			controller.activeuser_model.setActiveUser(selected);
 			controller.tabbed_model
 					.setActiveTab(LibraryTabbedPaneModel.USER_TAB);
@@ -59,16 +65,16 @@ final class ListItemMouseListener extends MouseAdapter {
 	private void handleBookClick(MouseEvent e, int index, Book selected) {
 		controller.booktab_model.setActiveBook(selected);
 		if (controller.resultlist_model.isFirstIconHit(e)) {
-			controller.library.returnBook(selected);
-			controller.resultlist_model.update();
-			return;
-		}
-		if (controller.resultlist_model.isSecondIconHit(e)) {
 			if (controller.library.isBookLent(selected)) {
 				controller.library.reserveBook(selected);
 			} else {
 				lendBook(selected);
 			}
+			controller.resultlist_model.update();
+			return;
+		}
+		if (controller.resultlist_model.isSecondIconHit(e)) {
+			controller.library.returnBook(selected);
 			controller.resultlist_model.update();
 			return;
 		}
