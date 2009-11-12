@@ -8,6 +8,7 @@ public class TabUserModel extends Observable {
 
 	private final ModelController controller;
 	private boolean isLoanSelected;
+	private boolean isEditing;
 
 	public TabUserModel(ModelController controller) {
 		this.controller = controller;
@@ -36,5 +37,14 @@ public class TabUserModel extends Observable {
 
 	public void setLoanSelected(boolean b) {
 		isLoanSelected = b;
+	}
+
+	public void setEditing(boolean b) {
+		isEditing = b;		
+		fireDataChanged();
+	}
+	
+	public boolean isEditing() {
+		return isEditing;
 	}
 }

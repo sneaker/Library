@@ -64,6 +64,7 @@ public class ActionUserPanel extends AbstractActionPanel {
 		buttons.get("edituser").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				model.editUserSettings();
+				controller.usertab_model.setEditing(true);
 			}
 		});
 	}

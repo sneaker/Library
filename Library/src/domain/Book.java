@@ -14,6 +14,7 @@ public class Book implements Searchable {
 	private final long inventoryNumber;
 	private final Title title;
 	private Condition condition;
+	private String conditionComment = "";
 
 	public Book(Title title) {
 		this.title = title;
@@ -62,5 +63,13 @@ public class Book implements Searchable {
 				(title.getPublisher() == null ? "kein Verlag eingetragen"
 						: title.getPublisher())));
 		return list;
+	}
+
+	public String getConditionComment() {
+		return conditionComment;
+	}
+
+	public void setConditionComment(String newConditionComment) {
+		this.conditionComment = newConditionComment;
 	}
 }

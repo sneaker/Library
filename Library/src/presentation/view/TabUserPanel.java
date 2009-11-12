@@ -21,10 +21,14 @@ public class TabUserPanel extends JPanel implements Observer {
 
 	public TabUserPanel(ModelController controller) {
 		this.controller = controller;
-		setLayout(new BorderLayout());
 		controller.usertab_model.addObserver(this);
 		controller.activeuser_model.addObserver(this);
 
+		initGUI();
+	}
+
+	private void initGUI() {
+		setLayout(new BorderLayout());
 		initContentPane();
 		initActionPanel();
 	}
@@ -32,10 +36,13 @@ public class TabUserPanel extends JPanel implements Observer {
 	private void initContentPane() {
 		contentPanel = new JPanel();
 		contentPanel.setLayout(new GridBagLayout());
-		detailPanel = new TabUserDetailJPanel(controller);
-		loanPanel = new TabUserLoanJPanel(controller);
-		loanPanel.setVisible(false);
+		initDetailPanel();
+		initLoanPanel();
+		add(contentPanel, BorderLayout.CENTER);
+	}
 
+	private void initDetailPanel() {
+		detailPanel = new TabUserDetailJPanel(controller);
 		GridBagConstraints c = new GridBagConstraints();
 		c.anchor = GridBagConstraints.FIRST_LINE_START;
 		c.fill = GridBagConstraints.BOTH;
@@ -44,21 +51,28 @@ public class TabUserPanel extends JPanel implements Observer {
 		c.weightx = 1.0;
 		c.weighty = 0.0001;
 		contentPanel.add(detailPanel, c);
+	}
+
+	private void initLoanPanel() {
+		loanPanel = new TabUserLoanJPanel(controller);
+		loanPanel.setVisible(false);
+		GridBagConstraints c;
+		c = new GridBagConstraints();
+		c.anchor = GridBagConstraints.FIRST_LINE_START;
+		c.fill = GridBagConstraints.BOTH;
 		c.fill = GridBagConstraints.BOTH;
 		c.gridx = 0;
 		c.gridy = 1;
 		c.weightx = 1.0;
 		c.weighty = 1;
 		contentPanel.add(loanPanel, c);
-
-		add(contentPanel, BorderLayout.CENTER);
 	}
 
 	private void initActionPanel() {
 		action_user_panel = new ActionUserPanel(controller);
 		add(action_user_panel, BorderLayout.EAST);
 	}
-
+	
 	public void update(Observable o, Object arg) {
 		detailPanel.update(null, null);
 		loanPanel.update(null, null);
