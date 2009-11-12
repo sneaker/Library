@@ -1,6 +1,5 @@
 package presentation.view;
 
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -20,7 +19,6 @@ public class TabUserDetailJPanel extends JPanel implements Observer {
 	private static final long serialVersionUID = 8165031301707363641L;
 	private final Font DETAIL_LABEL_FONT = new Font("SansSerif", Font.BOLD, 16);
 	private final Font TITLE_FONT = new Font("SansSerif", Font.BOLD, 18);
-	private static final Color SHINY_BLUE = new Color(0xADD8E6);
 	private static final String NO_USER_ACTIVE_TEXT = "Kein Benutzer ausgewählt. \n\nBitte unter Recherche einen Benutzer suchen und auswählen, um seine Details hier anzuzeigen.";
 	private JTextArea titleText;
 	private DetailTextField addressText;
@@ -51,6 +49,19 @@ public class TabUserDetailJPanel extends JPanel implements Observer {
 		titleText.addMouseListener(new CopyPasteTextFieldListener(
 				"Benutzernamen kopieren", titleText, controller));
 		add(titleText, getTitleGridBagConstraints());
+	}
+
+	private GridBagConstraints getTitleGridBagConstraints() {
+		GridBagConstraints c = new GridBagConstraints();
+		c.anchor = GridBagConstraints.FIRST_LINE_START;
+		c.fill = GridBagConstraints.BOTH;
+		c.gridx = 0;
+		c.gridy = 0;
+		c.gridwidth = 2;
+		c.gridheight = 1;
+		c.weightx = 1;
+		c.weighty = 0.00001;
+		return c;
 	}
 
 	private void initAdress() {
@@ -187,19 +198,6 @@ public class TabUserDetailJPanel extends JPanel implements Observer {
 		addressText.setEditable(editable);
 		placeText.setEditable(editable);
 		getParent().validate();
-	}
-
-	private GridBagConstraints getTitleGridBagConstraints() {
-		GridBagConstraints c = new GridBagConstraints();
-		c.anchor = GridBagConstraints.FIRST_LINE_START;
-		c.fill = GridBagConstraints.BOTH;
-		c.gridx = 0;
-		c.gridy = 0;
-		c.gridwidth = 2;
-		c.gridheight = 1;
-		c.weightx = 1;
-		c.weighty = 0.00001;
-		return c;
 	}
 
 	public void update(Observable o, Object arg) {

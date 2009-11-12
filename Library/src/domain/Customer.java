@@ -3,7 +3,7 @@ package domain;
 import javax.management.Attribute;
 import javax.management.AttributeList;
 
-public class Customer implements Searchable {
+public class Customer implements Searchable, Cloneable {
 	
 	private String name, surname, street, city;
 	private int zip;
@@ -77,5 +77,19 @@ public class Customer implements Searchable {
 		list.add(new Attribute("Adresse", (getStreet() == null ? "unbekannt" : getStreet())));
 		list.add(new Attribute("Ort", (getZip() == 0 ? "" : getZip()) + " " + (getCity() == null ? "unbekannt" : getCity())));
 		return list;
+	}
+	
+	public Customer clone() {
+		Customer result = new Customer(name, surname);
+		result.setAdress(street, zip, city);
+		return result;
+	}
+
+	public void copyContent(Customer backupCustomer) {
+		this.name = backupCustomer.getName();
+		this.surname = backupCustomer.getSurname();
+		this.street = backupCustomer.getStreet();
+		this.zip = backupCustomer.getZip();
+		this.city = backupCustomer.getCity();
 	}
 }
