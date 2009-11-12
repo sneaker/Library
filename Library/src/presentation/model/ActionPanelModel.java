@@ -66,8 +66,7 @@ public class ActionPanelModel extends Observable {
 	}
 
 	public void editUserSettings() {
-		// TODO Auto-generated method stub
-
+		controller.usertab_model.setEditing(true);
 	}
 
 	public void returnBook() {
@@ -118,5 +117,14 @@ public class ActionPanelModel extends Observable {
 
 	public void showUser() {
 		controller.searchtab_model.showUser();
+	}
+
+	public void editUserSettingsOk() {
+		controller.usertab_model.setEditing(false);
+	}
+
+	public void editUserSettingsCancel() {
+		controller.usertab_model.setEditing(false);
+		// TODO Auto-generated method stub (machen, dass alter Eintrag wieder drin)
 	}
 }

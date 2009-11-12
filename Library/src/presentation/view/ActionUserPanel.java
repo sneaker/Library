@@ -20,6 +20,8 @@ public class ActionUserPanel extends AbstractActionPanel {
 		initReturnButton();
 		initShowBookButton();
 		initEditButton();
+		initEditOkButton();
+		initEditCancelButton();
 		initClearUserButton();
 		initAddUserButton();
 	}
@@ -64,7 +66,28 @@ public class ActionUserPanel extends AbstractActionPanel {
 		buttons.get("edituser").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				model.editUserSettings();
-				controller.usertab_model.setEditing(true);
+			}
+		});
+	}
+	
+	private void initEditOkButton() {
+		buttons.put("edituserok", new ActionButton("Editieren abschliessen",
+				"img/editdone32x32h.png", "img/editdone32x32.png"));
+		buttons.get("edituserok").setVisible(false);
+		buttons.get("edituserok").addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				model.editUserSettingsOk();
+			}
+		});
+	}
+
+	private void initEditCancelButton() {
+		buttons.put("editusercancel", new ActionButton("Editieren rückgängig",
+				"img/editrevert32x32h.png", "img/editrevert32x32.png"));
+		buttons.get("editusercancel").setVisible(false);
+		buttons.get("editusercancel").addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				model.editUserSettingsCancel();
 			}
 		});
 	}
@@ -90,9 +113,12 @@ public class ActionUserPanel extends AbstractActionPanel {
 	}
 
 	public void update(Observable o, Object arg) {
+		
 		boolean active = controller.activeuser_model.isCustomerActive();
 		buttons.get("return").setVisible(active && controller.usertab_model.isLoanSelected());
 		buttons.get("showbook").setVisible(active && controller.usertab_model.isLoanSelected());
-		buttons.get("edituser").setVisible(active);
+		buttons.get("edituser").setVisible(active && !controller.usertab_model.isEditing());
+		buttons.get("edituserok").setVisible(active && controller.usertab_model.isEditing());
+		buttons.get("editusercancel").setVisible(active && controller.usertab_model.isEditing());
 	}
 }

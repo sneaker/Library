@@ -168,6 +168,8 @@ public class TabUserDetailJPanel extends JPanel implements Observer {
 
 	public void setEditable(boolean editable) {
 		if (editable) {
+			if (!isAncestorOf(titleText))
+				return;
 			remove(titleText);
 			titleTextEditable = new DetailTextField();
 			add(titleTextEditable, getTitleGridBagConstraints(), 0);
@@ -176,13 +178,15 @@ public class TabUserDetailJPanel extends JPanel implements Observer {
 			titleTextEditable.setEditable(true);
 			titleTextEditable.setFont(TITLE_FONT);
 			titleTextEditable.requestFocus();
-			addressText.setEditable(true);
-			placeText.setEditable(true);
-			
-			validate();
 		} else {
-			// remove
+			if (!isAncestorOf(titleTextEditable))
+				return;
+			add(titleText, getTitleGridBagConstraints());
+			remove(titleTextEditable);
 		}
+		addressText.setEditable(editable);
+		placeText.setEditable(editable);
+		getParent().validate();
 	}
 
 	private GridBagConstraints getTitleGridBagConstraints() {
