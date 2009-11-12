@@ -3,14 +3,16 @@ package presentation.view;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.KeyAdapter;
 import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.CaretEvent;
+import javax.swing.event.CaretListener;
 
 import presentation.model.ModelController;
 import domain.Customer;
@@ -27,7 +29,7 @@ public class TabUserDetailJPanel extends JPanel implements Observer {
 	private JLabel addressLabel;
 	private JLabel statusLabel;
 	private DetailTextField statusText;
-	private JTextField titleTextEditable;
+	private DetailTextField titleTextEditable;
 
 	public TabUserDetailJPanel(ModelController controller) {
 		this.controller = controller;
@@ -81,6 +83,7 @@ public class TabUserDetailJPanel extends JPanel implements Observer {
 
 		addressText = new DetailTextField();
 		addressText.setVisible(false);
+		addAddressValidator();
 		c = new GridBagConstraints();
 		c.anchor = GridBagConstraints.FIRST_LINE_START;
 		c.fill = GridBagConstraints.HORIZONTAL;
@@ -93,9 +96,31 @@ public class TabUserDetailJPanel extends JPanel implements Observer {
 		add(addressText, c);
 	}
 
+	private void addAddressValidator() {
+		addressText.addKeyListener(new KeyAdapter() {
+			public void keyTyped(java.awt.event.KeyEvent e) {
+				String newAddress = addressText.getText();
+				boolean ok = newAddress.length() != 0;
+				addressText.setError(!ok);
+				updateValidation();
+				controller.activeuser_model.getCustomer().setAdress(newAddress,
+						controller.activeuser_model.getCustomer().getZip(),
+						controller.activeuser_model.getCustomer().getCity());
+				controller.activeuser_model.fireDataChanged();
+			}
+		});
+	}
+
+	protected void updateValidation() {
+		boolean hasErrors = titleTextEditable.isError()
+				|| addressText.isError() || placeText.isError();
+		controller.usertab_model.setError(hasErrors);
+	}
+
 	private void initPlace() {
 		placeText = new DetailTextField();
 		placeText.setVisible(false);
+		addPlaceValidator();
 		GridBagConstraints c = new GridBagConstraints();
 		c.anchor = GridBagConstraints.FIRST_LINE_START;
 		c.fill = GridBagConstraints.HORIZONTAL;
@@ -106,6 +131,51 @@ public class TabUserDetailJPanel extends JPanel implements Observer {
 		c.weightx = 1.0;
 		c.weighty = 0.00001;
 		add(placeText, c);
+	}
+
+	private void addPlaceValidator() {
+		// TODO: Fertig machen [Martin]
+		placeText.addKeyListener(new KeyAdapter() {
+			public void keyReleased(java.awt.event.KeyEvent e) {
+				// Dear god of Holy Regex - help me
+				super.keyTyped(e);
+				String split[] = placeText.getText().split(" ");
+				if (split.length < 2) {
+					placeText.setError(true);
+					return;
+				}
+				boolean okZip = false;
+				boolean okCity = false;
+				String zipString = split[0];
+				int newZip = 0;
+				try {
+					newZip = Integer.parseInt(zipString);
+				} catch (NumberFormatException ex) {
+				}
+				if (newZip != 0) {
+					controller.activeuser_model.getCustomer()
+							.setAdress(
+									controller.activeuser_model.getCustomer()
+											.getStreet(),
+									newZip,
+									controller.activeuser_model.getCustomer()
+											.getCity());
+					okZip = true;
+				}
+
+				String newCity = split[1];
+				if (newCity.length() > 0) {
+					controller.activeuser_model.getCustomer().setAdress(
+							controller.activeuser_model.getCustomer()
+									.getStreet(),
+							controller.activeuser_model.getCustomer().getZip(),
+							newCity);
+					okCity = true;
+				}
+				controller.usertab_model.setError(!okZip || !okCity);
+				placeText.setError(!okZip || !okCity);
+			}
+		});
 	}
 
 	private void initStatus() {
@@ -178,26 +248,53 @@ public class TabUserDetailJPanel extends JPanel implements Observer {
 	}
 
 	public void setEditable(boolean editable) {
+		setTitleTextEditable(editable);
+		addressText.setEditable(editable);
+		placeText.setEditable(editable);
+		getParent().validate();
+	}
+
+	private void setTitleTextEditable(boolean editable) {
 		if (editable) {
 			if (!isAncestorOf(titleText))
 				return;
 			remove(titleText);
 			titleTextEditable = new DetailTextField();
-			add(titleTextEditable, getTitleGridBagConstraints(), 0);
+			add(titleTextEditable, getTitleGridBagConstraints());
 			titleTextEditable.setText(controller.activeuser_model.getCustomer()
 					.getFullName());
 			titleTextEditable.setEditable(true);
 			titleTextEditable.setFont(TITLE_FONT);
+			addTitleValidator();
 			titleTextEditable.requestFocus();
 		} else {
 			if (!isAncestorOf(titleTextEditable))
 				return;
-			add(titleText, getTitleGridBagConstraints());
 			remove(titleTextEditable);
+			add(titleText, getTitleGridBagConstraints());
 		}
-		addressText.setEditable(editable);
-		placeText.setEditable(editable);
-		getParent().validate();
+	}
+
+	private void addTitleValidator() {
+		titleTextEditable.addCaretListener(new CaretListener() {
+			public void caretUpdate(CaretEvent e) {
+				String newName = titleTextEditable.getText();
+				String splitName[] = newName.split(", ");
+				if (splitName.length < 2)
+					splitName = newName.split(",");
+				if (splitName.length < 2)
+					splitName = newName.split(" ");
+				boolean ok = splitName.length == 2;
+				titleTextEditable.setError(!ok);
+				updateValidation();
+				if (splitName.length < 2)
+					return;
+				controller.activeuser_model.getCustomer().setName(splitName[0]);
+				controller.activeuser_model.getCustomer().setSurname(
+						splitName[1]);
+				controller.activeuser_model.fireDataChanged();
+			}
+		});
 	}
 
 	public void update(Observable o, Object arg) {

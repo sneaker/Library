@@ -113,12 +113,11 @@ public class ActionUserPanel extends AbstractActionPanel {
 	}
 
 	public void update(Observable o, Object arg) {
-		
 		boolean active = controller.activeuser_model.isCustomerActive();
 		buttons.get("return").setVisible(active && controller.usertab_model.isLoanSelected());
 		buttons.get("showbook").setVisible(active && controller.usertab_model.isLoanSelected());
 		buttons.get("edituser").setVisible(active && !controller.usertab_model.isEditing());
-		buttons.get("edituserok").setVisible(active && controller.usertab_model.isEditing());
+		buttons.get("edituserok").setVisible(active && controller.usertab_model.isEditing() && !controller.usertab_model.isError());
 		buttons.get("editusercancel").setVisible(active && controller.usertab_model.isEditing());
 	}
 }

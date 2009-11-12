@@ -10,6 +10,7 @@ public class TabUserModel extends Observable {
 	private boolean isLoanSelected;
 	private boolean isEditing;
 	private Customer backupCustomer;
+	private boolean isError;
 
 	public TabUserModel(ModelController controller) {
 		this.controller = controller;
@@ -60,5 +61,14 @@ public class TabUserModel extends Observable {
 		}
 		controller.activeuser_model.getCustomer().copyContent(backupCustomer);
 		controller.status_model.setTempStatus("Erfolg: Änderungen am Benutzer rückgängig gemacht.");
+	}
+
+	public void setError(boolean b) {
+		isError = b;
+		fireDataChanged();
+	}
+	
+	public boolean isError() {
+		return isError;
 	}
 }
