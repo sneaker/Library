@@ -64,7 +64,7 @@ public class TabUserPanel extends JPanel implements Observer {
 		c.gridx = 0;
 		c.gridy = 1;
 		c.weightx = 1.0;
-		c.weighty = 1;
+		c.weighty = 1.0;
 		contentPanel.add(loanPanel, c);
 	}
 

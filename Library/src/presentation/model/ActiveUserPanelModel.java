@@ -25,14 +25,11 @@ public class ActiveUserPanelModel extends Observable {
 
 	public void setActiveUser(Customer selected) {
 		customer = selected;
-		setChanged();
-		notifyObservers();
+		fireDataChanged();
 	}
 
 	public void clearUser() {
 		customer = null;
-		setChanged();
-		notifyObservers();
 	}
 
 	public void switchtoSearch() {
@@ -41,5 +38,10 @@ public class ActiveUserPanelModel extends Observable {
 
 	public boolean isCustomerActive() {
 		return customer != null;
+	}
+
+	public void fireDataChanged() {
+		setChanged();
+		notifyObservers();
 	}
 }

@@ -9,8 +9,9 @@ import java.util.Observer;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.CaretEvent;
+import javax.swing.event.CaretListener;
 
 import presentation.model.ModelController;
 import domain.Customer;
@@ -27,7 +28,7 @@ public class TabUserDetailJPanel extends JPanel implements Observer {
 	private JLabel addressLabel;
 	private JLabel statusLabel;
 	private DetailTextField statusText;
-	private JTextField titleTextEditable;
+	private DetailTextField titleTextEditable;
 
 	public TabUserDetailJPanel(ModelController controller) {
 		this.controller = controller;
@@ -183,17 +184,35 @@ public class TabUserDetailJPanel extends JPanel implements Observer {
 				return;
 			remove(titleText);
 			titleTextEditable = new DetailTextField();
-			add(titleTextEditable, getTitleGridBagConstraints(), 0);
+			add(titleTextEditable, getTitleGridBagConstraints());
 			titleTextEditable.setText(controller.activeuser_model.getCustomer()
 					.getFullName());
 			titleTextEditable.setEditable(true);
 			titleTextEditable.setFont(TITLE_FONT);
+			titleTextEditable.addCaretListener(new CaretListener() {
+				public void caretUpdate(CaretEvent e) {
+					String newName = titleTextEditable.getText();
+					String tmp[] = newName.split(", ");
+					if (tmp.length < 2) {
+						titleTextEditable.setError(true);
+						controller.usertab_model.setError(true);
+						return;
+					} else {
+						controller.usertab_model.setError(false);
+						titleTextEditable.setError(false);
+					}
+					controller.activeuser_model.getCustomer().setName(tmp[0]);
+					controller.activeuser_model.getCustomer().setSurname(tmp[1]);
+					controller.activeuser_model.fireDataChanged();
+					
+				}
+			});
 			titleTextEditable.requestFocus();
 		} else {
 			if (!isAncestorOf(titleTextEditable))
 				return;
-			add(titleText, getTitleGridBagConstraints());
 			remove(titleTextEditable);
+			add(titleText, getTitleGridBagConstraints());
 		}
 		addressText.setEditable(editable);
 		placeText.setEditable(editable);

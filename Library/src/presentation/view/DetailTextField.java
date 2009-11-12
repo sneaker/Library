@@ -21,6 +21,7 @@ class DetailTextField extends JTextField {
 	private static final long serialVersionUID = 1674245771658079673L;
 	private boolean isDisplayOnly;
 	private boolean isEditable;
+	private boolean isError;
 
 	public DetailTextField() {
 		super();
@@ -35,19 +36,12 @@ class DetailTextField extends JTextField {
 			@Override
 			public void focusGained(FocusEvent e) {
 				super.focusGained(e);
-				if (shouldHighlight())
-					setBackground(SHINY_BLUE);
+				repaintBackground();
 			}
 			@Override
 			public void focusLost(FocusEvent e) {
 				super.focusLost(e);
-				if (shouldHighlight())
-					setBackground(Color.WHITE);
-				else
-					setBackground(new JPanel().getBackground());
-			}
-			private boolean shouldHighlight() {
-				return isEditable && !isDisplayOnly();
+				repaintBackground();
 			}
 		});
 	}
@@ -61,10 +55,7 @@ class DetailTextField extends JTextField {
 		setVisible(b);
 		super.setEditable(b);
 		setBorder((b ? new JTextField().getBorder() : null));
-		if (b)
-			setBackground(Color.WHITE);
-		else
-			setBackground(new JPanel().getBackground());
+		repaintBackground();
 	}
 	
 	public void setRed(boolean really) {
@@ -77,5 +68,25 @@ class DetailTextField extends JTextField {
 
 	public boolean isDisplayOnly() {
 		return isDisplayOnly;
+	}
+
+	public void setError(boolean b) {
+		isError = b;
+		repaintBackground();
+	}
+	
+	public boolean isError() {
+		return isError;
+	}
+
+	private void repaintBackground() {
+		if (!isEditable || isDisplayOnly)
+			setBackground(new JPanel().getBackground());
+		else if (isEditable && isFocusOwner() && !isError)
+			setBackground(SHINY_BLUE);
+		else if (isEditable && !isFocusOwner() && !isError)
+			setBackground(Color.WHITE);
+		else
+			setBackground(Color.RED);
 	}
 }
