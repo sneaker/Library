@@ -30,6 +30,7 @@ public class ActiveUserPanelModel extends Observable {
 
 	public void clearUser() {
 		customer = null;
+		fireDataChanged();
 	}
 
 	public void switchtoSearch() {
