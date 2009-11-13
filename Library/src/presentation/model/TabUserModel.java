@@ -71,4 +71,9 @@ public class TabUserModel extends Observable {
 	public boolean isError() {
 		return isError;
 	}
+
+	public void commitChange() {
+		setEditing(false);
+		controller.status_model.setTempStatus("Erfolg: Änderungen erfolgreich gespeichert.");
+	}
 }
