@@ -112,6 +112,5 @@ public class ActiveUserPanel extends JPanel implements Observer {
 		activeUserLabel.setText("<html>" + DISABLED_USER_COLOR
 				+ DEFAULT_ACTIVE_USER_TEXT);
 		clearButton.setEnabled(false);
-		model.switchtoSearch();
 	}
 }
