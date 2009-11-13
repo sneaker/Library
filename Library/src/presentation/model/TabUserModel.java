@@ -60,7 +60,7 @@ public class TabUserModel extends Observable {
 			return;
 		}
 		controller.activeuser_model.getCustomer().copyContent(backupCustomer);
-		controller.status_model.setTempStatus("Erfolg: Änderungen am Benutzer rückgängig gemacht.");
+		controller.status_model.setTempStatus("Änderungen am Benutzer rückgängig gemacht.");
 	}
 
 	public void setError(boolean b) {
