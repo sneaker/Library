@@ -121,6 +121,7 @@ public class ActionPanelModel extends Observable {
 	}
 
 	public void editUserSettingsOk() {
+		controller.usertab_model.commitChange();
 		controller.usertab_model.setEditing(false);
 	}
 
