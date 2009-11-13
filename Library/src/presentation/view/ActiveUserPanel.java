@@ -92,8 +92,7 @@ public class ActiveUserPanel extends JPanel implements Observer {
 
 	private void enableUser(Customer customer) {
 		activeUserLabel.setText("<html>" + ACTIVE_USER_COLOR
-				+ "Aktiver Benutzer: " + customer.getName() + ", "
-				+ customer.getSurname() + getOptionalLockDetail());
+				+ "Aktiver Benutzer: " + customer.getFullName() + getOptionalLockDetail());
 		clearButton.setEnabled(true);
 	}
 

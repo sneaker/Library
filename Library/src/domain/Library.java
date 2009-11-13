@@ -211,6 +211,6 @@ public class Library {
 	}
 
 	public boolean isCustomerLocked(Customer customer) {
-		return (getCustomerActiveLoans(customer).size() >= LENDING_LIMIT);
+		return (getCustomerMahnungen(customer).size() > 0);
 	}
 }
