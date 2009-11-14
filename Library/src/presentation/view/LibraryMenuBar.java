@@ -93,8 +93,10 @@ public class LibraryMenuBar extends JMenuBar implements Observer {
 			fileMenu.add(separator);
 
 			exitMenuItem = new JMenuItem("Beenden");
-			fileMenu.add(exitMenuItem);
 			exitMenuItem.setAction(getExitAction());
+			exitMenuItem.setIcon(ResManager.getImage("exit16x16h.png"));
+			exitMenuItem.setRolloverIcon(ResManager.getImage("exit16x16.png"));
+			fileMenu.add(exitMenuItem);
 		}
 	}
 
@@ -209,6 +211,8 @@ public class LibraryMenuBar extends JMenuBar implements Observer {
 
 		aboutMenuItem = new JMenuItem();
 		aboutMenuItem.setText("Über");
+		aboutMenuItem.setIcon(ResManager.getImage("info16x16h.png"));
+		aboutMenuItem.setRolloverIcon(ResManager.getImage("info16x16.png"));
 		aboutMenuItem.setMnemonic(java.awt.event.KeyEvent.VK_B);
 		helpMenu.add(aboutMenuItem);
 	}
