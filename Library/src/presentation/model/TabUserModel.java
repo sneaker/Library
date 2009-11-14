@@ -3,14 +3,15 @@ package presentation.model;
 import java.util.Observable;
 
 import domain.Customer;
+import domain.Loan;
 
 public class TabUserModel extends Observable {
 
 	private final ModelController controller;
-	private boolean isLoanSelected;
 	private boolean isEditing;
 	private Customer backupCustomer;
 	private boolean isError;
+	private Loan activeLoan;
 
 	public TabUserModel(ModelController controller) {
 		this.controller = controller;
@@ -33,19 +34,11 @@ public class TabUserModel extends Observable {
 		notifyObservers();
 	}
 
-	public boolean isLoanSelected() {
-		return isLoanSelected;
-	}
-
-	public void setLoanSelected(boolean b) {
-		isLoanSelected = b;
-	}
-
 	public void setEditing(boolean b) {
 		isEditing = b;		
 		fireDataChanged();
 	}
-	
+
 	public boolean isEditing() {
 		return isEditing;
 	}
@@ -75,5 +68,18 @@ public class TabUserModel extends Observable {
 	public void commitChange() {
 		setEditing(false);
 		controller.status_model.setTempStatus("Erfolg: Änderungen erfolgreich gespeichert.");
+	}
+	
+	public void setActiveLoan(Loan newActive) {
+		this.activeLoan = newActive;
+		fireDataChanged();
+	}
+
+	public Loan getActiveLoan() {
+		return this.activeLoan;
+	}
+
+	public boolean isLoanSelected() {
+		return activeLoan != null;
 	}
 }

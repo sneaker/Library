@@ -126,7 +126,7 @@ public class ActionPanelModel extends Observable {
 	}
 
 	public void editUserSettingsCancel() {
-		controller.usertab_model.setEditing(false);
 		controller.usertab_model.restoreCustomerContent();
+		controller.usertab_model.setEditing(false);
 	}
 }

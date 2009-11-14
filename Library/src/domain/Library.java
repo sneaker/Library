@@ -6,8 +6,6 @@ import java.util.Comparator;
 import java.util.List;
 
 public class Library {
-
-	private static final int LENDING_LIMIT = 3;
 	private List<Book> books;
 	private List<Customer> customers;
 	private List<Loan> loans;
@@ -187,10 +185,6 @@ public class Library {
 
 	public int getMaxLendDays() {
 		return Loan.MAX_LEND_DAYS;
-	}
-
-	public boolean getCustomerStatus(Customer c) {
-		return getCustomerLoans(c).size() >= LENDING_LIMIT;
 	}
 
 	public ArrayList<Loan> getCustomerMahnungen(Customer c) {

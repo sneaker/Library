@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.util.Observable;
 
 import presentation.model.ModelController;
+import domain.Loan;
 
 public class ActionUserPanel extends AbstractActionPanel {
 
@@ -12,7 +13,8 @@ public class ActionUserPanel extends AbstractActionPanel {
 
 	public ActionUserPanel(ModelController controller) {
 		super(controller);
-		controller.booktab_model.addObserver(this);
+		controller.activeuser_model.addObserver(this);
+		controller.usertab_model.addObserver(this);
 	}
 
 	protected void initActionButtons() {
@@ -42,8 +44,10 @@ public class ActionUserPanel extends AbstractActionPanel {
 		buttons.get("return").setVisible(false);
 		buttons.get("return").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				controller.library.returnBook(controller.booktab_model.getActiveBook());
-				controller.usertab_model.fireDataChanged();
+				Loan loan = controller.usertab_model.getActiveLoan();
+				controller.library.returnBook(loan.getBook());
+				controller.status_model.setTempStatus("Buch zurückgegeben: " + loan.getBook().getInventoryNumber());
+				controller.loanModel.removeElement(loan);
 			}
 		});
 	}
@@ -54,7 +58,13 @@ public class ActionUserPanel extends AbstractActionPanel {
 		buttons.get("showbook").setVisible(false);
 		buttons.get("showbook").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				controller.tabbed_model.setBookTabActive();
+				if (controller.usertab_model.isLoanSelected()) {
+					controller.booktab_model.setActiveBook(controller.usertab_model.getActiveLoan().getBook());
+					controller.tabbed_model.setBookTabActive();
+					controller.status_model.setTempStatus("Zeige Buchdetails für die gewählte Ausleihe.");
+				} else {
+					controller.status_model.setTempStatus("Kein Buch ausgewählt zum Anzeigen.");
+				}
 			}
 		});
 	}
