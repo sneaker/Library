@@ -25,7 +25,7 @@ public class ActionBookPanel extends AbstractActionPanel {
 
 	private void initDefektButton() {
 		buttons.put("defekt", new ActionButton("Als defekt markieren",
-				"img/delete32x32h.png", "img/delete32x32.png"));
+				"delete32x32h.png", "delete32x32.png"));
 		buttons.get("defekt").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				model.markDefekt();
@@ -35,7 +35,7 @@ public class ActionBookPanel extends AbstractActionPanel {
 
 	private void initReturnButton() {
 		buttons.put("return", new ActionButton("Buch zurückgeben",
-				"img/return32x32h.png", "img/return32x32.png"));
+				"return32x32h.png", "return32x32.png"));
 		buttons.get("return").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				buttons.get("search").requestFocus();
@@ -46,7 +46,7 @@ public class ActionBookPanel extends AbstractActionPanel {
 
 	private void initLendButton() {
 		buttons.put("lend", new ActionButton("Buch ausleihen",
-				"img/add32x32h.png", "img/add32x32.png"));
+				"add32x32h.png", "add32x32.png"));
 		buttons.get("lend").setVisible(false);
 		buttons.get("lend").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -58,7 +58,7 @@ public class ActionBookPanel extends AbstractActionPanel {
 
 	private void initCreateButton() {
 		buttons.put("create", new ActionButton("Buch erstellen",
-				"img/new32x32h.png", "img/new32x32.png"));
+				"new32x32h.png", "new32x32.png"));
 		buttons.get("create").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				model.creaNewBook();
@@ -68,7 +68,7 @@ public class ActionBookPanel extends AbstractActionPanel {
 
 	private void initEditButton() {
 		buttons.put("edit", new ActionButton("Buchdetails editieren",
-				"img/edit32x32h.png", "img/edit32x32.png"));
+				"edit32x32h.png", "edit32x32.png"));
 		buttons.get("edit").setVisible(false);
 		buttons.get("edit").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -79,7 +79,7 @@ public class ActionBookPanel extends AbstractActionPanel {
 
 	private void initSearchButton() {
 		buttons.put("search", new ActionButton("Buch suchen",
-				"img/search32x32h.png", "img/search32x32.png"));
+				"search32x32h.png", "search32x32.png"));
 		buttons.get("search").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				controller.tabbed_model.setSearchTabActive();

@@ -1,7 +1,7 @@
 package application;
 
-import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.GregorianCalendar;
 
 import javax.swing.JFrame;
@@ -16,6 +16,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import presentation.view.LibraryMainWindow;
+import util.ResManager;
 import domain.Book;
 import domain.Customer;
 import domain.IllegalLoanOperationException;
@@ -27,7 +28,7 @@ public class LibraryApp {
 	public static void main(String[] args) throws Exception {
 		final Library library = new Library();
 		initLibrary(library);
-
+		
 //	    try 
 //	    {
 //	      //UIManager.setLookAndFeel(new SyntheticaSimple2DLookAndFeel());
@@ -60,9 +61,9 @@ public class LibraryApp {
 		DocumentBuilder builder = DocumentBuilderFactory.newInstance()
 				.newDocumentBuilder();
 
-		loadCustomersFromXml(library, builder, new File("data/customers.xml"));
+		loadCustomersFromXml(library, builder, ResManager.getStream("/data/customers.xml"));
 
-		loadTitlesFromXml(library, builder, new File("data/titles.xml"));
+		loadTitlesFromXml(library, builder, ResManager.getStream("/data/titles.xml"));
 
 		// create pseudo random books and loans
 		createBooksAndLoans(library);
@@ -109,9 +110,9 @@ public class LibraryApp {
 	}
 
 	private static void loadTitlesFromXml(Library library,
-			DocumentBuilder builder, File file) throws SAXException,
+			DocumentBuilder builder, InputStream inputStream) throws SAXException,
 			IOException {
-		Document doc2 = builder.parse(file);
+		Document doc2 = builder.parse(inputStream);
 		NodeList titles = doc2.getElementsByTagName("title");
 		for (int i = 0; i < titles.getLength(); i++) {
 			Node title = titles.item(i);
@@ -123,9 +124,9 @@ public class LibraryApp {
 	}
 
 	private static void loadCustomersFromXml(Library library,
-			DocumentBuilder builder, File file) throws SAXException,
+			DocumentBuilder builder, InputStream is) throws SAXException,
 			IOException {
-		Document doc = builder.parse(file);
+		Document doc = builder.parse(is);
 		NodeList customers = doc.getElementsByTagName("customer");
 		for (int i = 0; i < customers.getLength(); i++) {
 			Node customer = customers.item(i);

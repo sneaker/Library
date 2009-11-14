@@ -9,17 +9,19 @@ import java.awt.event.ActionListener;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import presentation.model.ActiveUserPanelModel;
 import presentation.model.ModelController;
+import util.ResManager;
 import domain.Customer;
 
 public class ActiveUserPanel extends JPanel implements Observer {
-	private static final String USER_IMAGE_PATH = "img/user32x32.png";
+	private static final String DISABLECUSTOMER_IMAGE_HIGH = "disablecustomer32x32h.png";
+	private static final String DISABLECUSTOMER_IMAGE = "disablecustomer32x32.png";
+	private static final String USER_IMAGE = "user32x32.png";
 	private static final Insets PANEL_INSETS = new Insets(3, 10, 3, 10);
 	private static final String DEFAULT_ACTIVE_USER_TEXT = "Kein aktiver Benutzer ausgewählt";
 	private static final long serialVersionUID = 1L;
@@ -48,7 +50,7 @@ public class ActiveUserPanel extends JPanel implements Observer {
 	private void initDisableButton() {
 		GridBagConstraints c = new GridBagConstraints();
 		clearButton = new ActionButton("Benutzer deaktivieren",
-				"img/disablecustomer32x32h.png", "img/disablecustomer32x32.png");
+				DISABLECUSTOMER_IMAGE_HIGH, DISABLECUSTOMER_IMAGE);
 		clearButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				model.clearUser();
@@ -75,7 +77,7 @@ public class ActiveUserPanel extends JPanel implements Observer {
 
 		activeUserLabel = new JLabel(DEFAULT_ACTIVE_USER_TEXT);
 		activeUserLabel.setForeground(Color.red);
-		activeUserLabel.setIcon(new ImageIcon(USER_IMAGE_PATH));
+		activeUserLabel.setIcon(ResManager.getImage(USER_IMAGE));
 		activeUserLabel.setBorder(new EmptyBorder(PANEL_INSETS));
 
 		add(activeUserLabel, c);

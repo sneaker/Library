@@ -8,7 +8,6 @@ import java.util.Observer;
 import javax.swing.AbstractAction;
 import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
-import javax.swing.ImageIcon;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -18,6 +17,7 @@ import javax.swing.KeyStroke;
 
 import presentation.model.LibraryTabbedPaneModel;
 import presentation.model.ModelController;
+import util.ResManager;
 
 /**
  * Repräsentiert und verwaltet die Menübar für die Bibliotheksapplikation.
@@ -73,8 +73,8 @@ public class LibraryMenuBar extends JMenuBar implements Observer {
 			resetMenuItem = new JMenuItem("Neu");
 			resetMenuItem.setAccelerator(KeyStroke.getKeyStroke("F4"));
 			resetMenuItem.setRolloverEnabled(true);
-			resetMenuItem.setIcon(new ImageIcon("img/reset16x16h.png"));
-			resetMenuItem.setRolloverIcon(new ImageIcon("img/reset16x16.png"));
+			resetMenuItem.setIcon(ResManager.getImage("reset16x16h.png"));
+			resetMenuItem.setRolloverIcon(ResManager.getImage("reset16x16.png"));
 			resetMenuItem.addActionListener(new ChangeViewActionListener(
 					LibraryTabbedPaneModel.SEARCH_TAB) {
 				@Override

@@ -6,8 +6,9 @@ package presentation.view;
 import java.awt.Color;
 import java.awt.Graphics;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
+
+import util.ResManager;
 
 public class ActionButton extends JButton {
 
@@ -16,8 +17,8 @@ public class ActionButton extends JButton {
 	
 	public ActionButton(String string, String imagePath, String rolloverImagepath) {
 		super(string);
-		setIcon(new ImageIcon(imagePath));
-		setRolloverIcon(new ImageIcon(rolloverImagepath));
+		setIcon(ResManager.getImage(imagePath));
+		setRolloverIcon(ResManager.getImage(rolloverImagepath));
 		setBorder(null);
 		setIconTextGap(6);
 		setHorizontalAlignment(JButton.LEFT);
