@@ -285,7 +285,6 @@ public class SearchResultListModel implements ListModel {
 	}
 
 	public void selectSingleElement() {
-		System.out.println("called");
 		if (displayed_results.size() != 1)
 			return;
 		Searchable item = getElementAt(0);

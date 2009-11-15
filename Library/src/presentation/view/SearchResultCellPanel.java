@@ -119,8 +119,8 @@ class ResultCellBookPanel extends SearchResultCellPanel {
 		if (!isSelected)
 			return;
 		if (library.isBookLent(active)) {
-			g.drawImage(new ImageIcon(IMG_AGENDA32X32).getImage(),
-					getX() + 70, getHeight() - 37, null);
+			g.drawImage(new ImageIcon(IMG_AGENDA32X32).getImage(), getX() + 70,
+					getHeight() - 37, null);
 			g.drawImage(new ImageIcon(IMG_RETURN32X32).getImage(),
 					getX() + 110, getHeight() - 37, null);
 			return;
@@ -155,13 +155,16 @@ class ResultCellBookPanel extends SearchResultCellPanel {
 class ResultCellUserPanel extends SearchResultCellPanel {
 	private static final String IMG_SYMBOL = "img/user64x64.png";
 	private static final String IMG_ADD32X32 = "img/add32x32.png";
+	private static final String IMG_DEL32X32 = "img/delete32x32.png";
 	private static final long serialVersionUID = -8375612543994217556L;
 	private final Customer active;
+	private ModelController controller;
 	private boolean isSelected;
 
 	public ResultCellUserPanel(Customer active, boolean isSelected,
 			int preferredWidth, ModelController controller) {
 		super(active, isSelected, preferredWidth, controller.library);
+		this.controller = controller;
 		this.active = active;
 		this.isSelected = isSelected;
 	}
@@ -179,15 +182,24 @@ class ResultCellUserPanel extends SearchResultCellPanel {
 	protected String getSymbolPath() {
 		return IMG_SYMBOL;
 	}
-	
+
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
 
-		if (!isSelected)
+		if (!isSelected) {
+			if (controller.activeuser_model.getCustomer() == active) {
+				g.drawImage(new ImageIcon(IMG_DEL32X32).getImage(), getX() + 110,
+						getHeight() - 37, null);
+			}
 			return;
-		
-		g.drawImage(new ImageIcon(IMG_ADD32X32).getImage(),
-					getX() + 70, getHeight() - 37, null);
+		} else {
+			if (controller.activeuser_model.getCustomer() != active)
+				g.drawImage(new ImageIcon(IMG_ADD32X32).getImage(), getX() + 70,
+						getHeight() - 37, null);
+			else
+				g.drawImage(new ImageIcon(IMG_DEL32X32).getImage(), getX() + 110,
+						getHeight() - 37, null);
+		}
 	}
 }
