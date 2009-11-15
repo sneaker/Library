@@ -6,7 +6,6 @@ import java.util.GregorianCalendar;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -18,9 +17,6 @@ import org.xml.sax.SAXException;
 
 import presentation.view.LibraryMainWindow;
 import util.ResManager;
-
-import com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel;
-
 import domain.Book;
 import domain.Customer;
 import domain.IllegalLoanOperationException;
@@ -49,7 +45,7 @@ public class LibraryApp {
 
 	private static void initLookAndFeel() {
 		try {
-	    	UIManager.setLookAndFeel(new NimbusLookAndFeel());
+//	    	UIManager.setLookAndFeel(new NimbusLookAndFeel());
 	    } catch (Exception e) {
 	    }
 	}
@@ -67,19 +63,6 @@ public class LibraryApp {
 
 		// create pseudo random books and loans
 		createBooksAndLoans(library);
-
-		System.out.println("Initialaition of the library was successful!\n");
-		System.out.println("Titles in library: " + library.getTitles().size());
-		System.out
-				.println("Customers: " + library.getCustomers().size() + "\n");
-		System.out.println("Books in library: " + library.getBooks().size());
-		System.out.println("Books currently on loan: "
-				+ library.getLentBooks().size());
-		int lentBooksPercentage = (int) (((double) library.getLentBooks()
-				.size())
-				/ library.getBooks().size() * 100);
-		System.out.println("Percent books on loan: " + lentBooksPercentage
-				+ "%");
 	}
 
 	private static void createBooksAndLoans(Library library)
