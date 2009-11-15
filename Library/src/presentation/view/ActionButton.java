@@ -7,6 +7,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 import javax.swing.JButton;
+import javax.swing.border.EmptyBorder;
 
 import util.ResManager;
 
@@ -19,7 +20,7 @@ public class ActionButton extends JButton {
 		super(string);
 		setIcon(ResManager.getImage(imagePath));
 		setRolloverIcon(ResManager.getImage(rolloverImagepath));
-		setBorder(null);
+		setBorder(new EmptyBorder(5, 10, 5, 5));
 		setIconTextGap(6);
 		setHorizontalAlignment(JButton.LEFT);
 		setBackground(SYSTEM_BACKGROUND);

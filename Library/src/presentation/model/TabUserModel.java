@@ -10,13 +10,16 @@ public class TabUserModel extends Observable {
 	private final ModelController controller;
 	private boolean isEditing;
 	private Customer backupCustomer;
-	private boolean isError;
 	private Loan activeLoan;
+	private boolean isErrorAtPlace;
+	private boolean isErrorAtTitle;
+	private boolean isErrorAtAddress;
+	private Customer lastCustomer;
 
 	public TabUserModel(ModelController controller) {
 		this.controller = controller;
 	}
-	
+
 	private Customer getActiveCustomer() {
 		return controller.activeuser_model.getCustomer();
 	}
@@ -35,7 +38,7 @@ public class TabUserModel extends Observable {
 	}
 
 	public void setEditing(boolean b) {
-		isEditing = b;		
+		isEditing = b;
 		fireDataChanged();
 	}
 
@@ -49,27 +52,25 @@ public class TabUserModel extends Observable {
 
 	public void restoreCustomerContent() {
 		if (backupCustomer == null) {
-			controller.status_model.setTempStatus("Fehler: Konnte Änderungen nicht rückgängig machen!");
+			controller.status_model
+					.setTempStatus("Fehler: Konnte Änderungen nicht rückgängig machen!");
 			return;
 		}
 		controller.activeuser_model.getCustomer().copyContent(backupCustomer);
-		controller.status_model.setTempStatus("Änderungen am Benutzer rückgängig gemacht.");
+		controller.status_model
+				.setTempStatus("Änderungen am Benutzer rückgängig gemacht.");
 	}
 
-	public void setError(boolean b) {
-		isError = b;
-		fireDataChanged();
-	}
-	
 	public boolean isError() {
-		return isError;
+		return isErrorAtPlace || isErrorAtTitle || isErrorAtAddress;
 	}
 
 	public void commitChange() {
 		setEditing(false);
-		controller.status_model.setTempStatus("Erfolg: Änderungen erfolgreich gespeichert.");
+		controller.status_model
+				.setTempStatus("Erfolg: Änderungen erfolgreich gespeichert.");
 	}
-	
+
 	public void setActiveLoan(Loan newActive) {
 		this.activeLoan = newActive;
 		fireDataChanged();
@@ -81,5 +82,42 @@ public class TabUserModel extends Observable {
 
 	public boolean isLoanSelected() {
 		return activeLoan != null;
+	}
+
+	public void setErrorAtPlace(boolean b) {
+		isErrorAtPlace = b;
+		fireDataChanged();
+	}
+
+	public boolean isErrorAtPlace() {
+		return isErrorAtPlace;
+	}
+
+	public void setErrorAtTitle(boolean b) {
+		isErrorAtTitle = b;
+		fireDataChanged();
+	}
+
+	public boolean isErrorAtTitle() {
+		return isErrorAtTitle;
+	}
+
+	public void setErrorAtAddress(boolean b) {
+		isErrorAtAddress = b;
+		fireDataChanged();
+	}
+
+	public boolean isErrorAtAddress() {
+		return isErrorAtAddress;
+	}
+
+	public void setLastCustomer(Customer lastCustomer) {
+		this.lastCustomer = lastCustomer;
+	}
+
+	public boolean isSameCustomer() {
+		if (lastCustomer == null)
+			return false;
+		return lastCustomer.equals(controller.activeuser_model.getCustomer());
 	}
 }

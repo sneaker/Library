@@ -65,8 +65,6 @@ public class TabBookDetailJPanel extends JPanel implements Observer {
 		titleText.setBackground(this.getBackground());
 		titleText.setLineWrap(true);
 		titleText.setFont(TITLE_FONT);
-		titleText.addMouseListener(new CopyPasteTextFieldListener(
-				"Titel kopieren", titleText, controller));
 
 		c.anchor = GridBagConstraints.FIRST_LINE_START;
 		c.fill = GridBagConstraints.HORIZONTAL;

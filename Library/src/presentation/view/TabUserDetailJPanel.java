@@ -4,15 +4,17 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.border.TitledBorder;
-import javax.swing.event.CaretEvent;
-import javax.swing.event.CaretListener;
+import javax.swing.text.JTextComponent;
 
 import presentation.model.ModelController;
 import domain.Customer;
@@ -55,8 +57,6 @@ public class TabUserDetailJPanel extends JPanel implements Observer {
 		titleText.setEditable(false);
 		titleText.setFont(TITLE_FONT);
 		titleText.setLineWrap(true);
-		titleText.addMouseListener(new CopyPasteTextFieldListener(
-				"Benutzernamen kopieren", titleText, controller));
 		add(titleText, getTitleGridBagConstraints());
 	}
 
@@ -90,7 +90,7 @@ public class TabUserDetailJPanel extends JPanel implements Observer {
 
 		addressText = new DetailTextField();
 		addressText.setEditable(false);
-		addAddressValidator();
+		addressText.addKeyListener(new ValidateAddressKeyListener());
 		c = new GridBagConstraints();
 		c.anchor = GridBagConstraints.FIRST_LINE_START;
 		c.fill = GridBagConstraints.HORIZONTAL;
@@ -103,31 +103,10 @@ public class TabUserDetailJPanel extends JPanel implements Observer {
 		add(addressText, c);
 	}
 
-	private void addAddressValidator() {
-		addressText.addKeyListener(new KeyAdapter() {
-			public void keyTyped(java.awt.event.KeyEvent e) {
-				String newAddress = addressText.getText();
-				boolean ok = newAddress.length() != 0;
-				addressText.setError(!ok);
-				updateValidation();
-				controller.activeuser_model.getCustomer().setAdress(newAddress,
-						controller.activeuser_model.getCustomer().getZip(),
-						controller.activeuser_model.getCustomer().getCity());
-				controller.activeuser_model.fireDataChanged();
-			}
-		});
-	}
-
-	protected void updateValidation() {
-		boolean hasErrors = titleTextEditable.isError()
-				|| addressText.isError() || placeText.isError();
-		controller.usertab_model.setError(hasErrors);
-	}
-
 	private void initPlace() {
 		placeText = new DetailTextField();
 		placeText.setVisible(false);
-		addPlaceValidator();
+		placeText.addKeyListener(new ValidatePlaceTextKeyListener());
 		GridBagConstraints c = new GridBagConstraints();
 		c.anchor = GridBagConstraints.FIRST_LINE_START;
 		c.fill = GridBagConstraints.HORIZONTAL;
@@ -138,51 +117,6 @@ public class TabUserDetailJPanel extends JPanel implements Observer {
 		c.weightx = 1.0;
 		c.weighty = 0.00001;
 		add(placeText, c);
-	}
-
-	private void addPlaceValidator() {
-		// TODO: Fertig machen [Martin]
-		placeText.addKeyListener(new KeyAdapter() {
-			public void keyReleased(java.awt.event.KeyEvent e) {
-				// Dear god of Holy Regex - help me
-				super.keyTyped(e);
-				String split[] = placeText.getText().split(" ");
-				if (split.length < 2) {
-					placeText.setError(true);
-					return;
-				}
-				boolean okZip = false;
-				boolean okCity = false;
-				String zipString = split[0];
-				int newZip = 0;
-				try {
-					newZip = Integer.parseInt(zipString);
-				} catch (NumberFormatException ex) {
-				}
-				if (newZip != 0) {
-					controller.activeuser_model.getCustomer()
-							.setAdress(
-									controller.activeuser_model.getCustomer()
-											.getStreet(),
-									newZip,
-									controller.activeuser_model.getCustomer()
-											.getCity());
-					okZip = true;
-				}
-
-				String newCity = split[1];
-				if (newCity.length() > 0) {
-					controller.activeuser_model.getCustomer().setAdress(
-							controller.activeuser_model.getCustomer()
-									.getStreet(),
-							controller.activeuser_model.getCustomer().getZip(),
-							newCity);
-					okCity = true;
-				}
-				controller.usertab_model.setError(!okZip || !okCity);
-				placeText.setError(!okZip || !okCity);
-			}
-		});
 	}
 
 	private void initStatus() {
@@ -223,9 +157,6 @@ public class TabUserDetailJPanel extends JPanel implements Observer {
 		statusText.setVisible(isUserActive);
 	}
 
-	/**
-	 * Precondition: controller.activeuser_mode.getCustomer() != null
-	 */
 	private void updateDetails() {
 		Customer c = controller.activeuser_model.getCustomer();
 		addressText.setText(c.getStreet());
@@ -257,7 +188,7 @@ public class TabUserDetailJPanel extends JPanel implements Observer {
 				: count + " Mahnungen"));
 	}
 
-	public void setEditable(boolean editable) {
+	private void setEditable(boolean editable) {
 		setTitleTextEditable(editable);
 		addressText.setEditable(editable);
 		placeText.setEditable(editable);
@@ -275,7 +206,7 @@ public class TabUserDetailJPanel extends JPanel implements Observer {
 					.getFullName());
 			titleTextEditable.setEditable(true);
 			titleTextEditable.setFont(TITLE_FONT);
-			addTitleValidator();
+			titleTextEditable.addKeyListener(new ValidateFullNameKeyListener());
 			titleTextEditable.requestFocus();
 		} else {
 			if (!isAncestorOf(titleTextEditable))
@@ -285,42 +216,118 @@ public class TabUserDetailJPanel extends JPanel implements Observer {
 		}
 	}
 
-	private void addTitleValidator() {
-		titleTextEditable.addCaretListener(new CaretListener() {
-			public void caretUpdate(CaretEvent e) {
-				String newName = titleTextEditable.getText();
-				String splitName[] = newName.split(", ");
-				if (splitName.length < 2)
-					splitName = newName.split(",");
-				if (splitName.length < 2)
-					splitName = newName.split(" ");
-				boolean ok = splitName.length == 2;
-				titleTextEditable.setError(!ok);
-				updateValidation();
-				if (splitName.length < 2)
-					return;
-				controller.activeuser_model.getCustomer().setName(splitName[0]);
-				controller.activeuser_model.getCustomer().setSurname(
-						splitName[1]);
-				controller.activeuser_model.fireDataChanged();
-			}
-		});
-	}
-	
 	private void updateTitle(boolean isUserActive) {
 		if (isUserActive)
-			titleText.setText(controller.activeuser_model.getCustomer().getFullName());
+			titleText.setText(controller.activeuser_model.getCustomer()
+					.getFullName());
 		else
 			titleText.setText(NO_USER_ACTIVE_TEXT);
 	}
 
+	private void updateErrors() {
+		titleTextEditable.setError(controller.usertab_model.isErrorAtTitle());
+		addressText.setError(controller.usertab_model.isErrorAtAddress());
+		placeText.setError(controller.usertab_model.isErrorAtPlace());
+	}
+
 	public void update(Observable o, Object arg) {
 		boolean isUserActive = (controller.activeuser_model.getCustomer() != null);
+
 		setEditable(isUserActive && controller.usertab_model.isEditing());
 		updateTitle(isUserActive);
 		setDetailsVisibility(isUserActive);
+		updateErrors();
 
-		if (isUserActive)
+		stopEditingWhenUserChanged();
+
+		if (isUserActive && !controller.usertab_model.isEditing())
 			updateDetails();
+	}
+
+	private void stopEditingWhenUserChanged() {
+		if (!controller.usertab_model.isSameCustomer()
+				&& controller.usertab_model.isEditing()) {
+			setEditable(false);
+			controller.usertab_model.setEditing(false);
+			controller.status_model
+					.setTempStatus("Veränderte Kundendaten wurden automatisch gesichert.");
+		}
+		controller.usertab_model.setLastCustomer(controller.activeuser_model
+				.getCustomer());
+	}
+
+	/**
+	 * Validates the text field it's listening to and saves changed address into
+	 * the active user.
+	 */
+	private final class ValidateAddressKeyListener extends KeyAdapter {
+		public void keyTyped(java.awt.event.KeyEvent e) {
+			String newAddress = addressText.getText();
+			boolean ok = newAddress.length() != 0;
+			controller.usertab_model.setErrorAtAddress(!ok);
+			controller.activeuser_model.getCustomer().setAdress(newAddress,
+					controller.activeuser_model.getCustomer().getZip(),
+					controller.activeuser_model.getCustomer().getCity());
+			controller.activeuser_model.fireDataChanged();
+		}
+	}
+
+	/**
+	 * Validates the text field it's listening to and saves changed zip and city
+	 * into the active user details.
+	 */
+	private final class ValidatePlaceTextKeyListener extends KeyAdapter {
+		Pattern p = Pattern.compile("(\\d+),?\\s+(.+)");
+
+		public void keyReleased(KeyEvent e) {
+			super.keyReleased(e);
+			if (!(e.getComponent() instanceof JTextComponent))
+				return;
+			JTextComponent origin = (JTextComponent) e.getComponent();
+			Matcher m = p.matcher(origin.getText());
+			controller.usertab_model.setErrorAtPlace(!m.matches());
+
+			if (!m.matches())
+				return;
+
+			updateModel(m);
+		}
+
+		private void updateModel(Matcher m) {
+			int newZip = Integer.parseInt(m.group(1));
+			String newCity = m.group(2);
+			controller.activeuser_model.getCustomer().setAdress(
+					controller.activeuser_model.getCustomer().getStreet(),
+					newZip, newCity);
+		}
+	}
+
+	/**
+	 * Validates the text field it's listening to and saves changed name and
+	 * surname into the active user details.
+	 */
+	private final class ValidateFullNameKeyListener extends KeyAdapter {
+		private Pattern namePattern = Pattern
+				.compile("([\\S&&[^,]]+),?\\s*(\\S+)");
+
+		public void keyReleased(KeyEvent e) {
+			super.keyReleased(e);
+			if (!(e.getComponent() instanceof JTextComponent))
+				return;
+			JTextComponent origin = (JTextComponent) e.getComponent();
+			Matcher m = namePattern.matcher(origin.getText());
+			controller.usertab_model.setErrorAtTitle(!m.matches());
+
+			if (!m.matches())
+				return;
+
+			updateModel(m);
+		}
+
+		private void updateModel(Matcher m) {
+			controller.activeuser_model.getCustomer().setName(m.group(1));
+			controller.activeuser_model.getCustomer().setSurname(m.group(2));
+			controller.activeuser_model.fireDataChanged();
+		}
 	}
 }

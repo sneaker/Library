@@ -50,9 +50,7 @@ public class ActionPanelModel extends Observable {
 			controller.tabbed_model
 					.setActiveTab(LibraryTabbedPaneModel.SEARCH_TAB);
 		} else {
-			// TODO: Gibts diesen Fall überhaupt? @Thomas
-			controller.tabbed_model
-					.setActiveTab(LibraryTabbedPaneModel.SEARCH_TAB);
+			controller.tabbed_model.setSearchTabActive();
 		}
 		controller.booktab_model.lendActiveBook();
 		fireDataChanged();
