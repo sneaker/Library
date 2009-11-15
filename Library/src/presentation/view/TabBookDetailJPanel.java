@@ -28,7 +28,7 @@ public class TabBookDetailJPanel extends JPanel implements Observer {
 	private static final Font DETAIL_LABEL_FONT = new Font("SansSerif",
 			Font.BOLD, 16);
 	private static final Font TITLE_FONT = new Font("SansSerif", Font.BOLD, 18);
-	private static final String NO_BOOK_ACTIVE_TEXT = "Kein Buch ausgewählt. \n\nBitte unter Recherche ein Buch suchen und auswählen, um seine Details hier anzuzeigen.";
+	private static final String INACTIVE_TEXT = "Kein Buch ausgewählt. \n\n1) Klicke auf \"Recherche\".\n2) Suche nach einem Buch.\n3) Klicke auf das gesuchte Buch.\n\nDie Details des Buches werden dann hier angezeigt.";
 	private JTextArea titleText;
 	private JLabel authorLabel;
 	private JLabel publishLabel;
@@ -37,10 +37,8 @@ public class TabBookDetailJPanel extends JPanel implements Observer {
 	private JLabel conditionLabel;
 	private DetailTextField conditionText;
 	private TabBookModel bmodel;
-	private final ModelController controller;
 
 	public TabBookDetailJPanel(ModelController controller) {
-		this.controller = controller;
 		bmodel = controller.booktab_model;
 		initGUI();
 	}
@@ -49,32 +47,35 @@ public class TabBookDetailJPanel extends JPanel implements Observer {
 		setLayout(new GridBagLayout());
 		setBorder(new TitledBorder(TITLE));
 
-		initTitleText();
+		initTitle();
 		initAuthorText();
 		initPublishText();
 		initConditionText();
 	}
 
-	private void initTitleText() {
-		GridBagConstraints c = new GridBagConstraints();
-
+	private void initTitle() {
 		titleText = new JTextArea();
-		titleText.setText(NO_BOOK_ACTIVE_TEXT);
-		titleText.setEditable(false);
-		titleText.setBorder(null);
+//		titleTextEditable = new DetailTextField();
+		titleText.setText(INACTIVE_TEXT);
 		titleText.setBackground(this.getBackground());
-		titleText.setLineWrap(true);
+		titleText.setEditable(false);
 		titleText.setFont(TITLE_FONT);
+		titleText.setLineWrap(true);
+		titleText.setWrapStyleWord(true);
+		add(titleText, getTitleGridBagConstraints());
+	}
 
+	private GridBagConstraints getTitleGridBagConstraints() {
+		GridBagConstraints c = new GridBagConstraints();
 		c.anchor = GridBagConstraints.FIRST_LINE_START;
-		c.fill = GridBagConstraints.HORIZONTAL;
+		c.fill = GridBagConstraints.BOTH;
 		c.gridx = 0;
 		c.gridy = 0;
 		c.gridwidth = 2;
 		c.gridheight = 1;
-		c.weightx = 1.0;
+		c.weightx = 1;
 		c.weighty = 0.00001;
-		add(titleText, c);
+		return c;
 	}
 
 	private void initAuthorText() {
@@ -170,7 +171,7 @@ public class TabBookDetailJPanel extends JPanel implements Observer {
 
 	public void update(Observable o, Object arg) {
 		boolean isBookActive = bmodel.getActiveBook() != null;
-		titleText.setText(isBookActive ? "" : NO_BOOK_ACTIVE_TEXT);
+		titleText.setText(isBookActive ? "" : INACTIVE_TEXT);
 		setDetailsVisibility(isBookActive);
 
 		if (isBookActive)

@@ -6,6 +6,7 @@ import java.util.GregorianCalendar;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -17,6 +18,9 @@ import org.xml.sax.SAXException;
 
 import presentation.view.LibraryMainWindow;
 import util.ResManager;
+
+import com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel;
+
 import domain.Book;
 import domain.Customer;
 import domain.IllegalLoanOperationException;
@@ -28,18 +32,7 @@ public class LibraryApp {
 	public static void main(String[] args) throws Exception {
 		final Library library = new Library();
 		initLibrary(library);
-		
-//	    try 
-//	    {
-//	      //UIManager.setLookAndFeel(new SyntheticaSimple2DLookAndFeel());
-//	   //UIManager.setLookAndFeel(new SyntheticaBlackEyeLookAndFeel());
-//	    	//UIManager.setLookAndFeel(new SynthLookAndFeel());
-//	    	UIManager.setLookAndFeel(new NimbusLookAndFeel());
-//	    } 
-//	    catch (Exception e) 
-//	    {
-//	      e.printStackTrace();
-//	    }
+		initLookAndFeel();
 
 		SwingUtilities.invokeLater(new Runnable() {
 
@@ -52,6 +45,13 @@ public class LibraryApp {
 			}
 
 		});
+	}
+
+	private static void initLookAndFeel() {
+		try {
+	    	UIManager.setLookAndFeel(new NimbusLookAndFeel());
+	    } catch (Exception e) {
+	    }
 	}
 
 	private static void initLibrary(Library library)

@@ -10,12 +10,14 @@ import java.awt.event.FocusEvent;
 
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
 
 /**
  * Is a mixture between a JLabel and a JTextField and helpful for displaying
  * information that should be editable from time to time.
  */
 class DetailTextField extends JTextField {
+	private static final EmptyBorder EMPTY_BORDER = new EmptyBorder(3, 3, 3, 3);
 	private static final Font DETAIL_TEXT_FONT = new Font("SansSerif", Font.PLAIN, 16);
 	private static final Color SHINY_BLUE = new Color(0xADD8E6);
 	private static final long serialVersionUID = 1674245771658079673L;
@@ -26,7 +28,7 @@ class DetailTextField extends JTextField {
 	public DetailTextField() {
 		super();
 		setEditable(false);
-		setBorder(null);
+		setBorder(EMPTY_BORDER);
 		setFont(DETAIL_TEXT_FONT);
 		addSelectionHighlightListener();
 	}
@@ -54,7 +56,7 @@ class DetailTextField extends JTextField {
 		isEditable = b;
 		setVisible(b);
 		super.setEditable(b);
-		setBorder((b ? new JTextField().getBorder() : null));
+		setBorder((b ? new JTextField().getBorder() : EMPTY_BORDER));
 		repaintBackground();
 	}
 	

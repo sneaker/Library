@@ -26,7 +26,7 @@ public class ActionSearchPanel extends AbstractActionPanel {
 	
 	private void initSpacer() {
 		buttons.put("none", new ActionButton("Spezialabfragen", "", ""));
-		buttons.get("none").setEnabled(false);
+		buttons.get("none").setDummyLabel();
 	}
 
 	private void initShowAvailableBooks() {

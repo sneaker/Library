@@ -27,8 +27,8 @@ public class ActiveUserPanel extends JPanel implements Observer {
 	private static final long serialVersionUID = 1L;
 	private JLabel activeUserLabel;
 
-	public static final String ACTIVE_USER_COLOR = "<font color=#228b22>";
-	public static final String DISABLED_USER_COLOR = "<font color=#cc0000>";
+	public static final String ACTIVE_USER_COLOR = "<font color=#228b22 size=6>";
+	public static final String DISABLED_USER_COLOR = "<font color=#cc0000 size=6>";
 
 	private ActionButton clearButton;
 	private ActiveUserPanelModel model;

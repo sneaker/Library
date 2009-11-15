@@ -4,9 +4,11 @@
 package presentation.view;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 
 import javax.swing.JButton;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import util.ResManager;
@@ -25,6 +27,13 @@ public class ActionButton extends JButton {
 		setHorizontalAlignment(JButton.LEFT);
 		setBackground(SYSTEM_BACKGROUND);
 		setFocusPainted(false);
+	}
+	
+	public void setDummyLabel() {
+		setEnabled(false);
+		setFont(new Font(getFont().getName(), Font.BOLD, 14));
+		setForeground(Color.BLACK);
+		setHorizontalTextPosition(SwingConstants.CENTER);
 	}
 	
 	@Override
