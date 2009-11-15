@@ -201,7 +201,6 @@ public class TabUserDetailJPanel extends JPanel implements Observer {
 			if (!isAncestorOf(titleText))
 				return;
 			remove(titleText);
-			titleTextEditable = new DetailTextField();
 			add(titleTextEditable, getTitleGridBagConstraints());
 			titleTextEditable.setText(controller.activeuser_model.getCustomer()
 					.getFullName());
@@ -262,7 +261,7 @@ public class TabUserDetailJPanel extends JPanel implements Observer {
 	 * the active user.
 	 */
 	private final class ValidateAddressKeyListener extends KeyAdapter {
-		public void keyTyped(java.awt.event.KeyEvent e) {
+		public void keyReleased(java.awt.event.KeyEvent e) {
 			String newAddress = addressText.getText();
 			boolean ok = newAddress.length() != 0;
 			controller.usertab_model.setErrorAtAddress(!ok);

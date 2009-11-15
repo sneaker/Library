@@ -3,7 +3,7 @@ package domain;
 import javax.management.Attribute;
 import javax.management.AttributeList;
 
-public class Book implements Searchable {
+public class Book implements Searchable, Cloneable {
 
 	public enum Condition {
 		NEW, GOOD, DAMAGED, WASTE
@@ -11,7 +11,7 @@ public class Book implements Searchable {
 
 	public static long nextInvertoryNumber = 1;
 
-	private final long inventoryNumber;
+	private long inventoryNumber;
 	private final Title title;
 	private Condition condition;
 	private String conditionComment = "";
@@ -38,6 +38,18 @@ public class Book implements Searchable {
 		if (condition == Condition.DAMAGED)
 			return "Beschädigt";
 		if (condition == Condition.WASTE)
+			return "Ausgemustert";
+		return "";
+	}
+	
+	public static String getConditionString(Condition c) {
+		if (c == Condition.NEW)
+			return "Neuwertig";
+		if (c == Condition.GOOD)
+			return "Intakt";
+		if (c == Condition.DAMAGED)
+			return "Beschädigt";
+		if (c == Condition.WASTE)
 			return "Ausgemustert";
 		return "";
 	}
@@ -71,5 +83,21 @@ public class Book implements Searchable {
 
 	public void setConditionComment(String newConditionComment) {
 		this.conditionComment = newConditionComment;
+	}
+
+	@Override
+	public Object clone() {
+		Book result = new Book((Title) getTitle().clone());
+		result.setCondition(condition);
+		result.setInventoryNumber(inventoryNumber);
+		return result;
+	}
+
+	/**
+	 * Use this with caution, should always be unique unless you're making a
+	 * backup.
+	 */
+	private void setInventoryNumber(long newInventoryNumber) {
+		this.inventoryNumber = newInventoryNumber;
 	}
 }

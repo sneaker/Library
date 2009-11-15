@@ -3,18 +3,24 @@ package presentation.view;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.KeyAdapter;
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
+import javax.swing.text.JTextComponent;
 
 import presentation.model.ModelController;
 import presentation.model.TabBookModel;
 import domain.Book;
+import domain.Book.Condition;
 
 /**
  * Displays formatted details of a book (without loan details).
@@ -32,14 +38,19 @@ public class TabBookDetailJPanel extends JPanel implements Observer {
 	private JTextArea titleText;
 	private JLabel authorLabel;
 	private JLabel publishLabel;
-	private JTextField authorText;
-	private JTextField publishText;
+	private DetailTextField titleTextEditable;
+	private DetailTextField authorText;
+	private DetailTextField publishText;
 	private JLabel conditionLabel;
 	private DetailTextField conditionText;
 	private TabBookModel bmodel;
+	private final ModelController controller;
+	private JComboBox conditionCombo;
 
 	public TabBookDetailJPanel(ModelController controller) {
+		this.controller = controller;
 		bmodel = controller.booktab_model;
+		controller.booktab_model.addObserver(this);
 		initGUI();
 	}
 
@@ -55,7 +66,7 @@ public class TabBookDetailJPanel extends JPanel implements Observer {
 
 	private void initTitle() {
 		titleText = new JTextArea();
-//		titleTextEditable = new DetailTextField();
+		titleTextEditable = new DetailTextField();
 		titleText.setText(INACTIVE_TEXT);
 		titleText.setBackground(this.getBackground());
 		titleText.setEditable(false);
@@ -97,6 +108,7 @@ public class TabBookDetailJPanel extends JPanel implements Observer {
 
 		authorText = new DetailTextField();
 		authorText.setEditable(false);
+		authorText.addKeyListener(new ValidateBookAuthorKeyListener());
 		c.anchor = GridBagConstraints.FIRST_LINE_START;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 1;
@@ -122,6 +134,7 @@ public class TabBookDetailJPanel extends JPanel implements Observer {
 
 		publishText = new DetailTextField();
 		publishText.setEditable(false);
+		publishText.addKeyListener(new ValidateBookPublisherKeyListener());
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 1;
 		c.gridy = 2;
@@ -131,25 +144,58 @@ public class TabBookDetailJPanel extends JPanel implements Observer {
 
 	private void initConditionText() {
 		GridBagConstraints c = new GridBagConstraints();
-		c.anchor = GridBagConstraints.FIRST_LINE_START;
-
 		conditionLabel = new JLabel(CONDITION_LABEL_TEXT);
 		conditionLabel.setVisible(false);
 		conditionLabel.setFont(DETAIL_LABEL_FONT);
+		c.anchor = GridBagConstraints.FIRST_LINE_START;
 		c.gridx = 0;
 		c.gridy = 3;
 		c.weightx = 0;
 		add(conditionLabel, c);
 
 		conditionText = new DetailTextField();
+		conditionCombo = new JComboBox(getConditionTexts());
 		conditionText.setEditable(false);
+		add(conditionText, getConditionGridBagConstraints());
+	}
+
+	private Object[] getConditionTexts() {
+		ArrayList<ConditionText> c = new ArrayList<ConditionText>();
+		c.add(new ConditionText(Book.Condition.NEW));
+		c.add(new ConditionText(Book.Condition.GOOD));
+		c.add(new ConditionText(Book.Condition.DAMAGED));
+		c.add(new ConditionText(Book.Condition.WASTE));
+		return c.toArray();
+	}
+
+	private class ConditionText {
+		private Condition domainTerm;
+
+		public ConditionText(Condition c) {
+			domainTerm = c;
+		}
+
+		public String toString() {
+			if (domainTerm == Book.Condition.WASTE)
+				return Book.getConditionString(domainTerm)
+						+ ", als defekt markieren...";
+			return Book.getConditionString(domainTerm);
+		}
+
+		public Condition getDomainTerm() {
+			return domainTerm;
+		}
+	}
+
+	private GridBagConstraints getConditionGridBagConstraints() {
+		GridBagConstraints c = new GridBagConstraints();
 		c.anchor = GridBagConstraints.FIRST_LINE_START;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 1;
 		c.gridy = 3;
 		c.weightx = 1.0;
 		c.weighty = 1.0;
-		add(conditionText, c);
+		return c;
 	}
 
 	private void setDetailsVisibility(boolean isBookActive) {
@@ -162,19 +208,188 @@ public class TabBookDetailJPanel extends JPanel implements Observer {
 	}
 
 	private void updateDetails() {
-		conditionText.setRed(bmodel.getActiveBook().getCondition().equals(Book.Condition.WASTE));
+		conditionText.setRed(bmodel.getActiveBook().getCondition().equals(
+				Book.Condition.WASTE));
 		conditionText.setText(bmodel.getActiveBook().getConditionString());
 		titleText.setText(bmodel.getActiveBook().getTitle().getName());
 		authorText.setText(bmodel.getActiveBook().getTitle().getAuthor());
 		publishText.setText(bmodel.getActiveBook().getTitle().getPublisher());
 	}
 
+	private void updateErrors() {
+		titleTextEditable.setError(controller.booktab_model.isErrorAtTitle());
+		authorText.setError(controller.booktab_model.isErrorAtAuthor());
+		publishText.setError(controller.booktab_model.isErrorAtPublisher());
+		conditionText.setError(controller.booktab_model.isErrorAtCondition());
+	}
+
 	public void update(Observable o, Object arg) {
 		boolean isBookActive = bmodel.getActiveBook() != null;
-		titleText.setText(isBookActive ? "" : INACTIVE_TEXT);
+		setEditable(isBookActive && controller.booktab_model.isEditing());
+		updateTitle(isBookActive);
 		setDetailsVisibility(isBookActive);
+		updateErrors();
 
-		if (isBookActive)
+		stopEditingWhenBookChanged();
+
+		if (isBookActive && !controller.booktab_model.isEditing())
 			updateDetails();
+	}
+
+	private void stopEditingWhenBookChanged() {
+		if (!controller.booktab_model.isSameBook()
+				&& controller.booktab_model.isEditing()) {
+			setEditable(false);
+			controller.booktab_model.setEditing(false);
+			controller.status_model
+					.setTempStatus("Veränderte Buchdaten wurden automatisch gesichert.");
+		}
+		controller.booktab_model.setLastBook(controller.booktab_model
+				.getActiveBook());
+	}
+
+	private void updateTitle(boolean isBookActive) {
+		if (isBookActive)
+			titleText.setText(controller.booktab_model.getActiveBook()
+					.getTitle().getName());
+		else
+			titleText.setText(INACTIVE_TEXT);
+	}
+
+	private void setEditable(boolean editable) {
+		setTitleTextEditable(editable);
+		authorText.setEditable(editable);
+		publishText.setEditable(editable);
+		setConditionEditable(editable);
+		getParent().validate();
+	}
+
+	private void setConditionEditable(boolean editable) {
+		if (editable) {
+			if (!isAncestorOf(conditionText))
+				return;
+			remove(conditionText);
+			add(conditionCombo, getConditionGridBagConstraints());
+			conditionCombo.repaint();
+			conditionCombo.setSelectedItem(controller.booktab_model
+					.getActiveBook().getCondition());
+			conditionCombo.addItemListener(new ValidateConditionCombo());
+		} else {
+			if (!isAncestorOf(conditionCombo))
+				return;
+			remove(conditionCombo);
+			add(conditionText, getConditionGridBagConstraints());
+		}
+	}
+
+	private void setTitleTextEditable(boolean editable) {
+		if (editable) {
+			if (!isAncestorOf(titleText))
+				return;
+			remove(titleText);
+			add(titleTextEditable, getTitleGridBagConstraints());
+			titleTextEditable.setText(controller.booktab_model.getActiveBook()
+					.getTitle().getName());
+			titleTextEditable.setEditable(true);
+			titleTextEditable.setFont(TITLE_FONT);
+			titleTextEditable
+					.addKeyListener(new ValidateBookTitleKeyListener());
+			titleTextEditable.requestFocus();
+		} else {
+			if (!isAncestorOf(titleTextEditable))
+				return;
+			remove(titleTextEditable);
+			add(titleText, getTitleGridBagConstraints());
+		}
+	}
+
+	/**
+	 * Validates the text field it's listening to and saves changed book title
+	 * name into the active book title.
+	 */
+	public class ValidateBookTitleKeyListener extends KeyAdapter {
+		public void keyReleased(java.awt.event.KeyEvent e) {
+			super.keyReleased(e);
+			if (!(e.getComponent() instanceof JTextComponent))
+				return;
+			JTextComponent origin = (JTextComponent) e.getComponent();
+			String newTitle = origin.getText();
+			boolean ok = newTitle.length() != 0;
+			controller.booktab_model.setErrorAtTitle(!ok);
+			controller.booktab_model.getActiveBook().getTitle().setName(
+					newTitle);
+			controller.booktab_model.fireDataChanged();
+		}
+	}
+
+	/**
+	 * Validates the text field it's listening to and saves changed author name
+	 * into the active book title.
+	 */
+	public class ValidateBookAuthorKeyListener extends KeyAdapter {
+		public void keyReleased(java.awt.event.KeyEvent e) {
+			super.keyReleased(e);
+			if (!(e.getComponent() instanceof JTextComponent))
+				return;
+			JTextComponent origin = (JTextComponent) e.getComponent();
+			String newAuthor = origin.getText();
+			boolean ok = newAuthor.length() != 0;
+			controller.booktab_model.setErrorAtAuthor(!ok);
+			controller.booktab_model.getActiveBook().getTitle().setAuthor(
+					newAuthor);
+			controller.booktab_model.fireDataChanged();
+		}
+	}
+
+	/**
+	 * Validates the text field it's listening to and saves changed publisher
+	 * into the active book title.
+	 */
+	public class ValidateBookPublisherKeyListener extends KeyAdapter {
+		public void keyReleased(java.awt.event.KeyEvent e) {
+			super.keyReleased(e);
+			if (!(e.getComponent() instanceof JTextComponent))
+				return;
+			JTextComponent origin = (JTextComponent) e.getComponent();
+			String newPublisher = origin.getText();
+			boolean ok = newPublisher.length() != 0;
+			controller.booktab_model.setErrorAtPublisher(!ok);
+			controller.booktab_model.getActiveBook().getTitle().setPublisher(
+					newPublisher);
+			controller.booktab_model.fireDataChanged();
+		}
+	}
+
+	/**
+	 * Reacts to changes made to the condition combo box while editing. When
+	 * selecting "WASTE" a dialog is showed asking the user whether he / she
+	 * wants to send a bill to the last customer who damaged the book.
+	 */
+	private final class ValidateConditionCombo implements ItemListener {
+		public void itemStateChanged(ItemEvent e) {
+			Condition newCondition = ((ConditionText) e.getItem())
+					.getDomainTerm();
+			if (newCondition == Book.Condition.WASTE) {
+				boolean ok = setActiveBookDefect();
+				if (ok)
+					controller.status_model
+							.setTempStatus("Buch wurde als defekt markiert...");
+				else
+					controller.status_model
+							.setTempStatus("Vorgang abgebrochen; Buch wurde nicht als defekt markiert...");
+			} else {
+				controller.booktab_model.getActiveBook().setCondition(
+						newCondition);
+				controller.status_model.setTempStatus("Buch markiert als "
+						+ Book.getConditionString(newCondition));
+			}
+		}
+
+		public boolean setActiveBookDefect() {
+			// TODO Auto-generated method stub
+			// 1. Glass-Pane mit Kontroll-Frage und Mahngebühr-Hinweis
+			// 2. Defekt speichern im Book-Zustand
+			return false;
+		}
 	}
 }

@@ -9,6 +9,13 @@ public class TabBookModel extends Observable {
 
 	private Book activeBook;
 	private final ModelController controller;
+	private boolean isEditing;
+	private boolean isErrorAtTitle;
+	private boolean isErrorAtPublisher;
+	private boolean isErrorAtCondition;
+	private Book lastBook;
+	private Book backupBook;
+	private boolean isErrorAtAuthor;
 
 	public TabBookModel(ModelController controller) {
 		this.controller = controller;
@@ -75,5 +82,74 @@ public class TabBookModel extends Observable {
 
 	public void clearBook() {
 		activeBook = null;
+	}
+
+	public boolean isEditing() {
+		return isEditing;
+	}
+
+	public void setEditing(boolean b) {
+		isEditing = b;
+		fireDataChanged();
+	}
+
+	public void fireDataChanged() {
+		setChanged();
+		notifyObservers();
+	}
+
+	public void setErrorAtTitle(boolean b) {
+		isErrorAtTitle = b;
+	}
+	
+	public boolean isErrorAtTitle() {
+		return isErrorAtTitle;
+	}
+
+	public boolean isErrorAtPublisher() {
+		return isErrorAtPublisher;
+	}
+
+	public boolean isErrorAtCondition() {
+		return isErrorAtCondition;
+	}
+
+	public void setLastBook(Book currentBook) {
+		lastBook = currentBook;
+	}
+
+	public boolean isSameBook() {
+		if (lastBook == null)
+			return false;
+		return lastBook.equals(getActiveBook());
+	}
+
+	public void backupCustomerContent() {
+		backupBook = (Book)activeBook.clone();
+	}
+
+	public boolean restoreBookContent() {
+		// TODO Feature envy: move into Title.class
+		activeBook.getTitle().setName(backupBook.getTitle().getName());
+		activeBook.getTitle().setAuthor(backupBook.getTitle().getAuthor());
+		activeBook.getTitle().setPublisher(backupBook.getTitle().getPublisher());
+		activeBook.setCondition(backupBook.getCondition());
+		return true;
+	}
+
+	public boolean isError() {
+		return isErrorAtTitle || isErrorAtAuthor() || isErrorAtPublisher || isErrorAtCondition;
+	}
+
+	public void setErrorAtAuthor(boolean isErrorAtAuthor) {
+		this.isErrorAtAuthor = isErrorAtAuthor;
+	}
+
+	public boolean isErrorAtAuthor() {
+		return isErrorAtAuthor;
+	}
+
+	public void setErrorAtPublisher(boolean b) {
+		this.isErrorAtPublisher = b;
 	}
 }
