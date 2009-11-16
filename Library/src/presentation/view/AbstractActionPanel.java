@@ -62,7 +62,9 @@ public abstract class AbstractActionPanel extends JPanel implements Observer {
 
 		setGroupLayout();
 
-		pane = new JScrollPane(button_panel);
+		JScrollPane scrollPane = new JScrollPane(button_panel);
+		scrollPane.setBorder(null);
+		pane = scrollPane;
 		add(pane);
 	}
 

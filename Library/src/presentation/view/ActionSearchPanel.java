@@ -26,12 +26,12 @@ public class ActionSearchPanel extends AbstractActionPanel {
 	
 	private void initSpacer() {
 		buttons.put("none", new ActionButton("Spezialabfragen", "", ""));
-		buttons.get("none").setEnabled(false);
+		buttons.get("none").setDummyLabel();
 	}
 
 	private void initShowAvailableBooks() {
 		buttons.put("available", new ActionButton(
-				"Verfügbare Bücher", "img/availablebooks32x32h.png", "img/availablebooks32x32.png"));
+				"Verfügbare Bücher", "availablebooks32x32h.png", "availablebooks32x32.png"));
 		buttons.get("available").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				model.showavailableBooks();
@@ -40,8 +40,8 @@ public class ActionSearchPanel extends AbstractActionPanel {
 	}
 
 	private void initShowDefektBooks() {
-		buttons.put("showdefekt", new ActionButton("Defekte Bücher", "img/wastebooks32x32h.png",
-				"img/wastebooks32x32.png"));
+		buttons.put("showdefekt", new ActionButton("Defekte Bücher", "wastebooks32x32h.png",
+				"wastebooks32x32.png"));
 		buttons.get("showdefekt").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				model.showDefektBooks();
@@ -51,7 +51,7 @@ public class ActionSearchPanel extends AbstractActionPanel {
 
 	private void initSearchButton() {
 		buttons.put("newsearch", new ActionButton("Neue Recherche",
-				"img/search32x32h.png", "img/search32x32.png"));
+				"search32x32h.png", "search32x32.png"));
 		buttons.get("newsearch").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				model.resetSearch();
@@ -61,7 +61,7 @@ public class ActionSearchPanel extends AbstractActionPanel {
 
 	private void initNewUserButton() {
 		buttons.put("newuser", new ActionButton("Benutzer erstellen",
-				"img/newcustomer32x32h.png", "img/newcustomer32x32.png"));
+				"newcustomer32x32h.png", "newcustomer32x32.png"));
 		buttons.get("newuser").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				model.createUser();
@@ -71,7 +71,7 @@ public class ActionSearchPanel extends AbstractActionPanel {
 
 	private void initShowLentBooks() {
 		buttons.put("showlent", new ActionButton("Ausgeliehene Bücher",
-				"img/allloans32x32h.png", "img/allloans32x32.png"));
+				"allloans32x32h.png", "allloans32x32.png"));
 		buttons.get("showlent").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				model.showLentBooks();

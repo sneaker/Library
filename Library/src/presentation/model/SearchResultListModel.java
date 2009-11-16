@@ -1,12 +1,14 @@
 package presentation.model;
 
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.GregorianCalendar;
 
 import javax.management.Attribute;
 import javax.swing.ListModel;
+import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 
 import domain.Book;
@@ -31,6 +33,10 @@ public class SearchResultListModel implements ListModel {
 	public SearchResultListModel(ModelController controller) {
 		this.controller = controller;
 		library = controller.library;
+		initLibrary();
+	}
+
+	private void initLibrary() {
 		displayed_results = new ArrayList<Searchable>();
 		for (Searchable user : library.getCustomers()) {
 			displayed_results.add(user);
@@ -297,5 +303,10 @@ public class SearchResultListModel implements ListModel {
 			controller.tabbed_model
 					.setActiveTab(LibraryTabbedPaneModel.USER_TAB);
 		}
+	}
+
+	public void fireDataChanged(MouseListener source, int index) {
+		for (ListDataListener l : listeners)
+			l.contentsChanged(new ListDataEvent(source, ListDataEvent.CONTENTS_CHANGED, index, index));
 	}
 }

@@ -49,8 +49,7 @@ final class ListItemMouseListener extends MouseAdapter {
 		}
 		else {
 			controller.activeuser_model.setActiveUser(selected);
-			controller.tabbed_model
-					.setActiveTab(LibraryTabbedPaneModel.USER_TAB);
+			controller.tabbed_model.setUserTabActive();
 		}
 	}
 
@@ -84,7 +83,6 @@ final class ListItemMouseListener extends MouseAdapter {
 			return;
 		}
 
-		controller.booktab_model.setActiveBook(selected);
 		showDetailsOf(selected);
 	}
 

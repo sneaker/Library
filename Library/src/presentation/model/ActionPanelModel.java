@@ -50,9 +50,7 @@ public class ActionPanelModel extends Observable {
 			controller.tabbed_model
 					.setActiveTab(LibraryTabbedPaneModel.SEARCH_TAB);
 		} else {
-			// TODO: Gibts diesen Fall überhaupt? @Thomas
-			controller.tabbed_model
-					.setActiveTab(LibraryTabbedPaneModel.SEARCH_TAB);
+			controller.tabbed_model.setSearchTabActive();
 		}
 		controller.booktab_model.lendActiveBook();
 		fireDataChanged();
@@ -80,10 +78,6 @@ public class ActionPanelModel extends Observable {
 			return " (" + vor
 					+ controller.activeuser_model.getFullActiveCustomerName()
 					+ ")";
-	}
-
-	public void creaNewBook() {
-		// TODO Auto-generated method stub
 	}
 
 	public void fireDataChanged() {
@@ -126,7 +120,7 @@ public class ActionPanelModel extends Observable {
 	}
 
 	public void editUserSettingsCancel() {
-		controller.usertab_model.setEditing(false);
 		controller.usertab_model.restoreCustomerContent();
+		controller.usertab_model.setEditing(false);
 	}
 }

@@ -4,10 +4,14 @@
 package presentation.view;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
+
+import util.ResManager;
 
 public class ActionButton extends JButton {
 
@@ -16,13 +20,20 @@ public class ActionButton extends JButton {
 	
 	public ActionButton(String string, String imagePath, String rolloverImagepath) {
 		super(string);
-		setIcon(new ImageIcon(imagePath));
-		setRolloverIcon(new ImageIcon(rolloverImagepath));
-		setBorder(null);
+		setIcon(ResManager.getImage(imagePath));
+		setRolloverIcon(ResManager.getImage(rolloverImagepath));
+		setBorder(new EmptyBorder(5, 10, 5, 5));
 		setIconTextGap(6);
 		setHorizontalAlignment(JButton.LEFT);
 		setBackground(SYSTEM_BACKGROUND);
 		setFocusPainted(false);
+	}
+	
+	public void setDummyLabel() {
+		setEnabled(false);
+		setFont(new Font(getFont().getName(), Font.BOLD, 14));
+		setForeground(Color.BLACK);
+		setHorizontalTextPosition(SwingConstants.CENTER);
 	}
 	
 	@Override
