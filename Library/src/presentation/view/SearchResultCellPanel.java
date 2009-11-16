@@ -155,15 +155,18 @@ class ResultCellBookPanel extends SearchResultCellPanel {
 class ResultCellUserPanel extends SearchResultCellPanel {
 	private static final String IMG_SYMBOL = "user64x64.png";
 	private static final String IMG_ADD32X32 = "add32x32.png";
+	private static final String IMG_DISABLE_USER32X32 = "disablecustomer32x32.png";
 	private static final long serialVersionUID = -8375612543994217556L;
 	private final Customer active;
 	private boolean isSelected;
+	private final ModelController controller;
 
 	public ResultCellUserPanel(Customer active, boolean isSelected,
 			int preferredWidth, ModelController controller) {
 		super(active, isSelected, preferredWidth, controller.library);
 		this.active = active;
 		this.isSelected = isSelected;
+		this.controller = controller;
 	}
 
 	protected Image getStatusImage() {
@@ -187,7 +190,12 @@ class ResultCellUserPanel extends SearchResultCellPanel {
 		if (!isSelected)
 			return;
 		
-		g.drawImage(ResManager.getImage(IMG_ADD32X32).getImage(),
+		String action = null;
+		if (controller.activeuser_model.isCustomerActive() && controller.activeuser_model.getCustomer().equals(active))
+			action = IMG_DISABLE_USER32X32;
+		else
+			action = IMG_ADD32X32;
+		g.drawImage(ResManager.getImage(action).getImage(),
 					getX() + 70, getHeight() - 37, null);
 	}
 }
