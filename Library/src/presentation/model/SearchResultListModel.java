@@ -37,11 +37,13 @@ public class SearchResultListModel implements ListModel {
 	}
 
 	private void initLibrary() {
-		displayed_results = new ArrayList<Searchable>();
-		for (Searchable user : library.getCustomers()) {
-			displayed_results.add(user);
-		}
+		reBulidIndex();
+		setTestData();
+		sort();
+	}
 
+
+	private void setTestData() {
 		// TODO [Release] Remove test loan, but leave for Demonstration [Martin]
 		// Betrifft Benutzer Jenni Heinrich
 		if (displayed_results.get(0) instanceof Customer) {
@@ -59,13 +61,6 @@ public class SearchResultListModel implements ListModel {
 			} catch (IllegalLoanOperationException e) {
 			}
 		}
-
-		for (int i = 0; i < 10; i++)
-			displayed_results.add(library.getAvailableBooks().get(i));
-
-		//the first entry in the history is everything
-		history.add(displayed_results);
-		sort();
 	}
 
 	public void addListDataListener(ListDataListener l) {
@@ -130,6 +125,7 @@ public class SearchResultListModel implements ListModel {
 		} 
 		else //anything else happend 
 		{
+			resetSearch();
 			buildagain(newstring);
 		}
 
@@ -138,7 +134,6 @@ public class SearchResultListModel implements ListModel {
 	}
 
 	private void buildagain(String newstring) {
-		resetSearch();
 		for (char c : newstring.toCharArray()) {
 			searchstring += c;
 			newsearch();
@@ -156,13 +151,23 @@ public class SearchResultListModel implements ListModel {
 		update();
 	}
 
+	private void reBulidIndex() {
+		history.clear();
+		displayed_results = new ArrayList<Searchable>();
+		for (Searchable user : library.getCustomers()) {
+			displayed_results.add(user);
+		}
+		for (int i = 0; i < 10; i++) {
+			displayed_results.add(library.getAvailableBooks().get(i));
+		}
+		history.add(displayed_results);
+	}
+	
 	private void resetSearch() {
-		if (history.size() == 1)
+		if (history.size() == 1) 
 			return;
 		searchstring = "";
-		displayed_results = history.get(0);
-		history.clear();
-		history.add(displayed_results);
+		reBulidIndex();
 	}
 
 	public void update() {
