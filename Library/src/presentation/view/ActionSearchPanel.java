@@ -45,6 +45,8 @@ public class ActionSearchPanel extends AbstractActionPanel {
 		buttons.get("showdefekt").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				model.showDefektBooks();
+				// TODO: Test, bitte wieder entfernen [Martin]
+//				controller.main_model.setActiveMessage(DialogFactory.createQuestionDialog("Dieser Dialog gehört nicht hier hin. Ist das eine Frage?"));
 			}
 		});
 	}
