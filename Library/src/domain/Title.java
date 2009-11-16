@@ -1,6 +1,6 @@
 package domain;
 
-public class Title {
+public class Title implements Cloneable {
 	
 	private String name, author, publisher;
 	
@@ -35,5 +35,13 @@ public class Title {
 	@Override
 	public String toString() {
 		return name + ", " + author + ", " + publisher;
+	}
+	
+	@Override
+	protected Object clone() {
+		Title result = new Title(new String(name));
+		result.setAuthor(new String(author));
+		result.setPublisher(new String(publisher));
+		return result;
 	}
 }

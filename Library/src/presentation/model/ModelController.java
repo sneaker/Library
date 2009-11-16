@@ -1,5 +1,7 @@
 package presentation.model;
 
+import javax.swing.DefaultListModel;
+
 import domain.Library;
 
 public class ModelController {
@@ -14,10 +16,12 @@ public class ModelController {
 	public SearchResultListModel resultlist_model;
 	public Library library;
 	public StatusModel status_model;
+	public DefaultListModel loanModel;
 
 	public ModelController(Library library) {
 		this.library = library;
 
+		loanModel = new DefaultListModel();
 		activeuser_model = new ActiveUserPanelModel(this);
 		main_model = new MainWindowModel(this);
 		tabbed_model = new LibraryTabbedPaneModel(this);

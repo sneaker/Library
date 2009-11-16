@@ -80,8 +80,6 @@
 			</manifest>
 			<zipfileset excludes="META-INF/*.SF" src="lib/swingx-0.9.5.jar"/>
 			<fileset dir=".">
-				<include name="data/**" />
-				<include name="img/**" />
 				<include name="lib/**" />
 			</fileset>
 	  	</jar>
@@ -94,7 +92,6 @@
 				<include name="${release.dir}/${file.app}" />
 				<include name="lib/**" />
 				<include name="src/**" />
-				<include name="data/**" />
 				<include name="test/**" />
 				<include name="docs/**" />
 				<include name="build.xml" />

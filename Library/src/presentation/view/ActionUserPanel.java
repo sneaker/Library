@@ -5,6 +5,8 @@ import java.awt.event.ActionListener;
 import java.util.Observable;
 
 import presentation.model.ModelController;
+import domain.Customer;
+import domain.Loan;
 
 public class ActionUserPanel extends AbstractActionPanel {
 
@@ -12,7 +14,8 @@ public class ActionUserPanel extends AbstractActionPanel {
 
 	public ActionUserPanel(ModelController controller) {
 		super(controller);
-		controller.booktab_model.addObserver(this);
+		controller.activeuser_model.addObserver(this);
+		controller.usertab_model.addObserver(this);
 	}
 
 	protected void initActionButtons() {
@@ -28,7 +31,7 @@ public class ActionUserPanel extends AbstractActionPanel {
 
 	private void initNewSearchButton() {
 		buttons.put("search", new ActionButton("Benutzer suchen",
-				"img/search32x32h.png", "img/search32x32.png"));
+				"search32x32h.png", "search32x32.png"));
 		buttons.get("search").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				model.changetoSearch();
@@ -38,30 +41,38 @@ public class ActionUserPanel extends AbstractActionPanel {
 	
 	private void initReturnButton() {
 		buttons.put("return", new ActionButton("Buch zurückgeben",
-				"img/return32x32h.png", "img/return32x32.png"));
+				"return32x32h.png", "return32x32.png"));
 		buttons.get("return").setVisible(false);
 		buttons.get("return").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				controller.library.returnBook(controller.booktab_model.getActiveBook());
-				controller.usertab_model.fireDataChanged();
+				Loan loan = controller.usertab_model.getActiveLoan();
+				controller.library.returnBook(loan.getBook());
+				controller.status_model.setTempStatus("Buch zurückgegeben: " + loan.getBook().getInventoryNumber());
+				controller.loanModel.removeElement(loan);
 			}
 		});
 	}
 
 	private void initShowBookButton() {
 		buttons.put("showbook", new ActionButton("Buchdetails anzeigen",
-				"img/bookdetails32x32h.png", "img/bookdetails32x32.png"));
+				"bookdetails32x32h.png", "bookdetails32x32.png"));
 		buttons.get("showbook").setVisible(false);
 		buttons.get("showbook").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				controller.tabbed_model.setBookTabActive();
+				if (controller.usertab_model.isLoanSelected()) {
+					controller.booktab_model.setActiveBook(controller.usertab_model.getActiveLoan().getBook());
+					controller.tabbed_model.setBookTabActive();
+					controller.status_model.setTempStatus("Zeige Buchdetails für die gewählte Ausleihe.");
+				} else {
+					controller.status_model.setTempStatus("Kein Buch ausgewählt zum Anzeigen.");
+				}
 			}
 		});
 	}
 	
 	private void initEditButton() {
 		buttons.put("edituser", new ActionButton("Personalien editieren",
-				"img/edit32x32h.png", "img/edit32x32.png"));
+				"edit32x32h.png", "edit32x32.png"));
 		buttons.get("edituser").setVisible(false);
 		buttons.get("edituser").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -72,7 +83,7 @@ public class ActionUserPanel extends AbstractActionPanel {
 	
 	private void initEditOkButton() {
 		buttons.put("edituserok", new ActionButton("Editieren abschliessen",
-				"img/editdone32x32h.png", "img/editdone32x32.png"));
+				"editdone32x32h.png", "editdone32x32.png"));
 		buttons.get("edituserok").setVisible(false);
 		buttons.get("edituserok").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -83,7 +94,7 @@ public class ActionUserPanel extends AbstractActionPanel {
 
 	private void initEditCancelButton() {
 		buttons.put("editusercancel", new ActionButton("Editieren rückgängig",
-				"img/editrevert32x32h.png", "img/editrevert32x32.png"));
+				"editrevert32x32h.png", "editrevert32x32.png"));
 		buttons.get("editusercancel").setVisible(false);
 		buttons.get("editusercancel").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -94,17 +105,21 @@ public class ActionUserPanel extends AbstractActionPanel {
 
 	private void initAddUserButton() {
 		buttons.put("adduser", new ActionButton("Benutzer erfassen",
-				"img/newcustomer32x32h.png", "img/newcustomer32x32.png"));
+				"newcustomer32x32h.png", "newcustomer32x32.png"));
 		buttons.get("adduser").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				model.createUser();
+				Customer add = controller.library.createAndAddCustomer("Neuer", "Benutzer");;
+				add.setAdress("Strasse", 1234, "Ort");
+				controller.activeuser_model.setActiveUser(add);
+				controller.usertab_model.setEditing(true);
+				controller.status_model.setTempStatus("Neuer Benutzer erstellt");
 			}
 		});
 	}
 
 	private void initClearUserButton() {
-		buttons.put("clearuser", new ActionButton("Benutzer deaktivieren", "img/disablecustomer32x32h.png",
-				"img/disablecustomer32x32.png"));
+		buttons.put("clearuser", new ActionButton("Benutzer deaktivieren", "disablecustomer32x32h.png",
+				"disablecustomer32x32.png"));
 		buttons.get("clearuser").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				model.clearuser();

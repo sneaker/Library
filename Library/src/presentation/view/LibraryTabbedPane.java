@@ -12,6 +12,7 @@ import javax.swing.event.ChangeListener;
 
 import presentation.model.LibraryTabbedPaneModel;
 import presentation.model.ModelController;
+import util.ResManager;
 import domain.Book;
 
 /**
@@ -44,7 +45,7 @@ public class LibraryTabbedPane extends JTabbedPane implements Observer {
 
 		for (int i = 0; i < model.getTabInformation().length; i++) {
 			addTab(null, null, tabPanel[i], tabinformation[i][2]);
-			ImageIcon image = new ImageIcon(tabinformation[i][1]);
+			ImageIcon image = ResManager.getImage(tabinformation[i][1]);
 			JLabel paneTitle = new JLabel(tabinformation[i][0], image,
 					JLabel.TRAILING);
 			paneTitle.setVerticalTextPosition(JLabel.BOTTOM);

@@ -3,14 +3,15 @@ package presentation.view;
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.util.Observable;
-import java.util.Observer;
 
 import javax.swing.JPanel;
 
 import presentation.model.ModelController;
 
-public class TabUserPanel extends JPanel implements Observer {
+/**
+ * Container for user details, user loans and action panel.
+ */
+public class TabUserPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	ModelController controller;
@@ -21,9 +22,6 @@ public class TabUserPanel extends JPanel implements Observer {
 
 	public TabUserPanel(ModelController controller) {
 		this.controller = controller;
-		controller.usertab_model.addObserver(this);
-		controller.activeuser_model.addObserver(this);
-
 		initGUI();
 	}
 
@@ -60,7 +58,6 @@ public class TabUserPanel extends JPanel implements Observer {
 		c = new GridBagConstraints();
 		c.anchor = GridBagConstraints.FIRST_LINE_START;
 		c.fill = GridBagConstraints.BOTH;
-		c.fill = GridBagConstraints.BOTH;
 		c.gridx = 0;
 		c.gridy = 1;
 		c.weightx = 1.0;
@@ -71,11 +68,5 @@ public class TabUserPanel extends JPanel implements Observer {
 	private void initActionPanel() {
 		action_user_panel = new ActionUserPanel(controller);
 		add(action_user_panel, BorderLayout.EAST);
-	}
-	
-	public void update(Observable o, Object arg) {
-		detailPanel.update(null, null);
-		loanPanel.update(null, null);
-		action_user_panel.update(null, null);
 	}
 }

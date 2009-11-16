@@ -62,21 +62,22 @@ public class TabBookLoanJPanel extends JPanel implements Observer {
 		lastLoan.setText(loanText);
 	}
 
-	private String getLoanStatusText(List<Loan> loanList, Loan tmpLoan) {
+	private String getLoanStatusText(List<Loan> loanList, Loan recentLoan) {
+		boolean isLent = controller.library.isBookLent(controller.booktab_model.getActiveBook());
 		String result = boldText("Ausleihezustand: ");
-		if (tmpLoan == null || tmpLoan.getCustomer() == null) {
-			return result + "Verfügbar" + NEWLINE;
-		}
-		result += (tmpLoan.isLent() ? "Ausgeliehen" : "Verfügbar") + NEWLINE;
-		result += boldText("Letzter Ausleiher: ")
-				+ tmpLoan.getCustomer().getFullName() + NEWLINE;
+		if (recentLoan == null)
+			return result + "Verfügbar (noch nie ausgeliehen)" + NEWLINE;
 
-		if (tmpLoan.isLent()) {
-			result += getAusleihedauerText(tmpLoan);
-			result += getOverdueText(tmpLoan);
+		result += (isLent ? "Ausgeliehen" : "Verfügbar") + NEWLINE;
+		result += boldText("Letzter Ausleiher: ")
+				+ recentLoan.getCustomer().getFullName() + NEWLINE;
+
+		if (recentLoan.isLent()) {
+			result += getAusleihedauerText(recentLoan);
+			result += getOverdueText(recentLoan);
 			result += NEWLINE;
 		} else {
-			result += getLoanDurationText(tmpLoan);
+			result += getLoanDurationText(recentLoan);
 		}
 		result += getLoanCountText(loanList);
 

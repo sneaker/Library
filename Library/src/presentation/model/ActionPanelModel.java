@@ -46,13 +46,12 @@ public class ActionPanelModel extends Observable {
 		if ((activeuser != null) && (activebook != null)) {
 			controller.library.createAndAddLoan(activeuser, activebook);
 		} else if (activeuser == null) {
-			controller.status_model.setTempStatus("Keine Ausleihe möglich: erst ausleihenden Benutzer auswählen!");
+			controller.status_model
+					.setTempStatus("Keine Ausleihe möglich: erst ausleihenden Benutzer auswählen!");
 			controller.tabbed_model
 					.setActiveTab(LibraryTabbedPaneModel.SEARCH_TAB);
 		} else {
-			// TODO: Gibts diesen Fall überhaupt? @Thomas
-			controller.tabbed_model
-					.setActiveTab(LibraryTabbedPaneModel.SEARCH_TAB);
+			controller.tabbed_model.setSearchTabActive();
 		}
 		controller.booktab_model.lendActiveBook();
 		fireDataChanged();
@@ -80,10 +79,6 @@ public class ActionPanelModel extends Observable {
 			return " (" + vor
 					+ controller.activeuser_model.getFullActiveCustomerName()
 					+ ")";
-	}
-
-	public void creaNewBook() {
-		// TODO Auto-generated method stub
 	}
 
 	public void fireDataChanged() {
@@ -114,19 +109,20 @@ public class ActionPanelModel extends Observable {
 	public void showUser() {
 		controller.searchtab_model.showUser();
 	}
-	
+
 	public void editUserSettings() {
 		controller.usertab_model.setEditing(true);
 		controller.usertab_model.backupCustomerContent();
 	}
 
 	public void editUserSettingsOk() {
-		controller.usertab_model.commitChange();
+		controller.status_model
+				.setTempStatus("Erfolg: Änderungen erfolgreich gespeichert.");
 		controller.usertab_model.setEditing(false);
 	}
 
 	public void editUserSettingsCancel() {
-		controller.usertab_model.setEditing(false);
 		controller.usertab_model.restoreCustomerContent();
+		controller.usertab_model.setEditing(false);
 	}
 }
