@@ -33,6 +33,7 @@ public class ActionPanelModel extends Observable {
 				.setTempStatus("Buch wurde ausgemustert: "
 						+ controller.booktab_model.getActiveBook().getTitle()
 								.getName());
+		controller.booktab_model.fireDataChanged();
 	}
 
 	public void lendBook() {
