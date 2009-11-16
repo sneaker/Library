@@ -46,7 +46,8 @@ public class ActionPanelModel extends Observable {
 		if ((activeuser != null) && (activebook != null)) {
 			controller.library.createAndAddLoan(activeuser, activebook);
 		} else if (activeuser == null) {
-			controller.status_model.setTempStatus("Keine Ausleihe möglich: erst ausleihenden Benutzer auswählen!");
+			controller.status_model
+					.setTempStatus("Keine Ausleihe möglich: erst ausleihenden Benutzer auswählen!");
 			controller.tabbed_model
 					.setActiveTab(LibraryTabbedPaneModel.SEARCH_TAB);
 		} else {
@@ -108,15 +109,15 @@ public class ActionPanelModel extends Observable {
 	public void showUser() {
 		controller.searchtab_model.showUser();
 	}
-	
+
 	public void editUserSettings() {
 		controller.usertab_model.setEditing(true);
 		controller.usertab_model.backupCustomerContent();
 	}
 
 	public void editUserSettingsOk() {
-		controller.usertab_model.commitChange();
 		controller.usertab_model.setEditing(false);
+		controller.status_model.setTempStatus("Erfolg: Änderungen erfolgreich gespeichert.");
 	}
 
 	public void editUserSettingsCancel() {

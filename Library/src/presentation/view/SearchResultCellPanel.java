@@ -118,6 +118,7 @@ class ResultCellBookPanel extends SearchResultCellPanel {
 
 		if (!isSelected)
 			return;
+
 		if (library.isBookLent(active)) {
 			g.drawImage(ResManager.getImage(IMG_AGENDA32X32).getImage(),
 					getX() + 70, getHeight() - 37, null);
@@ -153,20 +154,13 @@ class ResultCellBookPanel extends SearchResultCellPanel {
  * Visually representing a result showing a user.
  */
 class ResultCellUserPanel extends SearchResultCellPanel {
-<<<<<<< HEAD
-	private static final String IMG_SYMBOL = "img/user64x64.png";
-	private static final String IMG_ADD32X32 = "img/add32x32.png";
-	private static final String IMG_DEL32X32 = "img/delete32x32.png";
-=======
 	private static final String IMG_SYMBOL = "user64x64.png";
 	private static final String IMG_ADD32X32 = "add32x32.png";
 	private static final String IMG_DISABLE_USER32X32 = "disablecustomer32x32.png";
->>>>>>> martin
 	private static final long serialVersionUID = -8375612543994217556L;
 	private final Customer active;
 	private ModelController controller;
 	private boolean isSelected;
-	private final ModelController controller;
 
 	public ResultCellUserPanel(Customer active, boolean isSelected,
 			int preferredWidth, ModelController controller) {
@@ -195,30 +189,20 @@ class ResultCellUserPanel extends SearchResultCellPanel {
 	public void paint(Graphics g) {
 		super.paint(g);
 
+		String action = null;
 		if (!isSelected) {
 			if (controller.activeuser_model.getCustomer() == active) {
-				g.drawImage(new ImageIcon(IMG_DEL32X32).getImage(), getX() + 110,
-						getHeight() - 37, null);
+				action = IMG_DISABLE_USER32X32;
 			}
-			return;
-<<<<<<< HEAD
 		} else {
-			if (controller.activeuser_model.getCustomer() != active)
-				g.drawImage(new ImageIcon(IMG_ADD32X32).getImage(), getX() + 70,
-						getHeight() - 37, null);
-			else
-				g.drawImage(new ImageIcon(IMG_DEL32X32).getImage(), getX() + 110,
-						getHeight() - 37, null);
+			if (controller.activeuser_model.isCustomerActive()
+					&& controller.activeuser_model.getCustomer().equals(active)) {
+				action = IMG_DISABLE_USER32X32;
+			} else {
+				action = IMG_ADD32X32;
+			}
 		}
-=======
-		
-		String action = null;
-		if (controller.activeuser_model.isCustomerActive() && controller.activeuser_model.getCustomer().equals(active))
-			action = IMG_DISABLE_USER32X32;
-		else
-			action = IMG_ADD32X32;
-		g.drawImage(ResManager.getImage(action).getImage(),
-					getX() + 70, getHeight() - 37, null);
->>>>>>> martin
+		g.drawImage(ResManager.getImage(action).getImage(), getX() + 70,
+				getHeight() - 37, null);
 	}
 }

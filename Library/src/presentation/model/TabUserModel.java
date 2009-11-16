@@ -64,12 +64,6 @@ public class TabUserModel extends Observable {
 		return isErrorAtPlace || isErrorAtTitle || isErrorAtAddress;
 	}
 
-	public void commitChange() {
-		setEditing(false);
-		controller.status_model
-				.setTempStatus("Erfolg: Änderungen erfolgreich gespeichert.");
-	}
-
 	public void setActiveLoan(Loan newActive) {
 		this.activeLoan = newActive;
 		fireDataChanged();
@@ -118,10 +112,5 @@ public class TabUserModel extends Observable {
 		if (lastCustomer == null)
 			return false;
 		return lastCustomer.equals(controller.activeuser_model.getCustomer());
-	}
-
-	public void commitChange() {
-		setEditing(false);
-		controller.status_model.setTempStatus("Erfolg: Änderungen erfolgreich gespeichert.");
 	}
 }
