@@ -40,4 +40,9 @@ public class MainWindowModel extends Observable {
 		this.activeMessage = activeMessage;
 		fireDataChanged();
 	}
+
+	public void hideGlassPane() {
+		this.activeMessage = null;
+		fireDataChanged();
+	}
 }

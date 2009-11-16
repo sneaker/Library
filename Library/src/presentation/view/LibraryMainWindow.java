@@ -53,12 +53,10 @@ public class LibraryMainWindow extends JFrame implements Observer {
 
 		initMenubar();
 		initStatusPanel();
-		// findAsYouTypeGlassPane = new FindAsYouTypeGlassPane(this);
 
 		initActiveUserPanel();
 		initTabbedPane();
 		requestFocusOnSearchField();
-		// addGlobalKeyListener();
 		setGlassPaneClosesOnEscape();
 	}
 
@@ -107,14 +105,11 @@ public class LibraryMainWindow extends JFrame implements Observer {
 		}, escapeKey, JComponent.WHEN_IN_FOCUSED_WINDOW);
 	}
 
-	private void addGlobalKeyListener() {
-		Toolkit.getDefaultToolkit().getSystemEventQueue().push(
-				new GlobalKeyListenerEventQueue(controller, this));
-	}
-
 	private void updateGlassPane() {
 		if (controller.main_model.getActiveMessage() != null)
 			setActiveGlassPane(controller.main_model.getActiveMessage());
+		else
+			getGlassPane().setVisible(false);
 	}
 
 	public void update(Observable o, Object arg) {

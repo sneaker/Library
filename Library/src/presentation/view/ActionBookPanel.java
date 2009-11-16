@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Observable;
 
+import presentation.control.MarkDefectActionListener;
 import presentation.model.ModelController;
 import domain.Book;
 import domain.Title;
@@ -31,11 +32,7 @@ public class ActionBookPanel extends AbstractActionPanel {
 	private void initDefektButton() {
 		buttons.put("defekt", new ActionButton("Als defekt markieren",
 				"delete32x32h.png", "delete32x32.png"));
-		buttons.get("defekt").addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				model.markDefekt();
-			}
-		});
+		buttons.get("defekt").addActionListener(new MarkDefectActionListener(controller));
 	}
 
 	private void initReturnButton() {
