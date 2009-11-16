@@ -13,14 +13,14 @@ public class MainWindowModel extends Observable implements ClipboardOwner {
 
 	private static final String PROGRAM_NAME = " - BücherBox";
 //	private ModelController controller;
-	private String title = "Recherche";
+	private String title = "Recherche ";
 
 	public MainWindowModel(ModelController controller) {
 //		this.controller = controller;
 	}
 
 	public String getTitle() {
-		return title + " " + PROGRAM_NAME;
+		return title + PROGRAM_NAME;
 	}
 
 	public void setTitle(String title) {
