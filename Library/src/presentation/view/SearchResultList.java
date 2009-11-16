@@ -58,7 +58,9 @@ public class SearchResultList extends JList implements ListDataListener  {
 
 		resultList.addMouseListener(new ListItemMouseListener(this, controller));
 
-		add(new JScrollPane(resultList));
+		JScrollPane scrollList = new JScrollPane(resultList);
+		scrollList.setBorder(null);
+		add(scrollList);
 	}
 
 	private int eventToListIndex(MouseEvent e) {

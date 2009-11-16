@@ -166,10 +166,8 @@ public class TabUserDetailJPanel extends JPanel implements Observer {
 	}
 
 	private String getCustomerStatus(Customer c) {
-		String result = "";
-		boolean userActive = controller.library.isCustomerLocked(c);
-		if (userActive)
-			result += (userActive ? "Aktiv" : "Gesperrt");
+		boolean userLocked = controller.library.isCustomerLocked(c);
+		String result = (userLocked ? "Gesperrt" : "Aktiv");
 		result += " (";
 		result += getLoanCountText(c) + ", ";
 		result += getMahnungCountText(c);

@@ -28,8 +28,7 @@ public class TabUserModel extends Observable {
 		if (getActiveCustomer() == null)
 			return "Benutzerdetails (kein Benutzer ausgewählt)";
 		return "Anzeigen der Benutzerdetails von \""
-				+ getActiveCustomer().getSurname() + ", "
-				+ getActiveCustomer().getName() + "\"";
+				+ getActiveCustomer().getFullName() + "\"";
 	}
 
 	public void fireDataChanged() {
