@@ -63,6 +63,8 @@ public class SearchResultListModel implements ListModel {
 		for (int i = 0; i < 10; i++)
 			displayed_results.add(library.getAvailableBooks().get(i));
 
+		//the first entry in the history is everything
+		history.add(displayed_results);
 		sort();
 	}
 
@@ -144,7 +146,7 @@ public class SearchResultListModel implements ListModel {
 	}
 
 	private void goOneBack() {
-		searchstring = searchstring.substring(0, searchstring.length() - 1);				
+		searchstring = searchstring.substring(0, searchstring.length() - 1);
 		displayed_results = history.remove(history.size() - 1);
 	}
 	
@@ -155,7 +157,7 @@ public class SearchResultListModel implements ListModel {
 	}
 
 	private void resetSearch() {
-		if (history.size() == 0)
+		if (history.size() == 1)
 			return;
 		searchstring = "";
 		displayed_results = history.get(0);
