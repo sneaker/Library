@@ -124,7 +124,7 @@ public class TabBookModel extends Observable {
 		return lastBook.equals(getActiveBook());
 	}
 
-	public void backupCustomerContent() {
+	public void backupBookContent() {
 		backupBook = (Book)activeBook.clone();
 	}
 

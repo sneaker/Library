@@ -80,10 +80,6 @@ public class ActionPanelModel extends Observable {
 					+ ")";
 	}
 
-	public void creaNewBook() {
-		// TODO Auto-generated method stub
-	}
-
 	public void fireDataChanged() {
 		setChanged();
 		notifyObservers();

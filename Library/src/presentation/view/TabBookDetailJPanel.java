@@ -267,7 +267,7 @@ public class TabBookDetailJPanel extends JPanel implements Observer {
 
 	private void stopEditingWhenBookChanged() {
 		if (!controller.booktab_model.isSameBook()
-				&& controller.booktab_model.isEditing()) {
+				&& controller.booktab_model.isEditing() && controller.booktab_model.getActiveBook() != null) {
 			setEditable(false);
 			controller.booktab_model.setEditing(false);
 			controller.status_model

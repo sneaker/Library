@@ -5,6 +5,8 @@ import java.awt.event.ActionListener;
 import java.util.Observable;
 
 import presentation.model.ModelController;
+import domain.Book;
+import domain.Title;
 
 public class ActionBookPanel extends AbstractActionPanel {
 
@@ -64,7 +66,14 @@ public class ActionBookPanel extends AbstractActionPanel {
 				"new32x32h.png", "new32x32.png"));
 		buttons.get("create").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				model.creaNewBook();
+				Title addTitle = controller.library.createAndAddTitle("Neuer Titel");
+				addTitle.setAuthor("");
+				addTitle.setPublisher("");
+				Book addBook = controller.library.createAndAddBook(addTitle);
+				controller.status_model.setTempStatus("Neues Buch erstellt mit id " + addBook.getInventoryNumber());
+				controller.booktab_model.setActiveBook(addBook);
+				controller.booktab_model.backupBookContent();
+				controller.booktab_model.setEditing(true);
 			}
 		});
 	}
@@ -76,8 +85,8 @@ public class ActionBookPanel extends AbstractActionPanel {
 		buttons.get("edit").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				controller.booktab_model.setEditing(true);
-				controller.booktab_model.backupCustomerContent();
-				controller.status_model.setTempStatus("Buchdetails editieren...");
+				controller.booktab_model.backupBookContent();
+				controller.status_model.setTempStatus("Buchdetails editieren");
 			}
 		});
 	}
@@ -89,7 +98,7 @@ public class ActionBookPanel extends AbstractActionPanel {
 		buttons.get("editok").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				controller.booktab_model.setEditing(false);
-				controller.status_model.setTempStatus("Änderungen am Buchtitel wurden gesichert...");
+				controller.status_model.setTempStatus("Änderungen am Buchtitel wurden gesichert");
 			}
 		});
 	}
@@ -101,9 +110,9 @@ public class ActionBookPanel extends AbstractActionPanel {
 		buttons.get("editbookcancel").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (controller.booktab_model.restoreBookContent())
-					controller.status_model.setTempStatus("Änderungen am Buchtitel wurden zurückgesetzt.");
+					controller.status_model.setTempStatus("Änderungen am Buchtitel wurden zurückgesetzt");
 				else
-					controller.status_model.setTempStatus("Fehler: Änderungen am Buchtitel konnten nicht zurückgesetzt werden.");
+					controller.status_model.setTempStatus("Fehler: Änderungen am Buchtitel konnten nicht zurückgesetzt werden");
 				controller.booktab_model.setEditing(false);
 			}
 		});

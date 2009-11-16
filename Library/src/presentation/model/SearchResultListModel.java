@@ -31,6 +31,10 @@ public class SearchResultListModel implements ListModel {
 	public SearchResultListModel(ModelController controller) {
 		this.controller = controller;
 		library = controller.library;
+		initLibrary();
+	}
+
+	private void initLibrary() {
 		displayed_results = new ArrayList<Searchable>();
 		for (Searchable user : library.getCustomers()) {
 			displayed_results.add(user);

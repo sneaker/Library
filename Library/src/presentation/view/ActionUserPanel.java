@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.util.Observable;
 
 import presentation.model.ModelController;
+import domain.Customer;
 import domain.Loan;
 
 public class ActionUserPanel extends AbstractActionPanel {
@@ -107,7 +108,11 @@ public class ActionUserPanel extends AbstractActionPanel {
 				"newcustomer32x32h.png", "newcustomer32x32.png"));
 		buttons.get("adduser").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				model.createUser();
+				Customer add = controller.library.createAndAddCustomer("Neuer", "Benutzer");;
+				add.setAdress("Strasse", 1234, "Ort");
+				controller.activeuser_model.setActiveUser(add);
+				controller.usertab_model.setEditing(true);
+				controller.status_model.setTempStatus("Neuer Benutzer erstellt");
 			}
 		});
 	}
