@@ -118,6 +118,7 @@ class ResultCellBookPanel extends SearchResultCellPanel {
 
 		if (!isSelected)
 			return;
+
 		if (library.isBookLent(active)) {
 			g.drawImage(ResManager.getImage(IMG_AGENDA32X32).getImage(),
 					getX() + 70, getHeight() - 37, null);
@@ -182,20 +183,25 @@ class ResultCellUserPanel extends SearchResultCellPanel {
 	protected String getSymbolPath() {
 		return IMG_SYMBOL;
 	}
-	
+
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
 
-		if (!isSelected)
-			return;
-		
 		String action = null;
-		if (controller.activeuser_model.isCustomerActive() && controller.activeuser_model.getCustomer().equals(active))
-			action = IMG_DISABLE_USER32X32;
-		else
-			action = IMG_ADD32X32;
-		g.drawImage(ResManager.getImage(action).getImage(),
-					getX() + 70, getHeight() - 37, null);
+		if (!isSelected) {
+			if (controller.activeuser_model.getCustomer() == active) {
+				action = IMG_DISABLE_USER32X32;
+			}
+		} else {
+			if (controller.activeuser_model.isCustomerActive()
+					&& controller.activeuser_model.getCustomer().equals(active)) {
+				action = IMG_DISABLE_USER32X32;
+			} else {
+				action = IMG_ADD32X32;
+			}
+		}
+		g.drawImage(ResManager.getImage(action).getImage(), getX() + 70,
+				getHeight() - 37, null);
 	}
 }
