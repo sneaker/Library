@@ -415,7 +415,7 @@ public class TabBookDetailJPanel extends JPanel implements Observer {
 							.setTempStatus("Buch wurde als defekt markiert...");
 				else
 					controller.status_model
-							.setTempStatus("Vorgang abgebrochen; Buch wurde nicht als defekt markiert...");
+							.setTempStatus("Vorgang ; Buch wurde nicht als defekt markiert...");
 			} else {
 				controller.booktab_model.getActiveBook().setCondition(
 						newCondition);
@@ -425,9 +425,13 @@ public class TabBookDetailJPanel extends JPanel implements Observer {
 		}
 
 		public boolean setActiveBookDefect() {
-			// TODO Auto-generated method stub
-			// 1. Glass-Pane mit Kontroll-Frage und Mahngebühr-Hinweis
-			// 2. Defekt speichern im Book-Zustand
+			//TODO: Glasspane ausgeben
+			Book activebook = controller.booktab_model.getActiveBook();
+			activebook.setCondition(Book.Condition.WASTE);
+			
+			if (activebook.getCondition() == Book.Condition.WASTE)
+				return true;
+			
 			return false;
 		}
 	}
