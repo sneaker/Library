@@ -6,6 +6,7 @@ import java.awt.GridBagLayout;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -14,6 +15,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.text.JTextComponent;
 
@@ -26,6 +28,7 @@ import domain.Book.Condition;
  * Displays formatted details of a book (without loan details).
  */
 public class TabBookDetailJPanel extends JPanel implements Observer {
+	private static final Font COMMENT_FONT = new Font("SansSerif", Font.PLAIN, 16);
 	private static final long serialVersionUID = -5782308158955619340L;
 	private static final String TITLE = "Katalogdaten";
 	private static final String AUTHOR_LABEL_TEXT = "Autor: ";
@@ -46,6 +49,7 @@ public class TabBookDetailJPanel extends JPanel implements Observer {
 	private TabBookModel bmodel;
 	private final ModelController controller;
 	private JComboBox conditionCombo;
+	private JTextArea commentText;
 
 	public TabBookDetailJPanel(ModelController controller) {
 		this.controller = controller;
@@ -62,6 +66,7 @@ public class TabBookDetailJPanel extends JPanel implements Observer {
 		initAuthorText();
 		initPublishText();
 		initConditionText();
+		initComment();
 	}
 
 	private void initTitle() {
@@ -129,7 +134,7 @@ public class TabBookDetailJPanel extends JPanel implements Observer {
 		publishLabel.setFont(DETAIL_LABEL_FONT);
 		c.gridx = 0;
 		c.gridy = 2;
-		c.weightx = 0.0;
+		c.weightx = 0.0001;
 		add(publishLabel, c);
 
 		publishText = new DetailTextField();
@@ -147,7 +152,9 @@ public class TabBookDetailJPanel extends JPanel implements Observer {
 		conditionLabel = new JLabel(CONDITION_LABEL_TEXT);
 		conditionLabel.setVisible(false);
 		conditionLabel.setFont(DETAIL_LABEL_FONT);
+
 		c.anchor = GridBagConstraints.FIRST_LINE_START;
+		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
 		c.gridy = 3;
 		c.weightx = 0;
@@ -194,10 +201,30 @@ public class TabBookDetailJPanel extends JPanel implements Observer {
 		c.gridx = 1;
 		c.gridy = 3;
 		c.weightx = 1.0;
-		c.weighty = 1.0;
+		c.weighty = 0.0001;
 		return c;
 	}
 
+	private void initComment() {
+		commentText = new JTextArea();
+		commentText.setEditable(false);
+		commentText.setBackground(this.getBackground());
+		commentText.setBorder(new EmptyBorder(3, 3, 3, 3));
+		commentText.setFont(COMMENT_FONT);
+		commentText.setLineWrap(true);
+		commentText.setWrapStyleWord(true);
+		commentText.addKeyListener(new ValidateBookCommentKeyListener());
+
+		GridBagConstraints c = new GridBagConstraints();
+		c.anchor = GridBagConstraints.FIRST_LINE_START;
+		c.fill = GridBagConstraints.BOTH;
+		c.gridx = 1;
+		c.gridy = 4;
+		c.weightx = 0.0;
+		c.weighty = 1.0;
+		add(commentText, c);
+	}
+	
 	private void setDetailsVisibility(boolean isBookActive) {
 		authorLabel.setVisible(isBookActive);
 		authorText.setVisible(isBookActive);
@@ -205,6 +232,7 @@ public class TabBookDetailJPanel extends JPanel implements Observer {
 		publishText.setVisible(isBookActive);
 		conditionLabel.setVisible(isBookActive);
 		conditionText.setVisible(isBookActive);
+		commentText.setVisible(isBookActive);
 	}
 
 	private void updateDetails() {
@@ -214,6 +242,7 @@ public class TabBookDetailJPanel extends JPanel implements Observer {
 		titleText.setText(bmodel.getActiveBook().getTitle().getName());
 		authorText.setText(bmodel.getActiveBook().getTitle().getAuthor());
 		publishText.setText(bmodel.getActiveBook().getTitle().getPublisher());
+		commentText.setText(bmodel.getActiveBook().getConditionComment());
 	}
 
 	private void updateErrors() {
@@ -261,7 +290,16 @@ public class TabBookDetailJPanel extends JPanel implements Observer {
 		authorText.setEditable(editable);
 		publishText.setEditable(editable);
 		setConditionEditable(editable);
+		setCommentTextEditable(editable);
 		getParent().validate();
+	}
+
+	private void setCommentTextEditable(boolean editable) {
+		commentText.setEditable(editable);
+		if (editable)
+			commentText.setBackground(new JTextArea().getBackground());
+		else
+			commentText.setBackground(this.getBackground());
 	}
 
 	private void setConditionEditable(boolean editable) {
@@ -288,6 +326,7 @@ public class TabBookDetailJPanel extends JPanel implements Observer {
 				return;
 			remove(titleText);
 			add(titleTextEditable, getTitleGridBagConstraints());
+			// TODO: Move into initTitleText
 			titleTextEditable.setText(controller.booktab_model.getActiveBook()
 					.getTitle().getName());
 			titleTextEditable.setEditable(true);
@@ -390,6 +429,18 @@ public class TabBookDetailJPanel extends JPanel implements Observer {
 			// 1. Glass-Pane mit Kontroll-Frage und Mahngebühr-Hinweis
 			// 2. Defekt speichern im Book-Zustand
 			return false;
+		}
+	}
+	
+	public class ValidateBookCommentKeyListener extends KeyAdapter {
+		public void keyReleased(KeyEvent e) {
+			super.keyReleased(e);
+			if (!(e.getComponent() instanceof JTextComponent))
+				return;
+			JTextComponent origin = (JTextComponent) e.getComponent();
+			String newComment = origin.getText();
+			controller.booktab_model.getActiveBook().setConditionComment(newComment);
+			controller.booktab_model.fireDataChanged();
 		}
 	}
 }
