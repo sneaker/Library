@@ -7,7 +7,6 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -162,34 +161,9 @@ public class TabBookDetailJPanel extends JPanel implements Observer {
 		add(conditionLabel, c);
 
 		conditionText = new DetailTextField();
-		conditionCombo = new JComboBox(getConditionTexts());
+		conditionCombo = new JComboBox(Book.Condition.getConditionStrings());
 		conditionText.setEditable(false);
 		add(conditionText, getConditionGridBagConstraints());
-	}
-
-	private Object[] getConditionTexts() {
-		ArrayList<ConditionText> c = new ArrayList<ConditionText>();
-		c.add(new ConditionText(Book.Condition.NEW));
-		c.add(new ConditionText(Book.Condition.GOOD));
-		c.add(new ConditionText(Book.Condition.DAMAGED));
-		c.add(new ConditionText(Book.Condition.WASTE));
-		return c.toArray();
-	}
-
-	private class ConditionText {
-		private Condition domainTerm;
-
-		public ConditionText(Condition c) {
-			domainTerm = c;
-		}
-
-		public String toString() {
-			return Book.getConditionString(domainTerm);
-		}
-
-		public Condition getDomainTerm() {
-			return domainTerm;
-		}
 	}
 
 	private GridBagConstraints getConditionGridBagConstraints() {
@@ -429,8 +403,7 @@ public class TabBookDetailJPanel extends JPanel implements Observer {
 	 */
 	private final class ValidateConditionCombo implements ItemListener {
 		public void itemStateChanged(ItemEvent e) {
-			Condition newCondition = ((ConditionText) e.getItem())
-					.getDomainTerm();
+			Condition newCondition = Book.Condition.getCondition((String)e.getItem());
 			if (newCondition == Book.Condition.WASTE) {
 				boolean ok = setActiveBookDefect();
 				if (ok)
@@ -443,7 +416,7 @@ public class TabBookDetailJPanel extends JPanel implements Observer {
 				controller.booktab_model.getActiveBook().setCondition(
 						newCondition);
 				controller.status_model.setTempStatus("Buch markiert als "
-						+ Book.getConditionString(newCondition));
+						+ Book.Condition.getConditionString(newCondition));
 			}
 		}
 
