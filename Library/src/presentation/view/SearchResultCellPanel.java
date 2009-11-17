@@ -173,7 +173,7 @@ class ResultCellUserPanel extends SearchResultCellPanel {
 
 	protected Image getStatusImage() {
 		String image = "";
-		if (library.getCustomerLoans(active).size() >= 3)
+		if (library.isCustomerLocked(active))
 			image = IMG_EXCLAMATION16X16;
 		else
 			image = IMG_CHECK16X16;
