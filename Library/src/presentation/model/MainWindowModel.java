@@ -1,35 +1,48 @@
 package presentation.model;
 
-import java.awt.datatransfer.Clipboard;
-import java.awt.datatransfer.ClipboardOwner;
-import java.awt.datatransfer.Transferable;
 import java.util.Observable;
+
+import javax.swing.JPanel;
 
 /**
  * Manages the current status of the main window with its active user, tab,
  * menubar and status panel.
  */
-public class MainWindowModel extends Observable implements ClipboardOwner {
+public class MainWindowModel extends Observable {
 
 	private static final String PROGRAM_NAME = " - BücherBox";
-//	private ModelController controller;
 	private String title = "Recherche";
+	private JPanel activeMessage;
 
 	public MainWindowModel(ModelController controller) {
-//		this.controller = controller;
+		title = "Recherche";
 	}
 
 	public String getTitle() {
-		return title + " " + PROGRAM_NAME;
+		return title + PROGRAM_NAME;
 	}
 
 	public void setTitle(String title) {
 		this.title = title;
+		fireDataChanged();
+	}
+
+	private void fireDataChanged() {
 		setChanged();
 		notifyObservers();
 	}
 
-	public void lostOwnership(Clipboard clipboard, Transferable contents) {
-		// TODO Auto-generated method stub
+	public JPanel getActiveMessage() {
+		return activeMessage;
+	}
+
+	public void setActiveMessage(JPanel activeMessage) {
+		this.activeMessage = activeMessage;
+		fireDataChanged();
+	}
+
+	public void hideGlassPane() {
+		this.activeMessage = null;
+		fireDataChanged();
 	}
 }

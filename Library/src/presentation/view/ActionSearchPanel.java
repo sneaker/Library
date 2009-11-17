@@ -18,7 +18,6 @@ public class ActionSearchPanel extends AbstractActionPanel {
 		initSearchButton();
 		initNewUserButton();
 		initSpacer();
-//		initShowUser();
 		initShowAvailableBooks();
 		initShowDefektBooks();
 		initShowLentBooks();

@@ -77,6 +77,7 @@
 		<jar destfile="${release.dir}/${file.app}" basedir="${build.dir}">
 			<manifest>
 				<attribute name="Main-Class" value="${main.class}" />
+				<attribute name="SplashScreen-Image" value="img/splash.png" />
 			</manifest>
 			<zipfileset excludes="META-INF/*.SF" src="lib/swingx-0.9.5.jar"/>
 			<fileset dir=".">

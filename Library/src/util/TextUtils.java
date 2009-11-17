@@ -34,4 +34,12 @@ public class TextUtils {
 				.max(0, Math.floor(longText.length() * size))))
 				+ dots;
 	}
+
+	public static String format(String text, int fontSizePt) {
+		return "<div style=\"font-size: " + fontSizePt + "pt;\">" + text + "</div>";
+	}
+
+	public static String markupText(String text) {
+		return "<html>" + text + "</html>";
+	}
 }

@@ -117,8 +117,9 @@ public class ActionPanelModel extends Observable {
 	}
 
 	public void editUserSettingsOk() {
+		controller.status_model
+				.setTempStatus("Erfolg: Änderungen erfolgreich gespeichert.");
 		controller.usertab_model.setEditing(false);
-		controller.status_model.setTempStatus("Erfolg: Änderungen erfolgreich gespeichert.");
 	}
 
 	public void editUserSettingsCancel() {
