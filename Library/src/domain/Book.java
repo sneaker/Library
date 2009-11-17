@@ -41,7 +41,7 @@ public class Book implements Searchable, Cloneable {
 			return "Ausgemustert";
 		return "";
 	}
-	
+
 	public static String getConditionString(Condition c) {
 		if (c == Condition.NEW)
 			return "Neuwertig";
@@ -85,8 +85,14 @@ public class Book implements Searchable, Cloneable {
 		this.conditionComment = newConditionComment;
 	}
 
+	/**
+	 * Creates a "deep copy" of this book which is not altered when the original
+	 * instance is changed. The title of the book is also copied.
+	 * 
+	 * @return a copy of this instance.
+	 */
 	@Override
-	public Object clone() {
+	public Book clone() {
 		Book result = new Book((Title) getTitle().clone());
 		result.setCondition(condition);
 		result.setInventoryNumber(inventoryNumber);
@@ -99,5 +105,19 @@ public class Book implements Searchable, Cloneable {
 	 */
 	private void setInventoryNumber(long newInventoryNumber) {
 		this.inventoryNumber = newInventoryNumber;
+	}
+
+	/**
+	 * Restore book contents from a backup copy. Create copies with the
+	 * clone()-Function.
+	 * 
+	 * @param backup
+	 *            The book whose contents have to be copied for this instance.
+	 */
+	public void copyContentFrom(Book backup) {
+		getTitle().setName(backup.getTitle().getName());
+		getTitle().setAuthor(backup.getTitle().getAuthor());
+		getTitle().setPublisher(backup.getTitle().getPublisher());
+		setCondition(backup.getCondition());
 	}
 }

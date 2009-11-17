@@ -120,15 +120,11 @@ public class TabBookModel extends Observable {
 	}
 
 	public void backupBookContent() {
-		backupBook = (Book)activeBook.clone();
+		backupBook = activeBook.clone();
 	}
 
 	public boolean restoreBookContent() {
-		// TODO Feature envy: move into Title.class
-		activeBook.getTitle().setName(backupBook.getTitle().getName());
-		activeBook.getTitle().setAuthor(backupBook.getTitle().getAuthor());
-		activeBook.getTitle().setPublisher(backupBook.getTitle().getPublisher());
-		activeBook.setCondition(backupBook.getCondition());
+		activeBook.copyContentFrom(backupBook);
 		return true;
 	}
 
