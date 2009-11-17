@@ -63,17 +63,12 @@ public class TabBookModel extends Observable {
 
 	public void lendActiveBook() {
 		Customer activeuser = controller.activeuser_model.getCustomer();
-		if ((activeuser != null) && (getActiveBook() != null)) {
+		if (isActiveBookLendableFor(activeuser))
 			controller.library.createAndAddLoan(activeuser, getActiveBook());
-		} else if (activeuser == null) {
-			// TODO: Show dialog "please select user first"
-			controller.tabbed_model
-					.setActiveTab(LibraryTabbedPaneModel.SEARCH_TAB);
-		} else {
-			// TODO: Show select book, no book activated
-			controller.tabbed_model
-					.setActiveTab(LibraryTabbedPaneModel.SEARCH_TAB);
-		}
+	}
+
+	private boolean isActiveBookLendableFor(Customer activeuser) {
+		return (activeuser != null) && (getActiveBook() != null) && getActiveBook().getCondition() != Book.Condition.WASTE;
 	}
 
 	public boolean isBookActive() {
