@@ -28,7 +28,8 @@ import domain.Book.Condition;
  * Displays formatted details of a book (without loan details).
  */
 public class TabBookDetailJPanel extends JPanel implements Observer {
-	private static final Font COMMENT_FONT = new Font("SansSerif", Font.PLAIN, 16);
+	private static final Font COMMENT_FONT = new Font("SansSerif", Font.PLAIN,
+			16);
 	private static final long serialVersionUID = -5782308158955619340L;
 	private static final String TITLE = "Katalogdaten";
 	private static final String AUTHOR_LABEL_TEXT = "Autor: ";
@@ -183,9 +184,6 @@ public class TabBookDetailJPanel extends JPanel implements Observer {
 		}
 
 		public String toString() {
-			if (domainTerm == Book.Condition.WASTE)
-				return Book.getConditionString(domainTerm)
-						+ ", als defekt markieren...";
 			return Book.getConditionString(domainTerm);
 		}
 
@@ -224,7 +222,7 @@ public class TabBookDetailJPanel extends JPanel implements Observer {
 		c.weighty = 1.0;
 		add(commentText, c);
 	}
-	
+
 	private void setDetailsVisibility(boolean isBookActive) {
 		authorLabel.setVisible(isBookActive);
 		authorText.setVisible(isBookActive);
@@ -267,7 +265,8 @@ public class TabBookDetailJPanel extends JPanel implements Observer {
 
 	private void stopEditingWhenBookChanged() {
 		if (!controller.booktab_model.isSameBook()
-				&& controller.booktab_model.isEditing() && controller.booktab_model.getActiveBook() != null) {
+				&& controller.booktab_model.isEditing()
+				&& controller.booktab_model.getActiveBook() != null) {
 			setEditable(false);
 			controller.booktab_model.setEditing(false);
 			controller.status_model
@@ -308,10 +307,34 @@ public class TabBookDetailJPanel extends JPanel implements Observer {
 				return;
 			remove(conditionText);
 			add(conditionCombo, getConditionGridBagConstraints());
-			conditionCombo.repaint();
-			conditionCombo.setSelectedItem(controller.booktab_model
-					.getActiveBook().getCondition());
+			// conditionCombo.setSelectedItem(controller.booktab_model.getActiveBook().getConditionString());
+			// controller.booktab_model.getActiveBook().getCondition()
+
+			Condition co = controller.booktab_model.getActiveBook()
+					.getCondition();
+			int index = 0;
+			switch (co) {
+			case NEW: {
+				index = 0;
+				break;
+			}
+			case GOOD: {
+				index = 1;
+				break;
+			}
+			case DAMAGED: {
+				index = 2;
+				break;
+			}
+			case WASTE: {
+				index = 3;
+				break;
+			}
+			}
+			conditionCombo.setSelectedIndex(index);
+
 			conditionCombo.addItemListener(new ValidateConditionCombo());
+			conditionCombo.repaint();
 		} else {
 			if (!isAncestorOf(conditionCombo))
 				return;
@@ -431,7 +454,7 @@ public class TabBookDetailJPanel extends JPanel implements Observer {
 			return false;
 		}
 	}
-	
+
 	public class ValidateBookCommentKeyListener extends KeyAdapter {
 		public void keyReleased(KeyEvent e) {
 			super.keyReleased(e);
@@ -439,7 +462,8 @@ public class TabBookDetailJPanel extends JPanel implements Observer {
 				return;
 			JTextComponent origin = (JTextComponent) e.getComponent();
 			String newComment = origin.getText();
-			controller.booktab_model.getActiveBook().setConditionComment(newComment);
+			controller.booktab_model.getActiveBook().setConditionComment(
+					newComment);
 			controller.booktab_model.fireDataChanged();
 		}
 	}
