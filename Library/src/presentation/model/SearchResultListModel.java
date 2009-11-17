@@ -20,8 +20,10 @@ import domain.Searchable;
 public class SearchResultListModel implements ListModel {
 
 	private ArrayList<ArrayList<Searchable>> history = new ArrayList<ArrayList<Searchable>>();
-	private ArrayList<ListDataListener> listeners = new ArrayList<ListDataListener>();
+	private ArrayList<Searchable> tmplist = new ArrayList<Searchable>();
 	private ArrayList<Searchable> displayed_results;
+	private ListDataListener listener;
+	//private ArrayList<ListDataListener> listeners = new ArrayList<ListDataListener>();
 	private Library library;
 	private String searchstring = new String();
 	private ModelController controller;
@@ -64,7 +66,7 @@ public class SearchResultListModel implements ListModel {
 	}
 
 	public void addListDataListener(ListDataListener l) {
-		listeners.add(l);
+		listener = l;
 	}
 
 	public Searchable getElementAt(int index) {
@@ -76,11 +78,11 @@ public class SearchResultListModel implements ListModel {
 	}
 
 	public void removeListDataListener(ListDataListener l) {
-		listeners.remove(l);
+		listener = null;
 	}
 
 	public void simpleKeyAdd(String newstring) {
-		if (newstring.substring(0, newstring.length()-1).equals(searchstring)) {
+		if (newstring.length() < 1 || newstring.substring(0, newstring.length()-1).equals(searchstring)) {
 			searchstring = newstring;
 			newsearch();
 		}
@@ -91,10 +93,8 @@ public class SearchResultListModel implements ListModel {
 	}
 
 	private void newsearch() {
-
 		history.add(displayed_results);
-		ArrayList<Searchable> tmplist = new ArrayList<Searchable>();
-
+		
 		for (Searchable item : displayed_results) {
 			if (item.searchTitle().toLowerCase().contains(searchstring))
 				tmplist.add(item);
@@ -108,13 +108,17 @@ public class SearchResultListModel implements ListModel {
 				}
 			}
 		}
+		
 		displayed_results = tmplist;
-
+		
 		sort();
 		update();
+		tmplist = new ArrayList<Searchable>();
 	}
 
 	public void delchar(String newstring) {
+		System.out.println("del newstring: " + newstring);
+		System.out.println("length: " + (searchstring.length()));
 		if (newstring.isEmpty()) {
 			resetSearch();
 		}
@@ -125,7 +129,9 @@ public class SearchResultListModel implements ListModel {
 		} 
 		else //anything else happend 
 		{
+			System.out.println("went in here");
 			resetSearch();
+			System.out.println("newstring before new: " + newstring);
 			buildagain(newstring);
 		}
 
@@ -171,9 +177,7 @@ public class SearchResultListModel implements ListModel {
 	}
 
 	public void update() {
-		for (ListDataListener listener : listeners) {
-			listener.contentsChanged(null);
-		}
+		listener.contentsChanged(null);
 	}
 
 	private void sort() {
@@ -313,7 +317,6 @@ public class SearchResultListModel implements ListModel {
 	}
 
 	public void fireDataChanged(MouseListener source, int index) {
-		for (ListDataListener l : listeners)
-			l.contentsChanged(new ListDataEvent(source, ListDataEvent.CONTENTS_CHANGED, index, index));
+			listener.contentsChanged(new ListDataEvent(source, ListDataEvent.CONTENTS_CHANGED, index, index));
 	}
 }
