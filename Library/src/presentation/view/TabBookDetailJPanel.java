@@ -282,31 +282,10 @@ public class TabBookDetailJPanel extends JPanel implements Observer {
 				return;
 			remove(conditionText);
 			add(conditionCombo, getConditionGridBagConstraints());
-			// conditionCombo.setSelectedItem(controller.booktab_model.getActiveBook().getConditionString());
-			// controller.booktab_model.getActiveBook().getCondition()
 
 			Condition co = controller.booktab_model.getActiveBook()
 					.getCondition();
-			int index = 0;
-			switch (co) {
-			case NEW: {
-				index = 0;
-				break;
-			}
-			case GOOD: {
-				index = 1;
-				break;
-			}
-			case DAMAGED: {
-				index = 2;
-				break;
-			}
-			case WASTE: {
-				index = 3;
-				break;
-			}
-			}
-			conditionCombo.setSelectedIndex(index);
+			conditionCombo.setSelectedIndex(conditionToIndex(co));
 
 			conditionCombo.addItemListener(new ValidateConditionCombo());
 			conditionCombo.repaint();
@@ -316,6 +295,29 @@ public class TabBookDetailJPanel extends JPanel implements Observer {
 			remove(conditionCombo);
 			add(conditionText, getConditionGridBagConstraints());
 		}
+	}
+
+	private int conditionToIndex(Condition co) {
+		int index = 0;
+		switch (co) {
+		case NEW: {
+			index = 0;
+			break;
+		}
+		case GOOD: {
+			index = 1;
+			break;
+		}
+		case DAMAGED: {
+			index = 2;
+			break;
+		}
+		case WASTE: {
+			index = 3;
+			break;
+		}
+		}
+		return index;
 	}
 
 	private void setTitleTextEditable(boolean editable) {
