@@ -117,8 +117,6 @@ public class SearchResultListModel implements ListModel {
 	}
 
 	public void delchar(String newstring) {
-		System.out.println("del newstring: " + newstring);
-		System.out.println("length: " + (searchstring.length()));
 		if (newstring.isEmpty()) {
 			resetSearch();
 		}
@@ -129,9 +127,7 @@ public class SearchResultListModel implements ListModel {
 		} 
 		else //anything else happend 
 		{
-			System.out.println("went in here");
 			resetSearch();
-			System.out.println("newstring before new: " + newstring);
 			buildagain(newstring);
 		}
 
