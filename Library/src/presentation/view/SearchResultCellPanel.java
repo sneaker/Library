@@ -18,6 +18,7 @@ import domain.Customer;
 import domain.Library;
 import domain.Loan;
 import domain.Searchable;
+import domain.Book.Condition;
 
 /**
  * Holds the graphical elements of an item in the ResultList so changes to the
@@ -126,7 +127,7 @@ class ResultCellBookPanel extends SearchResultCellPanel {
 					getX() + 110, getHeight() - 37, null);
 			return;
 		}
-		if (controller.activeuser_model.getCustomer() == null)
+		if (controller.activeuser_model.getCustomer() == null || active.getCondition() == Condition.WASTE)
 			return;
 		g.drawImage(ResManager.getImage(IMG_ADD32X32).getImage(), getX() + 70,
 				getHeight() - 37, null);

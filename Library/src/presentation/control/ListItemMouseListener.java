@@ -10,6 +10,7 @@ import presentation.model.LibraryTabbedPaneModel;
 import presentation.model.ModelController;
 import domain.Book;
 import domain.Customer;
+import domain.Book.Condition;
 
 public class ListItemMouseListener extends MouseAdapter {
 
@@ -68,6 +69,10 @@ public class ListItemMouseListener extends MouseAdapter {
 	private void handleBookClick(MouseEvent e, int index, Book selected) {
 		controller.booktab_model.setActiveBook(selected);
 		if (controller.resultlist_model.isFirstIconHit(e)) {
+			if (selected.getCondition() == Condition.WASTE) {
+				showDetailsOf(selected);
+				return;
+			}
 			if (controller.library.isBookLent(selected)) {
 				controller.library.reserveBook(selected);
 			} else {
@@ -76,7 +81,7 @@ public class ListItemMouseListener extends MouseAdapter {
 			controller.resultlist_model.update();
 			return;
 		}
-		if (controller.resultlist_model.isSecondIconHit(e)) {
+		if (controller.resultlist_model.isSecondIconHit(e) && controller.library.isBookLent(selected)) {
 			controller.library.returnBook(selected);
 			controller.resultlist_model.update();
 			return;
