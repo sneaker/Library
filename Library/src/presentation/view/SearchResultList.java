@@ -56,7 +56,7 @@ public class SearchResultList extends JList implements ListDataListener  {
 			}
 		});
 
-		resultList.addMouseListener(new presentation.control.ListItemMouseListener(this, controller));
+		resultList.addMouseListener(new presentation.control.ListItemMouseListener(controller));
 
 		JScrollPane scrollList = new JScrollPane(resultList);
 		scrollList.setBorder(null);

@@ -8,7 +8,6 @@ import java.awt.event.MouseEvent;
 
 import presentation.model.LibraryTabbedPaneModel;
 import presentation.model.ModelController;
-import presentation.view.SearchResultList;
 import domain.Book;
 import domain.Customer;
 
@@ -16,8 +15,7 @@ public class ListItemMouseListener extends MouseAdapter {
 
 	private ModelController controller;
 
-	public ListItemMouseListener(SearchResultList searchResultList,
-			ModelController controller) {
+	public ListItemMouseListener(ModelController controller) {
 		this.controller = controller;
 	}
 
