@@ -31,6 +31,7 @@ public class ActiveUserPanelModel extends Observable {
 	public void clearUser() {
 		customer = null;
 		fireDataChanged();
+		controller.resultlist_model.update();
 	}
 
 	public void switchtoSearch() {
