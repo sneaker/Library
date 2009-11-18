@@ -1,17 +1,18 @@
 /**
  * 
  */
-package presentation.view;
+package presentation.control;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import presentation.model.LibraryTabbedPaneModel;
 import presentation.model.ModelController;
+import presentation.view.SearchResultList;
 import domain.Book;
 import domain.Customer;
 
-final class ListItemMouseListener extends MouseAdapter {
+public class ListItemMouseListener extends MouseAdapter {
 
 	private ModelController controller;
 
