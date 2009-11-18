@@ -86,7 +86,7 @@ final class ListItemMouseListener extends MouseAdapter {
 		showDetailsOf(selected);
 	}
 
-	public void lendBook(Book selected) {
+	private void lendBook(Book selected) {
 		if (controller.activeuser_model.getCustomer() == null) {
 			controller.booktab_model.setActiveBook(selected);
 			controller.status_model
