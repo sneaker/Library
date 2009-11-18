@@ -12,6 +12,7 @@ public class ActionSearchPanel extends AbstractActionPanel {
 
 	public ActionSearchPanel(ModelController controller) {
 		super(controller);
+		controller.library.addObserver(this);
 	}
 
 	protected void initActionButtons() {

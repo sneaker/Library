@@ -56,6 +56,7 @@ public class TabSearchPanel extends JPanel implements Observer {
 		this.controller = controller;
 		model = controller.searchtab_model;
 		model.addObserver(this);
+		controller.library.addObserver(this);
 		initContentPane();
 		action_search_panel = new ActionSearchPanel(controller);
 		add(action_search_panel, BorderLayout.EAST);

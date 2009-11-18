@@ -58,17 +58,14 @@ public class LibraryTabbedPaneModel extends Observable {
 
 	public void setSearchTabActive() {
 		setActiveTab(SEARCH_TAB);
-		controller.booktab_model.fireDataChanged();
 	}
 
 	public void setBookTabActive() {
 		setActiveTab(BOOK_TAB);
-		controller.booktab_model.fireDataChanged();
 	}
 
 	public void setUserTabActive() {
 		setActiveTab(USER_TAB);
-		controller.booktab_model.fireDataChanged();
 	}
 
 }

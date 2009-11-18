@@ -82,6 +82,7 @@ public class LibraryMenuBar extends JMenuBar implements Observer {
 
 		initHelpMenu();
 		controller.tabbed_model.addObserver(this);
+		controller.library.addObserver(this);
 	}
 
 	private void initFileMenu() {

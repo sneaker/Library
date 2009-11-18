@@ -4,13 +4,15 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Observable;
 
-public class Library {
+public class Library extends Observable {
 	private List<Book> books;
 	private List<Customer> customers;
 	private List<Loan> loans;
 	private List<Title> titles;
 	private List<Loan> result;
+	private boolean firingEnabled = false;
 
 	public Library() {
 		books = new ArrayList<Book>();
@@ -23,27 +25,42 @@ public class Library {
 		if (!isBookLent(book)) {
 			Loan l = new Loan(customer, book);
 			loans.add(l);
+			fireDataChanged();
 			return l;
 		} else {
 			return null;
 		}
 	}
 
+	/**
+	 * After firing has been enabled, use this switch when changing a book,
+	 * title or loan directly.
+	 */
+	public void fireDataChanged() {
+		if (!firingEnabled)
+			return;
+		setChanged();
+		notifyObservers();
+	}
+
 	public Customer createAndAddCustomer(String name, String surname) {
 		Customer c = new Customer(name, surname);
 		customers.add(c);
+		fireDataChanged();
 		return c;
 	}
 
 	public Title createAndAddTitle(String name) {
 		Title t = new Title(name);
 		titles.add(t);
+		fireDataChanged();
 		return t;
 	}
 
 	public Book createAndAddBook(Title title) {
 		Book b = new Book(title);
 		books.add(b);
+		fireDataChanged();
 		return b;
 	}
 
@@ -52,8 +69,8 @@ public class Library {
 			if (l.getBook().getInventoryNumber() != (selected
 					.getInventoryNumber()))
 				continue;
-			if (!l.returnBook())
-				return;
+			l.returnBook();
+			fireDataChanged();
 			return;
 		}
 	}
@@ -216,5 +233,15 @@ public class Library {
 
 	public boolean isCustomerLocked(Customer customer) {
 		return (getCustomerMahnungen(customer).size() > 0);
+	}
+
+	/**
+	 * By default, the library does not fire changes, so after initialization,
+	 * enable this to receive status updates from the library.
+	 * 
+	 * @param firingEnabled use true to enable status update firing
+	 */
+	public void setFiringEnabled(boolean firingEnabled) {
+		this.firingEnabled = firingEnabled;
 	}
 }

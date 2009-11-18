@@ -16,6 +16,7 @@ public class ActionUserPanel extends AbstractActionPanel {
 		super(controller);
 		controller.activeuser_model.addObserver(this);
 		controller.usertab_model.addObserver(this);
+		controller.booktab_model.addObserver(this);
 	}
 
 	protected void initActionButtons() {

@@ -63,6 +63,8 @@ public class LibraryApp {
 
 		// create pseudo random books and loans
 		createBooksAndLoans(library);
+		
+		library.setFiringEnabled(true);
 	}
 
 	private static void createBooksAndLoans(Library library)

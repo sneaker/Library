@@ -27,6 +27,7 @@ public class TabUserLoanJPanel extends JPanel implements Observer {
 	public TabUserLoanJPanel(final ModelController controller) {
 		this.controller = controller;
 		controller.activeuser_model.addObserver(this);
+		controller.library.addObserver(this);
 		initGui();
 	}
 
