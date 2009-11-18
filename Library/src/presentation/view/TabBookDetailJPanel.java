@@ -3,6 +3,7 @@ package presentation.view;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyAdapter;
@@ -10,22 +11,17 @@ import java.awt.event.KeyEvent;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.swing.Action;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
-import javax.swing.KeyStroke;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.text.JTextComponent;
 
-import presentation.control.DisableGlassPaneListener;
-import presentation.control.MarkWasteAbstractAction;
-import presentation.control.MarkWastePrintFactureAbstractAction;
+import presentation.control.MarkDefectActionListener;
 import presentation.model.ModelController;
 import presentation.model.TabBookModel;
-import util.TextUtils;
 import domain.Book;
 import domain.Book.Condition;
 
@@ -233,7 +229,6 @@ public class TabBookDetailJPanel extends JPanel implements Observer {
 
 	public void update(Observable o, Object arg) {
 		if (arg instanceof Condition) {
-			System.out.println("Special case");
 			String c = Book.Condition.getConditionString((Condition)arg);
 			if (!conditionCombo.getSelectedItem().equals(c))
 				conditionCombo.setSelectedItem(c);
@@ -423,18 +418,7 @@ public class TabBookDetailJPanel extends JPanel implements Observer {
 			Condition newCondition = Book.Condition.getCondition((String)e.getItem());
 			oldCondition = controller.booktab_model.getActiveBook().getCondition();
 			if (newCondition == Book.Condition.WASTE && oldCondition != Book.Condition.WASTE) {
-				Book activeBook = controller.booktab_model.getActiveBook();
-				boolean noLoans = controller.library.getLoansPerBook(activeBook).size() == 0;
-				String tmp = activeBook.getTitle().getName();
-				final String book = tmp.substring(0, Math.min(tmp.length(), 20));
-
-				DialogChoice dialog = null;
-				if (noLoans)
-					dialog = getNoFactureDialog(book);
-				else
-					dialog = getFactureDialog(book, activeBook);
-
-				controller.main_model.setActiveMessage(dialog);
+				new MarkDefectActionListener(controller, oldCondition).actionPerformed(new ActionEvent(newCondition, 0, ""));
 			} else {
 				controller.booktab_model.getActiveBook().setCondition(
 						newCondition);
@@ -442,60 +426,6 @@ public class TabBookDetailJPanel extends JPanel implements Observer {
 						+ Book.Condition.getConditionString(newCondition));
 			}
 			oldCondition = newCondition;
-		}
-		
-		private DialogChoice getNoFactureDialog(String book) {
-			final String[] buttonNames = new String[] { "Ab&brechen",
-					"Nur &ausmustern" };
-
-			Action[] buttonActions = new Action[buttonNames.length];
-			buttonActions[0] = new DisableGlassPaneListener(controller, oldCondition);
-			buttonActions[1] = new MarkWasteAbstractAction(controller, book);
-
-			KeyStroke[] buttonKeys = new KeyStroke[buttonNames.length];
-			buttonKeys[0] = KeyStroke.getKeyStroke("ESCAPE");
-			buttonKeys[1] = KeyStroke.getKeyStroke("ENTER");
-
-			String dialogText = TextUtils
-					.markupText(TextUtils
-							.format(
-									"Das Buch \""
-											+ book
-											+ "\" wird als defekt markiert und ausgemustert. Es handelt sich um ein neu eingetragenes Buch. Falls Sie es nicht ausmustern wollen, wählen Sie \"abbrechen\".",
-									16));
-			DialogChoice dialog = DialogFactory.createChoiceDialog(dialogText,
-					buttonNames, buttonActions, buttonKeys);
-			return dialog;
-		}
-
-		private DialogChoice getFactureDialog(final String book, Book activeBook) {
-			final String customer = controller.library.getRecentLoanOf(activeBook)
-					.getCustomer().getFullName();
-			final String[] buttonNames = new String[] { "Ab&brechen",
-					"Nur &ausmustern", "Rechnung &Drucken" };
-
-			Action[] buttonActions = new Action[buttonNames.length];
-			buttonActions[0] = new DisableGlassPaneListener(controller, oldCondition);
-			buttonActions[1] = new MarkWasteAbstractAction(controller, book);
-			buttonActions[2] = new MarkWastePrintFactureAbstractAction(controller,
-					customer);
-
-			KeyStroke[] buttonKeys = new KeyStroke[buttonNames.length];
-			buttonKeys[0] = KeyStroke.getKeyStroke("ESCAPE");
-			buttonKeys[2] = KeyStroke.getKeyStroke("ENTER");
-
-			String dialogText = TextUtils
-					.markupText(TextUtils
-							.format(
-									"Das Buch \""
-											+ book
-											+ "\" wird ausgemustert. Für letzte(n) Ausleiher(in) "
-											+ TextUtils.format("\"" + customer + "\"", 20)
-											+ " wird eine Rechnung gedruckt. Legen Sie ein Rechnungspapier in den Drucker ein und klicken Sie auf \"Rechnung drucken\".",
-									16));
-			DialogChoice dialog = DialogFactory.createChoiceDialog(dialogText,
-					buttonNames, buttonActions, buttonKeys);
-			return dialog;
 		}
 	}
 

@@ -26,15 +26,30 @@ public class DialogChoice extends JPanel {
 	private static final long serialVersionUID = 1352776255213495535L;
 	private JLabel msgLabel;
 
+	/**
+	 * Create a dialog showing different options.
+	 * 
+	 * @param message
+	 *            The question to be posed
+	 * @param options
+	 *            The buttons wich should be shown to offer different options
+	 * @param buttonActions
+	 *            The actions which should be performed when clicking on a
+	 *            button; must have the same size as options
+	 * @param buttonKeys
+	 *            keys can be null; must have the same size as options
+	 * @return the dialog as a JPanel which can be displayed on the
+	 *         rootGlassPane.
+	 */
 	public DialogChoice(String message, String[] options,
 			Action[] buttonActions, KeyStroke[] buttonKeys) {
 
 		setLayout(new GridBagLayout());
 		setBorder(new LineBorder(Color.BLACK));
-		setBackground(DialogFactory.SHINY_BLUE);
+		setBackground(new Color(0xADD8E6));
 		setPreferredSize(new Dimension(
-				(int) (DialogFactory.ASPECT_RATIO_X * DialogFactory.DIALOG_SIZE_MULTIPLICATOR),
-				(int) (DialogFactory.ASPECT_RATIO_Y * DialogFactory.DIALOG_SIZE_MULTIPLICATOR)));
+				(int) (16 * 28),
+				(int) (9 * 28)));
 
 		msgLabel = new JLabel(message);
 		msgLabel.setIcon(ResManager.getImage("book64x64.png"));

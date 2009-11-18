@@ -11,9 +11,10 @@ import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 
 import presentation.model.ModelController;
-import presentation.view.DialogFactory;
+import presentation.view.DialogChoice;
 import util.TextUtils;
 import domain.Book;
+import domain.Book.Condition;
 
 /**
  * When fired, pops up a dialog asking whether the customer should pay the
@@ -22,9 +23,16 @@ import domain.Book;
  */
 public final class MarkDefectActionListener implements ActionListener {
 	private final ModelController controller;
+	private Condition oldCondition = null;
 
 	public MarkDefectActionListener(ModelController controller) {
 		this.controller = controller;
+	}
+
+	public MarkDefectActionListener(ModelController controller,
+			Condition oldCondition) {
+				this.controller = controller;
+				this.oldCondition = oldCondition;
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -55,7 +63,10 @@ public final class MarkDefectActionListener implements ActionListener {
 				"Nur &ausmustern" };
 
 		Action[] buttonActions = new Action[buttonNames.length];
-		buttonActions[0] = new DisableGlassPaneListener(controller);
+		if (oldCondition != null)
+			buttonActions[0] = new DisableGlassPaneListener(controller, oldCondition);
+		else
+			buttonActions[0] = new DisableGlassPaneListener(controller);
 		buttonActions[1] = new MarkWasteAbstractAction(controller, book);
 
 		KeyStroke[] buttonKeys = new KeyStroke[buttonNames.length];
@@ -69,8 +80,7 @@ public final class MarkDefectActionListener implements ActionListener {
 										+ book
 										+ "\" wird als defekt markiert und ausgemustert. Es handelt sich um ein neu eingetragenes Buch. Falls Sie es nicht ausmustern wollen, wählen Sie \"abbrechen\".",
 								16));
-		JPanel dialog = DialogFactory.createChoiceDialog(dialogText,
-				buttonNames, buttonActions, buttonKeys);
+		JPanel dialog = new DialogChoice(dialogText, buttonNames, buttonActions, buttonKeys);
 		return dialog;
 	}
 
@@ -81,7 +91,10 @@ public final class MarkDefectActionListener implements ActionListener {
 				"Nur &ausmustern", "Rechnung &Drucken" };
 
 		Action[] buttonActions = new Action[buttonNames.length];
-		buttonActions[0] = new DisableGlassPaneListener(controller);
+		if (oldCondition != null)
+			buttonActions[0] = new DisableGlassPaneListener(controller, oldCondition);
+		else
+			buttonActions[0] = new DisableGlassPaneListener(controller);
 		buttonActions[1] = new MarkWasteAbstractAction(controller, book);
 		buttonActions[2] = new MarkWastePrintFactureAbstractAction(controller,
 				customer);
@@ -99,8 +112,7 @@ public final class MarkDefectActionListener implements ActionListener {
 										+ TextUtils.format("\"" + customer + "\"", 20)
 										+ " wird eine Rechnung gedruckt. Legen Sie ein Rechnungspapier in den Drucker ein und klicken Sie auf \"Rechnung drucken\".",
 								16));
-		JPanel dialog = DialogFactory.createChoiceDialog(dialogText,
-				buttonNames, buttonActions, buttonKeys);
+		JPanel dialog = new DialogChoice (dialogText, buttonNames, buttonActions, buttonKeys);
 		return dialog;
 	}
 }

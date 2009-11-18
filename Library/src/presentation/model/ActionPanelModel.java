@@ -26,18 +26,6 @@ public class ActionPanelModel extends Observable {
 		notifyObservers();
 	}
 
-	public void markDefekt() {
-		if (controller.booktab_model.getActiveBook() == null)
-			return;
-		controller.booktab_model.getActiveBook().setCondition(
-				Book.Condition.WASTE);
-		controller.status_model
-				.setTempStatus("Buch wurde ausgemustert: "
-						+ controller.booktab_model.getActiveBook().getTitle()
-								.getName());
-		controller.booktab_model.fireDataChanged();
-	}
-
 	public void lendBook() {
 		Customer activeuser = controller.activeuser_model.getCustomer();
 		Book activebook = controller.booktab_model.getActiveBook();
