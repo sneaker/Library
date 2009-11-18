@@ -15,7 +15,7 @@ public final class MarkWasteAbstractAction extends AbstractAction {
 	private static final long serialVersionUID = 1L;
 	private final ModelController controller;
 
-	MarkWasteAbstractAction(ModelController controller, String book) {
+	public MarkWasteAbstractAction(ModelController controller, String book) {
 		this.controller = controller;
 		this.book = book;
 	}

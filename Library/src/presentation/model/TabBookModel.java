@@ -4,6 +4,7 @@ import java.util.Observable;
 
 import domain.Book;
 import domain.Customer;
+import domain.Book.Condition;
 
 public class TabBookModel extends Observable {
 
@@ -142,5 +143,10 @@ public class TabBookModel extends Observable {
 
 	public void setErrorAtPublisher(boolean b) {
 		this.isErrorAtPublisher = b;
+	}
+
+	public void resetConditionCombo(Condition condition) {
+		setChanged();
+		notifyObservers(condition);
 	}
 }

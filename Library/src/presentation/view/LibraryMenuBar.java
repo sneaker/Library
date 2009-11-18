@@ -19,7 +19,6 @@ import javax.swing.KeyStroke;
 import presentation.control.DisableGlassPaneListener;
 import presentation.model.LibraryTabbedPaneModel;
 import presentation.model.ModelController;
-import presentation.view.DialogFactory.ChoiceDialog;
 import util.ResManager;
 import util.TextUtils;
 
@@ -40,7 +39,7 @@ public class LibraryMenuBar extends JMenuBar implements Observer {
 			buttonKeys[0] = KeyStroke.getKeyStroke("ESCAPE");
 
 			String dialogText = TextUtils.markupText(TextUtils.format("<h2>BücherBox - Bücherverwaltung</h2>Ein Studenteprojekt realisiert durch Thomas Kallenberg und Martin Schwab an der HSR Rapperwil. <br />Dieses Projekt nutzt Bilder von Wikimedia Commons: http://commons.wikimedia.org/<br />(Nuvola- und Vista-Ion Set). ", 16));
-			ChoiceDialog dialog = DialogFactory.createChoiceDialog(dialogText,
+			DialogChoice dialog = DialogFactory.createChoiceDialog(dialogText,
 					buttonNames, buttonActions, buttonKeys);
 			controller.main_model.setActiveMessage(dialog);
 		}
