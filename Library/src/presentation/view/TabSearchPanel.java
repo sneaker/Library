@@ -11,6 +11,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
@@ -146,7 +147,9 @@ public class TabSearchPanel extends JPanel implements Observer {
 		resultPane = new JPanel();
 		resultPane.setLayout(new BorderLayout());
 		resultPane.setBorder(new TitledBorder("Suchergebnisse"));
-		resultPane.add(new SearchResultList(controller));
+		JScrollPane list = new JScrollPane(new SearchResultList(controller));
+		list.setBorder(new EmptyBorder(2, 2, 2, 2));
+		resultPane.add(list);
 		contentPanel.add(resultPane, BorderLayout.CENTER);
 	}
 
