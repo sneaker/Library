@@ -20,6 +20,8 @@ public class ActionPanelModel extends Observable {
 
 	public void changetoSearch() {
 		controller.tabbed_model.setActiveTab(LibraryTabbedPaneModel.SEARCH_TAB);
+		controller.searchtab_model.resetSearchText();
+		controller.searchtab_model.resetFocus();
 		setChanged();
 		notifyObservers();
 	}

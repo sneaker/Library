@@ -23,7 +23,6 @@ public class SearchResultListModel implements ListModel {
 	private ArrayList<Searchable> tmplist = new ArrayList<Searchable>();
 	private ArrayList<Searchable> displayed_results;
 	private ListDataListener listener;
-	//private ArrayList<ListDataListener> listeners = new ArrayList<ListDataListener>();
 	private Library library;
 	private String searchstring = new String();
 	private ModelController controller;
@@ -88,7 +87,7 @@ public class SearchResultListModel implements ListModel {
 		}
 		else {
 			searchstring = newstring;
-			buildagain(searchstring);
+			fullSearchAgain(searchstring);
 		}
 	}
 
@@ -119,6 +118,7 @@ public class SearchResultListModel implements ListModel {
 	public void delchar(String newstring) {
 		if (newstring.isEmpty()) {
 			resetSearch();
+			reBulidIndex();
 		}
 		// the last char has been deleted
 		else if (newstring.equals(searchstring.substring(0, searchstring.length()-1))) 
@@ -128,14 +128,15 @@ public class SearchResultListModel implements ListModel {
 		else //anything else happend 
 		{
 			resetSearch();
-			buildagain(newstring);
+			reBulidIndex();
+			fullSearchAgain(newstring);
 		}
 
 		sort();
 		update();
 	}
 
-	private void buildagain(String newstring) {
+	private void fullSearchAgain(String newstring) {
 		for (char c : newstring.toCharArray()) {
 			searchstring += c;
 			newsearch();
@@ -149,6 +150,8 @@ public class SearchResultListModel implements ListModel {
 	
 	public void resetAndDisplaySearch() {
 		resetSearch();
+		reBulidIndex();
+		controller.searchtab_model.resetFocus();
 		sort();
 		update();
 	}
@@ -169,7 +172,6 @@ public class SearchResultListModel implements ListModel {
 		if (history.size() == 1) 
 			return;
 		searchstring = "";
-		reBulidIndex();
 	}
 
 	public void update() {
@@ -192,6 +194,7 @@ public class SearchResultListModel implements ListModel {
 
 	public void showavailableBooks() {
 		resetSearch();
+		reBulidIndex();
 		ArrayList<Searchable> tmplist = new ArrayList<Searchable>();
 
 		for (Searchable item : displayed_results) {
@@ -213,6 +216,7 @@ public class SearchResultListModel implements ListModel {
 
 	public void showDefektBook() {
 		resetSearch();
+		reBulidIndex();
 		ArrayList<Searchable> tmplist = new ArrayList<Searchable>();
 
 		for (Searchable item : displayed_results) {
@@ -230,6 +234,7 @@ public class SearchResultListModel implements ListModel {
 	}
 
 	public void showLentBooks() {
+		reBulidIndex();
 		ArrayList<Searchable> tmplist = new ArrayList<Searchable>();
 
 		for (Book book : library.getLentBooks()) {
@@ -243,6 +248,7 @@ public class SearchResultListModel implements ListModel {
 	}
 
 	public void showUser() {
+		reBulidIndex();
 		ArrayList<Searchable> tmplist = new ArrayList<Searchable>();
 
 		for (Customer customer : library.getCustomers()) {
