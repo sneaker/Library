@@ -31,6 +31,7 @@ public class TabBookLoanJPanel extends JPanel implements Observer {
 		this.controller = controller;
 		bmodel = controller.booktab_model;
 		controller.library.addObserver(this);
+		controller.booktab_model.addObserver(this);
 		initGUI();
 	}
 
