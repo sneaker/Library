@@ -7,6 +7,7 @@ import java.util.Observer;
 
 import javax.swing.AbstractAction;
 import javax.swing.AbstractButton;
+import javax.swing.Action;
 import javax.swing.ButtonGroup;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -15,9 +16,12 @@ import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JSeparator;
 import javax.swing.KeyStroke;
 
+import presentation.control.DisableGlassPaneListener;
 import presentation.model.LibraryTabbedPaneModel;
 import presentation.model.ModelController;
+import presentation.view.DialogFactory.ChoiceDialog;
 import util.ResManager;
+import util.TextUtils;
 
 /**
  * Repräsentiert und verwaltet die Menübar für die Bibliotheksapplikation.
@@ -25,6 +29,22 @@ import util.ResManager;
  * anzupassen.
  */
 public class LibraryMenuBar extends JMenuBar implements Observer {
+
+	public class HelpAboutDialogActionListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			final String[] buttonNames = new String[] { "&OK" };
+			Action[] buttonActions = new Action[buttonNames.length];
+			buttonActions[0] = new DisableGlassPaneListener(controller);
+
+			KeyStroke[] buttonKeys = new KeyStroke[buttonNames.length];
+			buttonKeys[0] = KeyStroke.getKeyStroke("ESCAPE");
+
+			String dialogText = TextUtils.markupText(TextUtils.format("<h2>BücherBox - Bücherverwaltung</h2>Ein Studenteprojekt realisiert durch Thomas Kallenberg und Martin Schwab an der HSR Rapperwil. <br />Dieses Projekt nutzt Bilder von Wikimedia Commons: http://commons.wikimedia.org/<br />(Nuvola- und Vista-Ion Set). ", 16));
+			ChoiceDialog dialog = DialogFactory.createChoiceDialog(dialogText,
+					buttonNames, buttonActions, buttonKeys);
+			controller.main_model.setActiveMessage(dialog);
+		}
+	}
 
 	private static final long serialVersionUID = 1L;
 	private JMenuItem reservedMenuItem;
@@ -74,14 +94,16 @@ public class LibraryMenuBar extends JMenuBar implements Observer {
 			resetMenuItem.setAccelerator(KeyStroke.getKeyStroke("F4"));
 			resetMenuItem.setRolloverEnabled(true);
 			resetMenuItem.setIcon(ResManager.getImage("reset16x16h.png"));
-			resetMenuItem.setRolloverIcon(ResManager.getImage("reset16x16.png"));
+			resetMenuItem
+					.setRolloverIcon(ResManager.getImage("reset16x16.png"));
 			resetMenuItem.addActionListener(new ChangeViewActionListener(
 					LibraryTabbedPaneModel.SEARCH_TAB) {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					super.actionPerformed(e);
 					controller.searchtab_model.resetSearchText();
-					controller.tabbed_model.setActiveTab(LibraryTabbedPaneModel.SEARCH_TAB);
+					controller.tabbed_model
+							.setActiveTab(LibraryTabbedPaneModel.SEARCH_TAB);
 					controller.booktab_model.clearBook();
 					controller.activeuser_model.clearUser();
 					controller.status_model.setTempStatus("Neustart");
@@ -214,6 +236,7 @@ public class LibraryMenuBar extends JMenuBar implements Observer {
 		aboutMenuItem.setIcon(ResManager.getImage("info16x16h.png"));
 		aboutMenuItem.setRolloverIcon(ResManager.getImage("info16x16.png"));
 		aboutMenuItem.setMnemonic(java.awt.event.KeyEvent.VK_B);
+		aboutMenuItem.addActionListener(new HelpAboutDialogActionListener());
 		helpMenu.add(aboutMenuItem);
 	}
 
