@@ -20,8 +20,9 @@ import domain.Searchable;
 public class SearchResultListModel implements ListModel {
 
 	private ArrayList<ArrayList<Searchable>> history = new ArrayList<ArrayList<Searchable>>();
-	private ArrayList<ListDataListener> listeners = new ArrayList<ListDataListener>();
+	private ArrayList<Searchable> tmplist = new ArrayList<Searchable>();
 	private ArrayList<Searchable> displayed_results;
+	private ListDataListener listener;
 	private Library library;
 	private String searchstring = new String();
 	private ModelController controller;
@@ -37,11 +38,13 @@ public class SearchResultListModel implements ListModel {
 	}
 
 	private void initLibrary() {
-		displayed_results = new ArrayList<Searchable>();
-		for (Searchable user : library.getCustomers()) {
-			displayed_results.add(user);
-		}
+		reBulidIndex();
+		setTestData();
+		sort();
+	}
 
+
+	private void setTestData() {
 		// TODO [Release] Remove test loan, but leave for Demonstration [Martin]
 		// Betrifft Benutzer Jenni Heinrich
 		if (displayed_results.get(0) instanceof Customer) {
@@ -59,15 +62,10 @@ public class SearchResultListModel implements ListModel {
 			} catch (IllegalLoanOperationException e) {
 			}
 		}
-
-		for (int i = 0; i < 10; i++)
-			displayed_results.add(library.getAvailableBooks().get(i));
-
-		sort();
 	}
 
 	public void addListDataListener(ListDataListener l) {
-		listeners.add(l);
+		listener = l;
 	}
 
 	public Searchable getElementAt(int index) {
@@ -79,25 +77,23 @@ public class SearchResultListModel implements ListModel {
 	}
 
 	public void removeListDataListener(ListDataListener l) {
-		listeners.remove(l);
+		listener = null;
 	}
 
 	public void simpleKeyAdd(String newstring) {
-		if (newstring.substring(0, newstring.length()-1).equals(searchstring)) {
+		if (newstring.length() < 1 || newstring.substring(0, newstring.length()-1).equals(searchstring)) {
 			searchstring = newstring;
 			newsearch();
 		}
 		else {
 			searchstring = newstring;
-			buildagain(searchstring);
+			fullSearchAgain(searchstring);
 		}
 	}
 
 	private void newsearch() {
-
 		history.add(displayed_results);
-		ArrayList<Searchable> tmplist = new ArrayList<Searchable>();
-
+		
 		for (Searchable item : displayed_results) {
 			if (item.searchTitle().toLowerCase().contains(searchstring))
 				tmplist.add(item);
@@ -111,15 +107,18 @@ public class SearchResultListModel implements ListModel {
 				}
 			}
 		}
+		
 		displayed_results = tmplist;
-
+		
 		sort();
 		update();
+		tmplist = new ArrayList<Searchable>();
 	}
 
 	public void delchar(String newstring) {
 		if (newstring.isEmpty()) {
 			resetSearch();
+			reBulidIndex();
 		}
 		// the last char has been deleted
 		else if (newstring.equals(searchstring.substring(0, searchstring.length()-1))) 
@@ -128,15 +127,16 @@ public class SearchResultListModel implements ListModel {
 		} 
 		else //anything else happend 
 		{
-			buildagain(newstring);
+			resetSearch();
+			reBulidIndex();
+			fullSearchAgain(newstring);
 		}
 
 		sort();
 		update();
 	}
 
-	private void buildagain(String newstring) {
-		resetSearch();
+	private void fullSearchAgain(String newstring) {
 		for (char c : newstring.toCharArray()) {
 			searchstring += c;
 			newsearch();
@@ -144,29 +144,38 @@ public class SearchResultListModel implements ListModel {
 	}
 
 	private void goOneBack() {
-		searchstring = searchstring.substring(0, searchstring.length() - 1);				
+		searchstring = searchstring.substring(0, searchstring.length() - 1);
 		displayed_results = history.remove(history.size() - 1);
 	}
 	
 	public void resetAndDisplaySearch() {
 		resetSearch();
+		reBulidIndex();
+		controller.searchtab_model.resetFocus();
 		sort();
 		update();
 	}
 
+	private void reBulidIndex() {
+		history.clear();
+		displayed_results = new ArrayList<Searchable>();
+		for (Searchable user : library.getCustomers()) {
+			displayed_results.add(user);
+		}
+		for (int i = 0; i < 10; i++) {
+			displayed_results.add(library.getAvailableBooks().get(i));
+		}
+		history.add(displayed_results);
+	}
+	
 	private void resetSearch() {
-		if (history.size() == 0)
+		if (history.size() == 1) 
 			return;
 		searchstring = "";
-		displayed_results = history.get(0);
-		history.clear();
-		history.add(displayed_results);
 	}
 
 	public void update() {
-		for (ListDataListener listener : listeners) {
-			listener.contentsChanged(null);
-		}
+		listener.contentsChanged(null);
 	}
 
 	private void sort() {
@@ -185,6 +194,7 @@ public class SearchResultListModel implements ListModel {
 
 	public void showavailableBooks() {
 		resetSearch();
+		reBulidIndex();
 		ArrayList<Searchable> tmplist = new ArrayList<Searchable>();
 
 		for (Searchable item : displayed_results) {
@@ -206,6 +216,7 @@ public class SearchResultListModel implements ListModel {
 
 	public void showDefektBook() {
 		resetSearch();
+		reBulidIndex();
 		ArrayList<Searchable> tmplist = new ArrayList<Searchable>();
 
 		for (Searchable item : displayed_results) {
@@ -223,6 +234,7 @@ public class SearchResultListModel implements ListModel {
 	}
 
 	public void showLentBooks() {
+		reBulidIndex();
 		ArrayList<Searchable> tmplist = new ArrayList<Searchable>();
 
 		for (Book book : library.getLentBooks()) {
@@ -236,6 +248,7 @@ public class SearchResultListModel implements ListModel {
 	}
 
 	public void showUser() {
+		reBulidIndex();
 		ArrayList<Searchable> tmplist = new ArrayList<Searchable>();
 
 		for (Customer customer : library.getCustomers()) {
@@ -306,7 +319,6 @@ public class SearchResultListModel implements ListModel {
 	}
 
 	public void fireDataChanged(MouseListener source, int index) {
-		for (ListDataListener l : listeners)
-			l.contentsChanged(new ListDataEvent(source, ListDataEvent.CONTENTS_CHANGED, index, index));
+			listener.contentsChanged(new ListDataEvent(source, ListDataEvent.CONTENTS_CHANGED, index, index));
 	}
 }

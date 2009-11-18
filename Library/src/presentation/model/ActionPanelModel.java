@@ -20,6 +20,8 @@ public class ActionPanelModel extends Observable {
 
 	public void changetoSearch() {
 		controller.tabbed_model.setActiveTab(LibraryTabbedPaneModel.SEARCH_TAB);
+		controller.searchtab_model.resetSearchText();
+		controller.searchtab_model.resetFocus();
 		setChanged();
 		notifyObservers();
 	}
@@ -33,6 +35,7 @@ public class ActionPanelModel extends Observable {
 				.setTempStatus("Buch wurde ausgemustert: "
 						+ controller.booktab_model.getActiveBook().getTitle()
 								.getName());
+		controller.booktab_model.fireDataChanged();
 	}
 
 	public void lendBook() {
