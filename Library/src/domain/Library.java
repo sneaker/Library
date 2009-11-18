@@ -146,7 +146,9 @@ public class Library {
 	}
 
 	/**
-	 * Searches for loans of a specific book.
+	 * Searches for loans of a specific book and returns a list of Loans which
+	 * stores the newest Loans at the end of the list.
+	 * 
 	 * @param book
 	 *            the book for which loans are looked for
 	 * @return empty list if nothing found
@@ -175,12 +177,20 @@ public class Library {
 		});
 		return result;
 	}
-	
+
+	/**
+	 * Picks out the last Loan of getRecentLoanOf(Book) which is the most recent
+	 * one.
+	 * 
+	 * @param book
+	 *            search the most recent loan of this specific book
+	 * @return the most recent loan if available, else null
+	 */
 	public Loan getRecentLoanOf(Book book) {
 		List<Loan> l = getLoansPerBook(book);
-		if (l.size() == 0)
+		if (l.size() < 1)
 			return null;
-		return getLoansPerBook(book).get(0);
+		return l.get(l.size() - 1);
 	}
 
 	public int getMaxLendDays() {
@@ -189,7 +199,7 @@ public class Library {
 
 	public ArrayList<Loan> getCustomerMahnungen(Customer c) {
 		ArrayList<Loan> result = new ArrayList<Loan>();
-		for (Loan l : getCustomerActiveLoans(c)){
+		for (Loan l : getCustomerActiveLoans(c)) {
 			if (l.isOverdue())
 				result.add(l);
 		}
@@ -198,7 +208,7 @@ public class Library {
 
 	public List<Loan> getCustomerActiveLoans(Customer c) {
 		result = new ArrayList<Loan>();
-		for (Loan l: getCustomerLoans(c))
+		for (Loan l : getCustomerLoans(c))
 			if (l.isLent())
 				result.add(l);
 		return result;
