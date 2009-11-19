@@ -91,6 +91,7 @@ public class LibraryMenuBar extends JMenuBar implements Observer {
 		{
 			resetMenuItem = new JMenuItem("Neu");
 			resetMenuItem.setAccelerator(KeyStroke.getKeyStroke("F4"));
+			resetMenuItem.setMnemonic('n');
 			resetMenuItem.setRolloverEnabled(true);
 			resetMenuItem.setIcon(ResManager.getImage("reset16x16h.png"));
 			resetMenuItem
@@ -115,6 +116,7 @@ public class LibraryMenuBar extends JMenuBar implements Observer {
 
 			exitMenuItem = new JMenuItem("Beenden");
 			exitMenuItem.setAction(getExitAction());
+			exitMenuItem.setMnemonic('b');
 			exitMenuItem.setIcon(ResManager.getImage("exit16x16h.png"));
 			exitMenuItem.setRolloverIcon(ResManager.getImage("exit16x16.png"));
 			fileMenu.add(exitMenuItem);
@@ -132,6 +134,7 @@ public class LibraryMenuBar extends JMenuBar implements Observer {
 			searchMenuItem = new JRadioButtonMenuItem();
 			searchMenuItem.setText("Recherche");
 			searchMenuItem.setAccelerator(KeyStroke.getKeyStroke("F5"));
+			searchMenuItem.setMnemonic('c');
 			searchMenuItem.setSelected(true);
 			searchMenuItem
 					.addActionListener(createChangeViewAction(LibraryTabbedPaneModel.SEARCH_TAB));
@@ -141,6 +144,7 @@ public class LibraryMenuBar extends JMenuBar implements Observer {
 			bookMenuItem = new JRadioButtonMenuItem();
 			bookMenuItem.setText("Buchdetails");
 			bookMenuItem.setAccelerator(KeyStroke.getKeyStroke("F6"));
+			bookMenuItem.setMnemonic('b');
 			bookMenuItem
 					.addActionListener(createChangeViewAction(LibraryTabbedPaneModel.BOOK_TAB));
 			viewGroup.add(bookMenuItem);
@@ -149,6 +153,7 @@ public class LibraryMenuBar extends JMenuBar implements Observer {
 			userMenuItem = new JRadioButtonMenuItem();
 			userMenuItem.setText("Benutzerdetails");
 			userMenuItem.setAccelerator(KeyStroke.getKeyStroke("F7"));
+			userMenuItem.setMnemonic('u');
 			userMenuItem
 					.addActionListener(createChangeViewAction(LibraryTabbedPaneModel.USER_TAB));
 			viewGroup.add(userMenuItem);
@@ -180,12 +185,14 @@ public class LibraryMenuBar extends JMenuBar implements Observer {
 
 		allBooksMenuItem = new JMenuItem();
 		allBooksMenuItem.setText("Alle Bücher");
+		allBooksMenuItem.setMnemonic('l');
 		searchMenu.add(allBooksMenuItem);
 
 		damagedBooksMenuItem = new JMenuItem();
 		damagedBooksMenuItem.setText("Beschädigte Bücher");
+		damagedBooksMenuItem.setMnemonic('d');
 		searchMenu.add(damagedBooksMenuItem);
-
+		
 		searchMenu.add(getAusgelieheneMenuItem());
 		searchMenu.add(getReservedMenuItem());
 	}

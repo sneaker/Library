@@ -73,20 +73,8 @@ public class ActionPanelModel extends Observable {
 		notifyObservers();
 	}
 
-	public void showavailableBooks() {
-		controller.searchtab_model.showavailableBooks();
-	}
-
-	public void showDefektBooks() {
-		controller.searchtab_model.showDefektBooks();
-	}
-
 	public void showLentBooks() {
 		controller.searchtab_model.showLentBooks();
-	}
-
-	public void resetSearch() {
-		controller.searchtab_model.resetSearchText();
 	}
 
 	public void clearuser() {

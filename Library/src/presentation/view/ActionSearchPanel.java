@@ -5,6 +5,8 @@ import java.awt.event.ActionListener;
 import java.util.Observable;
 
 import presentation.control.BookCreateActionListener;
+import presentation.control.NewSearchText;
+import presentation.control.ShowDefectBooks;
 import presentation.control.UserCreateActionListener;
 import presentation.model.ModelController;
 
@@ -35,31 +37,19 @@ public class ActionSearchPanel extends AbstractActionPanel {
 	private void initShowAvailableBooks() {
 		buttons.put("available", new ActionButton(
 				"Verfügbare Bücher", "availablebooks32x32h.png", "availablebooks32x32.png"));
-		buttons.get("available").addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				model.showavailableBooks();
-			}
-		});
+		buttons.get("available").addActionListener(new ShowAvailableBooksAction(controller));
 	}
 
 	private void initShowDefektBooks() {
 		buttons.put("showdefekt", new ActionButton("Defekte Bücher", "wastebooks32x32h.png",
 				"wastebooks32x32.png"));
-		buttons.get("showdefekt").addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				model.showDefektBooks();
-			}
-		});
+		buttons.get("showdefekt").addActionListener(new ShowDefectBooks(controller));
 	}
 
 	private void initSearchButton() {
 		buttons.put("newsearch", new ActionButton("Neue Recherche",
 				"search32x32h.png", "search32x32.png"));
-		buttons.get("newsearch").addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				model.resetSearch();
-			}
-		});
+		buttons.get("newsearch").addActionListener(new NewSearchText(controller));
 	}
 
 	private void initNewUserButton() {
