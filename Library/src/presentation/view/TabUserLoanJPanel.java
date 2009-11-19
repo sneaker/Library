@@ -44,6 +44,7 @@ public class TabUserLoanJPanel extends JPanel implements Observer {
 				} else {
 					controller.usertab_model.setActiveLoan(null);
 				}
+				getParent().validate();
 			}
 		});
 
