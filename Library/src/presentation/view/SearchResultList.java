@@ -11,6 +11,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 
+import presentation.control.ListItemMouseListener;
 import presentation.model.ModelController;
 import presentation.model.SearchResultListModel;
 
@@ -51,7 +52,7 @@ public class SearchResultList extends JList implements ListDataListener  {
 			}
 		});
 
-		addMouseListener(new presentation.control.ListItemMouseListener(controller));
+		addMouseListener(new ListItemMouseListener(controller));
 	}
 
 	private int eventToListIndex(MouseEvent e) {

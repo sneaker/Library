@@ -68,4 +68,8 @@ public class LibraryTabbedPaneModel extends Observable {
 		setActiveTab(USER_TAB);
 	}
 
+	public boolean isUserTabActive() {
+		return getActiveTab() == USER_TAB;
+	}
+
 }

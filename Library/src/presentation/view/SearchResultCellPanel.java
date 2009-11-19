@@ -121,10 +121,12 @@ class ResultCellBookPanel extends SearchResultCellPanel {
 			return;
 
 		if (library.isBookLent(active)) {
-			g.drawImage(ResManager.getImage(IMG_AGENDA32X32).getImage(),
-					getX() + 70, getHeight() - 37, null);
 			g.drawImage(ResManager.getImage(IMG_RETURN32X32).getImage(),
 					getX() + 110, getHeight() - 37, null);
+			if (controller.tabbed_model.isUserTabActive())
+				return;
+			g.drawImage(ResManager.getImage(IMG_AGENDA32X32).getImage(),
+					getX() + 70, getHeight() - 37, null);
 			return;
 		}
 		if (controller.activeuser_model.getCustomer() == null || active.getCondition() == Condition.WASTE)

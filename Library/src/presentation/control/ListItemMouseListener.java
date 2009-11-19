@@ -10,6 +10,7 @@ import presentation.model.LibraryTabbedPaneModel;
 import presentation.model.ModelController;
 import domain.Book;
 import domain.Customer;
+import domain.Loan;
 import domain.Book.Condition;
 
 public class ListItemMouseListener extends MouseAdapter {
@@ -51,6 +52,34 @@ public class ListItemMouseListener extends MouseAdapter {
 			controller.activeuser_model.setActiveUser(selected);
 			controller.tabbed_model.setUserTabActive();
 		}
+	}
+
+	public void loanClicked(MouseEvent e, int index) {
+		if (index < 0)
+			return;
+
+		Object o = controller.loanModel.getElementAt(index);
+		if (!(o instanceof Loan))
+			return;
+		
+		handleLoanClick(e, index, (Loan)o);
+	}
+
+	private void handleLoanClick(MouseEvent e, int index, Loan selected) {
+		if (isSecondIconHit(e, index) && controller.library.isBookLent(selected.getBook())) {
+			controller.library.returnBook(selected.getBook());
+			return;
+		}
+	}
+
+	// Duplicated from resultlistmodel
+	private boolean isSecondIconHit(MouseEvent e, int index) {
+		if (e.getX() < 110 || e.getX() > (110 + 32))
+			return false;
+		if ((e.getY() < 30 + 64 * index)
+				|| e.getY() > 62 + 64 * index)
+			return false;
+		return true;
 	}
 
 	/**
@@ -105,5 +134,4 @@ public class ListItemMouseListener extends MouseAdapter {
 		controller.booktab_model.setActiveBook(selected);
 		controller.tabbed_model.setActiveTab(LibraryTabbedPaneModel.BOOK_TAB);
 	}
-
 }
