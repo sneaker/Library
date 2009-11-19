@@ -92,10 +92,8 @@ public class TabSearchPanel extends JPanel implements Observer {
 					newstring += e.getKeyChar();
 					if (oldstring.equals(newstring.substring(0,newstring.length()-1))) {
 						model.forwardKeyEvent(oldstring);
-						//System.out.println("one good up");
 					}
 					else {
-						//System.out.println("submitting new string");
 						model.forwardKeyEvent(searchField.getText());
 					}
 				}

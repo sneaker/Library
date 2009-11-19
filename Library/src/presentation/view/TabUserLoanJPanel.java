@@ -89,7 +89,6 @@ public class TabUserLoanJPanel extends JPanel implements Observer {
 		List<Loan> newLoans = controller.library
 				.getCustomerActiveLoans(customer);
 		if (lastLoans == null || !lastLoans.equals(newLoans)) {
-			System.out.println("New loans detected, updating list...");
 			controller.loanModel.clear();
 			for (Loan l : newLoans)
 				controller.loanModel.addElement(l);

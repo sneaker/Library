@@ -4,6 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Observable;
 
+import presentation.control.BookCreateActionListener;
+import presentation.control.UserCreateActionListener;
 import presentation.model.ModelController;
 
 public class ActionSearchPanel extends AbstractActionPanel {
@@ -18,6 +20,7 @@ public class ActionSearchPanel extends AbstractActionPanel {
 	protected void initActionButtons() {
 		initSearchButton();
 		initNewUserButton();
+		initNewBookButton();
 		initSpacer();
 		initShowAvailableBooks();
 		initShowDefektBooks();
@@ -62,9 +65,23 @@ public class ActionSearchPanel extends AbstractActionPanel {
 	private void initNewUserButton() {
 		buttons.put("newuser", new ActionButton("Benutzer erstellen",
 				"newcustomer32x32h.png", "newcustomer32x32.png"));
-		buttons.get("newuser").addActionListener(new ActionListener() {
+		buttons.get("newuser").addActionListener(new UserCreateActionListener(controller){
+			@Override
 			public void actionPerformed(ActionEvent e) {
-				model.createUser();
+				super.actionPerformed(e);
+				controller.tabbed_model.setUserTabActive();
+			}
+		});
+	}
+	
+	private void initNewBookButton() {
+		buttons.put("newbook", new ActionButton("Buch erstellen",
+				"new32x32h.png", "new32x32.png"));
+		buttons.get("newbook").addActionListener(new BookCreateActionListener(controller){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				super.actionPerformed(e);
+				controller.tabbed_model.setBookTabActive();
 			}
 		});
 	}

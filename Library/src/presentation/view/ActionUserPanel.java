@@ -4,8 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Observable;
 
+import presentation.control.UserCreateActionListener;
 import presentation.model.ModelController;
-import domain.Customer;
 import domain.Loan;
 
 public class ActionUserPanel extends AbstractActionPanel {
@@ -107,15 +107,7 @@ public class ActionUserPanel extends AbstractActionPanel {
 	private void initAddUserButton() {
 		buttons.put("adduser", new ActionButton("Benutzer erfassen",
 				"newcustomer32x32h.png", "newcustomer32x32.png"));
-		buttons.get("adduser").addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				Customer add = controller.library.createAndAddCustomer("Neuer", "Benutzer");;
-				add.setAdress("Strasse", 1234, "Ort");
-				controller.activeuser_model.setActiveUser(add);
-				controller.usertab_model.setEditing(true);
-				controller.status_model.setTempStatus("Neuer Benutzer erstellt");
-			}
-		});
+		buttons.get("adduser").addActionListener(new UserCreateActionListener(controller));
 	}
 
 	private void initClearUserButton() {

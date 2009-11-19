@@ -4,10 +4,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Observable;
 
+import presentation.control.BookCreateActionListener;
 import presentation.control.MarkDefectActionListener;
 import presentation.model.ModelController;
-import domain.Book;
-import domain.Title;
 
 public class ActionBookPanel extends AbstractActionPanel {
 
@@ -62,18 +61,7 @@ public class ActionBookPanel extends AbstractActionPanel {
 	private void initCreateButton() {
 		buttons.put("create", new ActionButton("Buch erstellen",
 				"new32x32h.png", "new32x32.png"));
-		buttons.get("create").addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				Title addTitle = controller.library.createAndAddTitle("Neuer Titel");
-				addTitle.setAuthor("");
-				addTitle.setPublisher("");
-				Book addBook = controller.library.createAndAddBook(addTitle);
-				controller.status_model.setTempStatus("Neues Buch erstellt mit id " + addBook.getInventoryNumber());
-				controller.booktab_model.setActiveBook(addBook);
-				controller.booktab_model.backupBookContent();
-				controller.booktab_model.setEditing(true);
-			}
-		});
+		buttons.get("create").addActionListener(new BookCreateActionListener(controller));
 	}
 
 	private void initEditButton() {

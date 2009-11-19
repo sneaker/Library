@@ -51,10 +51,6 @@ public class ActionPanelModel extends Observable {
 				+ getCustomerName("für: "));
 	}
 
-	public void createUser() {
-		// TODO Auto-generated method stub
-	}
-
 	public void returnBook() {
 		controller.library.returnBook(controller.booktab_model.getActiveBook());
 		fireDataChanged();
