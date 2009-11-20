@@ -60,7 +60,7 @@ public class ActionBookPanel extends AbstractActionPanel {
 
 	private void initCreateButton() {
 		buttons.put("create", new ActionButton("Buch erstellen",
-				"new32x32h.png", "new32x32.png"));
+				"newbook32x32h.png", "newbook32x32.png"));
 		buttons.get("create").addActionListener(new BookCreateActionListener(controller));
 	}
 

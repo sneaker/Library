@@ -57,7 +57,7 @@ public class ActionSearchPanel extends AbstractActionPanel {
 
 	private void initNewBookButton() {
 		buttons.put("newbook", new ActionButton("Buch erstellen",
-				"new32x32h.png", "new32x32.png"));
+				"newbook32x32h.png", "newbook32x32.png"));
 		buttons.get("newbook").addActionListener(
 				new BookCreateActionListener(controller));
 	}
