@@ -3,10 +3,16 @@ package presentation.view;
 import java.awt.BorderLayout;
 import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import javax.swing.AbstractAction;
+import javax.swing.ActionMap;
+import javax.swing.InputMap;
+import javax.swing.JComponent;
 import javax.swing.JList;
+import javax.swing.KeyStroke;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
@@ -14,6 +20,8 @@ import javax.swing.event.ListDataListener;
 import presentation.control.ListItemMouseListener;
 import presentation.model.ModelController;
 import presentation.model.SearchResultListModel;
+import domain.Book;
+import domain.Customer;
 
 /**
  * Displays search results for books and users combined with specific actions
@@ -53,6 +61,24 @@ public class SearchResultList extends JList implements ListDataListener  {
 		});
 
 		addMouseListener(new ListItemMouseListener(controller));
+		
+		InputMap inputMap = getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+		inputMap.put(KeyStroke.getKeyStroke("ENTER"), "go");
+		ActionMap actionMap = getActionMap();
+		setActionMap(actionMap);
+		actionMap.put("go", new AbstractAction() {
+			private static final long serialVersionUID = 8518026045384869462L;
+			public void actionPerformed(ActionEvent e) {
+				SearchResultList s = (SearchResultList)(e.getSource());
+				if (s.getSelectedValue() instanceof Book) {
+					controller.booktab_model.setActiveBook((Book)s.getSelectedValue());
+					controller.tabbed_model.setBookTabActive();
+				} else if (s.getSelectedValue() instanceof Customer) {
+					controller.activeuser_model.setActiveUser((Customer)s.getSelectedValue());
+					controller.tabbed_model.setUserTabActive();
+				}
+			}
+		});
 	}
 
 	private int eventToListIndex(MouseEvent e) {
