@@ -123,16 +123,36 @@ class ResultCellBookPanel extends SearchResultCellPanel {
 		if (library.isBookLent(active)) {
 			g.drawImage(ResManager.getImage(IMG_RETURN32X32).getImage(),
 					getX() + 110, getHeight() - 37, null);
-			if (controller.tabbed_model.isUserTabActive())
+			if (!isCustomerActive() || isCustomerLendingBook())
 				return;
 			g.drawImage(ResManager.getImage(IMG_AGENDA32X32).getImage(),
 					getX() + 70, getHeight() - 37, null);
 			return;
 		}
-		if (controller.activeuser_model.getCustomer() == null || active.getCondition() == Condition.WASTE)
+		if (!isBookLendable())
 			return;
 		g.drawImage(ResManager.getImage(IMG_ADD32X32).getImage(), getX() + 70,
 				getHeight() - 37, null);
+	}
+
+	private boolean isCustomerLendingBook() {
+		return controller.activeuser_model.getCustomer().equals(controller.library.getRecentLoanOf(active).getCustomer());
+	}
+
+	private boolean isCustomerActive() {
+		return controller.activeuser_model.getCustomer() != null;
+	}
+
+	private boolean isBookLendable() {
+		return isCustomerActive() && !isCustomerLocked() && isBookWaste();
+	}
+
+	private boolean isBookWaste() {
+		return active.getCondition() != Condition.WASTE;
+	}
+
+	private boolean isCustomerLocked() {
+		return controller.library.isCustomerLocked(controller.activeuser_model.getCustomer());
 	}
 
 	@Override

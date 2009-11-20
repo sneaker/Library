@@ -2,6 +2,8 @@ package presentation.view;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.MouseEvent;
 import java.util.List;
 import java.util.Observable;
@@ -58,6 +60,15 @@ public class TabUserLoanJPanel extends JPanel implements Observer {
 			public void mouseClicked(MouseEvent e) {
 				super.loanClicked(e, loanList.locationToIndex(e.getPoint()));
 				getParent().validate();
+			}
+		});
+		loanList.addFocusListener(new FocusListener() {
+			public void focusLost(FocusEvent e) {
+			}
+			
+			public void focusGained(FocusEvent e) {
+				if (loanList.getSelectedIndex() == -1 && loanList.getModel().getSize() > 0)
+					loanList.setSelectedIndex(0);
 			}
 		});
 //		loanList.addMouseMotionListener(new MouseAdapter() {

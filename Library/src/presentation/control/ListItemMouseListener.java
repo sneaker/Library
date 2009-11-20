@@ -98,7 +98,7 @@ public class ListItemMouseListener extends MouseAdapter {
 	private void handleBookClick(MouseEvent e, int index, Book selected) {
 		controller.booktab_model.setActiveBook(selected);
 		if (controller.resultlist_model.isFirstIconHit(e)) {
-			if (selected.getCondition() == Condition.WASTE) {
+			if (selected.getCondition() == Condition.WASTE || controller.activeuser_model.getCustomer() == null || controller.library.isCustomerLocked(controller.activeuser_model.getCustomer())) {
 				showDetailsOf(selected);
 				return;
 			}
