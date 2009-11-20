@@ -35,7 +35,7 @@ public class ActionUserPanel extends AbstractActionPanel {
 				"search32x32h.png", "search32x32.png"));
 		buttons.get("search").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				model.changetoSearch();
+				controller.action_model.changetoSearch();
 			}
 		});
 	}
@@ -77,7 +77,7 @@ public class ActionUserPanel extends AbstractActionPanel {
 		buttons.get("edituser").setVisible(false);
 		buttons.get("edituser").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				model.editUserSettings();
+				controller.action_model.editUserSettings();
 			}
 		});
 	}
@@ -88,7 +88,7 @@ public class ActionUserPanel extends AbstractActionPanel {
 		buttons.get("edituserok").setVisible(false);
 		buttons.get("edituserok").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				model.editUserSettingsOk();
+				controller.action_model.editUserSettingsOk();
 			}
 		});
 	}
@@ -99,7 +99,7 @@ public class ActionUserPanel extends AbstractActionPanel {
 		buttons.get("editusercancel").setVisible(false);
 		buttons.get("editusercancel").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				model.editUserSettingsCancel();
+				controller.action_model.editUserSettingsCancel();
 			}
 		});
 	}
@@ -115,7 +115,7 @@ public class ActionUserPanel extends AbstractActionPanel {
 				"disablecustomer32x32.png"));
 		buttons.get("clearuser").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				model.clearuser();
+				controller.action_model.clearuser();
 			}
 		});
 	}

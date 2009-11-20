@@ -73,10 +73,6 @@ public class ActionPanelModel extends Observable {
 		notifyObservers();
 	}
 
-	public void showLentBooks() {
-		controller.searchtab_model.showLentBooks();
-	}
-
 	public void clearuser() {
 		controller.activeuser_model.clearUser();
 	}

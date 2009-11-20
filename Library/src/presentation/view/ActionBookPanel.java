@@ -41,7 +41,7 @@ public class ActionBookPanel extends AbstractActionPanel {
 		buttons.get("return").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				buttons.get("search").requestFocus();
-				model.returnBook();
+				controller.action_model.returnBook();
 			}
 		});
 	}
@@ -53,7 +53,7 @@ public class ActionBookPanel extends AbstractActionPanel {
 		buttons.get("lend").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				buttons.get("lend").requestFocus();
-				model.lendBook();
+				controller.action_model.lendBook();
 			}
 		});
 	}
