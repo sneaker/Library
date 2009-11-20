@@ -46,6 +46,7 @@ public class ActionSearchPanel extends AbstractActionPanel {
 				"search32x32h.png", "search32x32.png"));
 		buttons.get("newsearch").addActionListener(
 				new NewSearchText(controller));
+		buttons.get("newsearch").setMnemonic('n');
 	}
 
 	private void initNewUserButton() {
@@ -53,6 +54,7 @@ public class ActionSearchPanel extends AbstractActionPanel {
 				"newcustomer32x32h.png", "newcustomer32x32.png"));
 		buttons.get("newuser").addActionListener(
 				new UserCreateActionListener(controller));
+		buttons.get("newuser").setMnemonic('u');
 	}
 
 	private void initNewBookButton() {
@@ -60,6 +62,7 @@ public class ActionSearchPanel extends AbstractActionPanel {
 				"newbook32x32h.png", "newbook32x32.png"));
 		buttons.get("newbook").addActionListener(
 				new BookCreateActionListener(controller));
+		buttons.get("newbook").setMnemonic('h');
 	}
 
 	private void initSpacer() {
@@ -72,6 +75,7 @@ public class ActionSearchPanel extends AbstractActionPanel {
 				"availablebooks32x32h.png", "availablebooks32x32.png"));
 		buttons.get("available").addActionListener(
 				new ShowAvailableBooksAction(controller));
+		buttons.get("available").setMnemonic('v');
 	}
 
 	private void initShowDefectBooks() {
@@ -79,6 +83,7 @@ public class ActionSearchPanel extends AbstractActionPanel {
 				"wastebooks32x32h.png", "wastebooks32x32.png"));
 		buttons.get("showdefekt").addActionListener(
 				new ShowDefectBooks(controller));
+		buttons.get("showdefekt").setMnemonic('d');
 	}
 
 	private void initShowLentBooks() {
@@ -86,6 +91,7 @@ public class ActionSearchPanel extends AbstractActionPanel {
 				"allloans32x32h.png", "allloans32x32.png"));
 		buttons.get("showlent").addActionListener(
 				new ShowLentBooksActionListener(controller));
+		buttons.get("showlent").setMnemonic('g');
 	}
 
 	public void update(Observable o, Object arg) {
