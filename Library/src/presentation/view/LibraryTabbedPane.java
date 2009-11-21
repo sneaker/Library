@@ -22,7 +22,7 @@ public class LibraryTabbedPane extends JTabbedPane implements Observer {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel[] tabPanel;
-	public LibraryTabbedPaneModel model;
+	private LibraryTabbedPaneModel model;
 	private ModelController controller;
 	
 	public LibraryTabbedPane(ModelController controller) {
@@ -82,14 +82,6 @@ public class LibraryTabbedPane extends JTabbedPane implements Observer {
 		setSelectedIndex(newTabIndex);
 	}
 
-	public TabSearchPanel getSearchPanel() {
-		return (TabSearchPanel) (tabPanel[LibraryTabbedPaneModel.SEARCH_TAB]);
-	}
-
-	public TabBookPanel getBookPanel() {
-		return (TabBookPanel) (tabPanel[LibraryTabbedPaneModel.BOOK_TAB]);
-	}
-	
 	public void update(Observable o, Object arg) {
 		if (arg instanceof Book) {
 			Book newBook = (Book)arg;
@@ -97,9 +89,4 @@ public class LibraryTabbedPane extends JTabbedPane implements Observer {
 		}
 		switchTo(model.getActiveTab());
 	}
-
-	public LibraryTabbedPane getTabs() {
-		return this;
-	}
-
 }
