@@ -7,13 +7,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.Action;
-import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 
 import presentation.model.ModelController;
-import presentation.view.DialogChoice;
 import util.TextUtils;
 import domain.Book;
+import domain.Message;
 import domain.Book.Condition;
 
 /**
@@ -41,12 +40,12 @@ public final class MarkDefectActionListener implements ActionListener {
 		String tmp = activeBook.getTitle().getName();
 		final String book = tmp.substring(0, Math.min(tmp.length(), 20));
 
-		JPanel dialog = null;
+		Message msg = null;
 		if (noLoans)
-			dialog = getNoFactureDialog(book);
+			msg = getNoFactureDialog(book);
 		else
-			dialog = getFactureDialog(book, activeBook);
-		controller.main_model.setActiveMessage(dialog);
+			msg = getFactureDialog(book, activeBook);
+		controller.main_model.setActiveMessage(msg);
 	}
 
 	/**
@@ -58,7 +57,7 @@ public final class MarkDefectActionListener implements ActionListener {
 	 *            The book bo be marked as defect in case the user wants to.
 	 * @return 
 	 */
-	private JPanel getNoFactureDialog(String book) {
+	private Message getNoFactureDialog(String book) {
 		final String[] buttonNames = new String[] { "Ab&brechen",
 				"Nur &ausmustern" };
 
@@ -80,11 +79,11 @@ public final class MarkDefectActionListener implements ActionListener {
 										+ book
 										+ "\" wird als defekt markiert und ausgemustert. Es handelt sich um ein neu eingetragenes Buch. Falls Sie es nicht ausmustern wollen, wählen Sie \"abbrechen\".",
 								16));
-		JPanel dialog = new DialogChoice(dialogText, buttonNames, buttonActions, buttonKeys);
-		return dialog;
+		Message msg = new Message(dialogText, buttonNames, buttonActions, buttonKeys);
+		return msg;
 	}
 
-	private JPanel getFactureDialog(final String book, Book activeBook) {
+	private Message getFactureDialog(final String book, Book activeBook) {
 		final String customer = controller.library.getRecentLoanOf(activeBook)
 				.getCustomer().getFullName();
 		final String[] buttonNames = new String[] { "Ab&brechen",
@@ -112,7 +111,7 @@ public final class MarkDefectActionListener implements ActionListener {
 										+ TextUtils.format("\"" + customer + "\"", 20)
 										+ " wird eine Rechnung gedruckt. Legen Sie ein Rechnungspapier in den Drucker ein und klicken Sie auf \"Rechnung drucken\".",
 								16));
-		JPanel dialog = new DialogChoice (dialogText, buttonNames, buttonActions, buttonKeys);
-		return dialog;
+		Message msg = new Message (dialogText, buttonNames, buttonActions, buttonKeys);
+		return msg;
 	}
 }

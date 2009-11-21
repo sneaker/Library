@@ -2,7 +2,7 @@ package presentation.model;
 
 import java.util.Observable;
 
-import javax.swing.JPanel;
+import domain.Message;
 
 /**
  * Manages the current status of the main window with its active user, tab,
@@ -12,7 +12,7 @@ public class MainWindowModel extends Observable {
 
 	private static final String PROGRAM_NAME = " - BücherBox";
 	private String title = "Recherche";
-	private JPanel activeMessage;
+	private Message activeMessage;
 
 	public MainWindowModel(ModelController controller) {
 		title = "Recherche";
@@ -32,12 +32,12 @@ public class MainWindowModel extends Observable {
 		notifyObservers();
 	}
 
-	public JPanel getActiveMessage() {
+	public Message getActiveMessage() {
 		return activeMessage;
 	}
 
-	public void setActiveMessage(JPanel activeMessage) {
-		this.activeMessage = activeMessage;
+	public void setActiveMessage(Message msg) {
+		this.activeMessage = msg;
 		fireDataChanged();
 	}
 

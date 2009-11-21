@@ -18,7 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 
 import presentation.model.ModelController;
-import domain.Library;
+import domain.Message;
 
 /**
  * Represents the overall main window of the library application. Initializes
@@ -37,10 +37,8 @@ public class LibraryMainWindow extends JFrame implements Observer {
 	private ModelController controller;
 	public FindAsYouTypeGlassPane findAsYouTypeGlassPane;
 
-	public LibraryMainWindow(Library library) {
-		controller = new ModelController(library);
+	public LibraryMainWindow(ModelController controller) {
 		controller.main_model.addObserver(this);
-		controller.library = library;
 		initGUI();
 	}
 
@@ -106,8 +104,9 @@ public class LibraryMainWindow extends JFrame implements Observer {
 	}
 
 	private void updateGlassPane() {
-		if (controller.main_model.getActiveMessage() != null)
-			setActiveGlassPane(controller.main_model.getActiveMessage());
+		Message msg = controller.main_model.getActiveMessage();
+		if (msg != null)
+			setActiveGlassPane(new DialogChoice(msg.getDialogText(), msg.getButtonNames(), msg.getButtonActions(), msg.getButtonKeys()));
 		else
 			getGlassPane().setVisible(false);
 	}
