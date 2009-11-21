@@ -24,7 +24,7 @@ public class LibraryTabbedPaneModel extends Observable {
 		return activeTab;
 	}
 
-	public void setActiveTab(int newIndex) {
+	private void setActiveTab(int newIndex) {
 		this.activeTab = newIndex;
 		controller.main_model.setTitle(getActiveTabTitle());
 		controller.status_model.setStatus(getActiveTabStatus());

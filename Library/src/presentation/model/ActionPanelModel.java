@@ -19,7 +19,7 @@ public class ActionPanelModel extends Observable {
 	}
 
 	public void changetoSearch() {
-		controller.tabbed_model.setActiveTab(LibraryTabbedPaneModel.SEARCH_TAB);
+		controller.tabbed_model.setSearchTabActive();
 		controller.searchtab_model.resetSearchText();
 		controller.searchtab_model.resetFocus();
 		setChanged();
@@ -39,8 +39,7 @@ public class ActionPanelModel extends Observable {
 		} else if (activeuser == null) {
 			controller.status_model
 					.setTempStatus("Keine Ausleihe möglich: erst ausleihenden Benutzer auswählen!");
-			controller.tabbed_model
-					.setActiveTab(LibraryTabbedPaneModel.SEARCH_TAB);
+			controller.tabbed_model.setSearchTabActive();
 		} else {
 			controller.tabbed_model.setSearchTabActive();
 		}

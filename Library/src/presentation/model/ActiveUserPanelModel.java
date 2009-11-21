@@ -35,7 +35,7 @@ public class ActiveUserPanelModel extends Observable {
 	}
 
 	public void switchtoSearch() {
-		controller.tabbed_model.setActiveTab(LibraryTabbedPaneModel.SEARCH_TAB);
+		controller.tabbed_model.setSearchTabActive();
 	}
 
 	public boolean isCustomerActive() {

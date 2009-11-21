@@ -6,7 +6,6 @@ package presentation.control;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import presentation.model.LibraryTabbedPaneModel;
 import presentation.model.ModelController;
 import domain.Book;
 import domain.Customer;
@@ -132,6 +131,6 @@ public class ListItemMouseListener extends MouseAdapter {
 
 	private void showDetailsOf(Book selected) {
 		controller.booktab_model.setActiveBook(selected);
-		controller.tabbed_model.setActiveTab(LibraryTabbedPaneModel.BOOK_TAB);
+		controller.tabbed_model.setBookTabActive();
 	}
 }

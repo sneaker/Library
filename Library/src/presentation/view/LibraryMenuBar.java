@@ -21,7 +21,6 @@ import presentation.control.NewSearchText;
 import presentation.control.ShowAvailableBooksAction;
 import presentation.control.ShowDefectBooks;
 import presentation.control.UserCreateActionListener;
-import presentation.model.LibraryTabbedPaneModel;
 import presentation.model.ModelController;
 import util.ResManager;
 
@@ -84,14 +83,11 @@ public class LibraryMenuBar extends JMenuBar implements Observer {
 			resetMenuItem.setIcon(ResManager.getImage("reset16x16h.png"));
 			resetMenuItem
 					.setRolloverIcon(ResManager.getImage("reset16x16.png"));
-			resetMenuItem.addActionListener(new ChangeViewActionListener(
-					LibraryTabbedPaneModel.SEARCH_TAB) {
-				@Override
+			resetMenuItem.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					super.actionPerformed(e);
+					controller.tabbed_model.setUserTabActive();
 					controller.searchtab_model.resetSearchText();
-					controller.tabbed_model
-							.setActiveTab(LibraryTabbedPaneModel.SEARCH_TAB);
+					controller.tabbed_model.setSearchTabActive();
 					controller.booktab_model.clearBook();
 					controller.activeuser_model.clearUser();
 					controller.status_model.setTempStatus("Neustart");
@@ -149,8 +145,11 @@ public class LibraryMenuBar extends JMenuBar implements Observer {
 			searchMenuItem.setAccelerator(KeyStroke.getKeyStroke("F5"));
 			searchMenuItem.setMnemonic('c');
 			searchMenuItem.setSelected(true);
-			searchMenuItem.addActionListener(new ChangeViewActionListener(
-					LibraryTabbedPaneModel.SEARCH_TAB));
+			searchMenuItem.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					controller.tabbed_model.setSearchTabActive();
+				}
+			});
 			viewGroup.add(searchMenuItem);
 			viewMenu.add(searchMenuItem);
 
@@ -158,8 +157,11 @@ public class LibraryMenuBar extends JMenuBar implements Observer {
 			bookMenuItem.setText("Buchdetails");
 			bookMenuItem.setAccelerator(KeyStroke.getKeyStroke("F6"));
 			bookMenuItem.setMnemonic('b');
-			bookMenuItem.addActionListener(new ChangeViewActionListener(
-					LibraryTabbedPaneModel.BOOK_TAB));
+			bookMenuItem.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					controller.tabbed_model.setBookTabActive();
+				}
+			});
 			viewGroup.add(bookMenuItem);
 			viewMenu.add(bookMenuItem);
 
@@ -167,24 +169,15 @@ public class LibraryMenuBar extends JMenuBar implements Observer {
 			userMenuItem.setText("Benutzerdetails");
 			userMenuItem.setAccelerator(KeyStroke.getKeyStroke("F7"));
 			userMenuItem.setMnemonic('u');
-			userMenuItem.addActionListener(new ChangeViewActionListener(
-					LibraryTabbedPaneModel.USER_TAB));
+			userMenuItem.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					controller.tabbed_model.setUserTabActive();
+				}
+			});
 			viewGroup.add(userMenuItem);
 			viewMenu.add(userMenuItem);
 		}
 	}
-
-	private class ChangeViewActionListener implements ActionListener {
-		private int newTab;
-
-		public ChangeViewActionListener(int newTab) {
-			this.newTab = newTab;
-		}
-
-		public void actionPerformed(ActionEvent e) {
-			controller.tabbed_model.setActiveTab(newTab);
-		}
-	};
 
 	private void initSearchMenu() {
 		searchMenu = new JMenu();
