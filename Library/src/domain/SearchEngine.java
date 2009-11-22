@@ -1,4 +1,4 @@
-package presentation.model;
+package domain;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -9,10 +9,6 @@ import java.util.regex.Pattern;
 
 import javax.management.Attribute;
 
-import domain.Book;
-import domain.Customer;
-import domain.Library;
-import domain.Searchable;
 
 public class SearchEngine extends Observable implements Observer{
 

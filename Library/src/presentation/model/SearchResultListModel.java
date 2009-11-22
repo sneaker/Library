@@ -14,6 +14,7 @@ import javax.swing.event.ListDataListener;
 import domain.Book;
 import domain.Customer;
 import domain.IllegalLoanOperationException;
+import domain.SearchEngine;
 import domain.Searchable;
 
 public class SearchResultListModel implements ListModel, Observer {
