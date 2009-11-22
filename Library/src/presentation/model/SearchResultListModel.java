@@ -11,6 +11,8 @@ import javax.swing.ListModel;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 
+import sun.print.resources.serviceui;
+
 import domain.Book;
 import domain.Customer;
 import domain.IllegalLoanOperationException;
@@ -160,6 +162,22 @@ public class SearchResultListModel implements ListModel, Observer {
 		for (ListDataListener l : listeners) {			
 			l.contentsChanged(null);
 		}
+	}
+
+	public void showavailableBooks() {
+		search_engine.showAvailableBooks();
+	}
+
+	public void showDefektBook() {
+		search_engine.showDefektBook();
+	}
+
+	public void showLentBooks() {
+		search_engine.showLentBooks();
+	}
+
+	public void showUser() {
+		search_engine.showUser();
 	}
 
 }

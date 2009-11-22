@@ -47,6 +47,7 @@ public class SearchEngine extends Observable implements Observer{
 			results.add(user);
 		}
 		
+		//TODO: show all books
 		for (int i = 0; i < 10; i++) {
 			results.add(library.getAvailableBooks().get(i));
 		}
@@ -140,6 +141,7 @@ public class SearchEngine extends Observable implements Observer{
 		notifyObservers(results);
 	}
 	
+	@SuppressWarnings("unused")
 	private void sort() {
 		java.util.Collections.sort(results,
 				new Comparator<Searchable>() {
@@ -154,10 +156,10 @@ public class SearchEngine extends Observable implements Observer{
 				});
 	}
 	
-	public void showavailableBooks() {
-		
+	public void showAvailableBooks() {
+		buildNewIndex();
 		ArrayList<Searchable> tmplist = new ArrayList<Searchable>();
-
+		
 		for (Searchable item : results) {
 			if (item instanceof Book) {
 				Book book = (Book) item;
@@ -176,7 +178,7 @@ public class SearchEngine extends Observable implements Observer{
 	}
 
 	public void showDefektBook() {
-	
+		buildNewIndex();
 		ArrayList<Searchable> tmplist = new ArrayList<Searchable>();
 
 		for (Searchable item : results) {
@@ -188,28 +190,35 @@ public class SearchEngine extends Observable implements Observer{
 		}
 		results = tmplist;
 		history.add(results);
+		setChanged();
+		notifyObservers(results);
 	}
 
 	public void showLentBooks() {
+		buildNewIndex();
 		ArrayList<Searchable> tmplist = new ArrayList<Searchable>();
-
+		
 		for (Book book : library.getLentBooks()) {
 			tmplist.add(book);
 		}
 		results = tmplist;
 		history.add(results);
+		setChanged();
+		notifyObservers(results);
 	}
 
 	public void showUser() {
+		buildNewIndex();
 		ArrayList<Searchable> tmplist = new ArrayList<Searchable>();
-
+		
 		for (Customer customer : library.getCustomers()) {
 			tmplist.add(customer);
 		}
 		results = tmplist;
 		history.add(results);
 
-		sort();
+		setChanged();
+		notifyObservers(results);
 	}
 
 	@Override

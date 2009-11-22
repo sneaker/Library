@@ -82,20 +82,20 @@ public class TabSearchModel extends Observable {
 		hasFocus = true;
 	}
 
-	public void showavailableBooks() {
-	//	controller.resultlist_model.showavailableBooks();
+	public void showAvailableBooks() {
+		controller.resultlist_model.showavailableBooks();
 	}
 
 	public void showDefektBooks() {
-	//	controller.resultlist_model.showDefektBook();
+		controller.resultlist_model.showDefektBook();
 	}
 
 	public void showLentBooks() {
-	//	controller.resultlist_model.showLentBooks();
+		controller.resultlist_model.showLentBooks();
 	}
 
 	public void showUser() {
-	//	controller.resultlist_model.showUser();
+		controller.resultlist_model.showUser();
 	}
 
 	public void selectsingleElement() {
