@@ -11,8 +11,6 @@ import javax.swing.ListModel;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 
-import sun.print.resources.serviceui;
-
 import domain.Book;
 import domain.Customer;
 import domain.IllegalLoanOperationException;
