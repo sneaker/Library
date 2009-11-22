@@ -35,6 +35,15 @@ public class TextUtils {
 				+ dots;
 	}
 
+	/**
+	 * Formats a text in the given height.
+	 * 
+	 * @param text
+	 *			the Text to format
+	 * @param fontSizePt
+	 * 			the size of the resulting text
+	 * @return a text formated in the height
+	 */
 	public static String format(String text, int fontSizePt) {
 		return "<div style=\"font-size: " + fontSizePt + "pt;\">" + text + "</div>";
 	}
