@@ -81,9 +81,6 @@ public class TabSearchPanel extends JPanel implements Observer {
 		searchField.setForeground(Color.GRAY);
 		searchField.setBorder(new EmptyBorder(10, 10, 10, 10));
 		searchField.addKeyListener(new KeyAdapter() {
-			String oldstring = new String();
-			String newstring = new String();
-
 			public void keyReleased(KeyEvent e) {
 				if ((e.getKeyCode() >= KeyEvent.VK_A)
 						&& (e.getKeyCode() <= KeyEvent.VK_Z)

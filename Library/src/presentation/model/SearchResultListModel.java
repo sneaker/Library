@@ -33,6 +33,7 @@ public class SearchResultListModel implements ListModel, Observer {
 		search_engine = new SearchEngine(controller.library);
 		search_engine.addObserver(this);
 		search_engine.startNewSearch();
+		setTestData();
 	}
 
 	private void setTestData() {

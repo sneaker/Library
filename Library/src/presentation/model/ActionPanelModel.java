@@ -89,6 +89,7 @@ public class ActionPanelModel extends Observable {
 		controller.status_model
 				.setTempStatus("Erfolg: Änderungen erfolgreich gespeichert.");
 		controller.usertab_model.setEditing(false);
+		controller.library.fireDataChanged();
 	}
 
 	public void editUserSettingsCancel() {
