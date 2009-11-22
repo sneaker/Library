@@ -1,6 +1,3 @@
-/**
- * 
- */
 package presentation.control;
 
 import java.awt.event.ActionEvent;

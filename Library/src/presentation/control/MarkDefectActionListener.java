@@ -41,11 +41,35 @@ public final class MarkDefectActionListener implements ActionListener {
 		final String book = tmp.substring(0, Math.min(tmp.length(), 20));
 
 		Message msg = null;
+		if (controller.library.isBookLent(activeBook)) {
+			System.out.println("hit");
+			msg = getLentBookWarningDiaglog(book);
+			controller.main_model.addActiveMessage(msg);
+		}
+		
 		if (noLoans)
 			msg = getNoFactureDialog(book);
 		else
 			msg = getFactureDialog(book, activeBook);
-		controller.main_model.setActiveMessage(msg);
+		
+		controller.main_model.addActiveMessage(msg);
+	}
+
+	private Message getLentBookWarningDiaglog(String book) {
+		System.out.println("here");
+		final String[] buttonNames = new String[] { "&Ok" };
+
+		Action[] buttonActions = new Action[buttonNames.length];
+		buttonActions[0] = new MarkWasteAbstractAction(controller, book);
+		
+		KeyStroke[] buttonKeys = new KeyStroke[buttonNames.length];
+		buttonKeys[0] = KeyStroke.getKeyStroke("ENTER");
+
+		String dialogText = TextUtils
+			.markupText(TextUtils
+					.format("Achtung, Bitte beachten sie dass das Buch \"" + book + "\" noch ausgeliehen ist.",16));
+		Message msg = new Message(dialogText, buttonNames, buttonActions, buttonKeys);
+		return msg;
 	}
 
 	/**

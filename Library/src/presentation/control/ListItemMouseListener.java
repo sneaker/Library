@@ -131,7 +131,7 @@ public class ListItemMouseListener extends MouseAdapter {
 		buttonkeys[0] = KeyStroke.getKeyStroke("ENTER");
 		String dialogText = TextUtils.markupText(TextUtils.format("Die Reservationsfunktion wurde noch nicht implementiert", 16));
 		Message msg = new Message(dialogText, buttonnames, actions, buttonkeys);
-		controller.main_model.setActiveMessage(msg);
+		controller.main_model.addActiveMessage(msg);
 	}
 
 	private void lendBook(Book selected) {

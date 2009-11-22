@@ -32,6 +32,6 @@ public class HelpAboutDialogActionListener implements ActionListener {
 
 		String text = TextUtils.markupText(TextUtils.format(ABOUT_TEXT, 16));
 		Message msg = new Message(text, buttonNames, buttonActions, buttonKeys);
-		controller.main_model.setActiveMessage(msg);
+		controller.main_model.addActiveMessage(msg);
 	}
 }

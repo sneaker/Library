@@ -106,8 +106,11 @@ public class LibraryMainWindow extends JFrame implements Observer {
 
 	private void updateGlassPane() {
 		Message msg = controller.main_model.getActiveMessage();
+
 		if (msg != null)
-			setActiveGlassPane(new DialogChoice(msg.getDialogText(), msg.getButtonNames(), msg.getButtonActions(), msg.getButtonKeys()));
+			setActiveGlassPane(new DialogChoice(msg.getDialogText(), msg
+					.getButtonNames(), msg.getButtonActions(), msg
+					.getButtonKeys()));
 		else
 			getGlassPane().setVisible(false);
 	}
