@@ -16,6 +16,6 @@ public class ShowAvailableBooksAction implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		controller.searchtab_model.showAvailableBooks();
+		controller.showAvailableBooks();
 	}
 }

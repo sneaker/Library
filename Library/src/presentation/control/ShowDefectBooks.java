@@ -16,6 +16,6 @@ public class ShowDefectBooks implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		controller.searchtab_model.showDefektBooks();
+		controller.showDefektBooks();
 	}
 }

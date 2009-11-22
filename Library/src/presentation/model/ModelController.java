@@ -37,4 +37,61 @@ public class ModelController {
 	public Customer getActiveCustomer() {
 		return activeuser_model.getActiveCustomer();
 	}
+	
+	public void setActiveCustomer(Customer selected) {
+		activeuser_model.setActiveCustomer(selected);
+	}
+	
+	public void resetActiveCustomer() {
+		activeuser_model.resetActiveCustomer();
+	}
+	
+	public boolean isCustomerActive() {
+		return activeuser_model.isCustomerActive();
+	}
+	
+	protected String getSearchStatus() {
+		return searchtab_model.getStatus();
+	}
+
+	public String getCustomerStatus() {
+		return usertab_model.getStatus();
+	}
+
+	public String getBookStatus() {
+		return booktab_model.getStatus();
+	}
+	
+	public void showUser() {
+		resultlist_model.showUser();
+	}
+	
+	public void showAvailableBooks() {
+		resultlist_model.showavailableBooks();
+	}
+
+	public void showDefektBooks() {
+		resultlist_model.showDefectBooks();
+	}
+
+	public void showLentBooks() {
+		resultlist_model.showLentBooks();
+	}
+
+	public void selectSingleElement() {
+		resultlist_model.selectSingleElement();
+	}
+	
+	public void forwardKeyEvent(char c, String wholestring) {
+		resultlist_model.forwardKeyEvent(c, wholestring);
+	}
+
+	public void forwarDelEvent(char c, String wholestring) {
+		resultlist_model.forwardDelEvent(c, wholestring);
+	}
+	
+	public void resetSearchText() {
+		resultlist_model.resetSearch();
+		searchtab_model.resetSearchText();
+	}
 }

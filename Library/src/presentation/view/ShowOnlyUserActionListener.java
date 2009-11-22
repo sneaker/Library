@@ -14,7 +14,7 @@ public class ShowOnlyUserActionListener implements ActionListener {
 	}
 	
 	public void actionPerformed(ActionEvent e) {
-		controller.searchtab_model.showUser();
+		controller.showUser();
 	}
 
 }

@@ -46,14 +46,14 @@ public class ListItemMouseListener extends MouseAdapter {
 
 	private void handleUserClick(MouseEvent e, int index, Customer selected) {
 		if (controller.resultlist_model.isFirstIconHit(e)) {
-			if (controller.activeuser_model.isCustomerActive()
+			if (controller.isCustomerActive()
 					&& controller.getActiveCustomer() == (selected))
-				controller.activeuser_model.setActiveUser(null);
+				controller.setActiveCustomer(null);
 			else
-				controller.activeuser_model.setActiveUser(selected);
+				controller.setActiveCustomer(selected);
 			controller.resultlist_model.fireDataChanged(this, index);
 		} else {
-			controller.activeuser_model.setActiveUser(selected);
+			controller.setActiveCustomer(selected);
 			controller.tabbed_model.setUserTabActive();
 		}
 	}

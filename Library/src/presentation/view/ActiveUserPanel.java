@@ -53,7 +53,7 @@ public class ActiveUserPanel extends JPanel implements Observer {
 				DISABLECUSTOMER_IMAGE_HIGH, DISABLECUSTOMER_IMAGE);
 		clearButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				model.clearUser();
+				controller.resetActiveCustomer();
 				clearButton.setEnabled(false);
 			}
 		});

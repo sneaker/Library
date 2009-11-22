@@ -137,7 +137,7 @@ public class SearchResultListModel implements ListModel, Observer {
 			controller.booktab_model.setActiveBook((Book) item);
 			controller.tabbed_model.setBookTabActive();
 		} else if (item instanceof Customer) {
-			controller.activeuser_model.setActiveUser((Customer) item);
+			controller.setActiveCustomer((Customer) item);
 			controller.tabbed_model.setUserTabActive();
 		}
 	}
@@ -164,8 +164,8 @@ public class SearchResultListModel implements ListModel, Observer {
 		search_engine.showAvailableBooks();
 	}
 
-	public void showDefektBook() {
-		search_engine.showDefektBook();
+	public void showDefectBooks() {
+		search_engine.showDefektBooks();
 	}
 
 	public void showLentBooks() {

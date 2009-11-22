@@ -86,10 +86,10 @@ public class LibraryMenuBar extends JMenuBar implements Observer {
 			resetMenuItem.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					controller.tabbed_model.setUserTabActive();
-					controller.searchtab_model.resetSearchText();
+					controller.resetSearchText();
 					controller.tabbed_model.setSearchTabActive();
 					controller.booktab_model.clearBook();
-					controller.activeuser_model.clearUser();
+					controller.resetActiveCustomer();
 					controller.status_model.setTempStatus("Neustart");
 				}
 			});

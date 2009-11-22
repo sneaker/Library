@@ -218,7 +218,7 @@ class ResultCellUserPanel extends SearchResultCellPanel {
 				action = IMG_DISABLE_USER32X32;
 			}
 		} else {
-			if (controller.activeuser_model.isCustomerActive()
+			if (controller.isCustomerActive()
 					&& controller.getActiveCustomer().equals(active)) {
 				action = IMG_DISABLE_USER32X32;
 			} else {

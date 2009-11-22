@@ -40,13 +40,13 @@ public class LibraryTabbedPaneModel extends Observable {
 
 	private String getActiveTabStatus() {
 		if (getActiveTab() == SEARCH_TAB) {
-			return controller.searchtab_model.getStatus();
+			return controller.getSearchStatus();
 		}
 		if (getActiveTab() == BOOK_TAB) {
-			return controller.booktab_model.getStatus();
+			return controller.getBookStatus();
 		}
 		if (getActiveTab() == USER_TAB) {
-			return controller.usertab_model.getStatus();
+			return controller.getCustomerStatus();
 		}
 		return "Bereit.";
 	}

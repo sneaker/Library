@@ -74,7 +74,7 @@ public class SearchResultList extends JList implements ListDataListener  {
 					controller.booktab_model.setActiveBook((Book)s.getSelectedValue());
 					controller.tabbed_model.setBookTabActive();
 				} else if (s.getSelectedValue() instanceof Customer) {
-					controller.activeuser_model.setActiveUser((Customer)s.getSelectedValue());
+					controller.setActiveCustomer((Customer)s.getSelectedValue());
 					controller.tabbed_model.setUserTabActive();
 				}
 			}

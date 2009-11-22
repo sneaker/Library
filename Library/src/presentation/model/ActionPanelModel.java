@@ -20,7 +20,7 @@ public class ActionPanelModel extends Observable {
 
 	public void changetoSearch() {
 		controller.tabbed_model.setSearchTabActive();
-		controller.searchtab_model.resetSearchText();
+		controller.resetSearchText();
 		
 		setChanged();
 		notifyObservers();
@@ -47,7 +47,7 @@ public class ActionPanelModel extends Observable {
 		fireDataChanged();
 		controller.status_model.setTempStatus("Buch wurde ausgeliehen: "
 				+ controller.booktab_model.getActiveBook().getTitle().getName()
-				+ getCustomerName("für: "));
+				+ getDecoratedCustomerName("für: "));
 	}
 
 	public void returnBook() {
@@ -55,16 +55,13 @@ public class ActionPanelModel extends Observable {
 		fireDataChanged();
 		controller.status_model.setTempStatus("Zurück in der Bibliothek: "
 				+ controller.booktab_model.getActiveBook().getTitle().getName()
-				+ getCustomerName("von: "));
+				+ getDecoratedCustomerName("von: "));
 	}
 
-	private String getCustomerName(String vor) {
+	private String getDecoratedCustomerName(String vor) {
 		if (controller.getActiveCustomer() == null)
 			return "";
-		else
-			return " (" + vor
-					+ controller.activeuser_model.getFullActiveCustomerName()
-					+ ")";
+		return " (" + vor + controller.getActiveCustomer().getFullName() + ")";
 	}
 
 	public void fireDataChanged() {
@@ -73,11 +70,11 @@ public class ActionPanelModel extends Observable {
 	}
 
 	public void clearuser() {
-		controller.activeuser_model.clearUser();
+		controller.resetActiveCustomer();
 	}
 
 	public void showUser() {
-		controller.searchtab_model.showUser();
+		controller.showUser();
 	}
 
 	public void editUserSettings() {
