@@ -63,17 +63,19 @@ public class SearchEngine extends Observable implements Observer{
 		history.add(results);
 		
 		for (Searchable item : results) {
-			Pattern p = Pattern.compile(querry);
-			Matcher m = p.matcher(item.searchTitle());
+			Pattern pattern = Pattern.compile(querry);
+			Matcher normal = pattern.matcher(item.searchTitle());
+			Matcher lowercase = pattern.matcher(item.searchTitle().toLowerCase());
 			
-			if (m.find()) {
+			if (normal.find() || lowercase.find()) {
 				tmplist.add(item);
 			}
 			else {
 				for (Attribute att : item.searchDetail().asList()) {
-					p = Pattern.compile(querry);
-					m = p.matcher(att.toString());
-					if (m.find()) {
+					pattern = Pattern.compile(querry);
+					normal = pattern.matcher(att.toString());
+					lowercase = pattern.matcher(att.toString().toLowerCase());
+					if (normal.find() || lowercase.find()) {
 						tmplist.add(item);
 						break;
 					}
