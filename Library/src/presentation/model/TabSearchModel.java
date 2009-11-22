@@ -22,7 +22,7 @@ public class TabSearchModel extends Observable {
 	 * "please-type-here" value.
 	 */
 	public void resetSearchText() {
-		controller.resultlist_model.resetAndDisplaySearch();
+		controller.resultlist_model.visualReset();
 		searchFieldText = DEFAULT_SEARCH_STRING;
 		setChanged();
 		notifyObservers(searchFieldText);
@@ -61,14 +61,14 @@ public class TabSearchModel extends Observable {
 		notifyObservers();
 	}
 
-	public void fowardDeleteEvent(String text) {
-		controller.resultlist_model.delchar(text);
+	public void forwardKeyEvent(char c, String wholestring) {
+		controller.resultlist_model.forwardKeyEvent(c, wholestring);
 	}
 
-	public void forwardKeyEvent(String string) {
-		controller.resultlist_model.simpleKeyAdd(string);
+	public void forwarDelEvent(char c, String wholestring) {
+		controller.resultlist_model.forwardDelEvent(c, wholestring);
 	}
-
+	
 	public String getStatus() {
 		return "Benutzernamen, Buchtitel oder Autor suchen";
 	}
@@ -82,22 +82,23 @@ public class TabSearchModel extends Observable {
 	}
 
 	public void showavailableBooks() {
-		controller.resultlist_model.showavailableBooks();
+	//	controller.resultlist_model.showavailableBooks();
 	}
 
 	public void showDefektBooks() {
-		controller.resultlist_model.showDefektBook();
+	//	controller.resultlist_model.showDefektBook();
 	}
 
 	public void showLentBooks() {
-		controller.resultlist_model.showLentBooks();
+	//	controller.resultlist_model.showLentBooks();
 	}
 
 	public void showUser() {
-		controller.resultlist_model.showUser();
+	//	controller.resultlist_model.showUser();
 	}
 
 	public void selectsingleElement() {
 		controller.resultlist_model.selectSingleElement();
 	}
+
 }
