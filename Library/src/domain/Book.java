@@ -5,11 +5,6 @@ import javax.management.AttributeList;
 
 public class Book implements Searchable, Cloneable {
 
-	/**
-	 * TODO: Es muss doch eine Technik geben, damit man den internen Namen einen
-	 * repräsentativen, benutzerfreundlichen Namen geben kann, der im UI
-	 * angezeigt wird.
-	 */
 	public enum Condition {
 		NEW, GOOD, DAMAGED, WASTE;
 		private static final String TXT_WASTE = "Ausgemustert";

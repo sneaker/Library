@@ -73,8 +73,12 @@ public class TabBookDetailJPanel extends JPanel implements Observer {
 	}
 
 	private void initTitle() {
-		titleText = new JTextArea();
 		titleTextEditable = new DetailTextField();
+		titleTextEditable.setFont(TITLE_FONT);
+		titleTextEditable
+				.addKeyListener(new ValidateBookTitleKeyListener());
+
+		titleText = new JTextArea();
 		titleText.setText(INACTIVE_TEXT);
 		titleText.setBackground(this.getBackground());
 		titleText.setEditable(false);
@@ -333,13 +337,9 @@ public class TabBookDetailJPanel extends JPanel implements Observer {
 				return;
 			remove(titleText);
 			add(titleTextEditable, getTitleGridBagConstraints());
-			// TODO: Move into initTitleText
 			titleTextEditable.setText(controller.booktab_model.getActiveBook()
 					.getTitle().getName());
 			titleTextEditable.setEditable(true);
-			titleTextEditable.setFont(TITLE_FONT);
-			titleTextEditable
-					.addKeyListener(new ValidateBookTitleKeyListener());
 			titleTextEditable.requestFocus();
 		} else {
 			if (!isAncestorOf(titleTextEditable))

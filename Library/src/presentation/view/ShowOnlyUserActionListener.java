@@ -13,7 +13,6 @@ public class ShowOnlyUserActionListener implements ActionListener {
 		this.controller = controller;
 	}
 	
-	@Override
 	public void actionPerformed(ActionEvent e) {
 		controller.searchtab_model.showUser();
 	}
