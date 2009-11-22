@@ -13,61 +13,72 @@ import javax.swing.GroupLayout.ParallelGroup;
 import javax.swing.GroupLayout.SequentialGroup;
 import javax.swing.border.TitledBorder;
 
-import presentation.model.ActionPanelModel;
 import presentation.model.ModelController;
 
+/**
+ * Holds common behavior of the action button storing panel and initializes its
+ * layout. When inheriting, the to-be-shown buttons have to be specified and an
+ * update method has to be set up changing the button states appropriately.
+ */
 public abstract class AbstractActionPanel extends JPanel implements Observer {
 
 	private static final long serialVersionUID = 1L;
-
-	protected ModelController controller;
-	protected ActionPanelModel model;
-	protected JPanel button_panel;
-	protected JScrollPane pane;
-
-	protected LinkedHashMap<String, ActionButton> buttons;
-
 	private static final String ACTION_PANEL_TITLE = "Aktionen";
-	
+	private static final Alignment leading = GroupLayout.Alignment.LEADING;
+	private static final int MIN = 0;
+	private static final int PS = GroupLayout.PREFERRED_SIZE;
+	private static final short MAX = Short.MAX_VALUE;
 	private static final int ACTION_HEIGHT = 40;
 	private static final int ACTION_WIDTH = 260;
 
+	protected ModelController controller;
+	protected JPanel button_panel;
+	protected JScrollPane pane;
+	protected LinkedHashMap<String, ActionButton> buttons;
+
 	private GroupLayout layout;
-	private Alignment leading;
-	private short max;
-	private int ps;
 
 	public AbstractActionPanel(ModelController controller) {
 		this.controller = controller;
+		controller.action_model.addObserver(this);
 		buttons = new LinkedHashMap<String, ActionButton>();
 
+		initGui();
+	}
+
+	private void initGui() {
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		setBorder(new TitledBorder(ACTION_PANEL_TITLE));
 
-		model = controller.action_model;
-		model.addObserver(this);
-
-		button_panel = new JPanel();
-		button_panel
-				.setLayout(new BoxLayout(button_panel, BoxLayout.PAGE_AXIS));
-
-		layout = new GroupLayout((JComponent) button_panel);
-		button_panel.setLayout(layout);
-
-		leading = GroupLayout.Alignment.LEADING;
-		max = Short.MAX_VALUE;
-		ps = GroupLayout.PREFERRED_SIZE;
-
+		initButtonPanel();
 		initActionButtons();
-
 		setGroupLayout();
+		wrapButtonPanelIntoScrollPane();
+	}
 
+	private void wrapButtonPanelIntoScrollPane() {
 		JScrollPane scrollPane = new JScrollPane(button_panel);
 		scrollPane.setBorder(null);
 		pane = scrollPane;
 		add(pane);
 	}
 
+	private void initButtonPanel() {
+		button_panel = new JPanel();
+		button_panel
+				.setLayout(new BoxLayout(button_panel, BoxLayout.PAGE_AXIS));
+
+		layout = new GroupLayout((JComponent) button_panel);
+		button_panel.setLayout(layout);
+	}
+
+	/**
+	 * All needed action buttons should be filled into the buttons-Hash-Map. Use
+	 * the following guideline: <br />
+	 * 
+	 * buttons.put("a1", new ActionButton("title", "img-high", "img"));
+	 * buttons.get("a1").addActionListener(new YourActionListener(controller));
+	 */
 	protected abstract void initActionButtons();
 
 	private void setGroupLayout() {
@@ -75,8 +86,8 @@ public abstract class AbstractActionPanel extends JPanel implements Observer {
 		SequentialGroup sequentalgroup = layout.createSequentialGroup();
 
 		for (ActionButton button : buttons.values()) {
-			parallelgroup.addComponent(button, leading, 0, ACTION_WIDTH, max);
-			sequentalgroup.addComponent(button, ps, ACTION_HEIGHT, ps);
+			parallelgroup.addComponent(button, leading, MIN, ACTION_WIDTH, MAX);
+			sequentalgroup.addComponent(button, PS, ACTION_HEIGHT, PS);
 		}
 		layout.setHorizontalGroup(parallelgroup);
 		layout.setVerticalGroup(sequentalgroup);

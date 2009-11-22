@@ -6,9 +6,7 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.JFrame;
 
-import presentation.model.LibraryTabbedPaneModel;
 import presentation.model.ModelController;
-
 import util.LookBackKeyBuffer;
 
 /**
@@ -64,13 +62,13 @@ public final class GlobalKeyListenerEventQueue extends EventQueue {
 	 */
 	private void handleUserID() {
 		if (lookBackForID.isUserID()) {
-			controller.tabbed_model.setActiveTab(LibraryTabbedPaneModel.USER_TAB);
+			controller.tabbed_model.setUserTabActive();
 		}
 	}
 
 	private void handleBookId() {
 		if (lookBackForID.isBookID()) {
-			controller.tabbed_model.setActiveTab(LibraryTabbedPaneModel.BOOK_TAB);
+			controller.tabbed_model.setBookTabActive();
 		}
 	}
 

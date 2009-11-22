@@ -37,6 +37,7 @@ public class TabUserDetailJPanel extends JPanel implements Observer {
 		this.controller = controller;
 		controller.activeuser_model.addObserver(this);
 		controller.usertab_model.addObserver(this);
+		controller.library.addObserver(this);
 		initGUI();
 	}
 
@@ -240,6 +241,7 @@ public class TabUserDetailJPanel extends JPanel implements Observer {
 
 		if (isUserActive && !controller.usertab_model.isEditing())
 			updateDetails();
+		validate();
 	}
 
 	private void stopEditingWhenUserChanged() {

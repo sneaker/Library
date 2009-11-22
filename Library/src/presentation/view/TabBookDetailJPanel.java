@@ -3,11 +3,11 @@ package presentation.view;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -19,6 +19,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.text.JTextComponent;
 
+import presentation.control.MarkDefectActionListener;
 import presentation.model.ModelController;
 import presentation.model.TabBookModel;
 import domain.Book;
@@ -28,7 +29,8 @@ import domain.Book.Condition;
  * Displays formatted details of a book (without loan details).
  */
 public class TabBookDetailJPanel extends JPanel implements Observer {
-	private static final Font COMMENT_FONT = new Font("SansSerif", Font.PLAIN, 16);
+	private static final Font COMMENT_FONT = new Font("SansSerif", Font.PLAIN,
+			16);
 	private static final long serialVersionUID = -5782308158955619340L;
 	private static final String TITLE = "Katalogdaten";
 	private static final String AUTHOR_LABEL_TEXT = "Autor: ";
@@ -55,6 +57,7 @@ public class TabBookDetailJPanel extends JPanel implements Observer {
 		this.controller = controller;
 		bmodel = controller.booktab_model;
 		controller.booktab_model.addObserver(this);
+		controller.library.addObserver(this);
 		initGUI();
 	}
 
@@ -161,37 +164,9 @@ public class TabBookDetailJPanel extends JPanel implements Observer {
 		add(conditionLabel, c);
 
 		conditionText = new DetailTextField();
-		conditionCombo = new JComboBox(getConditionTexts());
+		conditionCombo = new JComboBox(Book.Condition.getConditionStrings());
 		conditionText.setEditable(false);
 		add(conditionText, getConditionGridBagConstraints());
-	}
-
-	private Object[] getConditionTexts() {
-		ArrayList<ConditionText> c = new ArrayList<ConditionText>();
-		c.add(new ConditionText(Book.Condition.NEW));
-		c.add(new ConditionText(Book.Condition.GOOD));
-		c.add(new ConditionText(Book.Condition.DAMAGED));
-		c.add(new ConditionText(Book.Condition.WASTE));
-		return c.toArray();
-	}
-
-	private class ConditionText {
-		private Condition domainTerm;
-
-		public ConditionText(Condition c) {
-			domainTerm = c;
-		}
-
-		public String toString() {
-			if (domainTerm == Book.Condition.WASTE)
-				return Book.getConditionString(domainTerm)
-						+ ", als defekt markieren...";
-			return Book.getConditionString(domainTerm);
-		}
-
-		public Condition getDomainTerm() {
-			return domainTerm;
-		}
 	}
 
 	private GridBagConstraints getConditionGridBagConstraints() {
@@ -224,7 +199,7 @@ public class TabBookDetailJPanel extends JPanel implements Observer {
 		c.weighty = 1.0;
 		add(commentText, c);
 	}
-	
+
 	private void setDetailsVisibility(boolean isBookActive) {
 		authorLabel.setVisible(isBookActive);
 		authorText.setVisible(isBookActive);
@@ -253,6 +228,11 @@ public class TabBookDetailJPanel extends JPanel implements Observer {
 	}
 
 	public void update(Observable o, Object arg) {
+		if (arg instanceof Condition) {
+			String c = Book.Condition.getConditionString((Condition)arg);
+			if (!conditionCombo.getSelectedItem().equals(c))
+				conditionCombo.setSelectedItem(c);
+		}
 		boolean isBookActive = bmodel.getActiveBook() != null;
 		setEditable(isBookActive && controller.booktab_model.isEditing());
 		updateTitle(isBookActive);
@@ -267,7 +247,8 @@ public class TabBookDetailJPanel extends JPanel implements Observer {
 
 	private void stopEditingWhenBookChanged() {
 		if (!controller.booktab_model.isSameBook()
-				&& controller.booktab_model.isEditing() && controller.booktab_model.getActiveBook() != null) {
+				&& controller.booktab_model.isEditing()
+				&& controller.booktab_model.getActiveBook() != null) {
 			setEditable(false);
 			controller.booktab_model.setEditing(false);
 			controller.status_model
@@ -308,16 +289,42 @@ public class TabBookDetailJPanel extends JPanel implements Observer {
 				return;
 			remove(conditionText);
 			add(conditionCombo, getConditionGridBagConstraints());
-			conditionCombo.repaint();
-			conditionCombo.setSelectedItem(controller.booktab_model
-					.getActiveBook().getCondition());
+
+			Condition co = controller.booktab_model.getActiveBook()
+					.getCondition();
+			conditionCombo.setSelectedIndex(conditionToIndex(co));
+
 			conditionCombo.addItemListener(new ValidateConditionCombo());
+			conditionCombo.repaint();
 		} else {
 			if (!isAncestorOf(conditionCombo))
 				return;
 			remove(conditionCombo);
 			add(conditionText, getConditionGridBagConstraints());
 		}
+	}
+
+	private int conditionToIndex(Condition co) {
+		int index = 0;
+		switch (co) {
+		case NEW: {
+			index = 0;
+			break;
+		}
+		case GOOD: {
+			index = 1;
+			break;
+		}
+		case DAMAGED: {
+			index = 2;
+			break;
+		}
+		case WASTE: {
+			index = 3;
+			break;
+		}
+		}
+		return index;
 	}
 
 	private void setTitleTextEditable(boolean editable) {
@@ -405,37 +412,23 @@ public class TabBookDetailJPanel extends JPanel implements Observer {
 	 * wants to send a bill to the last customer who damaged the book.
 	 */
 	private final class ValidateConditionCombo implements ItemListener {
+		private Condition oldCondition;
+
 		public void itemStateChanged(ItemEvent e) {
-			Condition newCondition = ((ConditionText) e.getItem())
-					.getDomainTerm();
-			if (newCondition == Book.Condition.WASTE) {
-				boolean ok = setActiveBookDefect();
-				if (ok)
-					controller.status_model
-							.setTempStatus("Buch wurde als defekt markiert...");
-				else
-					controller.status_model
-							.setTempStatus("Vorgang ; Buch wurde nicht als defekt markiert...");
+			Condition newCondition = Book.Condition.getCondition((String)e.getItem());
+			oldCondition = controller.booktab_model.getActiveBook().getCondition();
+			if (newCondition == Book.Condition.WASTE && oldCondition != Book.Condition.WASTE) {
+				new MarkDefectActionListener(controller, oldCondition).actionPerformed(new ActionEvent(newCondition, 0, ""));
 			} else {
 				controller.booktab_model.getActiveBook().setCondition(
 						newCondition);
 				controller.status_model.setTempStatus("Buch markiert als "
-						+ Book.getConditionString(newCondition));
+						+ Book.Condition.getConditionString(newCondition));
 			}
-		}
-
-		public boolean setActiveBookDefect() {
-			//TODO: Glasspane ausgeben
-			Book activebook = controller.booktab_model.getActiveBook();
-			activebook.setCondition(Book.Condition.WASTE);
-			
-			if (activebook.getCondition() == Book.Condition.WASTE)
-				return true;
-			
-			return false;
+			oldCondition = newCondition;
 		}
 	}
-	
+
 	public class ValidateBookCommentKeyListener extends KeyAdapter {
 		public void keyReleased(KeyEvent e) {
 			super.keyReleased(e);
@@ -443,7 +436,8 @@ public class TabBookDetailJPanel extends JPanel implements Observer {
 				return;
 			JTextComponent origin = (JTextComponent) e.getComponent();
 			String newComment = origin.getText();
-			controller.booktab_model.getActiveBook().setConditionComment(newComment);
+			controller.booktab_model.getActiveBook().setConditionComment(
+					newComment);
 			controller.booktab_model.fireDataChanged();
 		}
 	}

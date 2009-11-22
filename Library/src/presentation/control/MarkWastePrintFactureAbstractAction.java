@@ -15,7 +15,7 @@ public final class MarkWastePrintFactureAbstractAction extends AbstractAction {
 	private static final long serialVersionUID = 1L;
 	private final ModelController controller;
 
-	MarkWastePrintFactureAbstractAction(ModelController controller, String customer) {
+	public MarkWastePrintFactureAbstractAction(ModelController controller, String customer) {
 		this.controller = controller;
 		this.customer = customer;
 	}

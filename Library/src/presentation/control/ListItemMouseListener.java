@@ -1,22 +1,22 @@
 /**
  * 
  */
-package presentation.view;
+package presentation.control;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import presentation.model.LibraryTabbedPaneModel;
 import presentation.model.ModelController;
 import domain.Book;
 import domain.Customer;
+import domain.Loan;
+import domain.Book.Condition;
 
-final class ListItemMouseListener extends MouseAdapter {
+public class ListItemMouseListener extends MouseAdapter {
 
 	private ModelController controller;
 
-	public ListItemMouseListener(SearchResultList searchResultList,
-			ModelController controller) {
+	public ListItemMouseListener(ModelController controller) {
 		this.controller = controller;
 	}
 
@@ -53,6 +53,34 @@ final class ListItemMouseListener extends MouseAdapter {
 		}
 	}
 
+	public void loanClicked(MouseEvent e, int index) {
+		if (index < 0)
+			return;
+
+		Object o = controller.loanModel.getElementAt(index);
+		if (!(o instanceof Loan))
+			return;
+		
+		handleLoanClick(e, index, (Loan)o);
+	}
+
+	private void handleLoanClick(MouseEvent e, int index, Loan selected) {
+		if (isSecondIconHit(e, index) && controller.library.isBookLent(selected.getBook())) {
+			controller.library.returnBook(selected.getBook());
+			return;
+		}
+	}
+
+	// Duplicated from resultlistmodel
+	private boolean isSecondIconHit(MouseEvent e, int index) {
+		if (e.getX() < 110 || e.getX() > (110 + 32))
+			return false;
+		if ((e.getY() < 30 + 64 * index)
+				|| e.getY() > 62 + 64 * index)
+			return false;
+		return true;
+	}
+
 	/**
 	 * Determines where an item has been clicked and executes the appropriate
 	 * action. JList items cannot listen to events so the list itself listens
@@ -69,6 +97,10 @@ final class ListItemMouseListener extends MouseAdapter {
 	private void handleBookClick(MouseEvent e, int index, Book selected) {
 		controller.booktab_model.setActiveBook(selected);
 		if (controller.resultlist_model.isFirstIconHit(e)) {
+			if (selected.getCondition() == Condition.WASTE || controller.activeuser_model.getCustomer() == null || controller.library.isCustomerLocked(controller.activeuser_model.getCustomer())) {
+				showDetailsOf(selected);
+				return;
+			}
 			if (controller.library.isBookLent(selected)) {
 				controller.library.reserveBook(selected);
 			} else {
@@ -77,7 +109,7 @@ final class ListItemMouseListener extends MouseAdapter {
 			controller.resultlist_model.update();
 			return;
 		}
-		if (controller.resultlist_model.isSecondIconHit(e)) {
+		if (controller.resultlist_model.isSecondIconHit(e) && controller.library.isBookLent(selected)) {
 			controller.library.returnBook(selected);
 			controller.resultlist_model.update();
 			return;
@@ -86,7 +118,7 @@ final class ListItemMouseListener extends MouseAdapter {
 		showDetailsOf(selected);
 	}
 
-	public void lendBook(Book selected) {
+	private void lendBook(Book selected) {
 		if (controller.activeuser_model.getCustomer() == null) {
 			controller.booktab_model.setActiveBook(selected);
 			controller.status_model
@@ -99,7 +131,6 @@ final class ListItemMouseListener extends MouseAdapter {
 
 	private void showDetailsOf(Book selected) {
 		controller.booktab_model.setActiveBook(selected);
-		controller.tabbed_model.setActiveTab(LibraryTabbedPaneModel.BOOK_TAB);
+		controller.tabbed_model.setBookTabActive();
 	}
-
 }

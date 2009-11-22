@@ -5,8 +5,43 @@ import javax.management.AttributeList;
 
 public class Book implements Searchable, Cloneable {
 
+	/**
+	 * TODO: Es muss doch eine Technik geben, damit man den internen Namen einen
+	 * repräsentativen, benutzerfreundlichen Namen geben kann, der im UI
+	 * angezeigt wird.
+	 */
 	public enum Condition {
-		NEW, GOOD, DAMAGED, WASTE
+		NEW, GOOD, DAMAGED, WASTE;
+		private static final String TXT_WASTE = "Ausgemustert";
+		private static final String TXT_DAMAGED = "Beschädigt";
+		private static final String TXT_GOOD = "Intakt";
+		private static final String TXT_NEW = "Neuwertig";
+
+		public static String getConditionString(Condition c) {
+			if (c == Condition.NEW)
+				return TXT_NEW;
+			if (c == Condition.GOOD)
+				return TXT_GOOD;
+			if (c == Condition.DAMAGED)
+				return TXT_DAMAGED;
+			if (c == Condition.WASTE)
+				return TXT_WASTE;
+			return "";
+		}
+
+		public static String[] getConditionStrings() {
+			return new String[] { TXT_NEW, TXT_GOOD, TXT_DAMAGED, TXT_WASTE };
+		}
+
+		public static Condition getCondition(String item) {
+			if (TXT_NEW.equals(item))
+				return NEW;
+			if (TXT_GOOD.equals(item))
+				return GOOD;
+			if (TXT_DAMAGED.equals(item))
+				return DAMAGED;
+			return WASTE;
+		}
 	}
 
 	public static long nextInvertoryNumber = 1;
@@ -28,30 +63,6 @@ public class Book implements Searchable, Cloneable {
 
 	public Condition getCondition() {
 		return condition;
-	}
-
-	public String getConditionString() {
-		if (condition == Condition.NEW)
-			return "Neuwertig";
-		if (condition == Condition.GOOD)
-			return "Intakt";
-		if (condition == Condition.DAMAGED)
-			return "Beschädigt";
-		if (condition == Condition.WASTE)
-			return "Ausgemustert";
-		return "";
-	}
-	
-	public static String getConditionString(Condition c) {
-		if (c == Condition.NEW)
-			return "Neuwertig";
-		if (c == Condition.GOOD)
-			return "Intakt";
-		if (c == Condition.DAMAGED)
-			return "Beschädigt";
-		if (c == Condition.WASTE)
-			return "Ausgemustert";
-		return "";
 	}
 
 	public void setCondition(Condition condition) {
@@ -85,8 +96,14 @@ public class Book implements Searchable, Cloneable {
 		this.conditionComment = newConditionComment;
 	}
 
+	/**
+	 * Creates a "deep copy" of this book which is not altered when the original
+	 * instance is changed. The title of the book is also copied.
+	 * 
+	 * @return a copy of this instance.
+	 */
 	@Override
-	public Object clone() {
+	public Book clone() {
 		Book result = new Book((Title) getTitle().clone());
 		result.setCondition(condition);
 		result.setInventoryNumber(inventoryNumber);
@@ -99,5 +116,23 @@ public class Book implements Searchable, Cloneable {
 	 */
 	private void setInventoryNumber(long newInventoryNumber) {
 		this.inventoryNumber = newInventoryNumber;
+	}
+
+	/**
+	 * Restore book contents from a backup copy. Create copies with the
+	 * clone()-Function.
+	 * 
+	 * @param backup
+	 *            The book whose contents have to be copied for this instance.
+	 */
+	public void copyContentFrom(Book backup) {
+		getTitle().setName(backup.getTitle().getName());
+		getTitle().setAuthor(backup.getTitle().getAuthor());
+		getTitle().setPublisher(backup.getTitle().getPublisher());
+		setCondition(backup.getCondition());
+	}
+
+	public String getConditionString() {
+		return Condition.getConditionString(getCondition());
 	}
 }

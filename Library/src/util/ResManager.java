@@ -7,7 +7,9 @@ import java.net.URL;
 import javax.swing.ImageIcon;
 
 /**
- * Manages resources and handles errors when a resource cannot be found.
+ * Manages resources and handles errors when a resource cannot be found. If the
+ * images won't load it's probably because eclipse's getting the images from the
+ * "bin" directory instead of the "img" directory.
  */
 public class ResManager {
 

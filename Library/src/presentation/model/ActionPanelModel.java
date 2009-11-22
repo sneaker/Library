@@ -19,23 +19,11 @@ public class ActionPanelModel extends Observable {
 	}
 
 	public void changetoSearch() {
-		controller.tabbed_model.setActiveTab(LibraryTabbedPaneModel.SEARCH_TAB);
+		controller.tabbed_model.setSearchTabActive();
 		controller.searchtab_model.resetSearchText();
 		controller.searchtab_model.resetFocus();
 		setChanged();
 		notifyObservers();
-	}
-
-	public void markDefekt() {
-		if (controller.booktab_model.getActiveBook() == null)
-			return;
-		controller.booktab_model.getActiveBook().setCondition(
-				Book.Condition.WASTE);
-		controller.status_model
-				.setTempStatus("Buch wurde ausgemustert: "
-						+ controller.booktab_model.getActiveBook().getTitle()
-								.getName());
-		controller.booktab_model.fireDataChanged();
 	}
 
 	public void lendBook() {
@@ -51,8 +39,7 @@ public class ActionPanelModel extends Observable {
 		} else if (activeuser == null) {
 			controller.status_model
 					.setTempStatus("Keine Ausleihe möglich: erst ausleihenden Benutzer auswählen!");
-			controller.tabbed_model
-					.setActiveTab(LibraryTabbedPaneModel.SEARCH_TAB);
+			controller.tabbed_model.setSearchTabActive();
 		} else {
 			controller.tabbed_model.setSearchTabActive();
 		}
@@ -61,10 +48,6 @@ public class ActionPanelModel extends Observable {
 		controller.status_model.setTempStatus("Buch wurde ausgeliehen: "
 				+ controller.booktab_model.getActiveBook().getTitle().getName()
 				+ getCustomerName("für: "));
-	}
-
-	public void createUser() {
-		// TODO Auto-generated method stub
 	}
 
 	public void returnBook() {
@@ -87,22 +70,6 @@ public class ActionPanelModel extends Observable {
 	public void fireDataChanged() {
 		setChanged();
 		notifyObservers();
-	}
-
-	public void showavailableBooks() {
-		controller.searchtab_model.showavailableBooks();
-	}
-
-	public void showDefektBooks() {
-		controller.searchtab_model.showDefektBooks();
-	}
-
-	public void showLentBooks() {
-		controller.searchtab_model.showLentBooks();
-	}
-
-	public void resetSearch() {
-		controller.searchtab_model.resetSearchText();
 	}
 
 	public void clearuser() {

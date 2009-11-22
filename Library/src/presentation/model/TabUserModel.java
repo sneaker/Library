@@ -66,7 +66,8 @@ public class TabUserModel extends Observable {
 
 	public void setActiveLoan(Loan newActive) {
 		this.activeLoan = newActive;
-		fireDataChanged();
+		setChanged();
+		notifyObservers(newActive);
 	}
 
 	public Loan getActiveLoan() {

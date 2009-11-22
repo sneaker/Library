@@ -5,7 +5,6 @@ import java.awt.event.ActionListener;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.swing.AbstractAction;
 import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
 import javax.swing.JMenu;
@@ -15,7 +14,13 @@ import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JSeparator;
 import javax.swing.KeyStroke;
 
-import presentation.model.LibraryTabbedPaneModel;
+import presentation.control.BookCreateActionListener;
+import presentation.control.FileExitAction;
+import presentation.control.HelpAboutDialogActionListener;
+import presentation.control.NewSearchText;
+import presentation.control.ShowAvailableBooksAction;
+import presentation.control.ShowDefectBooks;
+import presentation.control.UserCreateActionListener;
 import presentation.model.ModelController;
 import util.ResManager;
 
@@ -25,16 +30,12 @@ import util.ResManager;
  * anzupassen.
  */
 public class LibraryMenuBar extends JMenuBar implements Observer {
-
 	private static final long serialVersionUID = 1L;
-	private JMenuItem reservedMenuItem;
-	private JMenuItem ausgelieheneMenuItem;
 	private JMenuItem damagedBooksMenuItem;
 	private JMenuItem allBooksMenuItem;
 	private JRadioButtonMenuItem searchMenuItem;
 	private JRadioButtonMenuItem bookMenuItem;
 	private JRadioButtonMenuItem userMenuItem;
-	private AbstractAction exitAction;
 	private JMenuItem exitMenuItem;
 	private JMenu viewMenu;
 	private JMenu searchMenu;
@@ -50,6 +51,10 @@ public class LibraryMenuBar extends JMenuBar implements Observer {
 	private AbstractButton aboutMenuItem;
 	private ButtonGroup viewGroup;
 	private ModelController controller;
+	private JMenuItem createUserSearchMenuItem;
+	private JMenuItem createBookSearchMenuItem;
+	private JMenuItem availableBooksMenuItem;
+	private JMenuItem lentBooksMenuItem;
 
 	public LibraryMenuBar(ModelController controller) {
 		this.controller = controller;
@@ -62,6 +67,7 @@ public class LibraryMenuBar extends JMenuBar implements Observer {
 
 		initHelpMenu();
 		controller.tabbed_model.addObserver(this);
+		controller.library.addObserver(this);
 	}
 
 	private void initFileMenu() {
@@ -70,18 +76,18 @@ public class LibraryMenuBar extends JMenuBar implements Observer {
 		fileMenu.setText("Datei");
 		fileMenu.setMnemonic(java.awt.event.KeyEvent.VK_D);
 		{
-			resetMenuItem = new JMenuItem("Neu");
+			resetMenuItem = new JMenuItem("Aufräumen");
 			resetMenuItem.setAccelerator(KeyStroke.getKeyStroke("F4"));
+			resetMenuItem.setMnemonic('n');
 			resetMenuItem.setRolloverEnabled(true);
 			resetMenuItem.setIcon(ResManager.getImage("reset16x16h.png"));
-			resetMenuItem.setRolloverIcon(ResManager.getImage("reset16x16.png"));
-			resetMenuItem.addActionListener(new ChangeViewActionListener(
-					LibraryTabbedPaneModel.SEARCH_TAB) {
-				@Override
+			resetMenuItem
+					.setRolloverIcon(ResManager.getImage("reset16x16.png"));
+			resetMenuItem.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					super.actionPerformed(e);
+					controller.tabbed_model.setUserTabActive();
 					controller.searchtab_model.resetSearchText();
-					controller.tabbed_model.setActiveTab(LibraryTabbedPaneModel.SEARCH_TAB);
+					controller.tabbed_model.setSearchTabActive();
 					controller.booktab_model.clearBook();
 					controller.activeuser_model.clearUser();
 					controller.status_model.setTempStatus("Neustart");
@@ -92,8 +98,34 @@ public class LibraryMenuBar extends JMenuBar implements Observer {
 			separator = new JSeparator();
 			fileMenu.add(separator);
 
+			createUserSearchMenuItem = new JMenuItem();
+			createUserSearchMenuItem.setText("Neuer Benutzer");
+			createUserSearchMenuItem.setIcon(ResManager
+					.getImage("newcustomer16x16h.png"));
+			createUserSearchMenuItem.setRolloverIcon(ResManager
+					.getImage("newcustomer16x16.png"));
+			createUserSearchMenuItem
+					.addActionListener(new UserCreateActionListener(controller));
+			createUserSearchMenuItem.setMnemonic('e');
+			fileMenu.add(createUserSearchMenuItem);
+
+			createBookSearchMenuItem = new JMenuItem();
+			createBookSearchMenuItem.setText("Neues Buch");
+			createBookSearchMenuItem.setIcon(ResManager
+					.getImage("newbook16x16h.png"));
+			createBookSearchMenuItem.setRolloverIcon(ResManager
+					.getImage("newbook16x16.png"));
+			createBookSearchMenuItem
+					.addActionListener(new BookCreateActionListener(controller));
+			createBookSearchMenuItem.setMnemonic('e');
+			fileMenu.add(createBookSearchMenuItem);
+
+			separator = new JSeparator();
+			fileMenu.add(separator);
+
 			exitMenuItem = new JMenuItem("Beenden");
-			exitMenuItem.setAction(getExitAction());
+			exitMenuItem.addActionListener(new FileExitAction());
+			exitMenuItem.setMnemonic('b');
 			exitMenuItem.setIcon(ResManager.getImage("exit16x16h.png"));
 			exitMenuItem.setRolloverIcon(ResManager.getImage("exit16x16.png"));
 			fileMenu.add(exitMenuItem);
@@ -111,45 +143,41 @@ public class LibraryMenuBar extends JMenuBar implements Observer {
 			searchMenuItem = new JRadioButtonMenuItem();
 			searchMenuItem.setText("Recherche");
 			searchMenuItem.setAccelerator(KeyStroke.getKeyStroke("F5"));
+			searchMenuItem.setMnemonic('c');
 			searchMenuItem.setSelected(true);
-			searchMenuItem
-					.addActionListener(createChangeViewAction(LibraryTabbedPaneModel.SEARCH_TAB));
+			searchMenuItem.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					controller.tabbed_model.setSearchTabActive();
+				}
+			});
 			viewGroup.add(searchMenuItem);
 			viewMenu.add(searchMenuItem);
 
 			bookMenuItem = new JRadioButtonMenuItem();
 			bookMenuItem.setText("Buchdetails");
 			bookMenuItem.setAccelerator(KeyStroke.getKeyStroke("F6"));
-			bookMenuItem
-					.addActionListener(createChangeViewAction(LibraryTabbedPaneModel.BOOK_TAB));
+			bookMenuItem.setMnemonic('b');
+			bookMenuItem.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					controller.tabbed_model.setBookTabActive();
+				}
+			});
 			viewGroup.add(bookMenuItem);
 			viewMenu.add(bookMenuItem);
 
 			userMenuItem = new JRadioButtonMenuItem();
 			userMenuItem.setText("Benutzerdetails");
 			userMenuItem.setAccelerator(KeyStroke.getKeyStroke("F7"));
-			userMenuItem
-					.addActionListener(createChangeViewAction(LibraryTabbedPaneModel.USER_TAB));
+			userMenuItem.setMnemonic('u');
+			userMenuItem.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					controller.tabbed_model.setUserTabActive();
+				}
+			});
 			viewGroup.add(userMenuItem);
 			viewMenu.add(userMenuItem);
 		}
 	}
-
-	private ActionListener createChangeViewAction(final int newTab) {
-		return new ChangeViewActionListener(newTab);
-	}
-
-	private class ChangeViewActionListener implements ActionListener {
-		private int newTab;
-
-		public ChangeViewActionListener(int newTab) {
-			this.newTab = newTab;
-		}
-
-		public void actionPerformed(ActionEvent e) {
-			controller.tabbed_model.setActiveTab(newTab);
-		}
-	};
 
 	private void initSearchMenu() {
 		searchMenu = new JMenu();
@@ -158,15 +186,44 @@ public class LibraryMenuBar extends JMenuBar implements Observer {
 		searchMenu.setMnemonic(java.awt.event.KeyEvent.VK_R);
 
 		allBooksMenuItem = new JMenuItem();
-		allBooksMenuItem.setText("Alle Bücher");
+		allBooksMenuItem.setText("Neue Suche");
+		allBooksMenuItem.setIcon(ResManager.getImage("search16x16h.png"));
+		allBooksMenuItem
+				.setRolloverIcon(ResManager.getImage("search16x16.png"));
+		allBooksMenuItem.addActionListener(new NewSearchText(controller));
+		allBooksMenuItem.setMnemonic('n');
 		searchMenu.add(allBooksMenuItem);
+
+		searchMenu.add(new JSeparator());
+
+		availableBooksMenuItem = new JMenuItem();
+		availableBooksMenuItem.setText("Verfügbare Bücher");
+		availableBooksMenuItem.setMnemonic('V');
+		availableBooksMenuItem.setIcon(ResManager
+				.getImage("availablebooks16x16h.png"));
+		availableBooksMenuItem.setRolloverIcon(ResManager
+				.getImage("availablebooks16x16.png"));
+		availableBooksMenuItem.addActionListener(new ShowAvailableBooksAction(
+				controller));
+		searchMenu.add(availableBooksMenuItem);
 
 		damagedBooksMenuItem = new JMenuItem();
 		damagedBooksMenuItem.setText("Beschädigte Bücher");
+		damagedBooksMenuItem.setMnemonic('d');
+		damagedBooksMenuItem.setIcon(ResManager
+				.getImage("wastebooks16x16h.png"));
+		damagedBooksMenuItem.setRolloverIcon(ResManager
+				.getImage("wastebooks16x16.png"));
+		damagedBooksMenuItem.addActionListener(new ShowDefectBooks(controller));
 		searchMenu.add(damagedBooksMenuItem);
 
-		searchMenu.add(getAusgelieheneMenuItem());
-		searchMenu.add(getReservedMenuItem());
+		lentBooksMenuItem = new JMenuItem();
+		lentBooksMenuItem.setText("Ausgeliehene Bücher");
+		lentBooksMenuItem.setMnemonic('l');
+		lentBooksMenuItem.setIcon(ResManager.getImage("allloans16x16h.png"));
+		lentBooksMenuItem.setRolloverIcon(ResManager
+				.getImage("allloans16x16.png"));
+		searchMenu.add(lentBooksMenuItem);
 	}
 
 	private void initBookMenu() {
@@ -214,36 +271,9 @@ public class LibraryMenuBar extends JMenuBar implements Observer {
 		aboutMenuItem.setIcon(ResManager.getImage("info16x16h.png"));
 		aboutMenuItem.setRolloverIcon(ResManager.getImage("info16x16.png"));
 		aboutMenuItem.setMnemonic(java.awt.event.KeyEvent.VK_B);
+		aboutMenuItem.addActionListener(new HelpAboutDialogActionListener(
+				controller));
 		helpMenu.add(aboutMenuItem);
-	}
-
-	private AbstractAction getExitAction() {
-		if (exitAction == null) {
-			exitAction = new AbstractAction("Beenden", null) {
-				private static final long serialVersionUID = 1L;
-
-				public void actionPerformed(ActionEvent evt) {
-					System.exit(0);
-				}
-			};
-		}
-		return exitAction;
-	}
-
-	private JMenuItem getAusgelieheneMenuItem() {
-		if (ausgelieheneMenuItem == null) {
-			ausgelieheneMenuItem = new JMenuItem();
-			ausgelieheneMenuItem.setText("Ausgeliehene Bücher");
-		}
-		return ausgelieheneMenuItem;
-	}
-
-	private JMenuItem getReservedMenuItem() {
-		if (reservedMenuItem == null) {
-			reservedMenuItem = new JMenuItem();
-			reservedMenuItem.setText("Reservierte Bücher");
-		}
-		return reservedMenuItem;
 	}
 
 	/**

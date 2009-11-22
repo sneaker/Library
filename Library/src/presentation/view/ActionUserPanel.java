@@ -4,8 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Observable;
 
+import presentation.control.UserCreateActionListener;
 import presentation.model.ModelController;
-import domain.Customer;
 import domain.Loan;
 
 public class ActionUserPanel extends AbstractActionPanel {
@@ -16,6 +16,7 @@ public class ActionUserPanel extends AbstractActionPanel {
 		super(controller);
 		controller.activeuser_model.addObserver(this);
 		controller.usertab_model.addObserver(this);
+		controller.booktab_model.addObserver(this);
 	}
 
 	protected void initActionButtons() {
@@ -34,7 +35,7 @@ public class ActionUserPanel extends AbstractActionPanel {
 				"search32x32h.png", "search32x32.png"));
 		buttons.get("search").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				model.changetoSearch();
+				controller.action_model.changetoSearch();
 			}
 		});
 	}
@@ -76,7 +77,7 @@ public class ActionUserPanel extends AbstractActionPanel {
 		buttons.get("edituser").setVisible(false);
 		buttons.get("edituser").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				model.editUserSettings();
+				controller.action_model.editUserSettings();
 			}
 		});
 	}
@@ -87,7 +88,7 @@ public class ActionUserPanel extends AbstractActionPanel {
 		buttons.get("edituserok").setVisible(false);
 		buttons.get("edituserok").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				model.editUserSettingsOk();
+				controller.action_model.editUserSettingsOk();
 			}
 		});
 	}
@@ -98,7 +99,7 @@ public class ActionUserPanel extends AbstractActionPanel {
 		buttons.get("editusercancel").setVisible(false);
 		buttons.get("editusercancel").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				model.editUserSettingsCancel();
+				controller.action_model.editUserSettingsCancel();
 			}
 		});
 	}
@@ -106,15 +107,7 @@ public class ActionUserPanel extends AbstractActionPanel {
 	private void initAddUserButton() {
 		buttons.put("adduser", new ActionButton("Benutzer erfassen",
 				"newcustomer32x32h.png", "newcustomer32x32.png"));
-		buttons.get("adduser").addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				Customer add = controller.library.createAndAddCustomer("Neuer", "Benutzer");;
-				add.setAdress("Strasse", 1234, "Ort");
-				controller.activeuser_model.setActiveUser(add);
-				controller.usertab_model.setEditing(true);
-				controller.status_model.setTempStatus("Neuer Benutzer erstellt");
-			}
-		});
+		buttons.get("adduser").addActionListener(new UserCreateActionListener(controller));
 	}
 
 	private void initClearUserButton() {
@@ -122,7 +115,7 @@ public class ActionUserPanel extends AbstractActionPanel {
 				"disablecustomer32x32.png"));
 		buttons.get("clearuser").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				model.clearuser();
+				controller.action_model.clearuser();
 			}
 		});
 	}

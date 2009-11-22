@@ -15,7 +15,7 @@ public final class MarkWasteAbstractAction extends AbstractAction {
 	private static final long serialVersionUID = 1L;
 	private final ModelController controller;
 
-	MarkWasteAbstractAction(ModelController controller, String book) {
+	public MarkWasteAbstractAction(ModelController controller, String book) {
 		this.controller = controller;
 		this.book = book;
 	}
@@ -23,7 +23,7 @@ public final class MarkWasteAbstractAction extends AbstractAction {
 	public void actionPerformed(ActionEvent e) {
 		controller.status_model.setTempStatus("Das Buch \"" + book + "\" wurde ausgemustert");
 		controller.booktab_model.getActiveBook().setCondition(Book.Condition.WASTE);
-		controller.booktab_model.fireDataChanged();
 		controller.main_model.hideGlassPane();
+		controller.booktab_model.fireDataChanged();
 	}
 }

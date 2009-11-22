@@ -4,6 +4,7 @@ import java.util.Observable;
 
 import domain.Book;
 import domain.Customer;
+import domain.Book.Condition;
 
 public class TabBookModel extends Observable {
 
@@ -63,17 +64,12 @@ public class TabBookModel extends Observable {
 
 	public void lendActiveBook() {
 		Customer activeuser = controller.activeuser_model.getCustomer();
-		if ((activeuser != null) && (getActiveBook() != null)) {
+		if (isActiveBookLendableFor(activeuser))
 			controller.library.createAndAddLoan(activeuser, getActiveBook());
-		} else if (activeuser == null) {
-			// TODO: Show dialog "please select user first"
-			controller.tabbed_model
-					.setActiveTab(LibraryTabbedPaneModel.SEARCH_TAB);
-		} else {
-			// TODO: Show select book, no book activated
-			controller.tabbed_model
-					.setActiveTab(LibraryTabbedPaneModel.SEARCH_TAB);
-		}
+	}
+
+	private boolean isActiveBookLendableFor(Customer activeuser) {
+		return (activeuser != null) && (getActiveBook() != null) && getActiveBook().getCondition() != Book.Condition.WASTE;
 	}
 
 	public boolean isBookActive() {
@@ -125,15 +121,11 @@ public class TabBookModel extends Observable {
 	}
 
 	public void backupBookContent() {
-		backupBook = (Book)activeBook.clone();
+		backupBook = activeBook.clone();
 	}
 
 	public boolean restoreBookContent() {
-		// TODO Feature envy: move into Title.class
-		activeBook.getTitle().setName(backupBook.getTitle().getName());
-		activeBook.getTitle().setAuthor(backupBook.getTitle().getAuthor());
-		activeBook.getTitle().setPublisher(backupBook.getTitle().getPublisher());
-		activeBook.setCondition(backupBook.getCondition());
+		activeBook.copyContentFrom(backupBook);
 		return true;
 	}
 
@@ -151,5 +143,10 @@ public class TabBookModel extends Observable {
 
 	public void setErrorAtPublisher(boolean b) {
 		this.isErrorAtPublisher = b;
+	}
+
+	public void resetConditionCombo(Condition condition) {
+		setChanged();
+		notifyObservers(condition);
 	}
 }

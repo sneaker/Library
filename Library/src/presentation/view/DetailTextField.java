@@ -7,6 +7,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -31,6 +32,20 @@ class DetailTextField extends JTextField {
 		setBorder(EMPTY_BORDER);
 		setFont(DETAIL_TEXT_FONT);
 		addSelectionHighlightListener();
+		addSelectTextOnFocusListener();
+	}
+
+	private void addSelectTextOnFocusListener() {
+		addFocusListener(new FocusListener() {
+			public void focusLost(FocusEvent e) {
+				setSelectionStart(0);
+				setSelectionEnd(0);
+			}
+			public void focusGained(FocusEvent e) {
+				setSelectionStart(0);
+				setSelectionEnd(getText().length());
+			}
+		});
 	}
 
 	private void addSelectionHighlightListener() {
