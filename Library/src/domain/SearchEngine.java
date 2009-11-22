@@ -212,7 +212,6 @@ public class SearchEngine extends Observable implements Observer{
 		sort();
 	}
 
-	@Override
 	public void update(Observable o, Object arg) {
 		reBuildWholeSearchTree(querry);
 	}
