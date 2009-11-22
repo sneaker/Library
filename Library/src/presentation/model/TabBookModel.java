@@ -86,6 +86,12 @@ public class TabBookModel extends Observable {
 
 	public void setEditing(boolean b) {
 		isEditing = b;
+		if (!isEditing) {
+			isErrorAtTitle = false;
+			isErrorAtAuthor = false;
+			isErrorAtPublisher = false;
+			isErrorAtCondition = false;
+		}
 		fireDataChanged();
 	}
 

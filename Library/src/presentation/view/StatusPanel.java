@@ -52,7 +52,6 @@ public class StatusPanel extends JPanel implements Observer {
 		}
 	}
 	
-	// TODO: Swing-Worker benutzen wegen Thread-Safety. [Martin]
 	private final class TempStatusResetter extends Thread {
 		private final String newStatus;
 
