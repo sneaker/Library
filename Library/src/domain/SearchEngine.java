@@ -217,4 +217,11 @@ public class SearchEngine extends Observable implements Observer{
 		reBuildWholeSearchTree(querry);
 	}
 
+	public void reset() {
+		querry = "";
+		buildNewIndex();
+		setChanged();
+		notifyObservers(results);
+	}
+
 }

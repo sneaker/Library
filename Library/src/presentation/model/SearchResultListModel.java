@@ -66,8 +66,8 @@ public class SearchResultListModel implements ListModel, Observer {
 		search_engine.decideWhatHappend_DEL(c, wholestring);
 	}
 
-	public void visualReset() {
-
+	public void resetSearch() {
+		search_engine.reset();
 	}
 	
 	public void addListDataListener(ListDataListener l) {
