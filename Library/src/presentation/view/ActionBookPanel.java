@@ -118,8 +118,7 @@ public class ActionBookPanel extends AbstractActionPanel {
 		buttons.get("lend").setVisible(
 				controller.booktab_model.isActiveBookLendable()
 						&& !controller.library
-								.isCustomerLocked(controller.activeuser_model
-										.getCustomer()));
+								.isCustomerLocked(controller.getActiveCustomer()));
 		buttons.get("return").setVisible(
 				controller.booktab_model.isActiveBookReturnable());
 		buttons.get("defekt").setVisible(

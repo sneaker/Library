@@ -47,7 +47,7 @@ public class ListItemMouseListener extends MouseAdapter {
 	private void handleUserClick(MouseEvent e, int index, Customer selected) {
 		if (controller.resultlist_model.isFirstIconHit(e)) {
 			if (controller.activeuser_model.isCustomerActive()
-					&& controller.activeuser_model.getCustomer() == (selected))
+					&& controller.getActiveCustomer() == (selected))
 				controller.activeuser_model.setActiveUser(null);
 			else
 				controller.activeuser_model.setActiveUser(selected);
@@ -102,7 +102,7 @@ public class ListItemMouseListener extends MouseAdapter {
 	private void handleBookClick(MouseEvent e, int index, Book selected) {
 		controller.booktab_model.setActiveBook(selected);
 		if (controller.resultlist_model.isFirstIconHit(e)) {
-			if (selected.getCondition() == Condition.WASTE || controller.activeuser_model.getCustomer() == null || controller.library.isCustomerLocked(controller.activeuser_model.getCustomer())) {
+			if (selected.getCondition() == Condition.WASTE || controller.getActiveCustomer() == null || controller.library.isCustomerLocked(controller.getActiveCustomer())) {
 				showDetailsOf(selected);
 				return;
 			}
@@ -135,14 +135,13 @@ public class ListItemMouseListener extends MouseAdapter {
 	}
 
 	private void lendBook(Book selected) {
-		if (controller.activeuser_model.getCustomer() == null) {
+		if (controller.getActiveCustomer() == null) {
 			controller.booktab_model.setActiveBook(selected);
 			controller.status_model
 					.setTempStatus("Keine Ausleihe möglich: Bitte erst Benutzer auswählen");
 			return;
 		}
-		controller.library.createAndAddLoan(controller.activeuser_model
-				.getCustomer(), selected);
+		controller.library.createAndAddLoan(controller.getActiveCustomer(), selected);
 	}
 
 	private void showDetailsOf(Book selected) {

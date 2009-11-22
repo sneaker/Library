@@ -40,7 +40,7 @@ public class TabBookModel extends Observable {
 	}
 
 	public boolean isActiveBookLendable() {
-		if (controller.activeuser_model.getCustomer() != null
+		if (controller.getActiveCustomer() != null
 				&& getActiveBook() != null
 				&& getActiveBook().getCondition() != Book.Condition.WASTE
 				&& !controller.library.isBookLent(getActiveBook()))
@@ -63,7 +63,7 @@ public class TabBookModel extends Observable {
 	}
 
 	public void lendActiveBook() {
-		Customer activeuser = controller.activeuser_model.getCustomer();
+		Customer activeuser = controller.getActiveCustomer();
 		if (isActiveBookLendableFor(activeuser))
 			controller.library.createAndAddLoan(activeuser, getActiveBook());
 	}

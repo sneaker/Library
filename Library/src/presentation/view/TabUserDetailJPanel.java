@@ -160,7 +160,7 @@ public class TabUserDetailJPanel extends JPanel implements Observer {
 	}
 
 	private void updateDetails() {
-		Customer c = controller.activeuser_model.getCustomer();
+		Customer c = controller.getActiveCustomer();
 		addressText.setText(c.getStreet());
 		placeText.setText(c.getZip() + " " + c.getCity());
 		statusText.setText(getCustomerStatus(c));
@@ -201,8 +201,7 @@ public class TabUserDetailJPanel extends JPanel implements Observer {
 				return;
 			remove(titleText);
 			add(titleTextEditable, getTitleGridBagConstraints());
-			titleTextEditable.setText(controller.activeuser_model.getCustomer()
-					.getFullName());
+			titleTextEditable.setText(controller.getActiveCustomer().getFullName());
 			titleTextEditable.setEditable(true);
 			titleTextEditable.setFont(TITLE_FONT);
 			titleTextEditable.addKeyListener(new ValidateFullNameKeyListener());
@@ -217,8 +216,7 @@ public class TabUserDetailJPanel extends JPanel implements Observer {
 
 	private void updateTitle(boolean isUserActive) {
 		if (isUserActive)
-			titleText.setText(controller.activeuser_model.getCustomer()
-					.getFullName());
+			titleText.setText(controller.getActiveCustomer().getFullName());
 		else
 			titleText.setText(INACTIVE_TEXT);
 	}
@@ -230,7 +228,7 @@ public class TabUserDetailJPanel extends JPanel implements Observer {
 	}
 
 	public void update(Observable o, Object arg) {
-		boolean isUserActive = (controller.activeuser_model.getCustomer() != null);
+		boolean isUserActive = (controller.getActiveCustomer() != null);
 
 		setEditable(isUserActive && controller.usertab_model.isEditing());
 		updateTitle(isUserActive);
@@ -252,8 +250,7 @@ public class TabUserDetailJPanel extends JPanel implements Observer {
 			controller.status_model
 					.setTempStatus("Veränderte Kundendaten wurden automatisch gesichert.");
 		}
-		controller.usertab_model.setLastCustomer(controller.activeuser_model
-				.getCustomer());
+		controller.usertab_model.setLastCustomer(controller.getActiveCustomer());
 	}
 
 	/**
@@ -265,9 +262,9 @@ public class TabUserDetailJPanel extends JPanel implements Observer {
 			String newAddress = addressText.getText();
 			boolean ok = newAddress.length() != 0;
 			controller.usertab_model.setErrorAtAddress(!ok);
-			controller.activeuser_model.getCustomer().setAdress(newAddress,
-					controller.activeuser_model.getCustomer().getZip(),
-					controller.activeuser_model.getCustomer().getCity());
+			controller.getActiveCustomer().setAdress(newAddress,
+					controller.getActiveCustomer().getZip(),
+					controller.getActiveCustomer().getCity());
 			controller.activeuser_model.fireDataChanged();
 		}
 	}
@@ -296,8 +293,8 @@ public class TabUserDetailJPanel extends JPanel implements Observer {
 		private void updateModel(Matcher m) {
 			int newZip = Integer.parseInt(m.group(1));
 			String newCity = m.group(2);
-			controller.activeuser_model.getCustomer().setAdress(
-					controller.activeuser_model.getCustomer().getStreet(),
+			controller.getActiveCustomer().setAdress(
+					controller.getActiveCustomer().getStreet(),
 					newZip, newCity);
 		}
 	}
@@ -325,8 +322,8 @@ public class TabUserDetailJPanel extends JPanel implements Observer {
 		}
 
 		private void updateModel(Matcher m) {
-			controller.activeuser_model.getCustomer().setName(m.group(1));
-			controller.activeuser_model.getCustomer().setSurname(m.group(2));
+			controller.getActiveCustomer().setName(m.group(1));
+			controller.getActiveCustomer().setSurname(m.group(2));
 			controller.activeuser_model.fireDataChanged();
 		}
 	}

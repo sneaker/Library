@@ -27,7 +27,7 @@ public class ActionPanelModel extends Observable {
 	}
 
 	public void lendBook() {
-		Customer activeuser = controller.activeuser_model.getCustomer();
+		Customer activeuser = controller.getActiveCustomer();
 		Book activebook = controller.booktab_model.getActiveBook();
 		if (controller.library.isCustomerLocked(activeuser)) {
 			controller.status_model
@@ -59,7 +59,7 @@ public class ActionPanelModel extends Observable {
 	}
 
 	private String getCustomerName(String vor) {
-		if (controller.activeuser_model.getCustomer() == null)
+		if (controller.getActiveCustomer() == null)
 			return "";
 		else
 			return " (" + vor

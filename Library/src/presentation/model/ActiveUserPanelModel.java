@@ -7,20 +7,20 @@ import domain.Customer;
 public class ActiveUserPanelModel extends Observable {
 
 	private ModelController controller;
-	private Customer customer;
+	Customer customer;
 	
 	public ActiveUserPanelModel(ModelController controller) {
 		this.controller = controller;
 	}
 	
-	public Customer getCustomer() {
+	public Customer getActiveCustomer() {
 		return customer;
 	}
 	
 	public String getFullActiveCustomerName() {
-		if (getCustomer() == null)
+		if (customer == null)
 			return "";
-		return getCustomer().getSurname() + ", " + getCustomer().getName();
+		return customer.getSurname() + ", " + customer.getName();
 	}
 
 	public void setActiveUser(Customer selected) {
@@ -46,4 +46,5 @@ public class ActiveUserPanelModel extends Observable {
 		setChanged();
 		notifyObservers();
 	}
+
 }

@@ -2,6 +2,7 @@ package presentation.model;
 
 import javax.swing.DefaultListModel;
 
+import domain.Customer;
 import domain.Library;
 
 public class ModelController {
@@ -31,5 +32,9 @@ public class ModelController {
 		action_model = new ActionPanelModel(this);
 		resultlist_model = new SearchResultListModel(this);
 		status_model = new StatusModel(this);
+	}
+
+	public Customer getActiveCustomer() {
+		return activeuser_model.getActiveCustomer();
 	}
 }
