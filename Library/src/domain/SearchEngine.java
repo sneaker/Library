@@ -85,9 +85,9 @@ public class SearchEngine extends Observable implements Observer{
 	
 	
 	public void decideWhatHappend_ADD(char c, String wholestring) {
-		//System.out.println("**********");
-		//System.out.println("querry + c: " + (querry+c));
-		//System.out.println("wholestring: " + wholestring);
+		System.out.println("**********");
+		System.out.println("querry: " + (querry));
+		System.out.println("wholestring: " + wholestring);
 		if ((querry + c).equals(wholestring)) {
 			querry += c;
 		}
@@ -100,8 +100,6 @@ public class SearchEngine extends Observable implements Observer{
 		buildNewIndex();
 		querry = "";
 		for (char single_char : wholestring.toCharArray()) {
-			//System.out.println("the single char is: " +single_char);
-			//System.out.println("and the querry is: " +querry);
 			querry += single_char;
 			search();
 		}
@@ -110,6 +108,9 @@ public class SearchEngine extends Observable implements Observer{
 	}
 	
 	public void decideWhatHappend_DEL(char c, String wholestring) {
+		if (querry == "")
+			return;
+	
 		if (wholestring.isEmpty()) {
 			querry = "";
 			history.clear();
@@ -120,12 +121,8 @@ public class SearchEngine extends Observable implements Observer{
 		}
 		if (wholestring != "" && wholestring.equals(querry.substring(0, wholestring.length()))) {
 			querry = wholestring;
-			//System.out.println("-------------");
-			//System.out.println("querry: " + querry);
-			//System.out.println("wholestring: " + wholestring);
 			deleteLastChar();
 		} else {
-			//System.out.println("hit else del part");
 			reBuildWholeSearchTree(wholestring);
 		}
 	}

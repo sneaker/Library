@@ -7,6 +7,8 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.beans.EventSetDescriptor;
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -81,12 +83,13 @@ public class TabSearchPanel extends JPanel implements Observer {
 		searchField.setForeground(Color.GRAY);
 		searchField.setBorder(new EmptyBorder(10, 10, 10, 10));
 		searchField.addKeyListener(new KeyAdapter() {
+			
 			public void keyReleased(KeyEvent e) {
 				if ((e.getKeyCode() >= KeyEvent.VK_A)
 						&& (e.getKeyCode() <= KeyEvent.VK_Z)
 						|| (e.getKeyCode() == KeyEvent.VK_SPACE)
 						|| e.getKeyChar() == 'ö' || e.getKeyChar() == 'ä'
-						|| e.getKeyChar() == 'ü') {
+						|| e.getKeyChar() == 'ü' || e.getKeyChar() == '#') {
 					model.forwardKeyEvent(e.getKeyChar(), searchField.getText());
 				}
 				if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE || e.getKeyCode() == KeyEvent.VK_DELETE) {
