@@ -160,4 +160,20 @@ public class SearchResultListModel implements ListModel, Observer {
 		}
 	}
 
+	public void showavailableBooks() {
+		search_engine.showAvailableBooks();
+	}
+
+	public void showDefektBook() {
+		search_engine.showDefektBook();
+	}
+
+	public void showLentBooks() {
+		search_engine.showLentBooks();
+	}
+
+	public void showUser() {
+		search_engine.showUser();
+	}
+
 }

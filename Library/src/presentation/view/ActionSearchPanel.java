@@ -39,6 +39,7 @@ public class ActionSearchPanel extends AbstractActionPanel {
 		initShowAvailableBooks();
 		initShowDefectBooks();
 		initShowLentBooks();
+		initShowUserOnly();
 	}
 
 	private void initSearchButton() {
@@ -92,6 +93,12 @@ public class ActionSearchPanel extends AbstractActionPanel {
 		buttons.get("showlent").addActionListener(
 				new ShowLentBooksActionListener(controller));
 		buttons.get("showlent").setMnemonic('g');
+	}
+	
+	private void initShowUserOnly() {
+		buttons.put("showusers", new ActionButton("Nur Benutzer zeigen", "user32x32.png", "user32x32.png"));
+		buttons.get("showusers").addActionListener(new ShowOnlyUserActionListener(controller));
+		buttons.get("showusers").setMnemonic('b');
 	}
 
 	public void update(Observable o, Object arg) {

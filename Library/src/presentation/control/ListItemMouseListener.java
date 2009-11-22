@@ -6,10 +6,15 @@ package presentation.control;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import javax.swing.Action;
+import javax.swing.KeyStroke;
+
 import presentation.model.ModelController;
+import util.TextUtils;
 import domain.Book;
 import domain.Customer;
 import domain.Loan;
+import domain.Message;
 import domain.Book.Condition;
 
 public class ListItemMouseListener extends MouseAdapter {
@@ -102,7 +107,7 @@ public class ListItemMouseListener extends MouseAdapter {
 				return;
 			}
 			if (controller.library.isBookLent(selected)) {
-				controller.library.reserveBook(selected);
+				showNotImplementedMsg();
 			} else {
 				lendBook(selected);
 			}
@@ -116,6 +121,17 @@ public class ListItemMouseListener extends MouseAdapter {
 		}
 
 		showDetailsOf(selected);
+	}
+
+	private void showNotImplementedMsg() {
+		Action[] actions = new Action[1]; 
+		actions[0] = new DisableGlassPaneListener(controller);
+		String[] buttonnames = new String[] { "&Ok" };
+		KeyStroke[] buttonkeys = new KeyStroke[1];
+		buttonkeys[0] = KeyStroke.getKeyStroke("ENTER");
+		String dialogText = TextUtils.markupText(TextUtils.format("Die Reservationsfunktion wurde noch nicht implementiert", 16));
+		Message msg = new Message(dialogText, buttonnames, actions, buttonkeys);
+		controller.main_model.setActiveMessage(msg);
 	}
 
 	private void lendBook(Book selected) {

@@ -47,6 +47,7 @@ public class SearchEngine extends Observable implements Observer{
 			results.add(user);
 		}
 		
+		//TODO: show all books
 		for (int i = 0; i < 10; i++) {
 			results.add(library.getAvailableBooks().get(i));
 		}
@@ -84,9 +85,9 @@ public class SearchEngine extends Observable implements Observer{
 	
 	
 	public void decideWhatHappend_ADD(char c, String wholestring) {
-		//System.out.println("**********");
-		//System.out.println("querry + c: " + (querry+c));
-		//System.out.println("wholestring: " + wholestring);
+		System.out.println("**********");
+		System.out.println("querry: " + (querry));
+		System.out.println("wholestring: " + wholestring);
 		if ((querry + c).equals(wholestring)) {
 			querry += c;
 		}
@@ -99,8 +100,6 @@ public class SearchEngine extends Observable implements Observer{
 		buildNewIndex();
 		querry = "";
 		for (char single_char : wholestring.toCharArray()) {
-			//System.out.println("the single char is: " +single_char);
-			//System.out.println("and the querry is: " +querry);
 			querry += single_char;
 			search();
 		}
@@ -109,6 +108,9 @@ public class SearchEngine extends Observable implements Observer{
 	}
 	
 	public void decideWhatHappend_DEL(char c, String wholestring) {
+		if (querry == "")
+			return;
+	
 		if (wholestring.isEmpty()) {
 			querry = "";
 			history.clear();
@@ -119,12 +121,8 @@ public class SearchEngine extends Observable implements Observer{
 		}
 		if (wholestring != "" && wholestring.equals(querry.substring(0, wholestring.length()))) {
 			querry = wholestring;
-			//System.out.println("-------------");
-			//System.out.println("querry: " + querry);
-			//System.out.println("wholestring: " + wholestring);
 			deleteLastChar();
 		} else {
-			//System.out.println("hit else del part");
 			reBuildWholeSearchTree(wholestring);
 		}
 	}
@@ -140,6 +138,7 @@ public class SearchEngine extends Observable implements Observer{
 		notifyObservers(results);
 	}
 	
+	@SuppressWarnings("unused")
 	private void sort() {
 		java.util.Collections.sort(results,
 				new Comparator<Searchable>() {
@@ -154,10 +153,10 @@ public class SearchEngine extends Observable implements Observer{
 				});
 	}
 	
-	public void showavailableBooks() {
-		
+	public void showAvailableBooks() {
+		buildNewIndex();
 		ArrayList<Searchable> tmplist = new ArrayList<Searchable>();
-
+		
 		for (Searchable item : results) {
 			if (item instanceof Book) {
 				Book book = (Book) item;
@@ -176,7 +175,7 @@ public class SearchEngine extends Observable implements Observer{
 	}
 
 	public void showDefektBook() {
-	
+		buildNewIndex();
 		ArrayList<Searchable> tmplist = new ArrayList<Searchable>();
 
 		for (Searchable item : results) {
@@ -188,28 +187,35 @@ public class SearchEngine extends Observable implements Observer{
 		}
 		results = tmplist;
 		history.add(results);
+		setChanged();
+		notifyObservers(results);
 	}
 
 	public void showLentBooks() {
+		buildNewIndex();
 		ArrayList<Searchable> tmplist = new ArrayList<Searchable>();
-
+		
 		for (Book book : library.getLentBooks()) {
 			tmplist.add(book);
 		}
 		results = tmplist;
 		history.add(results);
+		setChanged();
+		notifyObservers(results);
 	}
 
 	public void showUser() {
+		buildNewIndex();
 		ArrayList<Searchable> tmplist = new ArrayList<Searchable>();
-
+		
 		for (Customer customer : library.getCustomers()) {
 			tmplist.add(customer);
 		}
 		results = tmplist;
 		history.add(results);
 
-		sort();
+		setChanged();
+		notifyObservers(results);
 	}
 
 	public void update(Observable o, Object arg) {

@@ -75,10 +75,6 @@ public class Library extends Observable {
 		}
 	}
 
-	public void reserveBook(Book selected) {
-		// TODO: Implement reservation of a book.
-	}
-
 	public Title findByTitleName(String name) {
 		for (Title t : titles) {
 			if (t.getName().equals(name)) {
