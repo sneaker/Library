@@ -20,13 +20,12 @@ public class ActionUserPanel extends AbstractActionPanel {
 	}
 
 	protected void initActionButtons() {
+		initEditOkButton();
+		initEditCancelButton();
 		initNewSearchButton();
 		initReturnButton();
 		initShowBookButton();
 		initEditButton();
-		initEditOkButton();
-		initEditCancelButton();
-		initClearUserButton();
 		initAddUserButton();
 	}
 
@@ -108,16 +107,6 @@ public class ActionUserPanel extends AbstractActionPanel {
 		buttons.put("adduser", new ActionButton("Benutzer erfassen",
 				"newcustomer32x32h.png", "newcustomer32x32.png"));
 		buttons.get("adduser").addActionListener(new UserCreateActionListener(controller));
-	}
-
-	private void initClearUserButton() {
-		buttons.put("clearuser", new ActionButton("Benutzer deaktivieren", "disablecustomer32x32h.png",
-				"disablecustomer32x32.png"));
-		buttons.get("clearuser").addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				controller.action_model.clearuser();
-			}
-		});
 	}
 
 	public void update(Observable o, Object arg) {
