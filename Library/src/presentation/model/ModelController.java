@@ -94,4 +94,8 @@ public class ModelController {
 		resultlist_model.resetSearch();
 		searchtab_model.resetSearchText();
 	}
+	
+	public void setTitle(String title) {
+		main_model.setTitle(title);
+	}
 }
