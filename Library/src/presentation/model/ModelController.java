@@ -119,4 +119,8 @@ public class ModelController {
 	public Book getActiveBook() {
 		return booktab_model.getActiveBook();
 	}
+	
+	public void lendActiveBook() {
+		booktab_model.lendActiveBook();
+	}
 }

@@ -62,7 +62,7 @@ public class TabBookModel extends Observable {
 		return false;
 	}
 
-	public void lendActiveBook() {
+	protected void lendActiveBook() {
 		Customer activeuser = controller.getActiveCustomer();
 		if (isActiveBookLendableFor(activeuser))
 			controller.library.createAndAddLoan(activeuser, getActiveBook());

@@ -43,7 +43,7 @@ public class ActionPanelModel extends Observable {
 		} else {
 			controller.setSearchTabActive();
 		}
-		controller.booktab_model.lendActiveBook();
+		controller.lendActiveBook();
 		fireDataChanged();
 		controller.status_model.setTempStatus("Buch wurde ausgeliehen: "
 				+ controller.getActiveBook().getTitle().getName()
