@@ -9,6 +9,7 @@ import java.util.Observer;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import presentation.model.ModelController;
@@ -25,7 +26,21 @@ public class StatusPanel extends JPanel implements Observer {
 		setLayout(new BorderLayout());
 		setBorder(new StatusBorder());
 		label = new JLabel(model.getStatus());
-		add(label, BorderLayout.WEST);
+		add(label, BorderLayout.CENTER);
+		JTextField statistics = new JTextField();
+		statistics.setText(getStatistics());
+		statistics.setBorder(new EmptyBorder(1, 1, 1, 1));
+		statistics.setEditable(false);
+		statistics.setToolTipText(getStatisticsDetailed());
+		add(statistics, BorderLayout.EAST);
+	}
+
+	private String getStatistics() {
+		return "Statistik: | V: 23 | A: 12 | D: 1 | B: 1";
+	}
+
+	private String getStatisticsDetailed() {
+		return "Verfügbar: 23, Ausgeliehen: 12, Defekt: 1, Beschädigt: 1";
 	}
 	
 	public void update(Observable o, Object arg) {
