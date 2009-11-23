@@ -4,6 +4,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Observable;
 
+import javax.swing.AbstractAction;
+import javax.swing.ActionMap;
+import javax.swing.InputMap;
+import javax.swing.JComponent;
+import javax.swing.KeyStroke;
+
 import presentation.control.UserCreateActionListener;
 import presentation.model.ModelController;
 import domain.Loan;
@@ -90,11 +96,25 @@ public class ActionUserPanel extends AbstractActionPanel {
 				"editdone32x32h.png", "editdone32x32.png"));
 		buttons.get("edituserok").setVisible(false);
 		buttons.get("edituserok").setMnemonic('t');
-		buttons.get("edituserok").addActionListener(new ActionListener() {
+		AbstractAction action = new AbstractAction() {
+			private static final long serialVersionUID = 2687724652972916779L;
+			
 			public void actionPerformed(ActionEvent e) {
 				controller.action_model.editUserSettingsOk();
 			}
-		});
+		};
+		addSpecialKeyForEditOk(action);
+		buttons.get("edituserok").addActionListener(action);
+	}
+
+	private void addSpecialKeyForEditOk(AbstractAction action) {
+		InputMap inputMap = buttons.get("edituserok")
+			.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+		inputMap.put(KeyStroke.getKeyStroke("ENTER"), "okay");
+		inputMap.put(KeyStroke.getKeyStroke("control S"), "okay");
+		ActionMap actionMap = buttons.get("edituserok").getActionMap();
+		buttons.get("edituserok").setActionMap(actionMap);
+		actionMap.put("okay", action);
 	}
 
 	private void initEditCancelButton() {
@@ -102,11 +122,23 @@ public class ActionUserPanel extends AbstractActionPanel {
 				"editrevert32x32h.png", "editrevert32x32.png"));
 		buttons.get("editusercancel").setVisible(false);
 		buttons.get("editusercancel").setMnemonic('g');
-		buttons.get("editusercancel").addActionListener(new ActionListener() {
+		AbstractAction action = new AbstractAction() {
+			private static final long serialVersionUID = 2687724652972916779L;
 			public void actionPerformed(ActionEvent e) {
 				controller.action_model.editUserSettingsCancel();
 			}
-		});
+		};
+		addSpecialKeyForEditCancel(action);
+		buttons.get("editusercancel").addActionListener(action);
+	}
+	
+	private void addSpecialKeyForEditCancel(AbstractAction action) {
+		InputMap inputMap = buttons.get("editusercancel")
+			.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+		inputMap.put(KeyStroke.getKeyStroke("ESCAPE"), "cancel");
+		ActionMap actionMap = buttons.get("editusercancel").getActionMap();
+		buttons.get("editusercancel").setActionMap(actionMap);
+		actionMap.put("cancel", action);
 	}
 
 	private void initAddUserButton() {
