@@ -134,11 +134,11 @@ public class SearchResultListModel implements ListModel, Observer {
 			return;
 		Searchable item = getElementAt(0);
 		if (item instanceof Book) {
-			controller.booktab_model.setActiveBook((Book) item);
-			controller.tabbed_model.setBookTabActive();
+			controller.setActiveBook((Book) item);
+			controller.setBookTabActive();
 		} else if (item instanceof Customer) {
-			controller.activeuser_model.setActiveUser((Customer) item);
-			controller.tabbed_model.setUserTabActive();
+			controller.setActiveCustomer((Customer) item);
+			controller.setUserTabActive();
 		}
 	}
 
@@ -148,6 +148,7 @@ public class SearchResultListModel implements ListModel, Observer {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public void update(Observable o, Object arg) {
 		displayed_results = (ArrayList<Searchable>) arg;
 		if (!listeners.isEmpty())
@@ -164,8 +165,8 @@ public class SearchResultListModel implements ListModel, Observer {
 		search_engine.showAvailableBooks();
 	}
 
-	public void showDefektBook() {
-		search_engine.showDefektBook();
+	public void showDefectBooks() {
+		search_engine.showDefektBooks();
 	}
 
 	public void showLentBooks() {

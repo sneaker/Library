@@ -4,46 +4,42 @@ import java.util.Observable;
 
 import domain.Customer;
 
+/**
+ * Stores the state of the active customer. The customer who stands at the
+ * library desk and gives his name will become the active user so the librarian
+ * can lend books for him/her.
+ */
 public class ActiveUserPanelModel extends Observable {
 
 	private ModelController controller;
-	private Customer customer;
-	
+	Customer active;
+
 	public ActiveUserPanelModel(ModelController controller) {
 		this.controller = controller;
 	}
-	
-	public Customer getCustomer() {
-		return customer;
-	}
-	
-	public String getFullActiveCustomerName() {
-		if (getCustomer() == null)
-			return "";
-		return getCustomer().getSurname() + ", " + getCustomer().getName();
+
+	protected Customer getActiveCustomer() {
+		return active;
 	}
 
-	public void setActiveUser(Customer selected) {
-		customer = selected;
+	protected void setActiveCustomer(Customer selected) {
+		active = selected;
 		fireDataChanged();
 	}
 
-	public void clearUser() {
-		customer = null;
+	protected void resetActiveCustomer() {
+		active = null;
 		fireDataChanged();
 		controller.resultlist_model.update();
 	}
 
-	public void switchtoSearch() {
-		controller.tabbed_model.setSearchTabActive();
-	}
-
-	public boolean isCustomerActive() {
-		return customer != null;
+	protected boolean isCustomerActive() {
+		return active != null;
 	}
 
 	public void fireDataChanged() {
 		setChanged();
 		notifyObservers();
 	}
+
 }

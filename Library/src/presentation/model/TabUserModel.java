@@ -21,7 +21,7 @@ public class TabUserModel extends Observable {
 	}
 
 	private Customer getActiveCustomer() {
-		return controller.activeuser_model.getCustomer();
+		return controller.getActiveCustomer();
 	}
 
 	public String getStatus() {
@@ -46,7 +46,7 @@ public class TabUserModel extends Observable {
 	}
 
 	public void backupCustomerContent() {
-		backupCustomer = controller.activeuser_model.getCustomer().clone();
+		backupCustomer = controller.getActiveCustomer().clone();
 	}
 
 	public void restoreCustomerContent() {
@@ -55,7 +55,7 @@ public class TabUserModel extends Observable {
 					.setTempStatus("Fehler: Konnte Änderungen nicht rückgängig machen!");
 			return;
 		}
-		controller.activeuser_model.getCustomer().copyContent(backupCustomer);
+		controller.getActiveCustomer().copyContent(backupCustomer);
 		controller.status_model
 				.setTempStatus("Änderungen am Benutzer rückgängig gemacht.");
 	}
@@ -112,6 +112,6 @@ public class TabUserModel extends Observable {
 	public boolean isSameCustomer() {
 		if (lastCustomer == null)
 			return false;
-		return lastCustomer.equals(controller.activeuser_model.getCustomer());
+		return lastCustomer.equals(controller.getActiveCustomer());
 	}
 }

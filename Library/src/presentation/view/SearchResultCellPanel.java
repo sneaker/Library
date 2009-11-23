@@ -136,11 +136,11 @@ class ResultCellBookPanel extends SearchResultCellPanel {
 	}
 
 	private boolean isCustomerLendingBook() {
-		return controller.activeuser_model.getCustomer().equals(controller.library.getRecentLoanOf(active).getCustomer());
+		return controller.getActiveCustomer().equals(controller.library.getRecentLoanOf(active).getCustomer());
 	}
 
 	private boolean isCustomerActive() {
-		return controller.activeuser_model.getCustomer() != null;
+		return controller.getActiveCustomer() != null;
 	}
 
 	private boolean isBookLendable() {
@@ -152,7 +152,7 @@ class ResultCellBookPanel extends SearchResultCellPanel {
 	}
 
 	private boolean isCustomerLocked() {
-		return controller.library.isCustomerLocked(controller.activeuser_model.getCustomer());
+		return controller.library.isCustomerLocked(controller.getActiveCustomer());
 	}
 
 	@Override
@@ -214,12 +214,12 @@ class ResultCellUserPanel extends SearchResultCellPanel {
 
 		String action = null;
 		if (!isSelected) {
-			if (controller.activeuser_model.getCustomer() == active) {
+			if (controller.getActiveCustomer() == active) {
 				action = IMG_DISABLE_USER32X32;
 			}
 		} else {
-			if (controller.activeuser_model.isCustomerActive()
-					&& controller.activeuser_model.getCustomer().equals(active)) {
+			if (controller.isCustomerActive()
+					&& controller.getActiveCustomer().equals(active)) {
 				action = IMG_DISABLE_USER32X32;
 			} else {
 				action = IMG_ADD32X32;

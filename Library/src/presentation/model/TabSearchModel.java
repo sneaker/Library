@@ -21,9 +21,8 @@ public class TabSearchModel extends Observable {
 	 * Sets the text to be displayed on the search field to the default
 	 * "please-type-here" value.
 	 */
-	public void resetSearchText() {
-		controller.resultlist_model.resetSearch();
-		controller.searchtab_model.resetFocus();
+	protected void resetSearchText() {
+		resetFocus();
 		searchFieldText = DEFAULT_SEARCH_STRING;
 		setChanged();
 		notifyObservers(searchFieldText);
@@ -61,16 +60,8 @@ public class TabSearchModel extends Observable {
 		setChanged();
 		notifyObservers();
 	}
-
-	public void forwardKeyEvent(char c, String wholestring) {
-		controller.resultlist_model.forwardKeyEvent(c, wholestring);
-	}
-
-	public void forwarDelEvent(char c, String wholestring) {
-		controller.resultlist_model.forwardDelEvent(c, wholestring);
-	}
 	
-	public String getStatus() {
+	protected String getStatus() {
 		return "Benutzernamen, Buchtitel oder Autor suchen";
 	}
 
@@ -81,25 +72,4 @@ public class TabSearchModel extends Observable {
 	public void resetFocus() {
 		hasFocus = true;
 	}
-
-	public void showAvailableBooks() {
-		controller.resultlist_model.showavailableBooks();
-	}
-
-	public void showDefektBooks() {
-		controller.resultlist_model.showDefektBook();
-	}
-
-	public void showLentBooks() {
-		controller.resultlist_model.showLentBooks();
-	}
-
-	public void showUser() {
-		controller.resultlist_model.showUser();
-	}
-
-	public void selectsingleElement() {
-		controller.resultlist_model.selectSingleElement();
-	}
-
 }

@@ -108,7 +108,7 @@ public class TabUserLoanJPanel extends JPanel implements Observer {
 	}
 
 	public void update(Observable o, Object arg) {
-		Customer customer = controller.activeuser_model.getCustomer();
+		Customer customer = controller.getActiveCustomer();
 		setVisible(customer != null);
 		updateCustomerLoans(customer);
 	}

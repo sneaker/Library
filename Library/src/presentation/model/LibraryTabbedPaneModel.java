@@ -26,7 +26,7 @@ public class LibraryTabbedPaneModel extends Observable {
 
 	private void setActiveTab(int newIndex) {
 		this.activeTab = newIndex;
-		controller.main_model.setTitle(getActiveTabTitle());
+		controller.setTitle(getActiveTabTitle());
 		controller.status_model.setStatus(getActiveTabStatus());
 		setChanged();
 		notifyObservers(newIndex);
@@ -40,13 +40,13 @@ public class LibraryTabbedPaneModel extends Observable {
 
 	private String getActiveTabStatus() {
 		if (getActiveTab() == SEARCH_TAB) {
-			return controller.searchtab_model.getStatus();
+			return controller.getSearchStatus();
 		}
 		if (getActiveTab() == BOOK_TAB) {
-			return controller.booktab_model.getStatus();
+			return controller.getBookStatus();
 		}
 		if (getActiveTab() == USER_TAB) {
-			return controller.usertab_model.getStatus();
+			return controller.getCustomerStatus();
 		}
 		return "Bereit.";
 	}
@@ -55,20 +55,15 @@ public class LibraryTabbedPaneModel extends Observable {
 		return tabInformation;
 	}
 
-	public void setSearchTabActive() {
+	protected void setSearchTabActive() {
 		setActiveTab(SEARCH_TAB);
 	}
 
-	public void setBookTabActive() {
+	protected void setBookTabActive() {
 		setActiveTab(BOOK_TAB);
 	}
 
-	public void setUserTabActive() {
+	protected void setUserTabActive() {
 		setActiveTab(USER_TAB);
 	}
-
-	public boolean isUserTabActive() {
-		return getActiveTab() == USER_TAB;
-	}
-
 }

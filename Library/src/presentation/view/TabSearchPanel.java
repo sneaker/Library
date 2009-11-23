@@ -88,14 +88,14 @@ public class TabSearchPanel extends JPanel implements Observer {
 						|| (e.getKeyCode() == KeyEvent.VK_SPACE)
 						|| e.getKeyChar() == 'ö' || e.getKeyChar() == 'ä'
 						|| e.getKeyChar() == 'ü' || e.getKeyChar() == '#') {
-					model.forwardKeyEvent(e.getKeyChar(), searchField.getText());
+					controller.forwardKeyEvent(e.getKeyChar(), searchField.getText());
 				}
 				if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE || e.getKeyCode() == KeyEvent.VK_DELETE) {
-					model.forwarDelEvent(e.getKeyChar(), searchField.getText());
+					controller.forwarDelEvent(e.getKeyChar(), searchField.getText());
 				}
-				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-					model.selectsingleElement();
-				}
+//				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+//					controller.selectSingleElement();
+//				}
 			}
 		});
 		setSearchFieldDefaultTextListeners();
@@ -117,7 +117,7 @@ public class TabSearchPanel extends JPanel implements Observer {
 		searchField.addFocusListener(new FocusListener() {
 			public void focusLost(FocusEvent e) {
 				if (searchField.getText().length() == 0)
-					model.resetSearchText();
+					controller.resetSearchText();
 			}
 
 			public void focusGained(FocusEvent e) {

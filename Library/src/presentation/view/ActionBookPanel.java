@@ -109,7 +109,7 @@ public class ActionBookPanel extends AbstractActionPanel {
 				"search32x32h.png", "search32x32.png"));
 		buttons.get("search").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				controller.tabbed_model.setSearchTabActive();
+				controller.setSearchTabActive();
 			}
 		});
 	}
@@ -118,8 +118,7 @@ public class ActionBookPanel extends AbstractActionPanel {
 		buttons.get("lend").setVisible(
 				controller.booktab_model.isActiveBookLendable()
 						&& !controller.library
-								.isCustomerLocked(controller.activeuser_model
-										.getCustomer()));
+								.isCustomerLocked(controller.getActiveCustomer()));
 		buttons.get("return").setVisible(
 				controller.booktab_model.isActiveBookReturnable());
 		buttons.get("defekt").setVisible(

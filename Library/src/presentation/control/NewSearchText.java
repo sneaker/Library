@@ -16,6 +16,6 @@ public class NewSearchText implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		controller.searchtab_model.resetSearchText();
+		controller.resetSearchText();
 	}
 }

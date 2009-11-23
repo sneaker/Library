@@ -60,8 +60,8 @@ public class ActionUserPanel extends AbstractActionPanel {
 		buttons.get("showbook").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (controller.usertab_model.isLoanSelected()) {
-					controller.booktab_model.setActiveBook(controller.usertab_model.getActiveLoan().getBook());
-					controller.tabbed_model.setBookTabActive();
+					controller.setActiveBook(controller.usertab_model.getActiveLoan().getBook());
+					controller.setBookTabActive();
 					controller.status_model.setTempStatus("Zeige Buchdetails für die gewählte Ausleihe.");
 				} else {
 					controller.status_model.setTempStatus("Kein Buch ausgewählt zum Anzeigen.");
@@ -110,7 +110,7 @@ public class ActionUserPanel extends AbstractActionPanel {
 	}
 
 	public void update(Observable o, Object arg) {
-		boolean active = controller.activeuser_model.isCustomerActive();
+		boolean active = controller.isCustomerActive();
 		buttons.get("return").setVisible(active && controller.usertab_model.isLoanSelected());
 		buttons.get("showbook").setVisible(active && controller.usertab_model.isLoanSelected());
 		buttons.get("edituser").setVisible(active && !controller.usertab_model.isEditing());

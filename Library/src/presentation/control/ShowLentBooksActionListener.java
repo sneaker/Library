@@ -13,6 +13,6 @@ public class ShowLentBooksActionListener implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		controller.searchtab_model.showLentBooks();
+		controller.showLentBooks();
 	}
 }

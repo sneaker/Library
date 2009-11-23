@@ -46,15 +46,15 @@ public class ListItemMouseListener extends MouseAdapter {
 
 	private void handleUserClick(MouseEvent e, int index, Customer selected) {
 		if (controller.resultlist_model.isFirstIconHit(e)) {
-			if (controller.activeuser_model.isCustomerActive()
-					&& controller.activeuser_model.getCustomer() == (selected))
-				controller.activeuser_model.setActiveUser(null);
+			if (controller.isCustomerActive()
+					&& controller.getActiveCustomer() == (selected))
+				controller.setActiveCustomer(null);
 			else
-				controller.activeuser_model.setActiveUser(selected);
+				controller.setActiveCustomer(selected);
 			controller.resultlist_model.fireDataChanged(this, index);
 		} else {
-			controller.activeuser_model.setActiveUser(selected);
-			controller.tabbed_model.setUserTabActive();
+			controller.setActiveCustomer(selected);
+			controller.setUserTabActive();
 		}
 	}
 
@@ -100,9 +100,9 @@ public class ListItemMouseListener extends MouseAdapter {
 	 *            the book or user which is affected by this click.
 	 */
 	private void handleBookClick(MouseEvent e, int index, Book selected) {
-		controller.booktab_model.setActiveBook(selected);
+		controller.setActiveBook(selected);
 		if (controller.resultlist_model.isFirstIconHit(e)) {
-			if (selected.getCondition() == Condition.WASTE || controller.activeuser_model.getCustomer() == null || controller.library.isCustomerLocked(controller.activeuser_model.getCustomer())) {
+			if (selected.getCondition() == Condition.WASTE || controller.getActiveCustomer() == null || controller.library.isCustomerLocked(controller.getActiveCustomer())) {
 				showDetailsOf(selected);
 				return;
 			}
@@ -135,18 +135,17 @@ public class ListItemMouseListener extends MouseAdapter {
 	}
 
 	private void lendBook(Book selected) {
-		if (controller.activeuser_model.getCustomer() == null) {
-			controller.booktab_model.setActiveBook(selected);
+		if (controller.getActiveCustomer() == null) {
+			controller.setActiveBook(selected);
 			controller.status_model
 					.setTempStatus("Keine Ausleihe möglich: Bitte erst Benutzer auswählen");
 			return;
 		}
-		controller.library.createAndAddLoan(controller.activeuser_model
-				.getCustomer(), selected);
+		controller.library.createAndAddLoan(controller.getActiveCustomer(), selected);
 	}
 
 	private void showDetailsOf(Book selected) {
-		controller.booktab_model.setActiveBook(selected);
-		controller.tabbed_model.setBookTabActive();
+		controller.setActiveBook(selected);
+		controller.setBookTabActive();
 	}
 }

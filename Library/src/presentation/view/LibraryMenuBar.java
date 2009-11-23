@@ -85,11 +85,11 @@ public class LibraryMenuBar extends JMenuBar implements Observer {
 					.setRolloverIcon(ResManager.getImage("reset16x16.png"));
 			resetMenuItem.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					controller.tabbed_model.setUserTabActive();
-					controller.searchtab_model.resetSearchText();
-					controller.tabbed_model.setSearchTabActive();
+					controller.setUserTabActive();
+					controller.resetSearchText();
+					controller.setSearchTabActive();
 					controller.booktab_model.clearBook();
-					controller.activeuser_model.clearUser();
+					controller.resetActiveCustomer();
 					controller.status_model.setTempStatus("Neustart");
 				}
 			});
@@ -147,7 +147,7 @@ public class LibraryMenuBar extends JMenuBar implements Observer {
 			searchMenuItem.setSelected(true);
 			searchMenuItem.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					controller.tabbed_model.setSearchTabActive();
+					controller.setSearchTabActive();
 				}
 			});
 			viewGroup.add(searchMenuItem);
@@ -159,7 +159,7 @@ public class LibraryMenuBar extends JMenuBar implements Observer {
 			bookMenuItem.setMnemonic('b');
 			bookMenuItem.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					controller.tabbed_model.setBookTabActive();
+					controller.setBookTabActive();
 				}
 			});
 			viewGroup.add(bookMenuItem);
@@ -171,7 +171,7 @@ public class LibraryMenuBar extends JMenuBar implements Observer {
 			userMenuItem.setMnemonic('u');
 			userMenuItem.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					controller.tabbed_model.setUserTabActive();
+					controller.setUserTabActive();
 				}
 			});
 			viewGroup.add(userMenuItem);

@@ -24,7 +24,7 @@ public class MainWindowModel extends Observable {
 		return title + PROGRAM_NAME;
 	}
 
-	public void setTitle(String title) {
+	protected void setTitle(String title) {
 		this.title = title;
 		fireDataChanged();
 	}

@@ -23,7 +23,7 @@ public final class MarkWastePrintFactureAbstractAction extends AbstractAction {
 	public void actionPerformed(ActionEvent e) {
 		controller.status_model.setTempStatus("Rechnung für " + customer + " wird gedruckt");
 		controller.main_model.hideGlassPane();
-		controller.booktab_model.getActiveBook().setCondition(Book.Condition.WASTE);
+		controller.getActiveBook().setCondition(Book.Condition.WASTE);
 		controller.booktab_model.fireDataChanged();
 	}
 }

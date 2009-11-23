@@ -53,7 +53,7 @@ public class ActiveUserPanel extends JPanel implements Observer {
 				DISABLECUSTOMER_IMAGE_HIGH, DISABLECUSTOMER_IMAGE);
 		clearButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				model.clearUser();
+				controller.resetActiveCustomer();
 				clearButton.setEnabled(false);
 			}
 		});
@@ -84,7 +84,7 @@ public class ActiveUserPanel extends JPanel implements Observer {
 	}
 
 	public void update(Observable o, Object arg) {
-		Customer customer = model.getCustomer();
+		Customer customer = controller.getActiveCustomer();
 		if (customer != null) {
 			enableUser(customer);
 		} else {
@@ -99,9 +99,9 @@ public class ActiveUserPanel extends JPanel implements Observer {
 	}
 
 	private String getOptionalLockDetail() {
-		if (controller.library.isCustomerLocked(model.getCustomer())) {
+		if (controller.library.isCustomerLocked(controller.getActiveCustomer())) {
 			int mahnungen = controller.library.getCustomerMahnungen(
-					model.getCustomer()).size();
+					controller.getActiveCustomer()).size();
 			return " (</font><font color=red>gesperrt, " + mahnungen
 					+ (mahnungen == 1 ? " Mahnung" : " Mahnungen")
 					+ ACTIVE_USER_COLOR + ")";

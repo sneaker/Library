@@ -174,7 +174,7 @@ public class SearchEngine extends Observable implements Observer{
 		notifyObservers(results.clone());
 	}
 
-	public void showDefektBook() {
+	public void showDefektBooks() {
 		buildNewIndex();
 		ArrayList<Searchable> tmplist = new ArrayList<Searchable>();
 

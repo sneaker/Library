@@ -22,13 +22,13 @@ public class TabBookModel extends Observable {
 		this.controller = controller;
 	}
 
-	public void setActiveBook(Book activeBook) {
+	protected void setActiveBook(Book activeBook) {
 		this.activeBook = activeBook;
 		setChanged();
 		notifyObservers();
 	}
 
-	public Book getActiveBook() {
+	protected Book getActiveBook() {
 		return activeBook;
 	}
 
@@ -40,7 +40,7 @@ public class TabBookModel extends Observable {
 	}
 
 	public boolean isActiveBookLendable() {
-		if (controller.activeuser_model.getCustomer() != null
+		if (controller.getActiveCustomer() != null
 				&& getActiveBook() != null
 				&& getActiveBook().getCondition() != Book.Condition.WASTE
 				&& !controller.library.isBookLent(getActiveBook()))
@@ -62,8 +62,8 @@ public class TabBookModel extends Observable {
 		return false;
 	}
 
-	public void lendActiveBook() {
-		Customer activeuser = controller.activeuser_model.getCustomer();
+	protected void lendActiveBook() {
+		Customer activeuser = controller.getActiveCustomer();
 		if (isActiveBookLendableFor(activeuser))
 			controller.library.createAndAddLoan(activeuser, getActiveBook());
 	}

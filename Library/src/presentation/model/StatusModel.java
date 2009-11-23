@@ -10,7 +10,7 @@ public class StatusModel extends Observable {
 	private String tempStatus;
 
 	public StatusModel(ModelController controller) {
-		setStatus(controller.searchtab_model.getStatus());
+		setStatus(controller.getSearchStatus());
 	}
 
 	public void setStatus(String newStatus) {
