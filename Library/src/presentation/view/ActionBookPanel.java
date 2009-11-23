@@ -85,6 +85,7 @@ public class ActionBookPanel extends AbstractActionPanel {
 			public void actionPerformed(ActionEvent e) {
 				controller.booktab_model.setEditing(false);
 				controller.status_model.setTempStatus("Änderungen am Buchtitel wurden gesichert");
+				controller.library.fireDataChanged();
 			}
 		});
 	}
