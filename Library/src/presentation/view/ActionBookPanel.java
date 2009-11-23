@@ -4,6 +4,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Observable;
 
+import javax.swing.AbstractAction;
+import javax.swing.ActionMap;
+import javax.swing.InputMap;
+import javax.swing.JComponent;
+import javax.swing.KeyStroke;
+
 import presentation.control.BookCreateActionListener;
 import presentation.control.MarkDefectActionListener;
 import presentation.model.ModelController;
@@ -87,12 +93,25 @@ public class ActionBookPanel extends AbstractActionPanel {
 				"editdone32x32h.png", "editdone32x32.png"));
 		buttons.get("editok").setVisible(false);
 		buttons.get("editok").setMnemonic('t');
-		buttons.get("editok").addActionListener(new ActionListener() {
+		AbstractAction action = new AbstractAction() {
+			private static final long serialVersionUID = 1L;
 			public void actionPerformed(ActionEvent e) {
 				controller.booktab_model.setEditing(false);
 				controller.status_model.setTempStatus("Änderungen am Buchtitel wurden gesichert");
 			}
-		});
+		};
+		addSpecialKeyForEditOk(action);
+		buttons.get("editok").addActionListener(action);
+	}
+	
+	private void addSpecialKeyForEditOk(AbstractAction action) {
+		InputMap inputMap = buttons.get("editok")
+			.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+		inputMap.put(KeyStroke.getKeyStroke("ENTER"), "okay");
+		inputMap.put(KeyStroke.getKeyStroke("control S"), "okay");
+		ActionMap actionMap = buttons.get("editok").getActionMap();
+		buttons.get("editok").setActionMap(actionMap);
+		actionMap.put("okay", action);
 	}
 	
 	private void initEditCancelButton() {
@@ -100,7 +119,8 @@ public class ActionBookPanel extends AbstractActionPanel {
 				"editrevert32x32h.png", "editrevert32x32.png"));
 		buttons.get("editbookcancel").setVisible(false);
 		buttons.get("editbookcancel").setMnemonic('g');
-		buttons.get("editbookcancel").addActionListener(new ActionListener() {
+		AbstractAction action = new AbstractAction() {
+			private static final long serialVersionUID = 1695749765069389958L;
 			public void actionPerformed(ActionEvent e) {
 				if (controller.booktab_model.restoreBookContent())
 					controller.status_model.setTempStatus("Änderungen am Buchtitel wurden zurückgesetzt");
@@ -108,7 +128,18 @@ public class ActionBookPanel extends AbstractActionPanel {
 					controller.status_model.setTempStatus("Fehler: Änderungen am Buchtitel konnten nicht zurückgesetzt werden");
 				controller.booktab_model.setEditing(false);
 			}
-		});
+		};
+		addSpecialKeyForEditCancel(action);
+		buttons.get("editbookcancel").addActionListener(action);
+	}
+	
+	private void addSpecialKeyForEditCancel(AbstractAction action) {
+		InputMap inputMap = buttons.get("editbookcancel")
+			.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+		inputMap.put(KeyStroke.getKeyStroke("ESCAPE"), "cancel");
+		ActionMap actionMap = buttons.get("editbookcancel").getActionMap();
+		buttons.get("editbookcancel").setActionMap(actionMap);
+		actionMap.put("cancel", action);
 	}
 	
 	private void initSearchButton() {
