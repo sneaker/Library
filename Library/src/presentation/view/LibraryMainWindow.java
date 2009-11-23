@@ -35,7 +35,6 @@ public class LibraryMainWindow extends JFrame implements Observer {
 	private ActiveUserPanel userpanel;
 	private LibraryTabbedPane tabbedpane;
 	private ModelController controller;
-	public FindAsYouTypeGlassPane findAsYouTypeGlassPane;
 
 	public LibraryMainWindow(ModelController controller) {
 		this.controller = controller;
