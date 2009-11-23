@@ -22,7 +22,7 @@ public final class MarkWasteAbstractAction extends AbstractAction {
 
 	public void actionPerformed(ActionEvent e) {
 		controller.status_model.setTempStatus("Das Buch \"" + book + "\" wurde ausgemustert");
-		controller.booktab_model.getActiveBook().setCondition(Book.Condition.WASTE);
+		controller.getActiveBook().setCondition(Book.Condition.WASTE);
 		controller.main_model.hideGlassPane();
 		controller.booktab_model.fireDataChanged();
 	}

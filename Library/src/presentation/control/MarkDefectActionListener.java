@@ -35,7 +35,7 @@ public final class MarkDefectActionListener implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		Book activeBook = controller.booktab_model.getActiveBook();
+		Book activeBook = controller.getActiveBook();
 		boolean noLoans = controller.library.getLoansPerBook(activeBook).size() == 0;
 		String tmp = activeBook.getTitle().getName();
 		final String book = tmp.substring(0, Math.min(tmp.length(), 20));

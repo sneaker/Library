@@ -45,16 +45,16 @@ public class TabBookLoanJPanel extends JPanel implements Observer {
 	}
 
 	public void update(Observable o, Object arg) {
-		boolean isBookActive = bmodel.getActiveBook() != null;
+		boolean isBookActive = controller.getActiveBook() != null;
 		setVisible(isBookActive
-				&& bmodel.getActiveBook().getCondition() != Book.Condition.WASTE);
+				&& controller.getActiveBook().getCondition() != Book.Condition.WASTE);
 
 		if (isBookActive)
 			updateLoanStatusText();
 	}
 
 	private void updateLoanStatusText() {
-		Book book = bmodel.getActiveBook();
+		Book book = controller.getActiveBook();
 		List<Loan> loanList = controller.library.getLoansPerBook(book);
 		Loan recentLoan = controller.library.getRecentLoanOf(book);
 
@@ -65,7 +65,7 @@ public class TabBookLoanJPanel extends JPanel implements Observer {
 	}
 
 	private String getLoanStatusText(List<Loan> loanList, Loan recentLoan) {
-		boolean isLent = controller.library.isBookLent(controller.booktab_model.getActiveBook());
+		boolean isLent = controller.library.isBookLent(controller.getActiveBook());
 		String result = boldText("Ausleihezustand: ");
 		if (recentLoan == null)
 			return result + "Verfügbar (noch nie ausgeliehen)" + NEWLINE;

@@ -28,7 +28,7 @@ public class ActionPanelModel extends Observable {
 
 	public void lendBook() {
 		Customer activeuser = controller.getActiveCustomer();
-		Book activebook = controller.booktab_model.getActiveBook();
+		Book activebook = controller.getActiveBook();
 		if (controller.library.isCustomerLocked(activeuser)) {
 			controller.status_model
 					.setTempStatus("Keine Ausleihe möglich: Benutzer hat noch aktive Mahnungen.");
@@ -46,15 +46,15 @@ public class ActionPanelModel extends Observable {
 		controller.booktab_model.lendActiveBook();
 		fireDataChanged();
 		controller.status_model.setTempStatus("Buch wurde ausgeliehen: "
-				+ controller.booktab_model.getActiveBook().getTitle().getName()
+				+ controller.getActiveBook().getTitle().getName()
 				+ getDecoratedCustomerName("für: "));
 	}
 
 	public void returnBook() {
-		controller.library.returnBook(controller.booktab_model.getActiveBook());
+		controller.library.returnBook(controller.getActiveBook());
 		fireDataChanged();
 		controller.status_model.setTempStatus("Zurück in der Bibliothek: "
-				+ controller.booktab_model.getActiveBook().getTitle().getName()
+				+ controller.getActiveBook().getTitle().getName()
 				+ getDecoratedCustomerName("von: "));
 	}
 

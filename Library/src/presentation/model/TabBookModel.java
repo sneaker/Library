@@ -28,7 +28,7 @@ public class TabBookModel extends Observable {
 		notifyObservers();
 	}
 
-	public Book getActiveBook() {
+	protected Book getActiveBook() {
 		return activeBook;
 	}
 

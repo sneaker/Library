@@ -21,7 +21,6 @@ import javax.swing.text.JTextComponent;
 
 import presentation.control.MarkDefectActionListener;
 import presentation.model.ModelController;
-import presentation.model.TabBookModel;
 import domain.Book;
 import domain.Book.Condition;
 
@@ -48,14 +47,12 @@ public class TabBookDetailJPanel extends JPanel implements Observer {
 	private DetailTextField publishText;
 	private JLabel conditionLabel;
 	private DetailTextField conditionText;
-	private TabBookModel bmodel;
 	private final ModelController controller;
 	private JComboBox conditionCombo;
 	private JTextArea commentText;
 
 	public TabBookDetailJPanel(ModelController controller) {
 		this.controller = controller;
-		bmodel = controller.booktab_model;
 		controller.booktab_model.addObserver(this);
 		controller.library.addObserver(this);
 		initGUI();
@@ -215,13 +212,13 @@ public class TabBookDetailJPanel extends JPanel implements Observer {
 	}
 
 	private void updateDetails() {
-		conditionText.setRed(bmodel.getActiveBook().getCondition().equals(
+		conditionText.setRed(controller.getActiveBook().getCondition().equals(
 				Book.Condition.WASTE));
-		conditionText.setText(bmodel.getActiveBook().getConditionString());
-		titleText.setText(bmodel.getActiveBook().getTitle().getName());
-		authorText.setText(bmodel.getActiveBook().getTitle().getAuthor());
-		publishText.setText(bmodel.getActiveBook().getTitle().getPublisher());
-		commentText.setText(bmodel.getActiveBook().getConditionComment());
+		conditionText.setText(controller.getActiveBook().getConditionString());
+		titleText.setText(controller.getActiveBook().getTitle().getName());
+		authorText.setText(controller.getActiveBook().getTitle().getAuthor());
+		publishText.setText(controller.getActiveBook().getTitle().getPublisher());
+		commentText.setText(controller.getActiveBook().getConditionComment());
 	}
 
 	private void updateErrors() {
@@ -237,7 +234,7 @@ public class TabBookDetailJPanel extends JPanel implements Observer {
 			if (!conditionCombo.getSelectedItem().equals(c))
 				conditionCombo.setSelectedItem(c);
 		}
-		boolean isBookActive = bmodel.getActiveBook() != null;
+		boolean isBookActive = controller.getActiveBook() != null;
 		setEditable(isBookActive && controller.booktab_model.isEditing());
 		updateTitle(isBookActive);
 		setDetailsVisibility(isBookActive);
@@ -252,19 +249,18 @@ public class TabBookDetailJPanel extends JPanel implements Observer {
 	private void stopEditingWhenBookChanged() {
 		if (!controller.booktab_model.isSameBook()
 				&& controller.booktab_model.isEditing()
-				&& controller.booktab_model.getActiveBook() != null) {
+				&& controller.getActiveBook() != null) {
 			setEditable(false);
 			controller.booktab_model.setEditing(false);
 			controller.status_model
 					.setTempStatus("Veränderte Buchdaten wurden automatisch gesichert.");
 		}
-		controller.booktab_model.setLastBook(controller.booktab_model
-				.getActiveBook());
+		controller.booktab_model.setLastBook(controller.getActiveBook());
 	}
 
 	private void updateTitle(boolean isBookActive) {
 		if (isBookActive)
-			titleText.setText(controller.booktab_model.getActiveBook()
+			titleText.setText(controller.getActiveBook()
 					.getTitle().getName());
 		else
 			titleText.setText(INACTIVE_TEXT);
@@ -294,7 +290,7 @@ public class TabBookDetailJPanel extends JPanel implements Observer {
 			remove(conditionText);
 			add(conditionCombo, getConditionGridBagConstraints());
 
-			Condition co = controller.booktab_model.getActiveBook()
+			Condition co = controller.getActiveBook()
 					.getCondition();
 			conditionCombo.setSelectedIndex(conditionToIndex(co));
 
@@ -337,7 +333,7 @@ public class TabBookDetailJPanel extends JPanel implements Observer {
 				return;
 			remove(titleText);
 			add(titleTextEditable, getTitleGridBagConstraints());
-			titleTextEditable.setText(controller.booktab_model.getActiveBook()
+			titleTextEditable.setText(controller.getActiveBook()
 					.getTitle().getName());
 			titleTextEditable.setEditable(true);
 			titleTextEditable.requestFocus();
@@ -362,7 +358,7 @@ public class TabBookDetailJPanel extends JPanel implements Observer {
 			String newTitle = origin.getText();
 			boolean ok = newTitle.length() != 0;
 			controller.booktab_model.setErrorAtTitle(!ok);
-			controller.booktab_model.getActiveBook().getTitle().setName(
+			controller.getActiveBook().getTitle().setName(
 					newTitle);
 			controller.booktab_model.fireDataChanged();
 		}
@@ -381,7 +377,7 @@ public class TabBookDetailJPanel extends JPanel implements Observer {
 			String newAuthor = origin.getText();
 			boolean ok = newAuthor.length() != 0;
 			controller.booktab_model.setErrorAtAuthor(!ok);
-			controller.booktab_model.getActiveBook().getTitle().setAuthor(
+			controller.getActiveBook().getTitle().setAuthor(
 					newAuthor);
 			controller.booktab_model.fireDataChanged();
 		}
@@ -400,7 +396,7 @@ public class TabBookDetailJPanel extends JPanel implements Observer {
 			String newPublisher = origin.getText();
 			boolean ok = newPublisher.length() != 0;
 			controller.booktab_model.setErrorAtPublisher(!ok);
-			controller.booktab_model.getActiveBook().getTitle().setPublisher(
+			controller.getActiveBook().getTitle().setPublisher(
 					newPublisher);
 			controller.booktab_model.fireDataChanged();
 		}
@@ -416,11 +412,11 @@ public class TabBookDetailJPanel extends JPanel implements Observer {
 
 		public void itemStateChanged(ItemEvent e) {
 			Condition newCondition = Book.Condition.getCondition((String)e.getItem());
-			oldCondition = controller.booktab_model.getActiveBook().getCondition();
+			oldCondition = controller.getActiveBook().getCondition();
 			if (newCondition == Book.Condition.WASTE && oldCondition != Book.Condition.WASTE) {
 				new MarkDefectActionListener(controller, oldCondition).actionPerformed(new ActionEvent(newCondition, 0, ""));
 			} else {
-				controller.booktab_model.getActiveBook().setCondition(
+				controller.getActiveBook().setCondition(
 						newCondition);
 				controller.status_model.setTempStatus("Buch markiert als "
 						+ Book.Condition.getConditionString(newCondition));
@@ -436,7 +432,7 @@ public class TabBookDetailJPanel extends JPanel implements Observer {
 				return;
 			JTextComponent origin = (JTextComponent) e.getComponent();
 			String newComment = origin.getText();
-			controller.booktab_model.getActiveBook().setConditionComment(
+			controller.getActiveBook().setConditionComment(
 					newComment);
 			controller.booktab_model.fireDataChanged();
 		}
