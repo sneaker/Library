@@ -7,6 +7,7 @@ import presentation.control.NewSearchText;
 import presentation.control.ShowAvailableBooksAction;
 import presentation.control.ShowDefectBooks;
 import presentation.control.ShowLentBooksActionListener;
+import presentation.control.ShowOnlyUserActionListener;
 import presentation.control.UserCreateActionListener;
 import presentation.model.ModelController;
 

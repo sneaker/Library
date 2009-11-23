@@ -14,7 +14,7 @@ public class UserCreateActionListener implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		Customer add = controller.library.createAndAddCustomer("Neuer", "Benutzer");;
+		Customer add = controller.library.createAndAddCustomer("Nachname", "Vorname");;
 		add.setAdress("Strasse", 1234, "Ort");
 		controller.setActiveCustomer(add);
 		controller.usertab_model.setEditing(true);
