@@ -43,6 +43,26 @@ public class TabUserLoanJPanel extends JPanel implements Observer {
 		loanList = new JList(controller.loanModel);
 		loanList.setCellRenderer(new SearchResultCellRenderer(controller));
 		loanList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		addListSelectionListener();
+		addMouseListener();
+		addFocusListener();
+		loanScroll = new JScrollPane(loanList);
+		GridBagConstraints c = setGridLayout();
+		add(loanScroll, c);
+	}
+
+	private GridBagConstraints setGridLayout() {
+		GridBagConstraints c = new GridBagConstraints();
+		c.anchor = GridBagConstraints.FIRST_LINE_START;
+		c.fill = GridBagConstraints.BOTH;
+		c.gridx = 0;
+		c.gridy = 0;
+		c.weightx = 1.0;
+		c.weighty = 1.0;
+		return c;
+	}
+
+	private void addListSelectionListener() {
 		loanList.addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {
 				if (loanList.getSelectedIndex() >= 0) {
@@ -55,6 +75,22 @@ public class TabUserLoanJPanel extends JPanel implements Observer {
 				getParent().validate();
 			}
 		});
+	}
+
+	private void addFocusListener() {
+		loanList.addFocusListener(new FocusListener() {
+			public void focusLost(FocusEvent e) {
+			}
+
+			public void focusGained(FocusEvent e) {
+				if (loanList.getSelectedIndex() == -1
+						&& loanList.getModel().getSize() > 0)
+					loanList.setSelectedIndex(0);
+			}
+		});
+	}
+
+	private void addMouseListener() {
 		loanList.addMouseListener(new ListItemMouseListener(controller) {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -62,38 +98,6 @@ public class TabUserLoanJPanel extends JPanel implements Observer {
 				getParent().validate();
 			}
 		});
-		loanList.addFocusListener(new FocusListener() {
-			public void focusLost(FocusEvent e) {
-			}
-			
-			public void focusGained(FocusEvent e) {
-				if (loanList.getSelectedIndex() == -1 && loanList.getModel().getSize() > 0)
-					loanList.setSelectedIndex(0);
-			}
-		});
-//		loanList.addMouseMotionListener(new MouseAdapter() {
-//			public void mouseMoved(MouseEvent e) {
-//				int index = eventToListIndex(e);
-//				if (index < 0)
-//					return;
-//				loanList.setSelectedIndex(loanList.locationToIndex(new Point(e.getX(), e.getY())));
-//			}
-//			private int eventToListIndex(MouseEvent e) {
-//				int index = loanList.locationToIndex(new Point(e.getX(), e.getY()));
-//				return index;
-//			}
-//		});
-		
-
-		loanScroll = new JScrollPane(loanList);
-		GridBagConstraints c = new GridBagConstraints();
-		c.anchor = GridBagConstraints.FIRST_LINE_START;
-		c.fill = GridBagConstraints.BOTH;
-		c.gridx = 0;
-		c.gridy = 0;
-		c.weightx = 1.0;
-		c.weighty = 1.0;
-		add(loanScroll, c);
 	}
 
 	private void updateCustomerLoans(Customer customer) {

@@ -80,8 +80,14 @@ public class TabSearchPanel extends JPanel implements Observer {
 		searchField.setFont(new Font(null, Font.PLAIN, 18));
 		searchField.setForeground(Color.GRAY);
 		searchField.setBorder(new EmptyBorder(10, 10, 10, 10));
-		searchField.addKeyListener(new KeyAdapter() {
-			
+		addKeyListener();
+		setSearchFieldDefaultTextListeners();
+		searchTab.add(searchField);
+		contentPanel.add(searchTab, BorderLayout.NORTH);
+	}
+
+	private void addKeyListener() {
+		searchField.addKeyListener(new KeyAdapter() {	
 			public void keyReleased(KeyEvent e) {
 				if ((e.getKeyCode() >= KeyEvent.VK_A)
 						&& (e.getKeyCode() <= KeyEvent.VK_Z)
@@ -93,14 +99,8 @@ public class TabSearchPanel extends JPanel implements Observer {
 				if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE || e.getKeyCode() == KeyEvent.VK_DELETE) {
 					controller.forwarDelEvent(e.getKeyChar(), searchField.getText());
 				}
-//				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-//					controller.selectSingleElement();
-//				}
 			}
 		});
-		setSearchFieldDefaultTextListeners();
-		searchTab.add(searchField);
-		contentPanel.add(searchTab, BorderLayout.NORTH);
 	}
 
 	/**

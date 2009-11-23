@@ -76,60 +76,76 @@ public class LibraryMenuBar extends JMenuBar implements Observer {
 		fileMenu.setText("Datei");
 		fileMenu.setMnemonic(java.awt.event.KeyEvent.VK_D);
 		{
-			resetMenuItem = new JMenuItem("Aufräumen");
-			resetMenuItem.setAccelerator(KeyStroke.getKeyStroke("F4"));
-			resetMenuItem.setMnemonic('n');
-			resetMenuItem.setRolloverEnabled(true);
-			resetMenuItem.setIcon(ResManager.getImage("reset16x16h.png"));
-			resetMenuItem
-					.setRolloverIcon(ResManager.getImage("reset16x16.png"));
-			resetMenuItem.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					controller.setUserTabActive();
-					controller.resetSearchText();
-					controller.setSearchTabActive();
-					controller.booktab_model.clearBook();
-					controller.resetActiveCustomer();
-					controller.status_model.setTempStatus("Neustart");
-				}
-			});
-			fileMenu.add(resetMenuItem);
+			initResetMenuItem(fileMenu);
 
 			separator = new JSeparator();
 			fileMenu.add(separator);
 
-			createUserSearchMenuItem = new JMenuItem();
-			createUserSearchMenuItem.setText("Neuer Benutzer");
-			createUserSearchMenuItem.setIcon(ResManager
-					.getImage("newcustomer16x16h.png"));
-			createUserSearchMenuItem.setRolloverIcon(ResManager
-					.getImage("newcustomer16x16.png"));
-			createUserSearchMenuItem
-					.addActionListener(new UserCreateActionListener(controller));
-			createUserSearchMenuItem.setMnemonic('e');
-			fileMenu.add(createUserSearchMenuItem);
+			initCreateUserSearchMenuItem(fileMenu);
 
-			createBookSearchMenuItem = new JMenuItem();
-			createBookSearchMenuItem.setText("Neues Buch");
-			createBookSearchMenuItem.setIcon(ResManager
-					.getImage("newbook16x16h.png"));
-			createBookSearchMenuItem.setRolloverIcon(ResManager
-					.getImage("newbook16x16.png"));
-			createBookSearchMenuItem
-					.addActionListener(new BookCreateActionListener(controller));
-			createBookSearchMenuItem.setMnemonic('e');
-			fileMenu.add(createBookSearchMenuItem);
+			initCreateBookSearchMenuItem(fileMenu);
 
 			separator = new JSeparator();
 			fileMenu.add(separator);
 
-			exitMenuItem = new JMenuItem("Beenden");
-			exitMenuItem.addActionListener(new FileExitAction());
-			exitMenuItem.setMnemonic('b');
-			exitMenuItem.setIcon(ResManager.getImage("exit16x16h.png"));
-			exitMenuItem.setRolloverIcon(ResManager.getImage("exit16x16.png"));
-			fileMenu.add(exitMenuItem);
+			initExitMenuItem(fileMenu);
 		}
+	}
+
+	private void initExitMenuItem(JMenu fileMenu) {
+		exitMenuItem = new JMenuItem("Beenden");
+		exitMenuItem.addActionListener(new FileExitAction());
+		exitMenuItem.setMnemonic('b');
+		exitMenuItem.setIcon(ResManager.getImage("exit16x16h.png"));
+		exitMenuItem.setRolloverIcon(ResManager.getImage("exit16x16.png"));
+		fileMenu.add(exitMenuItem);
+	}
+
+	private void initCreateBookSearchMenuItem(JMenu fileMenu) {
+		createBookSearchMenuItem = new JMenuItem();
+		createBookSearchMenuItem.setText("Neues Buch");
+		createBookSearchMenuItem.setIcon(ResManager
+				.getImage("newbook16x16h.png"));
+		createBookSearchMenuItem.setRolloverIcon(ResManager
+				.getImage("newbook16x16.png"));
+		createBookSearchMenuItem
+				.addActionListener(new BookCreateActionListener(controller));
+		createBookSearchMenuItem.setMnemonic('e');
+		fileMenu.add(createBookSearchMenuItem);
+	}
+
+	private void initCreateUserSearchMenuItem(JMenu fileMenu) {
+		createUserSearchMenuItem = new JMenuItem();
+		createUserSearchMenuItem.setText("Neuer Benutzer");
+		createUserSearchMenuItem.setIcon(ResManager
+				.getImage("newcustomer16x16h.png"));
+		createUserSearchMenuItem.setRolloverIcon(ResManager
+				.getImage("newcustomer16x16.png"));
+		createUserSearchMenuItem
+				.addActionListener(new UserCreateActionListener(controller));
+		createUserSearchMenuItem.setMnemonic('e');
+		fileMenu.add(createUserSearchMenuItem);
+	}
+
+	private void initResetMenuItem(JMenu fileMenu) {
+		resetMenuItem = new JMenuItem("Aufräumen");
+		resetMenuItem.setAccelerator(KeyStroke.getKeyStroke("F4"));
+		resetMenuItem.setMnemonic('n');
+		resetMenuItem.setRolloverEnabled(true);
+		resetMenuItem.setIcon(ResManager.getImage("reset16x16h.png"));
+		resetMenuItem
+				.setRolloverIcon(ResManager.getImage("reset16x16.png"));
+		resetMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				controller.setUserTabActive();
+				controller.resetSearchText();
+				controller.setSearchTabActive();
+				controller.booktab_model.clearBook();
+				controller.resetActiveCustomer();
+				controller.status_model.setTempStatus("Neustart");
+			}
+		});
+		fileMenu.add(resetMenuItem);
 	}
 
 	private void initViewMenu() {
@@ -140,43 +156,55 @@ public class LibraryMenuBar extends JMenuBar implements Observer {
 		{
 			viewGroup = new ButtonGroup();
 
-			searchMenuItem = new JRadioButtonMenuItem();
-			searchMenuItem.setText("Recherche");
-			searchMenuItem.setAccelerator(KeyStroke.getKeyStroke("F5"));
-			searchMenuItem.setMnemonic('c');
-			searchMenuItem.setSelected(true);
-			searchMenuItem.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					controller.setSearchTabActive();
-				}
-			});
-			viewGroup.add(searchMenuItem);
-			viewMenu.add(searchMenuItem);
+			initSearchMenuItem();
 
-			bookMenuItem = new JRadioButtonMenuItem();
-			bookMenuItem.setText("Buchdetails");
-			bookMenuItem.setAccelerator(KeyStroke.getKeyStroke("F6"));
-			bookMenuItem.setMnemonic('b');
-			bookMenuItem.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					controller.setBookTabActive();
-				}
-			});
-			viewGroup.add(bookMenuItem);
-			viewMenu.add(bookMenuItem);
+			initBookMenuItem();
 
-			userMenuItem = new JRadioButtonMenuItem();
-			userMenuItem.setText("Benutzerdetails");
-			userMenuItem.setAccelerator(KeyStroke.getKeyStroke("F7"));
-			userMenuItem.setMnemonic('u');
-			userMenuItem.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					controller.setUserTabActive();
-				}
-			});
-			viewGroup.add(userMenuItem);
-			viewMenu.add(userMenuItem);
+			initMenuItem();
 		}
+	}
+
+	private void initMenuItem() {
+		userMenuItem = new JRadioButtonMenuItem();
+		userMenuItem.setText("Benutzerdetails");
+		userMenuItem.setAccelerator(KeyStroke.getKeyStroke("F7"));
+		userMenuItem.setMnemonic('u');
+		userMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				controller.setUserTabActive();
+			}
+		});
+		viewGroup.add(userMenuItem);
+		viewMenu.add(userMenuItem);
+	}
+
+	private void initBookMenuItem() {
+		bookMenuItem = new JRadioButtonMenuItem();
+		bookMenuItem.setText("Buchdetails");
+		bookMenuItem.setAccelerator(KeyStroke.getKeyStroke("F6"));
+		bookMenuItem.setMnemonic('b');
+		bookMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				controller.setBookTabActive();
+			}
+		});
+		viewGroup.add(bookMenuItem);
+		viewMenu.add(bookMenuItem);
+	}
+
+	private void initSearchMenuItem() {
+		searchMenuItem = new JRadioButtonMenuItem();
+		searchMenuItem.setText("Recherche");
+		searchMenuItem.setAccelerator(KeyStroke.getKeyStroke("F5"));
+		searchMenuItem.setMnemonic('c');
+		searchMenuItem.setSelected(true);
+		searchMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				controller.setSearchTabActive();
+			}
+		});
+		viewGroup.add(searchMenuItem);
+		viewMenu.add(searchMenuItem);
 	}
 
 	private void initSearchMenu() {
@@ -185,17 +213,40 @@ public class LibraryMenuBar extends JMenuBar implements Observer {
 		searchMenu.setText("Recherche");
 		searchMenu.setMnemonic(java.awt.event.KeyEvent.VK_R);
 
-		allBooksMenuItem = new JMenuItem();
-		allBooksMenuItem.setText("Neue Suche");
-		allBooksMenuItem.setIcon(ResManager.getImage("search16x16h.png"));
-		allBooksMenuItem
-				.setRolloverIcon(ResManager.getImage("search16x16.png"));
-		allBooksMenuItem.addActionListener(new NewSearchText(controller));
-		allBooksMenuItem.setMnemonic('n');
-		searchMenu.add(allBooksMenuItem);
+		initAllBooksMenuItem();
 
 		searchMenu.add(new JSeparator());
 
+		initAvailableBooksMenuItem();
+
+		initDamagedBooksMenuItem();
+
+		initLentBooksMenuItem();
+	}
+
+	private void initLentBooksMenuItem() {
+		lentBooksMenuItem = new JMenuItem();
+		lentBooksMenuItem.setText("Ausgeliehene Bücher");
+		lentBooksMenuItem.setMnemonic('l');
+		lentBooksMenuItem.setIcon(ResManager.getImage("allloans16x16h.png"));
+		lentBooksMenuItem.setRolloverIcon(ResManager
+				.getImage("allloans16x16.png"));
+		searchMenu.add(lentBooksMenuItem);
+	}
+
+	private void initDamagedBooksMenuItem() {
+		damagedBooksMenuItem = new JMenuItem();
+		damagedBooksMenuItem.setText("Beschädigte Bücher");
+		damagedBooksMenuItem.setMnemonic('d');
+		damagedBooksMenuItem.setIcon(ResManager
+				.getImage("wastebooks16x16h.png"));
+		damagedBooksMenuItem.setRolloverIcon(ResManager
+				.getImage("wastebooks16x16.png"));
+		damagedBooksMenuItem.addActionListener(new ShowDefectBooks(controller));
+		searchMenu.add(damagedBooksMenuItem);
+	}
+
+	private void initAvailableBooksMenuItem() {
 		availableBooksMenuItem = new JMenuItem();
 		availableBooksMenuItem.setText("Verfügbare Bücher");
 		availableBooksMenuItem.setMnemonic('V');
@@ -206,24 +257,17 @@ public class LibraryMenuBar extends JMenuBar implements Observer {
 		availableBooksMenuItem.addActionListener(new ShowAvailableBooksAction(
 				controller));
 		searchMenu.add(availableBooksMenuItem);
+	}
 
-		damagedBooksMenuItem = new JMenuItem();
-		damagedBooksMenuItem.setText("Beschädigte Bücher");
-		damagedBooksMenuItem.setMnemonic('d');
-		damagedBooksMenuItem.setIcon(ResManager
-				.getImage("wastebooks16x16h.png"));
-		damagedBooksMenuItem.setRolloverIcon(ResManager
-				.getImage("wastebooks16x16.png"));
-		damagedBooksMenuItem.addActionListener(new ShowDefectBooks(controller));
-		searchMenu.add(damagedBooksMenuItem);
-
-		lentBooksMenuItem = new JMenuItem();
-		lentBooksMenuItem.setText("Ausgeliehene Bücher");
-		lentBooksMenuItem.setMnemonic('l');
-		lentBooksMenuItem.setIcon(ResManager.getImage("allloans16x16h.png"));
-		lentBooksMenuItem.setRolloverIcon(ResManager
-				.getImage("allloans16x16.png"));
-		searchMenu.add(lentBooksMenuItem);
+	private void initAllBooksMenuItem() {
+		allBooksMenuItem = new JMenuItem();
+		allBooksMenuItem.setText("Neue Suche");
+		allBooksMenuItem.setIcon(ResManager.getImage("search16x16h.png"));
+		allBooksMenuItem
+				.setRolloverIcon(ResManager.getImage("search16x16.png"));
+		allBooksMenuItem.addActionListener(new NewSearchText(controller));
+		allBooksMenuItem.setMnemonic('n');
+		searchMenu.add(allBooksMenuItem);
 	}
 
 	private void initBookMenu() {
