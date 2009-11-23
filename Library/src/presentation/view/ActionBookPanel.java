@@ -109,7 +109,7 @@ public class ActionBookPanel extends AbstractActionPanel {
 				"search32x32h.png", "search32x32.png"));
 		buttons.get("search").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				controller.tabbed_model.setSearchTabActive();
+				controller.setSearchTabActive();
 			}
 		});
 	}

@@ -107,4 +107,12 @@ public class ModelController {
 	public void setBookTabActive() {
 		tabbed_model.setBookTabActive();
 	}
+	
+	public void setUserTabActive() {
+		tabbed_model.setUserTabActive();
+	}
+	
+	public void setSearchTabActive() {
+		tabbed_model.setSearchTabActive();
+	}
 }

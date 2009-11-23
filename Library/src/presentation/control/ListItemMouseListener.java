@@ -54,7 +54,7 @@ public class ListItemMouseListener extends MouseAdapter {
 			controller.resultlist_model.fireDataChanged(this, index);
 		} else {
 			controller.setActiveCustomer(selected);
-			controller.tabbed_model.setUserTabActive();
+			controller.setUserTabActive();
 		}
 	}
 

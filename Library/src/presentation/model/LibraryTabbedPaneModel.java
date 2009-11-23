@@ -55,20 +55,15 @@ public class LibraryTabbedPaneModel extends Observable {
 		return tabInformation;
 	}
 
-	public void setSearchTabActive() {
+	protected void setSearchTabActive() {
 		setActiveTab(SEARCH_TAB);
 	}
 
-	public void setBookTabActive() {
+	protected void setBookTabActive() {
 		setActiveTab(BOOK_TAB);
 	}
 
-	public void setUserTabActive() {
+	protected void setUserTabActive() {
 		setActiveTab(USER_TAB);
 	}
-
-	public boolean isUserTabActive() {
-		return getActiveTab() == USER_TAB;
-	}
-
 }

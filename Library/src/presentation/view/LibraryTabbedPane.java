@@ -60,11 +60,11 @@ public class LibraryTabbedPane extends JTabbedPane implements Observer {
 		addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
 				if (getSelectedComponent() instanceof TabUserPanel)
-					model.setUserTabActive();
+					controller.setUserTabActive();
 				else if (getSelectedComponent() instanceof TabBookPanel)
 					controller.setBookTabActive();
 				else
-					model.setSearchTabActive();
+					controller.setSearchTabActive();
 			}
 		});
 	}

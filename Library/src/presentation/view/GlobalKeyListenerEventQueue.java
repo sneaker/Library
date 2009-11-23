@@ -62,7 +62,7 @@ public final class GlobalKeyListenerEventQueue extends EventQueue {
 	 */
 	private void handleUserID() {
 		if (lookBackForID.isUserID()) {
-			controller.tabbed_model.setUserTabActive();
+			controller.setUserTabActive();
 		}
 	}
 

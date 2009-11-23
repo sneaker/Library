@@ -22,6 +22,6 @@ public class UserCreateActionListener implements ActionListener {
 		controller.setActiveCustomer(add);
 		controller.usertab_model.setEditing(true);
 		controller.status_model.setTempStatus("Neuer Benutzer erstellt");
-		controller.tabbed_model.setUserTabActive();
+		controller.setUserTabActive();
 	}
 }
