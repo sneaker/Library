@@ -10,11 +10,9 @@ public class TabSearchModel extends Observable {
 
 	private static final String DEFAULT_SEARCH_STRING = "Benutzernamen, Buchtitel oder Autor eingeben";
 	private String searchFieldText = DEFAULT_SEARCH_STRING;
-	private ModelController controller;
 	private boolean hasFocus;
 
 	public TabSearchModel(ModelController controller) {
-		this.controller = controller;
 	}
 
 	/**
