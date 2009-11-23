@@ -22,6 +22,7 @@ public class ActionBookPanel extends AbstractActionPanel {
 		super(controller);
 		controller.booktab_model.addObserver(this);
 		controller.library.addObserver(this);
+		controller.activeuser_model.addObserver(this);
 	}
 
 	protected void initActionButtons() {
