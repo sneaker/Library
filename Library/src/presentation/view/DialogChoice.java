@@ -66,13 +66,13 @@ public class DialogChoice extends JPanel {
 		c.insets = new Insets(10, 3, 0, 3);
 		add(msgLabel, c);
 
-		int i = 0;
 		c = new GridBagConstraints();
 		c.anchor = GridBagConstraints.LAST_LINE_END;
 		c.gridy = 1;
 		c.weighty = 0.0;
 		c.insets = new Insets(10, 0, 10, 10);
 		JButton[] buttons = new JButton[options.length];
+		int i = 0;
 		for (String option : options) {
 			c.gridx = i + 1;
 			c.weightx = (i == 0 ? 1.0 : 0.0);

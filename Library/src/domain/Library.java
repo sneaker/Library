@@ -45,6 +45,11 @@ public class Library extends Observable {
 		notifyObservers();
 	}
 
+	/**
+	 * @param name - Nachname, Familienname
+	 * @param surname - Vorname
+	 * @return
+	 */
 	public Customer createAndAddCustomer(String name, String surname) {
 		Customer c = new Customer(name, surname);
 		customers.add(c);

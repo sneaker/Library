@@ -1,5 +1,6 @@
 package presentation.view;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -267,6 +268,10 @@ public class TabBookDetailJPanel extends JPanel implements Observer {
 	}
 
 	private void setEditable(boolean editable) {
+		if (editable) {
+			authorText.setSelectionColor(Color.BLUE);
+			publishText.setSelectionColor(Color.BLUE);
+		}
 		setTitleTextEditable(editable);
 		authorText.setEditable(editable);
 		publishText.setEditable(editable);
@@ -336,6 +341,7 @@ public class TabBookDetailJPanel extends JPanel implements Observer {
 			titleTextEditable.setText(controller.getActiveBook()
 					.getTitle().getName());
 			titleTextEditable.setEditable(true);
+			titleTextEditable.setSelectionColor(Color.BLUE);
 			titleTextEditable.requestFocus();
 		} else {
 			if (!isAncestorOf(titleTextEditable))

@@ -1,5 +1,6 @@
 package presentation.view;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -189,6 +190,10 @@ public class TabUserDetailJPanel extends JPanel implements Observer {
 	}
 
 	private void setEditable(boolean editable) {
+		if (editable) {
+			addressText.setSelectionColor(Color.BLUE);
+			placeText.setSelectionColor(Color.BLUE);
+		} 
 		setTitleTextEditable(editable);
 		addressText.setEditable(editable);
 		placeText.setEditable(editable);
@@ -204,12 +209,14 @@ public class TabUserDetailJPanel extends JPanel implements Observer {
 			titleTextEditable.setText(controller.getActiveCustomer().getFullName());
 			titleTextEditable.setEditable(true);
 			titleTextEditable.setFont(TITLE_FONT);
+			titleTextEditable.setSelectionColor(Color.BLUE);
 			titleTextEditable.addKeyListener(new ValidateFullNameKeyListener());
 			titleTextEditable.requestFocus();
 		} else {
 			if (!isAncestorOf(titleTextEditable))
 				return;
 			remove(titleTextEditable);
+			titleText.setSelectionColor(Color.BLUE);
 			add(titleText, getTitleGridBagConstraints());
 		}
 	}

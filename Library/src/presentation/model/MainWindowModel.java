@@ -1,5 +1,6 @@
 package presentation.model;
 
+import java.util.ArrayList;
 import java.util.Observable;
 
 import domain.Message;
@@ -12,10 +13,11 @@ public class MainWindowModel extends Observable {
 
 	private static final String PROGRAM_NAME = " - BücherBox";
 	private String title = "Recherche";
-	private Message activeMessage;
+	private ArrayList<Message> activeMessages;
 
 	public MainWindowModel(ModelController controller) {
 		title = "Recherche";
+		activeMessages = new ArrayList<Message>();
 	}
 
 	public String getTitle() {
@@ -33,16 +35,21 @@ public class MainWindowModel extends Observable {
 	}
 
 	public Message getActiveMessage() {
-		return activeMessage;
+		if (!activeMessages.isEmpty()) {
+			return activeMessages.get(activeMessages.size()-1);
+		}
+		else
+			return null;
 	}
 
-	public void setActiveMessage(Message msg) {
-		this.activeMessage = msg;
+	public void addActiveMessage(Message msg) {
+		activeMessages.add(msg);
 		fireDataChanged();
 	}
 
 	public void hideGlassPane() {
-		this.activeMessage = null;
+		if (!activeMessages.isEmpty())
+			activeMessages.remove(activeMessages.size()-1);
 		fireDataChanged();
 	}
 }

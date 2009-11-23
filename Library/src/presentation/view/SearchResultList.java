@@ -62,6 +62,10 @@ public class SearchResultList extends JList implements ListDataListener  {
 
 		addMouseListener(new ListItemMouseListener(controller));
 		
+		setInputMapSettings();
+	}
+
+	private void setInputMapSettings() {
 		InputMap inputMap = getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
 		inputMap.put(KeyStroke.getKeyStroke("ENTER"), "go");
 		ActionMap actionMap = getActionMap();
@@ -109,8 +113,7 @@ public class SearchResultList extends JList implements ListDataListener  {
 		repaint();
 	}
 
-	public void intervalAdded(ListDataEvent e) {
-		
+	public void intervalAdded(ListDataEvent e) {	
 	}
 
 	public void intervalRemoved(ListDataEvent e) {
