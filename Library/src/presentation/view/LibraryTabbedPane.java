@@ -85,7 +85,7 @@ public class LibraryTabbedPane extends JTabbedPane implements Observer {
 	public void update(Observable o, Object arg) {
 		if (arg instanceof Book) {
 			Book newBook = (Book)arg;
-			controller.booktab_model.setActiveBook(newBook);
+			controller.setActiveBook(newBook);
 		}
 		switchTo(model.getActiveTab());
 	}

@@ -71,7 +71,7 @@ public class SearchResultList extends JList implements ListDataListener  {
 			public void actionPerformed(ActionEvent e) {
 				SearchResultList s = (SearchResultList)(e.getSource());
 				if (s.getSelectedValue() instanceof Book) {
-					controller.booktab_model.setActiveBook((Book)s.getSelectedValue());
+					controller.setActiveBook((Book)s.getSelectedValue());
 					controller.tabbed_model.setBookTabActive();
 				} else if (s.getSelectedValue() instanceof Customer) {
 					controller.setActiveCustomer((Customer)s.getSelectedValue());

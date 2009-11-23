@@ -100,7 +100,7 @@ public class ListItemMouseListener extends MouseAdapter {
 	 *            the book or user which is affected by this click.
 	 */
 	private void handleBookClick(MouseEvent e, int index, Book selected) {
-		controller.booktab_model.setActiveBook(selected);
+		controller.setActiveBook(selected);
 		if (controller.resultlist_model.isFirstIconHit(e)) {
 			if (selected.getCondition() == Condition.WASTE || controller.getActiveCustomer() == null || controller.library.isCustomerLocked(controller.getActiveCustomer())) {
 				showDetailsOf(selected);
@@ -136,7 +136,7 @@ public class ListItemMouseListener extends MouseAdapter {
 
 	private void lendBook(Book selected) {
 		if (controller.getActiveCustomer() == null) {
-			controller.booktab_model.setActiveBook(selected);
+			controller.setActiveBook(selected);
 			controller.status_model
 					.setTempStatus("Keine Ausleihe möglich: Bitte erst Benutzer auswählen");
 			return;
@@ -145,7 +145,7 @@ public class ListItemMouseListener extends MouseAdapter {
 	}
 
 	private void showDetailsOf(Book selected) {
-		controller.booktab_model.setActiveBook(selected);
+		controller.setActiveBook(selected);
 		controller.tabbed_model.setBookTabActive();
 	}
 }

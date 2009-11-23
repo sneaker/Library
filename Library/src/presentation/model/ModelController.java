@@ -2,6 +2,7 @@ package presentation.model;
 
 import javax.swing.DefaultListModel;
 
+import domain.Book;
 import domain.Customer;
 import domain.Library;
 
@@ -97,5 +98,9 @@ public class ModelController {
 	
 	public void setTitle(String title) {
 		main_model.setTitle(title);
+	}
+
+	public void setActiveBook(Book activeBook) {
+		booktab_model.setActiveBook(activeBook);
 	}
 }

@@ -23,7 +23,7 @@ public class BookCreateActionListener implements ActionListener {
 		addTitle.setPublisher("");
 		Book addBook = controller.library.createAndAddBook(addTitle);
 		controller.status_model.setTempStatus("Neues Buch erstellt mit id " + addBook.getInventoryNumber());
-		controller.booktab_model.setActiveBook(addBook);
+		controller.setActiveBook(addBook);
 		controller.booktab_model.backupBookContent();
 		controller.booktab_model.setEditing(true);
 		controller.tabbed_model.setBookTabActive();

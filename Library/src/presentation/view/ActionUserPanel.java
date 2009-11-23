@@ -60,7 +60,7 @@ public class ActionUserPanel extends AbstractActionPanel {
 		buttons.get("showbook").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (controller.usertab_model.isLoanSelected()) {
-					controller.booktab_model.setActiveBook(controller.usertab_model.getActiveLoan().getBook());
+					controller.setActiveBook(controller.usertab_model.getActiveLoan().getBook());
 					controller.tabbed_model.setBookTabActive();
 					controller.status_model.setTempStatus("Zeige Buchdetails für die gewählte Ausleihe.");
 				} else {

@@ -22,7 +22,7 @@ public class TabBookModel extends Observable {
 		this.controller = controller;
 	}
 
-	public void setActiveBook(Book activeBook) {
+	protected void setActiveBook(Book activeBook) {
 		this.activeBook = activeBook;
 		setChanged();
 		notifyObservers();
