@@ -32,12 +32,14 @@ public class ActionBookPanel extends AbstractActionPanel {
 	private void initDefektButton() {
 		buttons.put("defekt", new ActionButton("Als defekt markieren",
 				"delete32x32h.png", "delete32x32.png"));
+		buttons.get("defekt").setMnemonic('m');
 		buttons.get("defekt").addActionListener(new MarkDefectActionListener(controller));
 	}
 
 	private void initReturnButton() {
 		buttons.put("return", new ActionButton("Buch zurückgeben",
 				"return32x32h.png", "return32x32.png"));
+		buttons.get("return").setMnemonic('z');
 		buttons.get("return").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				buttons.get("search").requestFocus();
@@ -50,6 +52,7 @@ public class ActionBookPanel extends AbstractActionPanel {
 		buttons.put("lend", new ActionButton("Buch ausleihen",
 				"add32x32h.png", "add32x32.png"));
 		buttons.get("lend").setVisible(false);
+		buttons.get("lend").setMnemonic('l');
 		buttons.get("lend").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				buttons.get("lend").requestFocus();
@@ -61,6 +64,7 @@ public class ActionBookPanel extends AbstractActionPanel {
 	private void initCreateButton() {
 		buttons.put("create", new ActionButton("Buch erstellen",
 				"newbook32x32h.png", "newbook32x32.png"));
+		buttons.get("create").setMnemonic('n');
 		buttons.get("create").addActionListener(new BookCreateActionListener(controller));
 	}
 
@@ -68,6 +72,7 @@ public class ActionBookPanel extends AbstractActionPanel {
 		buttons.put("edit", new ActionButton("Buchdetails editieren",
 				"edit32x32h.png", "edit32x32.png"));
 		buttons.get("edit").setVisible(false);
+		buttons.get("edit").setMnemonic('e');
 		buttons.get("edit").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				controller.booktab_model.setEditing(true);
@@ -81,6 +86,7 @@ public class ActionBookPanel extends AbstractActionPanel {
 		buttons.put("editok", new ActionButton("Editieren abschliessen",
 				"editdone32x32h.png", "editdone32x32.png"));
 		buttons.get("editok").setVisible(false);
+		buttons.get("editok").setMnemonic('t');
 		buttons.get("editok").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				controller.booktab_model.setEditing(false);
@@ -93,6 +99,7 @@ public class ActionBookPanel extends AbstractActionPanel {
 		buttons.put("editbookcancel", new ActionButton("Editieren rückgängig",
 				"editrevert32x32h.png", "editrevert32x32.png"));
 		buttons.get("editbookcancel").setVisible(false);
+		buttons.get("editbookcancel").setMnemonic('g');
 		buttons.get("editbookcancel").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (controller.booktab_model.restoreBookContent())
@@ -107,6 +114,7 @@ public class ActionBookPanel extends AbstractActionPanel {
 	private void initSearchButton() {
 		buttons.put("search", new ActionButton("Buch suchen",
 				"search32x32h.png", "search32x32.png"));
+		buttons.get("search").setMnemonic('s');
 		buttons.get("search").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				controller.setSearchTabActive();

@@ -106,7 +106,7 @@ public class LibraryMenuBar extends JMenuBar implements Observer {
 					.getImage("newcustomer16x16.png"));
 			createUserSearchMenuItem
 					.addActionListener(new UserCreateActionListener(controller));
-			createUserSearchMenuItem.setMnemonic('e');
+			createUserSearchMenuItem.setMnemonic('z');
 			fileMenu.add(createUserSearchMenuItem);
 
 			createBookSearchMenuItem = new JMenuItem();
@@ -117,7 +117,7 @@ public class LibraryMenuBar extends JMenuBar implements Observer {
 					.getImage("newbook16x16.png"));
 			createBookSearchMenuItem
 					.addActionListener(new BookCreateActionListener(controller));
-			createBookSearchMenuItem.setMnemonic('e');
+			createBookSearchMenuItem.setMnemonic('u');
 			fileMenu.add(createBookSearchMenuItem);
 
 			separator = new JSeparator();

@@ -32,6 +32,7 @@ public class ActionUserPanel extends AbstractActionPanel {
 	private void initNewSearchButton() {
 		buttons.put("search", new ActionButton("Benutzer suchen",
 				"search32x32h.png", "search32x32.png"));
+		buttons.get("search").setMnemonic('s');
 		buttons.get("search").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				controller.action_model.changetoSearch();
@@ -43,6 +44,7 @@ public class ActionUserPanel extends AbstractActionPanel {
 		buttons.put("return", new ActionButton("Buch zurückgeben",
 				"return32x32h.png", "return32x32.png"));
 		buttons.get("return").setVisible(false);
+		buttons.get("return").setMnemonic('z');
 		buttons.get("return").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Loan loan = controller.usertab_model.getActiveLoan();
@@ -57,6 +59,7 @@ public class ActionUserPanel extends AbstractActionPanel {
 		buttons.put("showbook", new ActionButton("Buchdetails anzeigen",
 				"bookdetails32x32h.png", "bookdetails32x32.png"));
 		buttons.get("showbook").setVisible(false);
+		buttons.get("showbook").setMnemonic('a');
 		buttons.get("showbook").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (controller.usertab_model.isLoanSelected()) {
@@ -74,6 +77,7 @@ public class ActionUserPanel extends AbstractActionPanel {
 		buttons.put("edituser", new ActionButton("Personalien editieren",
 				"edit32x32h.png", "edit32x32.png"));
 		buttons.get("edituser").setVisible(false);
+		buttons.get("edituser").setMnemonic('e');
 		buttons.get("edituser").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				controller.action_model.editUserSettings();
@@ -85,6 +89,7 @@ public class ActionUserPanel extends AbstractActionPanel {
 		buttons.put("edituserok", new ActionButton("Editieren abschliessen",
 				"editdone32x32h.png", "editdone32x32.png"));
 		buttons.get("edituserok").setVisible(false);
+		buttons.get("edituserok").setMnemonic('t');
 		buttons.get("edituserok").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				controller.action_model.editUserSettingsOk();
@@ -96,6 +101,7 @@ public class ActionUserPanel extends AbstractActionPanel {
 		buttons.put("editusercancel", new ActionButton("Editieren rückgängig",
 				"editrevert32x32h.png", "editrevert32x32.png"));
 		buttons.get("editusercancel").setVisible(false);
+		buttons.get("editusercancel").setMnemonic('g');
 		buttons.get("editusercancel").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				controller.action_model.editUserSettingsCancel();
@@ -106,6 +112,7 @@ public class ActionUserPanel extends AbstractActionPanel {
 	private void initAddUserButton() {
 		buttons.put("adduser", new ActionButton("Benutzer erfassen",
 				"newcustomer32x32h.png", "newcustomer32x32.png"));
+		buttons.get("adduser").setMnemonic('n');
 		buttons.get("adduser").addActionListener(new UserCreateActionListener(controller));
 	}
 

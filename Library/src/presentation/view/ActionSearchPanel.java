@@ -84,7 +84,7 @@ public class ActionSearchPanel extends AbstractActionPanel {
 				"wastebooks32x32h.png", "wastebooks32x32.png"));
 		buttons.get("showdefekt").addActionListener(
 				new ShowDefectBooks(controller));
-		buttons.get("showdefekt").setMnemonic('d');
+		buttons.get("showdefekt").setMnemonic('f');
 	}
 
 	private void initShowLentBooks() {
