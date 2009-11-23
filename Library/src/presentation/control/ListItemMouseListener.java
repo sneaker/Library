@@ -146,6 +146,6 @@ public class ListItemMouseListener extends MouseAdapter {
 
 	private void showDetailsOf(Book selected) {
 		controller.setActiveBook(selected);
-		controller.tabbed_model.setBookTabActive();
+		controller.setBookTabActive();
 	}
 }

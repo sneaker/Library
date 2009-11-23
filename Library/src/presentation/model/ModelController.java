@@ -103,4 +103,8 @@ public class ModelController {
 	public void setActiveBook(Book activeBook) {
 		booktab_model.setActiveBook(activeBook);
 	}
+
+	public void setBookTabActive() {
+		tabbed_model.setBookTabActive();
+	}
 }

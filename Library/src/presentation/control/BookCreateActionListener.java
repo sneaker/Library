@@ -26,6 +26,6 @@ public class BookCreateActionListener implements ActionListener {
 		controller.setActiveBook(addBook);
 		controller.booktab_model.backupBookContent();
 		controller.booktab_model.setEditing(true);
-		controller.tabbed_model.setBookTabActive();
+		controller.setBookTabActive();
 	}
 }

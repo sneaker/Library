@@ -135,7 +135,7 @@ public class SearchResultListModel implements ListModel, Observer {
 		Searchable item = getElementAt(0);
 		if (item instanceof Book) {
 			controller.setActiveBook((Book) item);
-			controller.tabbed_model.setBookTabActive();
+			controller.setBookTabActive();
 		} else if (item instanceof Customer) {
 			controller.setActiveCustomer((Customer) item);
 			controller.tabbed_model.setUserTabActive();

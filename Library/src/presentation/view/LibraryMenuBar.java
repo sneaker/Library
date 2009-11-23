@@ -159,7 +159,7 @@ public class LibraryMenuBar extends JMenuBar implements Observer {
 			bookMenuItem.setMnemonic('b');
 			bookMenuItem.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					controller.tabbed_model.setBookTabActive();
+					controller.setBookTabActive();
 				}
 			});
 			viewGroup.add(bookMenuItem);
