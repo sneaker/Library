@@ -85,9 +85,6 @@ public class SearchEngine extends Observable implements Observer{
 	
 	
 	public void decideWhatHappend_ADD(char c, String wholestring) {
-		System.out.println("**********");
-		System.out.println("querry: " + (querry));
-		System.out.println("wholestring: " + wholestring);
 		if ((querry + c).equals(wholestring)) {
 			querry += c;
 		}

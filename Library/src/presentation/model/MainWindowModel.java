@@ -35,9 +35,7 @@ public class MainWindowModel extends Observable {
 	}
 
 	public Message getActiveMessage() {
-		System.out.println("size " +activeMessages.size());
 		if (!activeMessages.isEmpty()) {
-			System.out.println("size if not empty: " +activeMessages.size());
 			return activeMessages.get(activeMessages.size()-1);
 		}
 		else

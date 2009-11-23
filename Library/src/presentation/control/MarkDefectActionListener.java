@@ -42,7 +42,6 @@ public final class MarkDefectActionListener implements ActionListener {
 
 		Message msg = null;
 		if (controller.library.isBookLent(activeBook)) {
-			System.out.println("hit");
 			msg = getLentBookWarningDiaglog(book);
 			controller.main_model.addActiveMessage(msg);
 		}
@@ -56,7 +55,6 @@ public final class MarkDefectActionListener implements ActionListener {
 	}
 
 	private Message getLentBookWarningDiaglog(String book) {
-		System.out.println("here");
 		final String[] buttonNames = new String[] { "&Ok" };
 
 		Action[] buttonActions = new Action[buttonNames.length];
