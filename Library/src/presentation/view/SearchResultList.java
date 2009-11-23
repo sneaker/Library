@@ -70,11 +70,19 @@ public class SearchResultList extends JList implements ListDataListener  {
 			private static final long serialVersionUID = 8518026045384869462L;
 			public void actionPerformed(ActionEvent e) {
 				SearchResultList s = (SearchResultList)(e.getSource());
-				if (s.getSelectedValue() instanceof Book) {
-					controller.setActiveBook((Book)s.getSelectedValue());
+				Object selectedValue = null;
+				if (controller.resultlist_model.getSize() == 1) {
+					selectedValue = controller.resultlist_model.getElementAt(0);
+				} else if (s.getSelectedIndex() >= controller.resultlist_model.getSize()) {
+					return;
+				} else {
+					selectedValue = s.getSelectedValue();
+				}
+				if (selectedValue instanceof Book) {
+					controller.setActiveBook((Book)selectedValue);
 					controller.setBookTabActive();
-				} else if (s.getSelectedValue() instanceof Customer) {
-					controller.setActiveCustomer((Customer)s.getSelectedValue());
+				} else if (selectedValue instanceof Customer) {
+					controller.setActiveCustomer((Customer)selectedValue);
 					controller.setUserTabActive();
 				}
 			}

@@ -148,6 +148,7 @@ public class SearchResultListModel implements ListModel, Observer {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public void update(Observable o, Object arg) {
 		displayed_results = (ArrayList<Searchable>) arg;
 		if (!listeners.isEmpty())
