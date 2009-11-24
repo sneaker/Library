@@ -49,7 +49,7 @@ public class SearchEngine extends Observable implements Observer{
 		
 		//TODO: show all books
 		for (int i = 0; i < 10; i++) {
-			results.add(library.getAvailableBooks().get(i));
+			results.add(library.getBooks().get(i));
 		}
 		
 		history.add(results);
