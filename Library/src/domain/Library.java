@@ -6,6 +6,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Observable;
 
+import domain.Book.Condition;
+
 public class Library extends Observable {
 	private List<Book> books;
 	private List<Customer> customers;
@@ -130,7 +132,13 @@ public class Library extends Observable {
 	}
 
 	public List<Book> getAvailableBooks() {
-		return getBooks(false);
+		List<Book> retBooks = new ArrayList<Book>();
+		for (Book b : books) {
+			if (b.getCondition() != Condition.WASTE && !isBookLent(b)) {
+				retBooks.add(b);
+			}
+		}
+		return retBooks;
 	}
 
 	public List<Book> getLentBooks() {
@@ -240,9 +248,34 @@ public class Library extends Observable {
 	 * By default, the library does not fire changes, so after initialization,
 	 * enable this to receive status updates from the library.
 	 * 
-	 * @param firingEnabled use true to enable status update firing
+	 * @param firingEnabled
+	 *            use true to enable status update firing
 	 */
 	public void setFiringEnabled(boolean firingEnabled) {
 		this.firingEnabled = firingEnabled;
+	}
+
+	/**
+	 * Gets a list of all books which are in the state Book.Condition.WASTE.
+	 * 
+	 * @return a list of books which are damaged and therefore not lendable
+	 *         anymore.
+	 */
+	public List<Book> getWasteBooks() {
+		ArrayList<Book> wasteBooks = new ArrayList<Book>();
+		for (Book book : getBooks()) {
+			if (book.getCondition() == Condition.WASTE)
+				wasteBooks.add(book);
+		}
+		return wasteBooks;
+	}
+
+	public List<Book> getDamagedBooks() {
+		ArrayList<Book> wasteBooks = new ArrayList<Book>();
+		for (Book book : getBooks()) {
+			if (book.getCondition() == Condition.DAMAGED)
+				wasteBooks.add(book);
+		}
+		return wasteBooks;
 	}
 }

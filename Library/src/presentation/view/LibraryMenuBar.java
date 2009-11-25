@@ -77,17 +77,12 @@ public class LibraryMenuBar extends JMenuBar implements Observer {
 		fileMenu.setMnemonic(java.awt.event.KeyEvent.VK_D);
 		{
 			initResetMenuItem(fileMenu);
-
 			separator = new JSeparator();
 			fileMenu.add(separator);
-
 			initCreateUserSearchMenuItem(fileMenu);
-
 			initCreateBookSearchMenuItem(fileMenu);
-
 			separator = new JSeparator();
 			fileMenu.add(separator);
-
 			initExitMenuItem(fileMenu);
 		}
 	}
@@ -110,7 +105,7 @@ public class LibraryMenuBar extends JMenuBar implements Observer {
 				.getImage("newbook16x16.png"));
 		createBookSearchMenuItem
 				.addActionListener(new BookCreateActionListener(controller));
-		createBookSearchMenuItem.setMnemonic('e');
+		createBookSearchMenuItem.setMnemonic('u');
 		fileMenu.add(createBookSearchMenuItem);
 	}
 
@@ -123,7 +118,7 @@ public class LibraryMenuBar extends JMenuBar implements Observer {
 				.getImage("newcustomer16x16.png"));
 		createUserSearchMenuItem
 				.addActionListener(new UserCreateActionListener(controller));
-		createUserSearchMenuItem.setMnemonic('e');
+		createUserSearchMenuItem.setMnemonic('z');
 		fileMenu.add(createUserSearchMenuItem);
 	}
 

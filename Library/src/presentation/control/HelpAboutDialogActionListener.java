@@ -28,7 +28,7 @@ public class HelpAboutDialogActionListener implements ActionListener {
 		buttonActions[0] = new DisableGlassPaneListener(controller);
 
 		KeyStroke[] buttonKeys = new KeyStroke[buttonNames.length];
-		buttonKeys[0] = KeyStroke.getKeyStroke("ESCAPE");
+		buttonKeys[0] = KeyStroke.getKeyStroke("ENTER");
 
 		String text = TextUtils.markupText(TextUtils.format(ABOUT_TEXT, 16));
 		Message msg = new Message(text, buttonNames, buttonActions, buttonKeys);
