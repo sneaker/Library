@@ -14,11 +14,16 @@
 	<property name="lib.dir" value="lib" />
 	<property name="data.dir" value="data" />
 	<property name="release.dir" value="release" />
+	<property name="doc.dir" value="docs" />
 
+	<property name="docfile" value="01-projektdoku.tex" />
 	<property name="filename" value="Library" />
 	<property name="file.app" value="${filename}.jar" />
 	<property name="main.class" value="application.LibraryApp" />
 	<property name="test.suite" value="test.LibTest" />
+
+	<taskdef name="latex" classname="de.dokutransdata.antlatex.LaTeX" classpath="${lib.dir}/ant_latex_0.0.9_1.jar"/>
+
 	
 	<path id="project.classpath">
 		<pathelement location="${build.dir}" />
@@ -72,6 +77,11 @@
 		</junit>
 	</target>
 
+	<target name="latex">  
+	  <latex latexfile="${docfile}"  verbose="on" clean="on" pdftex="off"  workingDir="${doc.dir}" />  
+	</target>
+
+
 	<target name="jar" depends="compile" description="create the JAR file">
 	  <mkdir dir="${release.dir}" />
 		<jar destfile="${release.dir}/${file.app}" basedir="${build.dir}">
@@ -86,7 +96,7 @@
 	  	</jar>
 	</target>
 
-	<target name="release" depends="test, jar" description="pack in a ZIP file">
+	<target name="release" depends="test, jar, latex" description="pack in a ZIP file">
 		<zip file="${release.dir}/${filename}_${version}.zip" level="9">
 			<zipfileset dir=".">
 				<exclude name="**/.*" />
