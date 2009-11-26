@@ -30,10 +30,19 @@ public class LibraryApp {
 		final Library library = new Library();
 		initLibrary(library);
 		initLookAndFeel();
+		startApplication(library);
+	}
 
+	private static void startApplication(final Library library) {
 		SwingUtilities.invokeLater(new Runnable() {
 
 			public void run() {
+				try {
+					displayMainWindow(library);
+				} catch (Exception e) {}
+			}
+
+			private void displayMainWindow(final Library library) {
 				LibraryMainWindow frame = new LibraryMainWindow(new ModelController(library));
 				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				frame.setLocationRelativeTo(null);
