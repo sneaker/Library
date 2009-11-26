@@ -27,9 +27,11 @@ import domain.Message;
 public class LibraryMainWindow extends JFrame implements Observer {
 
 	private static final long serialVersionUID = 1L;
-	private static final Dimension SIZE = new Dimension(750, 450);
-	private static final Dimension MINIMUM_SIZE = new Dimension(645, 390);
-	private static final Dimension PREFERRED_SIZE = new Dimension(900, 500);
+	private static final int ASPECT_X = 16;
+	private static final int ASPECT_Y = 9;
+	private static final Dimension SIZE = new Dimension(55*ASPECT_X, 55*ASPECT_Y);
+	private static final Dimension MINIMUM_SIZE = new Dimension(55*ASPECT_X, 55*ASPECT_Y);
+	private static final Dimension PREFERRED_SIZE = new Dimension(65*ASPECT_X, 65*ASPECT_Y);
 	private static final String SYSTEM_ICON = "book16x16.png";
 	private LibraryMenuBar menubar;
 	private ActiveUserPanel userpanel;
