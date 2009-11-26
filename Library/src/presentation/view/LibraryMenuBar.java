@@ -308,13 +308,18 @@ public class LibraryMenuBar extends JMenuBar implements Observer {
 		newBookMenuItem = new JMenuItem();
 		newBookMenuItem.setText("neues Buch erstellen");
 		newBookMenuItem.addActionListener(new BookCreateActionListener(controller));
+		newBookMenuItem.setIcon(ResManager.getImage("newbook16x16h.png"));
+		newBookMenuItem.setRolloverIcon(ResManager.getImage("newbook16x16.png"));
 		bookMenu.add(newBookMenuItem);
 	}
 
 	private void initDefectMenuItem() {
 		defectBookMenuItem = new JMenuItem();
-		defectBookMenuItem.setText("als defekt markieren / ausmustern");
+		defectBookMenuItem.setText("als defekt markieren / ausmustern...");
 		defectBookMenuItem.addActionListener(new BookDefectAction(controller));
+		defectBookMenuItem.setMnemonic('m');
+		defectBookMenuItem.setIcon(ResManager.getImage("delete16x16h.png"));
+		defectBookMenuItem.setRolloverIcon(ResManager.getImage("delete16x16.png"));
 		bookMenu.add(defectBookMenuItem);
 	}
 
@@ -322,6 +327,8 @@ public class LibraryMenuBar extends JMenuBar implements Observer {
 		editBookMenuItem = new JMenuItem();
 		editBookMenuItem.setText("Katalogdaten editieren");
 		editBookMenuItem.addActionListener(new BookEditAction(controller));
+		editBookMenuItem.setIcon(ResManager.getImage("edit16x16h.png"));
+		editBookMenuItem.setRolloverIcon(ResManager.getImage("edit16x16.png"));
 		editBookMenuItem.setMnemonic('e');
 		bookMenu.add(editBookMenuItem);
 	}
@@ -330,6 +337,8 @@ public class LibraryMenuBar extends JMenuBar implements Observer {
 		editSaveBookMenuItem = new JMenuItem();
 		editSaveBookMenuItem.setText("Änderungen sichern");
 		editSaveBookMenuItem.addActionListener(new BookEditSaveAction(controller));
+		editSaveBookMenuItem.setIcon(ResManager.getImage("editdone16x16h.png"));
+		editSaveBookMenuItem.setIcon(ResManager.getImage("editdone16x16.png"));
 		editSaveBookMenuItem.setMnemonic('e');
 		bookMenu.add(editSaveBookMenuItem);
 	}
@@ -338,14 +347,18 @@ public class LibraryMenuBar extends JMenuBar implements Observer {
 		editCancelBookMenuItem = new JMenuItem();
 		editCancelBookMenuItem.setText("Änderungen verwerfen");
 		editCancelBookMenuItem.addActionListener(new BookEditCancelAction(controller));
+		editCancelBookMenuItem.setIcon(ResManager.getImage("editrevert16x16h.png"));
+		editCancelBookMenuItem.setRolloverIcon(ResManager.getImage("editrevert16x16.png"));
 		editCancelBookMenuItem.setMnemonic('e');
 		bookMenu.add(editCancelBookMenuItem);
 	}
-	
+
 	private void initLendBookMenuItem() {
 		lendBookMenuItem = new JMenuItem();
 		lendBookMenuItem.setText("ausleihen");
 		lendBookMenuItem.addActionListener(new BookLendAction(controller));
+		lendBookMenuItem.setIcon(ResManager.getImage("add16x16h.png"));
+		lendBookMenuItem.setRolloverIcon(ResManager.getImage("add16x16.png"));
 		lendBookMenuItem.setMnemonic('l');
 		bookMenu.add(lendBookMenuItem);
 	}
@@ -354,6 +367,8 @@ public class LibraryMenuBar extends JMenuBar implements Observer {
 		returnBookMenuItem = new JMenuItem();
 		returnBookMenuItem.setText("zurückgeben");
 		returnBookMenuItem.addActionListener(new BookReturnAction(controller));
+		returnBookMenuItem.setIcon(ResManager.getImage("return16x16h.png"));
+		returnBookMenuItem.setRolloverIcon(ResManager.getImage("return16x16.png"));
 		returnBookMenuItem.setMnemonic('z');
 		bookMenu.add(returnBookMenuItem);
 	}
@@ -390,6 +405,8 @@ public class LibraryMenuBar extends JMenuBar implements Observer {
 		createUserMenuItem = new JMenuItem();
 		createUserMenuItem.setText("Neuen Benutzer erstellen");
 		createUserMenuItem.addActionListener(new UserCreateActionListener(controller));
+		createUserMenuItem.setIcon(ResManager.getImage("newcustomer16x16h.png"));
+		createUserMenuItem.setRolloverIcon(ResManager.getImage("newcustomer16x16.png"));
 		createBookSearchMenuItem.setMnemonic('r');
 		userMenu.add(createUserMenuItem);
 	}
@@ -398,6 +415,8 @@ public class LibraryMenuBar extends JMenuBar implements Observer {
 		showBookDetailsUserMenuItem = new JMenuItem();
 		showBookDetailsUserMenuItem.setText("Buchdetails anzeigen");
 		showBookDetailsUserMenuItem.addActionListener(new UserShowLoanBookAction(controller));
+		showBookDetailsUserMenuItem.setIcon(ResManager.getImage("bookdetails16x16h.png"));
+		showBookDetailsUserMenuItem.setRolloverIcon(ResManager.getImage("bookdetails16x16.png"));
 		showBookDetailsUserMenuItem.setMnemonic('g');
 		userMenu.add(showBookDetailsUserMenuItem);
 	}
@@ -406,6 +425,8 @@ public class LibraryMenuBar extends JMenuBar implements Observer {
 		returnBookUserMenuItem = new JMenuItem();
 		returnBookUserMenuItem.setText("gewähltes Buch zurückgeben");
 		returnBookUserMenuItem.addActionListener(new UserReturnLoanAction(controller));
+		returnBookUserMenuItem.setIcon(ResManager.getImage("return16x16h.png"));
+		returnBookUserMenuItem.setRolloverIcon(ResManager.getImage("return16x16.png"));
 		returnBookUserMenuItem.setMnemonic('z');
 		userMenu.add(returnBookUserMenuItem);
 	}
@@ -414,7 +435,9 @@ public class LibraryMenuBar extends JMenuBar implements Observer {
 		editCancelUserMenuItem = new JMenuItem();
 		editCancelUserMenuItem.setText("Änderungen verwerfen");
 		editCancelUserMenuItem.addActionListener(new CustomerEditCancelAction(controller));
-		editCancelBookMenuItem.setMnemonic('v');
+		editCancelUserMenuItem.setIcon(ResManager.getImage("editrevert16x16h.png"));
+		editCancelUserMenuItem.setRolloverIcon(ResManager.getImage("editrevert16x16.png"));
+		editCancelUserMenuItem.setMnemonic('v');
 		userMenu.add(editCancelUserMenuItem);
 	}
 
@@ -422,6 +445,8 @@ public class LibraryMenuBar extends JMenuBar implements Observer {
 		editOkUserMenuItem = new JMenuItem();
 		editOkUserMenuItem.setText("Änderungen sichern");
 		editOkUserMenuItem.addActionListener(new CustomerEditCancelAction(controller));
+		editOkUserMenuItem.setIcon(ResManager.getImage("editdone16x16h.png"));
+		editOkUserMenuItem.setRolloverIcon(ResManager.getImage("editdone16x16.png"));
 		editOkUserMenuItem.setMnemonic('s');
 		userMenu.add(editOkUserMenuItem);
 	}
@@ -430,6 +455,8 @@ public class LibraryMenuBar extends JMenuBar implements Observer {
 		editUserMenuItem = new JMenuItem();
 		editUserMenuItem.setText("Personalien editieren");
 		editUserMenuItem.addActionListener(new CustomerEditAction(controller));
+		editUserMenuItem.setIcon(ResManager.getImage("edit16x16h.png"));
+		editUserMenuItem.setRolloverIcon(ResManager.getImage("edit16x16.png"));
 		editUserMenuItem.setMnemonic('e');
 		userMenu.add(editUserMenuItem);
 	}

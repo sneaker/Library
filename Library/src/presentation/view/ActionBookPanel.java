@@ -42,7 +42,7 @@ public class ActionBookPanel extends AbstractActionPanel {
 	}
 
 	private void initDefektButton() {
-		buttons.put("defekt", new ActionButton("Als defekt markieren",
+		buttons.put("defekt", new ActionButton("Als defekt markieren...",
 				"delete32x32h.png", "delete32x32.png"));
 		buttons.get("defekt").setMnemonic('m');
 		buttons.get("defekt").addActionListener(new BookDefectAction(controller));
