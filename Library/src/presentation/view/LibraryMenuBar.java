@@ -15,14 +15,23 @@ import javax.swing.JSeparator;
 import javax.swing.KeyStroke;
 
 import presentation.control.BookCreateActionListener;
+import presentation.control.BookDefectAction;
+import presentation.control.BookEditAction;
+import presentation.control.BookEditCancelAction;
+import presentation.control.BookEditSaveAction;
+import presentation.control.BookLendAction;
+import presentation.control.BookReturnAction;
 import presentation.control.FileExitAction;
 import presentation.control.HelpAboutDialogActionListener;
-import presentation.control.NewSearchText;
+import presentation.control.NewSearchAction;
 import presentation.control.ShowAvailableBooksAction;
 import presentation.control.ShowDefectBooks;
 import presentation.control.UserCreateActionListener;
+import presentation.control.UserReturnLoanAction;
+import presentation.control.UserShowLoanBookAction;
 import presentation.model.ModelController;
 import util.ResManager;
+import domain.Book.Condition;
 
 /**
  * Repräsentiert und verwaltet die Menübar für die Bibliotheksapplikation.
@@ -42,7 +51,7 @@ public class LibraryMenuBar extends JMenuBar implements Observer {
 	private JMenu bookMenu;
 	private JMenu userMenu;
 	private JMenu helpMenu;
-	private JMenuItem lendBokMenuItem;
+	private JMenuItem lendBookMenuItem;
 	private JMenuItem editBookMenuItem;
 	private JMenuItem editUserMenuItem;
 	private JMenuItem resetMenuItem;
@@ -55,19 +64,34 @@ public class LibraryMenuBar extends JMenuBar implements Observer {
 	private JMenuItem createBookSearchMenuItem;
 	private JMenuItem availableBooksMenuItem;
 	private JMenuItem lentBooksMenuItem;
+	private JMenuItem searchBookMenuItem;
+	private JMenuItem returnBookMenuItem;
+	private JMenuItem defectBookMenuItem;
+	private JMenuItem newBookMenuItem;
+	private JMenuItem searchCustomerMenuItem;
+	private JMenuItem editOkUserMenuItem;
+	private JMenuItem editCancelUserMenuItem;
+	private JMenuItem returnBookUserMenuItem;
+	private JMenuItem showBookDetailsUserMenuItem;
+	private JMenuItem editSaveBookMenuItem;
+	private JMenuItem editCancelBookMenuItem;
 
 	public LibraryMenuBar(ModelController controller) {
 		this.controller = controller;
+		controller.tabbed_model.addObserver(this);
+		controller.library.addObserver(this);
+		controller.booktab_model.addObserver(this);
+		controller.usertab_model.addObserver(this);
+		initGui();
+	}
+
+	private void initGui() {
 		initFileMenu();
 		initViewMenu();
-
 		initSearchMenu();
 		initBookMenu();
 		initUserMenu();
-
 		initHelpMenu();
-		controller.tabbed_model.addObserver(this);
-		controller.library.addObserver(this);
 	}
 
 	private void initFileMenu() {
@@ -209,13 +233,9 @@ public class LibraryMenuBar extends JMenuBar implements Observer {
 		searchMenu.setMnemonic(java.awt.event.KeyEvent.VK_R);
 
 		initAllBooksMenuItem();
-
 		searchMenu.add(new JSeparator());
-
 		initAvailableBooksMenuItem();
-
 		initDamagedBooksMenuItem();
-
 		initLentBooksMenuItem();
 	}
 
@@ -260,26 +280,93 @@ public class LibraryMenuBar extends JMenuBar implements Observer {
 		allBooksMenuItem.setIcon(ResManager.getImage("search16x16h.png"));
 		allBooksMenuItem
 				.setRolloverIcon(ResManager.getImage("search16x16.png"));
-		allBooksMenuItem.addActionListener(new NewSearchText(controller));
+		allBooksMenuItem.addActionListener(new NewSearchAction(controller));
 		allBooksMenuItem.setMnemonic('n');
 		searchMenu.add(allBooksMenuItem);
 	}
 
 	private void initBookMenu() {
-		bookMenu = new JMenu();
+		bookMenu = new JMenu("Buch");
 		this.add(bookMenu);
-		bookMenu.setText("Buch");
 		bookMenu.setMnemonic(java.awt.event.KeyEvent.VK_B);
+		initBookMenuItems();
+		bookMenu.setVisible(false);
+	}
 
-		lendBokMenuItem = new JMenuItem();
-		lendBokMenuItem.setText("Dieses Buch Ausleihen");
-		bookMenu.add(lendBokMenuItem);
+	private void initBookMenuItems() {
+		initNewSearchBookMenuItem();
+		initReturnBookMenuItem();
+		initLendBookMenuItem();
+		initEditBookMenuItem();
+		initEditSaveBookMenuItem();
+		initEditCancelBookMenuItem();
+		initDefectMenuItem();
+		initNewBookMenuItem();
+	}
 
+	private void initNewBookMenuItem() {
+		newBookMenuItem = new JMenuItem();
+		newBookMenuItem.setText("neues Buch erstellen");
+		newBookMenuItem.addActionListener(new BookCreateActionListener(controller));
+		bookMenu.add(newBookMenuItem);
+	}
+
+	private void initDefectMenuItem() {
+		defectBookMenuItem = new JMenuItem();
+		defectBookMenuItem.setText("als defekt markieren / ausmustern");
+		defectBookMenuItem.addActionListener(new BookDefectAction(controller));
+		bookMenu.add(defectBookMenuItem);
+	}
+
+	private void initEditBookMenuItem() {
 		editBookMenuItem = new JMenuItem();
 		editBookMenuItem.setText("Katalogdaten editieren");
+		editBookMenuItem.addActionListener(new BookEditAction(controller));
+		editBookMenuItem.setMnemonic('e');
 		bookMenu.add(editBookMenuItem);
+	}
+	
+	private void initEditSaveBookMenuItem() {
+		editSaveBookMenuItem = new JMenuItem();
+		editSaveBookMenuItem.setText("Änderungen sichern");
+		editSaveBookMenuItem.addActionListener(new BookEditSaveAction(controller));
+		editSaveBookMenuItem.setMnemonic('e');
+		bookMenu.add(editSaveBookMenuItem);
+	}
 
-		bookMenu.setVisible(false);
+	private void initEditCancelBookMenuItem() {
+		editCancelBookMenuItem = new JMenuItem();
+		editCancelBookMenuItem.setText("Änderungen verwerfen");
+		editCancelBookMenuItem.addActionListener(new BookEditCancelAction(controller));
+		editCancelBookMenuItem.setMnemonic('e');
+		bookMenu.add(editCancelBookMenuItem);
+	}
+	
+	private void initLendBookMenuItem() {
+		lendBookMenuItem = new JMenuItem();
+		lendBookMenuItem.setText("ausleihen");
+		lendBookMenuItem.addActionListener(new BookLendAction(controller));
+		lendBookMenuItem.setMnemonic('l');
+		bookMenu.add(lendBookMenuItem);
+	}
+
+	private void initReturnBookMenuItem() {
+		returnBookMenuItem = new JMenuItem();
+		returnBookMenuItem.setText("zurückgeben");
+		returnBookMenuItem.addActionListener(new BookReturnAction(controller));
+		returnBookMenuItem.setMnemonic('z');
+		bookMenu.add(returnBookMenuItem);
+	}
+
+	private void initNewSearchBookMenuItem() {
+		searchBookMenuItem = new JMenuItem();
+		searchBookMenuItem.setText("Buch suchen");
+		searchBookMenuItem.setIcon(ResManager.getImage("search16x16h.png"));
+		searchBookMenuItem
+				.setRolloverIcon(ResManager.getImage("search16x16.png"));
+		searchBookMenuItem.addActionListener(new NewSearchAction(controller));
+		searchBookMenuItem.setMnemonic('n');
+		bookMenu.add(searchBookMenuItem);
 	}
 
 	private void initUserMenu() {
@@ -288,15 +375,74 @@ public class LibraryMenuBar extends JMenuBar implements Observer {
 		userMenu.setText("Benutzer");
 		userMenu.setMnemonic(java.awt.event.KeyEvent.VK_B);
 
-		editUserMenuItem = new JMenuItem();
-		editUserMenuItem.setText("Personalien editieren");
-		userMenu.add(editUserMenuItem);
-
-		createUserMenuItem = new JMenuItem();
-		createUserMenuItem.setText("Neuen Benutzer erstellen");
-		userMenu.add(createUserMenuItem);
+		initSearchCustomerMenuItem();
+		initCustomerEditMenuItem();
+		initCustomerEditOkMenuItem();
+		initCustomerEditCancelMenuItem();
+		initCustomerReturnLoanMenuItem();
+		initCustomerLoanDetailMenuItem();
+		initCustomerCreateMenuItem();
 
 		userMenu.setVisible(false);
+	}
+
+	private void initCustomerCreateMenuItem() {
+		createUserMenuItem = new JMenuItem();
+		createUserMenuItem.setText("Neuen Benutzer erstellen");
+		createUserMenuItem.addActionListener(new UserCreateActionListener(controller));
+		createBookSearchMenuItem.setMnemonic('r');
+		userMenu.add(createUserMenuItem);
+	}
+
+	private void initCustomerLoanDetailMenuItem() {
+		showBookDetailsUserMenuItem = new JMenuItem();
+		showBookDetailsUserMenuItem.setText("Buchdetails anzeigen");
+		showBookDetailsUserMenuItem.addActionListener(new UserShowLoanBookAction(controller));
+		showBookDetailsUserMenuItem.setMnemonic('g');
+		userMenu.add(showBookDetailsUserMenuItem);
+	}
+
+	private void initCustomerReturnLoanMenuItem() {
+		returnBookUserMenuItem = new JMenuItem();
+		returnBookUserMenuItem.setText("gewähltes Buch zurückgeben");
+		returnBookUserMenuItem.addActionListener(new UserReturnLoanAction(controller));
+		returnBookUserMenuItem.setMnemonic('z');
+		userMenu.add(returnBookUserMenuItem);
+	}
+
+	private void initCustomerEditCancelMenuItem() {
+		editCancelUserMenuItem = new JMenuItem();
+		editCancelUserMenuItem.setText("Änderungen verwerfen");
+		editCancelUserMenuItem.addActionListener(new CustomerEditCancelAction(controller));
+		editCancelBookMenuItem.setMnemonic('v');
+		userMenu.add(editCancelUserMenuItem);
+	}
+
+	private void initCustomerEditOkMenuItem() {
+		editOkUserMenuItem = new JMenuItem();
+		editOkUserMenuItem.setText("Änderungen sichern");
+		editOkUserMenuItem.addActionListener(new CustomerEditCancelAction(controller));
+		editOkUserMenuItem.setMnemonic('s');
+		userMenu.add(editOkUserMenuItem);
+	}
+
+	private void initCustomerEditMenuItem() {
+		editUserMenuItem = new JMenuItem();
+		editUserMenuItem.setText("Personalien editieren");
+		editUserMenuItem.addActionListener(new CustomerEditAction(controller));
+		editUserMenuItem.setMnemonic('e');
+		userMenu.add(editUserMenuItem);
+	}
+
+	private void initSearchCustomerMenuItem() {
+		searchCustomerMenuItem = new JMenuItem();
+		searchCustomerMenuItem.setText("Benutzer suchen");
+		searchCustomerMenuItem.setIcon(ResManager.getImage("search16x16h.png"));
+		searchCustomerMenuItem
+				.setRolloverIcon(ResManager.getImage("search16x16.png"));
+		searchCustomerMenuItem.addActionListener(new NewSearchAction(controller));
+		searchCustomerMenuItem.setMnemonic('n');
+		userMenu.add(searchCustomerMenuItem);
 	}
 
 	private void initHelpMenu() {
@@ -322,18 +468,48 @@ public class LibraryMenuBar extends JMenuBar implements Observer {
 	 * @param activeTab
 	 *            The new menu which should be made visible
 	 */
-	public void setActiveViewIndex(int activeTab) {
+	private void setActiveViewIndex(int activeTab) {
+		updateToplevelMenu(activeTab);
+		if (activeTab == 1)
+			handleBookMenuChanged();
+		if (activeTab == 2)
+			handleCustomerMenuChanged();
+	}
+	
+	private void updateToplevelMenu(int activeTab) {
 		searchMenu.setVisible(activeTab == 0);
 		bookMenu.setVisible(activeTab == 1);
 		userMenu.setVisible(activeTab == 2);
-
+		
 		searchMenuItem.setSelected(activeTab == 0);
 		bookMenuItem.setSelected(activeTab == 1);
 		userMenuItem.setSelected(activeTab == 2);
 	}
 
+	private void handleBookMenuChanged() {
+		boolean isBookActive = controller.getActiveBook() != null;
+		boolean isBookLent = isBookActive && controller.library.isBookLent(controller.getActiveBook());
+		boolean isBookLendable = isBookActive && !isBookLent && controller.getActiveBook().getCondition() != Condition.WASTE && controller.getActiveCustomer() != null && controller.library.isCustomerLocked(controller.getActiveCustomer());
+		boolean isMarkableAsWaste = isBookActive && controller.getActiveBook().getCondition() != Condition.WASTE;
+
+		returnBookMenuItem.setVisible(isBookLent);
+		lendBookMenuItem.setVisible(isBookLendable);
+		editBookMenuItem.setVisible(isBookActive && !controller.booktab_model.isEditing());
+		editSaveBookMenuItem.setVisible(isBookActive && controller.booktab_model.isEditing() && !controller.booktab_model.isError());
+		editCancelBookMenuItem.setVisible(isBookActive && controller.booktab_model.isEditing());
+		defectBookMenuItem.setVisible(isMarkableAsWaste);
+	}
+	
+	private void handleCustomerMenuChanged() {
+		boolean isCustomerActive = controller.getActiveCustomer() != null;
+		editUserMenuItem.setVisible(isCustomerActive && !controller.usertab_model.isEditing());
+		editOkUserMenuItem.setVisible(isCustomerActive && controller.usertab_model.isEditing() && !controller.usertab_model.isError());
+		editCancelUserMenuItem.setVisible(isCustomerActive && controller.usertab_model.isEditing());
+		returnBookUserMenuItem.setVisible(isCustomerActive && controller.usertab_model.getActiveLoan() != null);
+		showBookDetailsUserMenuItem.setVisible(isCustomerActive && controller.usertab_model.getActiveLoan() != null);
+	}
+
 	public void update(Observable o, Object arg) {
 		setActiveViewIndex(controller.tabbed_model.getActiveTab());
 	}
-
 }

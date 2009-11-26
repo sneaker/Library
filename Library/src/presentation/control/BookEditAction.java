@@ -8,14 +8,16 @@ import java.awt.event.ActionListener;
 
 import presentation.model.ModelController;
 
-public class NewSearchText implements ActionListener {
+public class BookEditAction implements ActionListener {
 	private final ModelController controller;
 
-	public NewSearchText(ModelController controller) {
+	public BookEditAction(ModelController controller) {
 		this.controller = controller;
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		controller.resetSearchText();
+		controller.booktab_model.setEditing(true);
+		controller.booktab_model.backupBookContent();
+		controller.status_model.setTempStatus("Buchdetails editieren");
 	}
 }

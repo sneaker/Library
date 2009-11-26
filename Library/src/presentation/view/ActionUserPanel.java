@@ -1,7 +1,6 @@
 package presentation.view;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Observable;
 
 import javax.swing.AbstractAction;
@@ -10,9 +9,11 @@ import javax.swing.InputMap;
 import javax.swing.JComponent;
 import javax.swing.KeyStroke;
 
+import presentation.control.NewSearchAction;
 import presentation.control.UserCreateActionListener;
+import presentation.control.UserReturnLoanAction;
+import presentation.control.UserShowLoanBookAction;
 import presentation.model.ModelController;
-import domain.Loan;
 
 public class ActionUserPanel extends AbstractActionPanel {
 
@@ -39,11 +40,7 @@ public class ActionUserPanel extends AbstractActionPanel {
 		buttons.put("search", new ActionButton("Benutzer suchen",
 				"search32x32h.png", "search32x32.png"));
 		buttons.get("search").setMnemonic('s');
-		buttons.get("search").addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				controller.action_model.changetoSearch();
-			}
-		});
+		buttons.get("search").addActionListener(new NewSearchAction(controller));
 	}
 	
 	private void initReturnButton() {
@@ -51,14 +48,7 @@ public class ActionUserPanel extends AbstractActionPanel {
 				"return32x32h.png", "return32x32.png"));
 		buttons.get("return").setVisible(false);
 		buttons.get("return").setMnemonic('z');
-		buttons.get("return").addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				Loan loan = controller.usertab_model.getActiveLoan();
-				controller.library.returnBook(loan.getBook());
-				controller.status_model.setTempStatus("Buch zurückgegeben: " + loan.getBook().getInventoryNumber());
-				controller.loanModel.removeElement(loan);
-			}
-		});
+		buttons.get("return").addActionListener(new UserReturnLoanAction(controller));
 	}
 
 	private void initShowBookButton() {
@@ -66,17 +56,7 @@ public class ActionUserPanel extends AbstractActionPanel {
 				"bookdetails32x32h.png", "bookdetails32x32.png"));
 		buttons.get("showbook").setVisible(false);
 		buttons.get("showbook").setMnemonic('a');
-		buttons.get("showbook").addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (controller.usertab_model.isLoanSelected()) {
-					controller.setActiveBook(controller.usertab_model.getActiveLoan().getBook());
-					controller.setBookTabActive();
-					controller.status_model.setTempStatus("Zeige Buchdetails für die gewählte Ausleihe.");
-				} else {
-					controller.status_model.setTempStatus("Kein Buch ausgewählt zum Anzeigen.");
-				}
-			}
-		});
+		buttons.get("showbook").addActionListener(new UserShowLoanBookAction(controller));
 	}
 	
 	private void initEditButton() {
@@ -84,11 +64,7 @@ public class ActionUserPanel extends AbstractActionPanel {
 				"edit32x32h.png", "edit32x32.png"));
 		buttons.get("edituser").setVisible(false);
 		buttons.get("edituser").setMnemonic('e');
-		buttons.get("edituser").addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				controller.action_model.editUserSettings();
-			}
-		});
+		buttons.get("edituser").addActionListener(new CustomerEditAction(controller));
 	}
 	
 	private void initEditOkButton() {
@@ -96,13 +72,7 @@ public class ActionUserPanel extends AbstractActionPanel {
 				"editdone32x32h.png", "editdone32x32.png"));
 		buttons.get("edituserok").setVisible(false);
 		buttons.get("edituserok").setMnemonic('t');
-		AbstractAction action = new AbstractAction() {
-			private static final long serialVersionUID = 2687724652972916779L;
-			
-			public void actionPerformed(ActionEvent e) {
-				controller.action_model.editUserSettingsOk();
-			}
-		};
+		AbstractAction action = new CustomerEditCancelAction(controller);
 		addSpecialKeyForEditOk(action);
 		buttons.get("edituserok").addActionListener(action);
 	}

@@ -4,8 +4,8 @@
 package presentation.control;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
+import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.KeyStroke;
 
@@ -20,15 +20,16 @@ import domain.Book.Condition;
  * damaged book or the book should only be marked as waste. Mostly usable at the
  * BookTab.
  */
-public final class MarkDefectActionListener implements ActionListener {
+public final class BookDefectAction extends AbstractAction {
+	private static final long serialVersionUID = 8648691099228855697L;
 	private final ModelController controller;
 	private Condition oldCondition = null;
 
-	public MarkDefectActionListener(ModelController controller) {
+	public BookDefectAction(ModelController controller) {
 		this.controller = controller;
 	}
 
-	public MarkDefectActionListener(ModelController controller,
+	public BookDefectAction(ModelController controller,
 			Condition oldCondition) {
 				this.controller = controller;
 				this.oldCondition = oldCondition;

@@ -3,7 +3,7 @@ package presentation.view;
 import java.util.Observable;
 
 import presentation.control.BookCreateActionListener;
-import presentation.control.NewSearchText;
+import presentation.control.NewSearchAction;
 import presentation.control.ShowAvailableBooksAction;
 import presentation.control.ShowDefectBooks;
 import presentation.control.ShowLentBooksActionListener;
@@ -47,7 +47,7 @@ public class ActionSearchPanel extends AbstractActionPanel {
 		buttons.put("newsearch", new ActionButton("Neue Recherche",
 				"search32x32h.png", "search32x32.png"));
 		buttons.get("newsearch").addActionListener(
-				new NewSearchText(controller));
+				new NewSearchAction(controller));
 		buttons.get("newsearch").setMnemonic('n');
 	}
 

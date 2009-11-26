@@ -24,8 +24,7 @@ public class TabBookModel extends Observable {
 
 	protected void setActiveBook(Book activeBook) {
 		this.activeBook = activeBook;
-		setChanged();
-		notifyObservers();
+		fireDataChanged();
 	}
 
 	protected Book getActiveBook() {
@@ -78,6 +77,7 @@ public class TabBookModel extends Observable {
 
 	public void clearBook() {
 		activeBook = null;
+		fireDataChanged();
 	}
 
 	public boolean isEditing() {

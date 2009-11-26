@@ -20,7 +20,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.text.JTextComponent;
 
-import presentation.control.MarkDefectActionListener;
+import presentation.control.BookDefectAction;
 import presentation.model.ModelController;
 import domain.Book;
 import domain.Book.Condition;
@@ -420,7 +420,7 @@ public class TabBookDetailJPanel extends JPanel implements Observer {
 			Condition newCondition = Book.Condition.getCondition((String)e.getItem());
 			oldCondition = controller.getActiveBook().getCondition();
 			if (newCondition == Book.Condition.WASTE && oldCondition != Book.Condition.WASTE) {
-				new MarkDefectActionListener(controller, oldCondition).actionPerformed(new ActionEvent(newCondition, 0, ""));
+				new BookDefectAction(controller, oldCondition).actionPerformed(new ActionEvent(newCondition, 0, ""));
 			} else {
 				controller.getActiveBook().setCondition(
 						newCondition);

@@ -11,7 +11,12 @@ import javax.swing.JComponent;
 import javax.swing.KeyStroke;
 
 import presentation.control.BookCreateActionListener;
-import presentation.control.MarkDefectActionListener;
+import presentation.control.BookDefectAction;
+import presentation.control.BookEditAction;
+import presentation.control.BookEditCancelAction;
+import presentation.control.BookEditSaveAction;
+import presentation.control.BookLendAction;
+import presentation.control.BookReturnAction;
 import presentation.model.ModelController;
 
 public class ActionBookPanel extends AbstractActionPanel {
@@ -40,19 +45,14 @@ public class ActionBookPanel extends AbstractActionPanel {
 		buttons.put("defekt", new ActionButton("Als defekt markieren",
 				"delete32x32h.png", "delete32x32.png"));
 		buttons.get("defekt").setMnemonic('m');
-		buttons.get("defekt").addActionListener(new MarkDefectActionListener(controller));
+		buttons.get("defekt").addActionListener(new BookDefectAction(controller));
 	}
 
 	private void initReturnButton() {
 		buttons.put("return", new ActionButton("Buch zurückgeben",
 				"return32x32h.png", "return32x32.png"));
 		buttons.get("return").setMnemonic('z');
-		buttons.get("return").addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				buttons.get("search").requestFocus();
-				controller.action_model.returnBook();
-			}
-		});
+		buttons.get("return").addActionListener(new BookReturnAction(controller));
 	}
 
 	private void initLendButton() {
@@ -60,12 +60,7 @@ public class ActionBookPanel extends AbstractActionPanel {
 				"add32x32h.png", "add32x32.png"));
 		buttons.get("lend").setVisible(false);
 		buttons.get("lend").setMnemonic('l');
-		buttons.get("lend").addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				buttons.get("lend").requestFocus();
-				controller.action_model.lendBook();
-			}
-		});
+		buttons.get("lend").addActionListener(new BookLendAction(controller));
 	}
 
 	private void initCreateButton() {
@@ -80,13 +75,7 @@ public class ActionBookPanel extends AbstractActionPanel {
 				"edit32x32h.png", "edit32x32.png"));
 		buttons.get("edit").setVisible(false);
 		buttons.get("edit").setMnemonic('e');
-		buttons.get("edit").addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				controller.booktab_model.setEditing(true);
-				controller.booktab_model.backupBookContent();
-				controller.status_model.setTempStatus("Buchdetails editieren");
-			}
-		});
+		buttons.get("edit").addActionListener(new BookEditAction(controller));
 	}
 
 	private void initEditOkButton() {
@@ -94,14 +83,7 @@ public class ActionBookPanel extends AbstractActionPanel {
 				"editdone32x32h.png", "editdone32x32.png"));
 		buttons.get("editok").setVisible(false);
 		buttons.get("editok").setMnemonic('t');
-		AbstractAction action = new AbstractAction() {
-			private static final long serialVersionUID = 1L;
-			public void actionPerformed(ActionEvent e) {
-				controller.booktab_model.setEditing(false);
-				controller.status_model.setTempStatus("Änderungen am Buchtitel wurden gesichert");
-				controller.library.fireDataChanged();
-			}
-		};
+		AbstractAction action = new BookEditSaveAction(controller);
 		addSpecialKeyForEditOk(action);
 		buttons.get("editok").addActionListener(action);
 	}
@@ -121,16 +103,7 @@ public class ActionBookPanel extends AbstractActionPanel {
 				"editrevert32x32h.png", "editrevert32x32.png"));
 		buttons.get("editbookcancel").setVisible(false);
 		buttons.get("editbookcancel").setMnemonic('g');
-		AbstractAction action = new AbstractAction() {
-			private static final long serialVersionUID = 1695749765069389958L;
-			public void actionPerformed(ActionEvent e) {
-				if (controller.booktab_model.restoreBookContent())
-					controller.status_model.setTempStatus("Änderungen am Buchtitel wurden zurückgesetzt");
-				else
-					controller.status_model.setTempStatus("Fehler: Änderungen am Buchtitel konnten nicht zurückgesetzt werden");
-				controller.booktab_model.setEditing(false);
-			}
-		};
+		AbstractAction action = new BookEditCancelAction(controller);
 		addSpecialKeyForEditCancel(action);
 		buttons.get("editbookcancel").addActionListener(action);
 	}
