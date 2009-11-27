@@ -18,7 +18,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import presentation.control.ListItemMouseListener;
-import presentation.model.ModelController;
+import presentation.model.ControllerFacade;
 import domain.Customer;
 import domain.Loan;
 
@@ -27,10 +27,10 @@ public class TabUserLoanJPanel extends JPanel implements Observer {
 	private static final long serialVersionUID = 1311911720974043461L;
 	private JList loanList;
 	private JScrollPane loanScroll;
-	private final ModelController controller;
+	private final ControllerFacade controller;
 	private List<Loan> lastLoans;
 
-	public TabUserLoanJPanel(final ModelController controller) {
+	public TabUserLoanJPanel(final ControllerFacade controller) {
 		this.controller = controller;
 		controller.activeuser_model.addObserver(this);
 		controller.library.addObserver(this);

@@ -7,9 +7,9 @@ import domain.Customer;
 
 public class ActionPanelModel extends Observable {
 
-	private ModelController controller;
+	private ControllerFacade controller;
 
-	public ActionPanelModel(ModelController controller) {
+	public ActionPanelModel(ControllerFacade controller) {
 		this.controller = controller;
 	}
 

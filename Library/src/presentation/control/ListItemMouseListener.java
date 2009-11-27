@@ -9,7 +9,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.Action;
 import javax.swing.KeyStroke;
 
-import presentation.model.ModelController;
+import presentation.model.ControllerFacade;
 import util.TextUtils;
 import domain.Book;
 import domain.Customer;
@@ -19,9 +19,9 @@ import domain.Book.Condition;
 
 public class ListItemMouseListener extends MouseAdapter {
 
-	private ModelController controller;
+	private ControllerFacade controller;
 
-	public ListItemMouseListener(ModelController controller) {
+	public ListItemMouseListener(ControllerFacade controller) {
 		this.controller = controller;
 	}
 

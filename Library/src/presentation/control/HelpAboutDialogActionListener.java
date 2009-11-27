@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 import javax.swing.Action;
 import javax.swing.KeyStroke;
 
-import presentation.model.ModelController;
+import presentation.model.ControllerFacade;
 import util.TextUtils;
 import domain.Message;
 
@@ -16,9 +16,9 @@ import domain.Message;
  */
 public class HelpAboutDialogActionListener implements ActionListener {
 	private static final String ABOUT_TEXT = "<h2>BücherBox - Bücherverwaltung</h2>Ein Studenteprojekt realisiert durch Thomas Kallenberg und Martin Schwab an der HSR Rapperwil. <br />Dieses Projekt nutzt Bilder von Wikimedia Commons: http://commons.wikimedia.org/<br />(Nuvola- und Vista-Ion Set). ";
-	private final ModelController controller;
+	private final ControllerFacade controller;
 
-	public HelpAboutDialogActionListener(ModelController controller) {
+	public HelpAboutDialogActionListener(ControllerFacade controller) {
 		this.controller = controller;
 	}
 

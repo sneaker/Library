@@ -15,7 +15,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import presentation.model.ModelController;
+import presentation.model.ControllerFacade;
 import presentation.view.LibraryMainWindow;
 import util.ResManager;
 import domain.Book;
@@ -48,7 +48,7 @@ public class LibraryApp {
 			}
 
 			private void displayMainWindow(final Library library) {
-				LibraryMainWindow frame = new LibraryMainWindow(new ModelController(library));
+				LibraryMainWindow frame = new LibraryMainWindow(new ControllerFacade(library));
 				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				frame.setLocationRelativeTo(null);
 				frame.pack();

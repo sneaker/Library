@@ -19,7 +19,7 @@ import domain.Searchable;
 
 public class SearchResultListModel implements ListModel, Observer {
 
-	private ModelController controller;
+	private ControllerFacade controller;
 	private SearchEngine search_engine;
 	
 	private ArrayList<Searchable> displayed_results = new ArrayList<Searchable>();
@@ -29,7 +29,7 @@ public class SearchResultListModel implements ListModel, Observer {
 	private int height;
 	private int width;
 
-	public SearchResultListModel(ModelController controller) {
+	public SearchResultListModel(ControllerFacade controller) {
 		this.controller = controller;
 		search_engine = new SearchEngine(controller.library);
 		search_engine.addObserver(this);

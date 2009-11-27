@@ -29,7 +29,7 @@ import presentation.control.ShowDefectBooks;
 import presentation.control.UserCreateActionListener;
 import presentation.control.UserReturnLoanAction;
 import presentation.control.UserShowLoanBookAction;
-import presentation.model.ModelController;
+import presentation.model.ControllerFacade;
 import util.ResManager;
 import domain.Book.Condition;
 
@@ -59,7 +59,7 @@ public class LibraryMenuBar extends JMenuBar implements Observer {
 	private JMenuItem createUserMenuItem;
 	private AbstractButton aboutMenuItem;
 	private ButtonGroup viewGroup;
-	private ModelController controller;
+	private ControllerFacade controller;
 	private JMenuItem createUserSearchMenuItem;
 	private JMenuItem createBookSearchMenuItem;
 	private JMenuItem availableBooksMenuItem;
@@ -76,7 +76,7 @@ public class LibraryMenuBar extends JMenuBar implements Observer {
 	private JMenuItem editSaveBookMenuItem;
 	private JMenuItem editCancelBookMenuItem;
 
-	public LibraryMenuBar(ModelController controller) {
+	public LibraryMenuBar(ControllerFacade controller) {
 		this.controller = controller;
 		controller.tabbed_model.addObserver(this);
 		controller.library.addObserver(this);

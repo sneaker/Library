@@ -9,7 +9,7 @@ import presentation.control.ShowDefectBooks;
 import presentation.control.ShowLentBooksActionListener;
 import presentation.control.ShowOnlyUserActionListener;
 import presentation.control.UserCreateActionListener;
-import presentation.model.ModelController;
+import presentation.model.ControllerFacade;
 
 /**
  * Stores the buttons which are shown on the main screen / on the search panel.
@@ -27,7 +27,7 @@ public class ActionSearchPanel extends AbstractActionPanel {
 	 * @param controller
 	 *            stores all models needed to execute the given tasks.
 	 */
-	public ActionSearchPanel(ModelController controller) {
+	public ActionSearchPanel(ControllerFacade controller) {
 		super(controller);
 		controller.library.addObserver(this);
 	}

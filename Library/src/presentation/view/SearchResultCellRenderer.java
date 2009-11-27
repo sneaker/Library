@@ -6,7 +6,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.ListCellRenderer;
 
-import presentation.model.ModelController;
+import presentation.model.ControllerFacade;
 import domain.Book;
 import domain.Customer;
 import domain.Loan;
@@ -15,9 +15,9 @@ public class SearchResultCellRenderer implements ListCellRenderer {
 
 	private static final int TEXT_WIDTH_DIFFERENCE = 100;
 	private int preferredWidth = 250;
-	private final ModelController controller;
+	private final ControllerFacade controller;
 
-	public SearchResultCellRenderer(ModelController controller) {
+	public SearchResultCellRenderer(ControllerFacade controller) {
 		this.controller = controller;
 	}
 

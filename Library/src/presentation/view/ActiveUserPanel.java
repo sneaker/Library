@@ -14,7 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import presentation.model.ActiveUserPanelModel;
-import presentation.model.ModelController;
+import presentation.model.ControllerFacade;
 import util.ResManager;
 import domain.Customer;
 
@@ -32,9 +32,9 @@ public class ActiveUserPanel extends JPanel implements Observer {
 
 	private ActionButton clearButton;
 	private ActiveUserPanelModel model;
-	private final ModelController controller;
+	private final ControllerFacade controller;
 
-	public ActiveUserPanel(ModelController controller) {
+	public ActiveUserPanel(ControllerFacade controller) {
 		this.controller = controller;
 		model = controller.activeuser_model;
 		model.addObserver(this);

@@ -7,13 +7,13 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
-import presentation.model.ModelController;
+import presentation.model.ControllerFacade;
 
 public class CustomerEditAction extends AbstractAction {
 	private static final long serialVersionUID = 2562822302051064209L;
-	private final ModelController controller;
+	private final ControllerFacade controller;
 
-	public CustomerEditAction(ModelController controller) {
+	public CustomerEditAction(ControllerFacade controller) {
 		this.controller = controller;
 	}
 

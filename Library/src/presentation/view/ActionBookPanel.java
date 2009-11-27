@@ -17,13 +17,13 @@ import presentation.control.BookEditCancelAction;
 import presentation.control.BookEditSaveAction;
 import presentation.control.BookLendAction;
 import presentation.control.BookReturnAction;
-import presentation.model.ModelController;
+import presentation.model.ControllerFacade;
 
 public class ActionBookPanel extends AbstractActionPanel {
 
 	private static final long serialVersionUID = 1L;
 
-	public ActionBookPanel(ModelController controller) {
+	public ActionBookPanel(ControllerFacade controller) {
 		super(controller);
 		controller.booktab_model.addObserver(this);
 		controller.library.addObserver(this);

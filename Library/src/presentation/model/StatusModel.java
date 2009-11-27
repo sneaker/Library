@@ -9,7 +9,7 @@ public class StatusModel extends Observable {
 	private String status;
 	private String tempStatus;
 
-	public StatusModel(ModelController controller) {
+	public StatusModel(ControllerFacade controller) {
 		setStatus(controller.getSearchStatus());
 	}
 

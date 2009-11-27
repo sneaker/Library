@@ -6,7 +6,7 @@ import domain.Book;
 import domain.Customer;
 import domain.Library;
 
-public class ModelController {
+public class ControllerFacade {
 
 	public ActiveUserPanelModel activeuser_model;
 	public MainWindowModel main_model;
@@ -20,7 +20,7 @@ public class ModelController {
 	public StatusModel status_model;
 	public DefaultListModel loanModel;
 
-	public ModelController(Library library) {
+	public ControllerFacade(Library library) {
 		this.library = library;
 
 		loanModel = new DefaultListModel();

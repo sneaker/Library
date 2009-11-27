@@ -18,7 +18,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 
-import presentation.model.ModelController;
+import presentation.model.ControllerFacade;
 import presentation.model.TabSearchModel;
 
 /**
@@ -44,14 +44,14 @@ public class TabSearchPanel extends JPanel implements Observer {
 	private JPanel searchTab;
 	private JPanel resultPane;
 	private ActionSearchPanel action_search_panel;
-	private ModelController controller;
+	private ControllerFacade controller;
 
 	/**
 	 * Create the search tab.
 	 * 
 	 * @param mainmodel
 	 */
-	public TabSearchPanel(ModelController controller) {
+	public TabSearchPanel(ControllerFacade controller) {
 		setLayout(new BorderLayout());
 		this.controller = controller;
 		model = controller.searchtab_model;

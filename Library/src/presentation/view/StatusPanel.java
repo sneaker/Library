@@ -13,7 +13,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingWorker;
 import javax.swing.border.EmptyBorder;
 
-import presentation.model.ModelController;
+import presentation.model.ControllerFacade;
 import presentation.model.StatusModel;
 
 /**
@@ -24,9 +24,9 @@ public class StatusPanel extends JPanel implements Observer {
 	private StatusModel model;
 	private JLabel label;
 	private JTextField statistics;
-	private final ModelController controller;
+	private final ControllerFacade controller;
 
-	public StatusPanel(ModelController controller) {
+	public StatusPanel(ControllerFacade controller) {
 		this.controller = controller;
 		model = controller.status_model;
 		model.addObserver(this);

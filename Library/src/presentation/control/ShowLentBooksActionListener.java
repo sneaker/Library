@@ -3,12 +3,12 @@ package presentation.control;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import presentation.model.ModelController;
+import presentation.model.ControllerFacade;
 
 public class ShowLentBooksActionListener implements ActionListener {
-	private final ModelController controller;
+	private final ControllerFacade controller;
 
-	public ShowLentBooksActionListener(ModelController controller) {
+	public ShowLentBooksActionListener(ControllerFacade controller) {
 		this.controller = controller;
 	}
 

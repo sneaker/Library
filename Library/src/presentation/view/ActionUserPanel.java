@@ -13,13 +13,13 @@ import presentation.control.NewSearchAction;
 import presentation.control.UserCreateActionListener;
 import presentation.control.UserReturnLoanAction;
 import presentation.control.UserShowLoanBookAction;
-import presentation.model.ModelController;
+import presentation.model.ControllerFacade;
 
 public class ActionUserPanel extends AbstractActionPanel {
 
 	private static final long serialVersionUID = 1L;
 
-	public ActionUserPanel(ModelController controller) {
+	public ActionUserPanel(ControllerFacade controller) {
 		super(controller);
 		controller.activeuser_model.addObserver(this);
 		controller.usertab_model.addObserver(this);

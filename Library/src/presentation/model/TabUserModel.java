@@ -7,7 +7,7 @@ import domain.Loan;
 
 public class TabUserModel extends Observable {
 
-	private final ModelController controller;
+	private final ControllerFacade controller;
 	private boolean isEditing;
 	private Customer backupCustomer;
 	private Loan activeLoan;
@@ -16,7 +16,7 @@ public class TabUserModel extends Observable {
 	private boolean isErrorAtAddress;
 	private Customer lastCustomer;
 
-	public TabUserModel(ModelController controller) {
+	public TabUserModel(ControllerFacade controller) {
 		this.controller = controller;
 	}
 

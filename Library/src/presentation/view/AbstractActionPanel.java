@@ -13,7 +13,7 @@ import javax.swing.GroupLayout.ParallelGroup;
 import javax.swing.GroupLayout.SequentialGroup;
 import javax.swing.border.TitledBorder;
 
-import presentation.model.ModelController;
+import presentation.model.ControllerFacade;
 
 /**
  * Holds common behavior of the action button storing panel and initializes its
@@ -31,14 +31,14 @@ public abstract class AbstractActionPanel extends JPanel implements Observer {
 	private static final int ACTION_HEIGHT = 40;
 	private static final int ACTION_WIDTH = 260;
 
-	protected ModelController controller;
+	protected ControllerFacade controller;
 	protected JPanel button_panel;
 	protected JScrollPane pane;
 	protected LinkedHashMap<String, ActionButton> buttons;
 
 	private GroupLayout layout;
 
-	public AbstractActionPanel(ModelController controller) {
+	public AbstractActionPanel(ControllerFacade controller) {
 		this.controller = controller;
 		controller.action_model.addObserver(this);
 		buttons = new LinkedHashMap<String, ActionButton>();

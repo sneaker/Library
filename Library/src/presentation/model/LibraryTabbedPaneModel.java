@@ -5,7 +5,7 @@ import java.util.Observable;
 public class LibraryTabbedPaneModel extends Observable {
 
 	private int activeTab = 0;
-	private ModelController controller;
+	private ControllerFacade controller;
 	public String[][] tabInformation = {
 			{ "Recherche", "search.png",
 					"Suchen nach Benutzern oder Büchern" },
@@ -16,7 +16,7 @@ public class LibraryTabbedPaneModel extends Observable {
 	private final static int BOOK_TAB = 1;
 	private final static int USER_TAB = 2;
 
-	public LibraryTabbedPaneModel(ModelController controller) {
+	public LibraryTabbedPaneModel(ControllerFacade controller) {
 		this.controller = controller;
 	}
 

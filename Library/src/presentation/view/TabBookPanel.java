@@ -4,18 +4,18 @@ import java.awt.BorderLayout;
 
 import javax.swing.JPanel;
 
-import presentation.model.ModelController;
+import presentation.model.ControllerFacade;
 
 public class TabBookPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private TabBookDetailJPanel detailPanel;
 	private JPanel contentPanel;
-	ModelController controller;
+	ControllerFacade controller;
 	private ActionBookPanel actionPanel;
 	private TabBookLoanJPanel loanPanel;
 
-	public TabBookPanel(ModelController controller) {
+	public TabBookPanel(ControllerFacade controller) {
 		this.controller = controller;
 		setLayout(new BorderLayout());
 

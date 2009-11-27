@@ -18,7 +18,7 @@ import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 
 import presentation.control.ListItemMouseListener;
-import presentation.model.ModelController;
+import presentation.model.ControllerFacade;
 import presentation.model.SearchResultListModel;
 import domain.Book;
 import domain.Customer;
@@ -31,10 +31,10 @@ public class SearchResultList extends JList implements ListDataListener  {
 
 	private static final long serialVersionUID = 1L;
 	private SearchResultCellRenderer cellRenderer;
-	private ModelController controller;
+	private ControllerFacade controller;
 	SearchResultListModel model;
 
-	public SearchResultList(ModelController controller) {
+	public SearchResultList(ControllerFacade controller) {
 		this.controller = controller;
 		model = controller.resultlist_model;
 		model.addListDataListener(this);

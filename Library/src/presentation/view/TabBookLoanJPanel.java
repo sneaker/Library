@@ -10,7 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
-import presentation.model.ModelController;
+import presentation.model.ControllerFacade;
 import domain.Book;
 import domain.Loan;
 
@@ -23,9 +23,9 @@ public class TabBookLoanJPanel extends JPanel implements Observer {
 	private static final long serialVersionUID = -415819277477368555L;
 	private final Font DETAIL_LABEL_FONT = new Font("SansSerif", Font.BOLD, 16);
 	private JLabel lastLoan;
-	private final ModelController controller;
+	private final ControllerFacade controller;
 
-	public TabBookLoanJPanel(ModelController controller) {
+	public TabBookLoanJPanel(ControllerFacade controller) {
 		this.controller = controller;
 		controller.library.addObserver(this);
 		controller.booktab_model.addObserver(this);

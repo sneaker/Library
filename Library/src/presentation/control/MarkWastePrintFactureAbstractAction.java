@@ -7,15 +7,15 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
-import presentation.model.ModelController;
+import presentation.model.ControllerFacade;
 import domain.Book;
 
 public final class MarkWastePrintFactureAbstractAction extends AbstractAction {
 	private final String customer;
 	private static final long serialVersionUID = 1L;
-	private final ModelController controller;
+	private final ControllerFacade controller;
 
-	public MarkWastePrintFactureAbstractAction(ModelController controller, String customer) {
+	public MarkWastePrintFactureAbstractAction(ControllerFacade controller, String customer) {
 		this.controller = controller;
 		this.customer = customer;
 	}
