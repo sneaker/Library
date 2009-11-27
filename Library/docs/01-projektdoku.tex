@@ -6,17 +6,19 @@
 \usepackage{floatflt}
 \usepackage{float}
 \usepackage{wrapfig}
-
-
+\usepackage{pdfpages}
 
 \title{Miniprojekt Bibliotheksverwaltung \\ \normalsize{Projektdokumentation}}
 \author{Thomas Kallenberg, Martin Schwab}
 
 \begin{document}
 \maketitle
+\section{Quickstart}
+Die Applikation startet bei installiertem \textit{Java Runtime Environment 1.6} durch einen Doppelklick auf die Datei Library.jar, welche sich im release-Verzeichnis befindet. Falls die Dateierweiterung nicht registriert ist, kann die Applikation auch durch den Befehl ''java -jar Library.jar'' gestartet werden. Wird das Übersetzen der Quellen gewünscht, kann das beiliegende Ant-File ausgeführt werden. 
+
 \section{Codequalität}
 \subsection{Repository}
-Das Repository wird von einem Hudsonserver überwacht. Zudem gibt es ein lokales Shell-Script welches einen Commit verhindert wenn es Fehler oder Warnungen im Code gibt. Sollte dieses Script umgangen werden um mutmaslich nichtkonformen Code hochzuladen, wird der Verursacher mit der Rechnung eines gemeinsamen Mittagessen im Dieci bestraft! (Maximalwert 30.- SFr)
+Das Repository wird von einem Hudsonserver überwacht. Zudem verhindert ein lokales Shell-Script versehentliche Commits mit Fehlern oder Warnungen auf den Masterbranch. Sollte dieses Script umgangen werden um mutmaslich nichtkonformen Code hochzuladen, wird der Verursacher mit der Rechnung eines gemeinsamen Mittagessen im Dieci bestraft! (Maximalwert 30.- SFr)
 
 \subsection{Coding-Styleguide}
 Vor jedem Commit wird die Eclipse-Standardformatierung angewendet. Zudem werden die Empfehlungen von Sun (http://java.sun.com/docs/codeconv/html/CodeConvTOC.doc.html) für die Codeformatierung benutzt.
@@ -80,10 +82,38 @@ Der neue Prototyp hat immer noch 3 Tabs, die jetzt auf der linken Seite platzier
 \subsubsection{Review 23.10.2009}
 Dank dem Review konnten drei weitere Punkte verbessert werden. Das ''X''-Bild beim defekten Buch sieht aus wie ein Button. Er wird deshalb ersetzt durch ein Durchstreichen des Buchtitels und einem kleineren Kreuz-Symbol neben dem Text zum Zustand. Als zweites war das zur Zeit gewählte Buch nicht ersichtlich, weshalb bei der TabbedPane ein ToolTip eingeblendet wird mit dem Titel des ausgewählten Buches. Zuletzt sollten im ''Aktionen''-Bereich mehr Knöpfe vorhanden sein, wie zum Beispiel ''Buch suchen'' oder ''Neue Suchanfrage''.
 
+\section{Resultate}
+\subsection{MUSS-Kriterien}
+Die Muss-Kriterien wurde alle implementiert. Die Anzeige der Statistik wurde in der rechten unteren Ecke im Status-Panel untergebracht mit einem ausführlicheren Tooltip-Text.
+
+Die Applikation ist durchgehend mit Mnemonics und Tastaturkürzeln ausgestattet. Die gegebenen Szenarien lassen sich per Tastatur auf verschiedene Arten durchgehen. Jede Aktion ist durch die Menüleiste und durch das Aktionspanel auf mindestens zwei Arten erreichbar. Im Folgenden werden die beiden vorgegebenen Szenarien per Tastatur durchgespielt:
+
+\subsection{Szenario 1} Der Benutzer ''Jenni, Heinrich'' wurde für die Abgabe speziell präpariert, damit er abgelaufene Ausleihen besitzt und das erste Szenario ausprobiert werden kann. Die Suche nach dem Benutzer erfolgt durch Eingabe seines Namens in der Suchleiste. Ist der Benutzer eindeutig, so kann mit der Eingabetaste direkt zu seinen Ausleihen gewechselt werden. Falls nicht, wird der Fokus mit TAB auf die Suchresultate gewechselt und die Auswahl erfolgt mit den Pfeiltasten und der Eingabetaste. Jetzt werden die Benutzerdetails und die Ausleihen von Herrn Jenni angezeigt. Mit der Tabulatortaste kommt der Benutzer in die Liste mit den Ausleihen. Sobald eine bestimmte Ausleihe markiert ist, kann das betroffene Buch mit ''alt-z'' in die Bibliothek zurückgebracht werden. Wurden die beiden abgelaufenen Bücher zurückgegeben, ist der Benutzer nicht mehr gesperrt und der/die BibliothekarIn gelangt durch Drücken von F5 zur Suche. Dort kann er/sie die drei Bücher nacheinander eintippen, auswählen und in der Buchansicht mit ''alt-l'' ausleihen.
+
+\subsection{Szenario 2} Bei der Buchrückgabe wird der Buchtitel eingetippt, das gewünschte Buch mit TAB und Eingabetaste ausgewählt und in der Buchansicht mit ''alt-z'' zurückgegeben. Ist ein Buch beschädigt, können die Defekte im Editiermodus (''alt-e'') eingetragen werden. Die Änderungen können mit der Eingabetaste oder ''strg-s'' bestätigt werden. Soll ein Buch ausgemustert werden, kann es mit ''alt-m'' markiert werden. Ein Dialog fragt, ob eine Rechnung gedruckt werden soll. ''alt-d'' lässt die Rechnung drucken (nicht implementiert). Danach kann das Buch nicht mehr ausgeliehen werden und es wird entsprechend gekennzeichnet.
+
+\subsection{Benutzung des Observer-Patterns}
+Die Filterung der Suchresultate erfolgt nicht mit dem von Swing bereitgestellten RowFilter sondern wurde selbst implementiert. Bei der Eingabe von Zeichen werden die Suchresultate dem Suchtext angepasst, was mit dem Observer-Pattern umgesetzt wurde. Das im Anhang abgebildete Sequenzdiagramm visualisiert den Vorgang bei der Initialisierung und bei der Eingabe von Zeichen. Ändern sich Daten in der Bibliothek, werden die Änderungen in der Resultateliste ebenfalls angezeigt (Verbindung mit Library, ganz rechts im Diagramm).
+
+\subsection{KANN-Kriterien}
+Von den optionalen Kriterien wurden die Bücher- und Benutzerverwaltung umgesetzt. Zudem wurden folgende Features eingebaut:
+\begin{itemize}
+	\item Statuszeile mit statischen und temporären Mitteilungen
+	\item Splash-Screen, mit Hilfe der Manifest-Datei eingebunden
+	\item Sortierung der Suchresultate und Ausleihen
+	\item Spezialisierte CellRenderer mit integrierten Buttons (ermöglichen Ausleihe, Rückgabe und auswahl des Benutzers mit einem Klick)
+	\item Konsequente Verwendung von Bildern für alle Aktionen
+\end{itemize}
+
+\section{Fazit und Erkenntnisse}
+Es lohnt sich, die \textbf{Papierprototypen sorgfältig} zu \textbf{testen} und mit den Betreuern und Aussenstehenden zu besprechen. Die Tatsache, dass die Editier-Funktion nicht in die Papierprototypen eingebunden wurde, hat im späteren Verlauf zu einigen Schwierigkeiten geführt. Zudem sollte der Aufwand für eine benutzerfreundliche Implementation nicht unterschätzt werden. Scheinbar einfache Elemente wie eine eigene FocusTraversalPolicy können viel Zeit benötigen wenn sie nicht gleich auf Anhieb funktionieren.
+
+Ein schwieriges Thema ist die \textbf{Wahl der Architektur} bei der GUI-Programmierung. Es wurden verschiedene Lösungen betrachtet, wie die einzelnen Komponenten ihre Daten untereinander austauschen. In der entwickelten Applikation findet dieser Austausch über eine Model-Verwaltung statt, welche Zugriff bietet auf alle Models. Eine Referenz zu dieser Verwaltung wird jedem grafischen Element mitgegeben. Eine elegantere Lösung könnte die Verwendung eines Business-Layers darstellen. Dabei wird das gesamte Verhalten in den Business-Layer gepackt und die grafischen Elemente dienen wirklich nur noch zur Darstellung. Eine solche Lösung könnte auch besser automatisiert getestet werden. Eine interessante Alternative könnte auch das MVP-Pattern bieten, welches von Martin Fowler in einem Dokument namens ''GUI Architectures'' diskutiert wird. Es wird dort ein \textit{Presentator} eingesetzt, welcher die gesamten grafischen Elemente mit den unteren Schichten verknüpft.
+
+\includepdf[landscape=true]{GuiMap.pdf}
+\includepdf[landscape=true]{SequenzDiagramObserver.png}
+\includepdf[landscape=true]{ClassDiagramObserver.png}
+
 \end{document}
-
-
-
-
 
 
