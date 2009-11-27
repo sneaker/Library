@@ -26,9 +26,10 @@ public final class DisableGlassPaneListener extends AbstractAction {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		if (oldCondition != null)
+		if (oldCondition != null) 
 			controller.booktab_model.resetConditionCombo(oldCondition);
 		controller.status_model.setTempStatus("Vorgang abgebrochen");
+		controller.main_model.hideGlassPane();
 		controller.main_model.hideGlassPane();
 	}
 }
