@@ -25,6 +25,11 @@ import domain.Library;
 import domain.Loan;
 import domain.Title;
 
+/**
+ * Main class for the library application.
+ * 
+ * @author Thomas Kallenberg, Martin Schwab
+ */
 public class LibraryApp {
 	public static void main(String[] args) throws Exception {
 		final Library library = new Library();

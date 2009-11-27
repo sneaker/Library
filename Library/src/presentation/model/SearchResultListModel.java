@@ -43,15 +43,10 @@ public class SearchResultListModel implements ListModel, Observer {
 		if (displayed_results.get(0) instanceof Customer) {
 			try {
 				controller.library.getCustomerActiveLoans(
-						((Customer) displayed_results.get(0))).get(0)
-						.setPickupDate(
-								new GregorianCalendar(2009,
-										GregorianCalendar.OCTOBER, 30));
-				controller.library.getCustomerActiveLoans(
 						((Customer) displayed_results.get(0))).get(1)
 						.setPickupDate(
 								new GregorianCalendar(2009,
-										GregorianCalendar.OCTOBER, 10));
+										GregorianCalendar.NOVEMBER, 1));
 			} catch (IllegalLoanOperationException e) {
 			}
 		}

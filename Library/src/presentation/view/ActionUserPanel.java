@@ -48,7 +48,15 @@ public class ActionUserPanel extends AbstractActionPanel {
 				"return32x32h.png", "return32x32.png"));
 		buttons.get("return").setVisible(false);
 		buttons.get("return").setMnemonic('z');
-		buttons.get("return").addActionListener(new UserReturnLoanAction(controller));
+		buttons.get("return").addActionListener(new UserReturnLoanAction(controller) {
+			private static final long serialVersionUID = 1L;
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				super.actionPerformed(e);
+				// Why? Focus got lost after click and keyboard navigation was impossible. 
+				getParent().requestFocus();
+			}
+		});
 	}
 
 	private void initShowBookButton() {
