@@ -38,7 +38,7 @@ public class SearchResultListModel implements ListModel, Observer {
 	}
 
 	private void setTestData() {
-		// TODO [Release] Remove test loan, but leave for Demonstration [Martin]
+		// TODO Test loan left for "release", for demonstration purposes [Martin, 27.11.2009]
 		// Betrifft Benutzer Jenni Heinrich
 		if (displayed_results.get(0) instanceof Customer) {
 			try {

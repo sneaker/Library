@@ -43,14 +43,11 @@ public class SearchEngine extends Observable implements Observer{
 		history.clear();
 		results = new ArrayList<Searchable>();
 		
-		for (Searchable user : library.getCustomers()) {
+		for (Searchable user : library.getCustomers())
 			results.add(user);
-		}
 		
-		//TODO: show all books
-		for (int i = 0; i < 10; i++) {
-			results.add(library.getBooks().get(i));
-		}
+		for (Book b : library.getBooks())
+			results.add(b);
 		
 		history.add(results);
 	}
