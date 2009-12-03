@@ -12,7 +12,7 @@ public class TabSearchModel extends Observable {
 	private String searchFieldText = DEFAULT_SEARCH_STRING;
 	private boolean hasFocus;
 
-	public TabSearchModel(ModelController controller) {
+	public TabSearchModel(ControllerFacade controller) {
 	}
 
 	/**

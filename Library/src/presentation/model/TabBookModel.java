@@ -9,7 +9,7 @@ import domain.Book.Condition;
 public class TabBookModel extends Observable {
 
 	private Book activeBook;
-	private final ModelController controller;
+	private final ControllerFacade controller;
 	private boolean isEditing;
 	private boolean isErrorAtTitle;
 	private boolean isErrorAtPublisher;
@@ -18,7 +18,7 @@ public class TabBookModel extends Observable {
 	private Book backupBook;
 	private boolean isErrorAtAuthor;
 
-	public TabBookModel(ModelController controller) {
+	public TabBookModel(ControllerFacade controller) {
 		this.controller = controller;
 	}
 

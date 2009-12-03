@@ -11,10 +11,10 @@ import domain.Customer;
  */
 public class ActiveUserPanelModel extends Observable {
 
-	private ModelController controller;
+	private ControllerFacade controller;
 	Customer active;
 
-	public ActiveUserPanelModel(ModelController controller) {
+	public ActiveUserPanelModel(ControllerFacade controller) {
 		this.controller = controller;
 	}
 

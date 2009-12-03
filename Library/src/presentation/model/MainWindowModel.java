@@ -15,7 +15,7 @@ public class MainWindowModel extends Observable {
 	private String title = "Recherche";
 	private ArrayList<Message> activeMessages;
 
-	public MainWindowModel(ModelController controller) {
+	public MainWindowModel(ControllerFacade controller) {
 		title = "Recherche";
 		activeMessages = new ArrayList<Message>();
 	}

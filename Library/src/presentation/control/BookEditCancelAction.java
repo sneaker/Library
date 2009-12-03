@@ -7,13 +7,13 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
-import presentation.model.ModelController;
+import presentation.model.ControllerFacade;
 
 public class BookEditCancelAction extends AbstractAction {
 	private static final long serialVersionUID = 1695749765069389958L;
-	private final ModelController controller;
+	private final ControllerFacade controller;
 
-	public BookEditCancelAction(ModelController controller) {
+	public BookEditCancelAction(ControllerFacade controller) {
 		this.controller = controller;
 	}
 

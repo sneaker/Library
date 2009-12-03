@@ -11,7 +11,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import presentation.model.LibraryTabbedPaneModel;
-import presentation.model.ModelController;
+import presentation.model.ControllerFacade;
 import util.ResManager;
 import domain.Book;
 
@@ -23,9 +23,9 @@ public class LibraryTabbedPane extends JTabbedPane implements Observer {
 	private static final long serialVersionUID = 1L;
 	private JPanel[] tabPanel;
 	private LibraryTabbedPaneModel model;
-	private ModelController controller;
+	private ControllerFacade controller;
 	
-	public LibraryTabbedPane(ModelController controller) {
+	public LibraryTabbedPane(ControllerFacade controller) {
 		model = controller.tabbed_model;
 		model.addObserver(this);
 

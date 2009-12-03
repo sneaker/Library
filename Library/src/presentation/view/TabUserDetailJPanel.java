@@ -17,7 +17,7 @@ import javax.swing.JTextArea;
 import javax.swing.border.TitledBorder;
 import javax.swing.text.JTextComponent;
 
-import presentation.model.ModelController;
+import presentation.model.ControllerFacade;
 import domain.Customer;
 
 public class TabUserDetailJPanel extends JPanel implements Observer {
@@ -27,14 +27,14 @@ public class TabUserDetailJPanel extends JPanel implements Observer {
 	private static final String INACTIVE_TEXT = "Kein Benutzer ausgewählt. \n\n1) Klicke auf \"Recherche\".\n2) Suche einen Benutzer.\n3) Klicke auf den gewünschten Benutzer.\n\nDie Persönlichen Daten des Benutzers und dessen Ausleihen werden dann hier angezeigt.";
 	private JTextArea titleText;
 	private DetailTextField addressText;
-	private ModelController controller;
+	private ControllerFacade controller;
 	private DetailTextField placeText;
 	private JLabel addressLabel;
 	private JLabel statusLabel;
 	private DetailTextField statusText;
 	private DetailTextField titleTextEditable;
 
-	public TabUserDetailJPanel(ModelController controller) {
+	public TabUserDetailJPanel(ControllerFacade controller) {
 		this.controller = controller;
 		controller.activeuser_model.addObserver(this);
 		controller.usertab_model.addObserver(this);

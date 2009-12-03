@@ -6,14 +6,14 @@ package presentation.control;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import presentation.model.ModelController;
+import presentation.model.ControllerFacade;
 import domain.Book;
 import domain.Title;
 
 public class BookCreateActionListener implements ActionListener {
-	private final ModelController controller;
+	private final ControllerFacade controller;
 
-	public BookCreateActionListener(ModelController controller) {
+	public BookCreateActionListener(ControllerFacade controller) {
 		this.controller = controller;
 	}
 

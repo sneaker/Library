@@ -21,7 +21,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.text.JTextComponent;
 
 import presentation.control.BookDefectAction;
-import presentation.model.ModelController;
+import presentation.model.ControllerFacade;
 import domain.Book;
 import domain.Book.Condition;
 
@@ -48,11 +48,11 @@ public class TabBookDetailJPanel extends JPanel implements Observer {
 	private DetailTextField publishText;
 	private JLabel conditionLabel;
 	private DetailTextField conditionText;
-	private final ModelController controller;
+	private final ControllerFacade controller;
 	private JComboBox conditionCombo;
 	private JTextArea commentText;
 
-	public TabBookDetailJPanel(ModelController controller) {
+	public TabBookDetailJPanel(ControllerFacade controller) {
 		this.controller = controller;
 		controller.booktab_model.addObserver(this);
 		controller.library.addObserver(this);

@@ -10,7 +10,7 @@ import javax.management.Attribute;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import presentation.model.ModelController;
+import presentation.model.ControllerFacade;
 import util.ResManager;
 import util.TextUtils;
 import domain.Book;
@@ -100,10 +100,10 @@ class ResultCellBookPanel extends SearchResultCellPanel {
 	private static final long serialVersionUID = -8375612543994217556L;
 	private Book active;
 	private final boolean isSelected;
-	private final ModelController controller;
+	private final ControllerFacade controller;
 
 	public ResultCellBookPanel(Searchable active, boolean isSelected,
-			int preferredWidth, ModelController controller) {
+			int preferredWidth, ControllerFacade controller) {
 		super(active, isSelected, preferredWidth, controller.library);
 		this.controller = controller;
 		if (active instanceof Book)
@@ -182,11 +182,11 @@ class ResultCellUserPanel extends SearchResultCellPanel {
 	private static final String IMG_DISABLE_USER32X32 = "disablecustomer32x32.png";
 	private static final long serialVersionUID = -8375612543994217556L;
 	private final Customer active;
-	private ModelController controller;
+	private ControllerFacade controller;
 	private boolean isSelected;
 
 	public ResultCellUserPanel(Customer active, boolean isSelected,
-			int preferredWidth, ModelController controller) {
+			int preferredWidth, ControllerFacade controller) {
 		super(active, isSelected, preferredWidth, controller.library);
 		this.controller = controller;
 		this.active = active;

@@ -7,16 +7,16 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
-import presentation.model.ModelController;
+import presentation.model.ControllerFacade;
 
 /**
  * Lends the book which is currently displayed in the book panel.
  */
 public class BookLendAction extends AbstractAction {
 	private static final long serialVersionUID = -941531974216578248L;
-	private final ModelController controller;
+	private final ControllerFacade controller;
 
-	public BookLendAction(ModelController controller) {
+	public BookLendAction(ControllerFacade controller) {
 		this.controller = controller;
 	}
 

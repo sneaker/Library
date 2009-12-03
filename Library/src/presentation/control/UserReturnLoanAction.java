@@ -7,14 +7,14 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
-import presentation.model.ModelController;
+import presentation.model.ControllerFacade;
 import domain.Loan;
 
 public class UserReturnLoanAction extends AbstractAction {
 	private static final long serialVersionUID = 2562822302051064209L;
-	private final ModelController controller;
+	private final ControllerFacade controller;
 
-	public UserReturnLoanAction(ModelController controller) {
+	public UserReturnLoanAction(ControllerFacade controller) {
 		this.controller = controller;
 	}
 

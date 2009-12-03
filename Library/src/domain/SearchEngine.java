@@ -9,6 +9,8 @@ import java.util.regex.Pattern;
 
 import javax.management.Attribute;
 
+import domain.Book.Condition;
+
 
 public class SearchEngine extends Observable implements Observer{
 
@@ -155,8 +157,7 @@ public class SearchEngine extends Observable implements Observer{
 			if (item instanceof Book) {
 				Book book = (Book) item;
 
-				if (book.getCondition() == Book.Condition.GOOD
-						|| book.getCondition() == Book.Condition.NEW)
+				if (!(book.getCondition() == Condition.WASTE) && !(library.isBookLent(book)))
 					tmplist.add(item);
 			}
 		}

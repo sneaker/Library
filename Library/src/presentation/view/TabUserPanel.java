@@ -6,7 +6,7 @@ import java.awt.GridBagLayout;
 
 import javax.swing.JPanel;
 
-import presentation.model.ModelController;
+import presentation.model.ControllerFacade;
 
 /**
  * Container for user details, user loans and action panel.
@@ -14,13 +14,13 @@ import presentation.model.ModelController;
 public class TabUserPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	ModelController controller;
+	ControllerFacade controller;
 	private ActionUserPanel action_user_panel;
 	private JPanel contentPanel;
 	private TabUserDetailJPanel detailPanel;
 	private TabUserLoanJPanel loanPanel;
 
-	public TabUserPanel(ModelController controller) {
+	public TabUserPanel(ControllerFacade controller) {
 		this.controller = controller;
 		initGUI();
 	}

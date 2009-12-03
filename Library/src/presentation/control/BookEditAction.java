@@ -6,12 +6,12 @@ package presentation.control;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import presentation.model.ModelController;
+import presentation.model.ControllerFacade;
 
 public class BookEditAction implements ActionListener {
-	private final ModelController controller;
+	private final ControllerFacade controller;
 
-	public BookEditAction(ModelController controller) {
+	public BookEditAction(ControllerFacade controller) {
 		this.controller = controller;
 	}
 

@@ -9,7 +9,7 @@ import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.KeyStroke;
 
-import presentation.model.ModelController;
+import presentation.model.ControllerFacade;
 import util.TextUtils;
 import domain.Book;
 import domain.Message;
@@ -22,14 +22,14 @@ import domain.Book.Condition;
  */
 public final class BookDefectAction extends AbstractAction {
 	private static final long serialVersionUID = 8648691099228855697L;
-	private final ModelController controller;
+	private final ControllerFacade controller;
 	private Condition oldCondition = null;
 
-	public BookDefectAction(ModelController controller) {
+	public BookDefectAction(ControllerFacade controller) {
 		this.controller = controller;
 	}
 
-	public BookDefectAction(ModelController controller,
+	public BookDefectAction(ControllerFacade controller,
 			Condition oldCondition) {
 				this.controller = controller;
 				this.oldCondition = oldCondition;

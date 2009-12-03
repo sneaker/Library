@@ -7,15 +7,15 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
-import presentation.model.ModelController;
+import presentation.model.ControllerFacade;
 import domain.Book;
 
 public final class MarkWasteAbstractAction extends AbstractAction {
 	private final String book;
 	private static final long serialVersionUID = 1L;
-	private final ModelController controller;
+	private final ControllerFacade controller;
 
-	public MarkWasteAbstractAction(ModelController controller, String book) {
+	public MarkWasteAbstractAction(ControllerFacade controller, String book) {
 		this.controller = controller;
 		this.book = book;
 	}

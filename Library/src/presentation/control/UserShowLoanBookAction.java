@@ -7,13 +7,13 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
-import presentation.model.ModelController;
+import presentation.model.ControllerFacade;
 
 public class UserShowLoanBookAction extends AbstractAction {
 	private static final long serialVersionUID = 2562822302051064209L;
-	private final ModelController controller;
+	private final ControllerFacade controller;
 
-	public UserShowLoanBookAction(ModelController controller) {
+	public UserShowLoanBookAction(ControllerFacade controller) {
 		this.controller = controller;
 	}
 

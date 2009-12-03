@@ -17,7 +17,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 
-import presentation.model.ModelController;
+import presentation.model.ControllerFacade;
 import domain.Message;
 
 /**
@@ -36,9 +36,9 @@ public class LibraryMainWindow extends JFrame implements Observer {
 	private LibraryMenuBar menubar;
 	private ActiveUserPanel userpanel;
 	private LibraryTabbedPane tabbedpane;
-	private ModelController controller;
+	private ControllerFacade controller;
 
-	public LibraryMainWindow(ModelController controller) {
+	public LibraryMainWindow(ControllerFacade controller) {
 		this.controller = controller;
 		this.controller.main_model.addObserver(this);
 		initGUI();

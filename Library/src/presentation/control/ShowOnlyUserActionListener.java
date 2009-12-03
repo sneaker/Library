@@ -3,13 +3,13 @@ package presentation.control;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import presentation.model.ModelController;
+import presentation.model.ControllerFacade;
 
 public class ShowOnlyUserActionListener implements ActionListener {
 
-	private ModelController controller;
+	private ControllerFacade controller;
 
-	public ShowOnlyUserActionListener(ModelController controller) {
+	public ShowOnlyUserActionListener(ControllerFacade controller) {
 		this.controller = controller;
 	}
 	
