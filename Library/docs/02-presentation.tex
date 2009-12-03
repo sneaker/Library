@@ -15,7 +15,7 @@
 \pgfdeclareimage[height=1.5cm]{logo}{../src/img/splash}	% Logo rechts unten anzeigen
 \logo{\pgfuseimage{logo}}
 
-\title{Miniprojekt UserInterfaces -- Endpräsentation}
+\title{Miniprojekt UserInterfaces -- Schlusspräsentation}
 \author{Thomas Kallenberg, Martin Schwab}
 \institute{HSR Hochschule Rapperswil}
 \date{ \today }
@@ -30,7 +30,7 @@
 \begin{itemize}
 \item Was wurde umgesetzt
 \item Demo
-\item Technik-Leckerli
+\item Technische Hintergründe
 \item Fazit
 \end{itemize}
 \end{frame}
@@ -38,6 +38,14 @@
 \begin{frame}{Was wurde umgesetzt}
 \begin{columns}[t]
   \begin{column}{5cm}
+  \begin{itemize}
+    \item Menubar
+    \item Tabs
+    \item Liste mit eigener Suche
+    \item Statusbar
+    \item somemore..
+  \end{itemize}
+
   \end{column}
   \begin{column}{5cm}
   \end{column}
@@ -53,19 +61,36 @@
 \end{columns}
 \end{frame}
 
-\begin{frame}{Technisches}
+\begin{frame}{Technische Hintergünde - Suche}
+\textbf{Suchfunktion}
 \begin{itemize}
-\item<1-> fds
-\item<2-> fds
-\item<3-4> fds
-\invisible<1-4>{ \item . }
-\invisible<1-3>{ \item und ...}
+\item<1-> Jeder Tastenanschlag wird weitergeleitet
+  \begin{itemize}
+  \item<2-> ein neues Zeichen wird angefügt
+      \begin{itemize}
+	\item<3-> letztes Suchresultat speichern, auf dessen Basis Anzeige weiter einschränken
+      \end{itemize}
+    \item<4-> das letzte Zeichen wird gelöscht
+      \begin{itemize}
+	\item<5-> vorletztes gespeichertes Suchresultat wird an die Stelle des aktuellen Resultats gesetzt
+      \end{itemize}
+  \end{itemize}
+\item<6-> Bei unerwartetem, ganze Anfrage mit Zwischenresultaten erneut aufbauen. Langsam aber selten
+\item<7-> Bibliothek geändert, ganze Suchanfrage erneut aufbauen
+\item<8-> Suche fertig, Liste per Observer informieren
+\invisible<1-8>{ \item . }
 \end{itemize}
-%    \includegraphics[scale=0.26]{client_server}
-%    \caption{ähnlich? Client links, Server rechts}
 \end{frame}
 
 \begin{frame}{Fazit}
+\begin{itemize}
+ \item Viele Elemente sind schwer zu verbinden. Architekturewissen hat gefehlt
+ \item Viel Zeit bleibt an kleinen aber wichtigen Details hängen
+ \item Refactoring in GUI ist schwierig und heikel
+ \item git und github.com are our friends
+ \item feel free to edit this
+\end{itemize}
+
 \end{frame}
 
 
