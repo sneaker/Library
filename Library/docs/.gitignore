@@ -1,4 +1,9 @@
 *.aux
 *.log
+*.nav
+*.out
+*.backup
+*.toc
+*.snm
 # No binary files in here
 *.pdf
