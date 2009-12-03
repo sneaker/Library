@@ -1,0 +1,72 @@
+% Install the following packages: beamer, xcolor and pgm
+
+\documentclass[]{beamer}
+\mode<presentation>{
+ \usetheme{Rochester}			% schlichtes, blaues theme
+ \setbeamercovered{transparent}		% Schattieren des verborgenen Textes
+}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}		% Support german umlauts
+\usepackage[ngerman]{babel}		% Print german date
+%\usepackage{pgfpages}			% Ausdruck auf mehrere Seiten
+%\pgfpagesuselayout{4 on 1}[a4paper,landscape,border shrink=5mm]
+\usepackage{graphicx}			% Graphiken benutzen
+
+\pgfdeclareimage[height=1.5cm]{logo}{../src/img/splash}	% Logo rechts unten anzeigen
+\logo{\pgfuseimage{logo}}
+
+\title{Miniprojekt UserInterfaces -- Endpräsentation}
+\author{Thomas Kallenberg, Martin Schwab}
+\institute{HSR Hochschule Rapperswil}
+\date{ \today }
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\begin{frame}{Übersicht}
+\begin{itemize}
+\item Was wurde umgesetzt
+\item Demo
+\item Technik-Leckerli
+\item Fazit
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Was wurde umgesetzt}
+\begin{columns}[t]
+  \begin{column}{5cm}
+  \end{column}
+  \begin{column}{5cm}
+  \end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Demonstration}
+\begin{columns}[t]
+  \begin{column}{5cm}
+  \end{column}
+  \begin{column}{5cm}
+  \end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Technisches}
+\begin{itemize}
+\item<1-> fds
+\item<2-> fds
+\item<3-4> fds
+\invisible<1-4>{ \item . }
+\invisible<1-3>{ \item und ...}
+\end{itemize}
+%    \includegraphics[scale=0.26]{client_server}
+%    \caption{ähnlich? Client links, Server rechts}
+\end{frame}
+
+\begin{frame}{Fazit}
+\end{frame}
+
+
+\end{document}
