@@ -36,33 +36,37 @@
 \end{frame}
 
 \begin{frame}{Was wurde umgesetzt}
-\begin{columns}[t]
-  \begin{column}{5cm}
-  \begin{itemize}
-    \item Menubar
-    \item Tabs
-    \item Liste mit eigener Suche
-    \item Statusbar
-    \item somemore..
-  \end{itemize}
-
-  \end{column}
-  \begin{column}{5cm}
-  \end{column}
-\end{columns}
+ \begin{itemize}
+   \item Liste mit eigener Suche
+   \item Statuszeile mit Statistik
+   \item Sortierung Suchresultate
+   \item Aufgabenorientierte CellRenderer
+   \item Splash...
+   \item Projektautomatisierung
+ \end{itemize}
 \end{frame}
 
 \begin{frame}{Demonstration}
 \begin{columns}[t]
   \begin{column}{5cm}
+   \begin{itemize}
+    \item (Demo-)User aktivieren
+    \item Buchausleihe gesperrt :-(
+    \item Rückgabe überfälliges
+    \item Buchausleihe möglich
+    \item Benutzerdetails editieren
+   \end{itemize}
   \end{column}
   \begin{column}{5cm}
+   \begin{figure}
+     \includegraphics[scale=0.4]{screen}
+     \caption{Benutzerdetails}
+   \end{figure}
   \end{column}
 \end{columns}
 \end{frame}
 
-\begin{frame}{Technische Hintergünde - Suche}
-\textbf{Suchfunktion}
+\begin{frame}{Technische Hintergünde}{Suchfunktion}
 \begin{itemize}
 \item<1-> Jeder Tastenanschlag wird weitergeleitet
   \begin{itemize}
@@ -75,23 +79,20 @@
 	\item<5-> vorletztes gespeichertes Suchresultat wird an die Stelle des aktuellen Resultats gesetzt
       \end{itemize}
   \end{itemize}
-\item<6-> Bei unerwartetem, ganze Anfrage mit Zwischenresultaten erneut aufbauen. Langsam aber selten
-\item<7-> Bibliothek geändert, ganze Suchanfrage erneut aufbauen
-\item<8-> Suche fertig, Liste per Observer informieren
+\item<6-> Ggf. Zwischenresultate neu aufbauen: Langsam aber selten
+\item<7-> Bibliothek geändert $\rightarrow$ neu aufbauen
+\item<8-> Suche fertig  $\rightarrow$  Liste per Observer informieren
 \invisible<1-8>{ \item . }
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Fazit}
+\begin{frame}{Erkenntnisse}
 \begin{itemize}
- \item Viele Elemente sind schwer zu verbinden. Architekturewissen hat gefehlt
- \item Viel Zeit bleibt an kleinen aber wichtigen Details hängen
- \item Refactoring in GUI ist schwierig und heikel
- \item git und github.com are our friends
- \item feel free to edit this
+ \item Grafische Elemente wie verbinden? \\ $\rightarrow$ Architekturwissen fehlte
+ \item kleine, wichtige Details = viel Zeit % FocusTraversalPolicy über mehrere Panels...
+ \item GUI-Refactoring schwierig
+ \item Kleine Werbepause: git und github.com :-)
 \end{itemize}
-
 \end{frame}
-
 
 \end{document}
